@@ -1,0 +1,10 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-var": "error",
+    "no-multiple-empty-lines": "error",
+    "eqeqeq": "error",
+    "dot-notation": "error",
+    "no-unused-vars": "error"
+  }
+}
