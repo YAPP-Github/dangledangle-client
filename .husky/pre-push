@@ -1,24 +1,37 @@
 #!/bin/sh
-​
-FORBIDDEN_HTTPS_URL="https://github.com/YAPP-Github/22nd-Web-Team-2-Web.git" # insert your remote url (https)
-FORBIDDEN_SSH_URL="git@github.com:YAPP-Github/22nd-Web-Team-2-Web.git" # insert your remote url (ssh)
-FORBIDDEN_REF=("main" "develop") # 메인, 디벨롭에 푸시 금지
-​
-remote="$1"
-url="$2"
-​
+
+FORBIDDEN_HTTPS_URL="https://github.com/YAPP-Github/22nd-Web-Team-2-Web" # insert your remote url (https)
+FORBIDDEN_SSH_URL="git@github.com:YAPP-Github/22nd-Web-Team-2-Web" # insert your remote url (ssh)
+FORBIDDEN_REF=("refs/heads/main" "refs/heads/develop" "refs/heads/feat/YW2-4") # 메인, 디벨롭에 푸시 금지
+
+
+
+
+remote="$1" # origin
+url="$2"    # https://github.com/YAPP-Github/22nd-Web-Team-2-Web
 if [ "$url" != "$FORBIDDEN_HTTPS_URL" -a "$url" != "$FORBIDDEN_SSH_URL" ]
 then
     exit 0 # Forked Project 에서는 제한하지 않음
 fi
-​
-if read local_ref local_sha remote_ref remote_sha
-then
-    if [ "$remote_ref" == "$FORBIDDEN_REF" ]
-    then
-        echo "DO NOT PUSH it $remote_ref"
-        exit 1 # 금지된 ref 로 push 를 실행하면 에러
-    fi
-fi
-​
-exit 0
+
+
+
+
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    for forbidden_ref in "${FORBIDDEN_REF[@]}"
+
+    do
+    # echo "어떤값을 갖느냐, - local  $local_ref, $remote_ref, $remote_sha"
+    # echo "금지Ref : $forbidden_ref"
+        if [ "$remote_ref" = "$forbidden_ref" ]
+        then
+            echo "DO NOT PUSH to $remote_ref"
+            exit 1
+        fi
+    done
+done
+
+exit 
+
