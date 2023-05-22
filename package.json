@@ -8,7 +8,8 @@
     "start": "next start",
     "prepare": "husky install && bash -c 'chmod ug+x .husky/*'",
     "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "commit": "git cz"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -35,10 +36,17 @@
   },
   "packageManager": "yarn@3.5.1",
   "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
+    }
   }
 }
