@@ -1,7 +1,7 @@
 module.exports = {
   types: [
     { value: '✨ feat', name: '✨ feat:\t새로운 기능 추가' },
-    { value: '🛠️  fix', name: '🛠️  fix:\t버그, 오류 수정' },
+    { value: '🔨 fix', name: '🔨 fix:\t버그, 오류 수정' },
     {
       value: '🚀 update',
       name: '🚀 update: \t로직 또는 api 수정 (기획 변경으로 인한 feat 커밋 이후 수정되는 경우)'
@@ -10,7 +10,7 @@ module.exports = {
       value: '🤖 refactor',
       name: '🤖 refactor:\t리팩토링(새로운 기능 추가되지 않음)'
     },
-    { value: '📝 docs', name: '📝 docs:\t문서 추가 혹은 업데이트' },
+    { value: '📜 docs', name: '📜 docs:\t문서 추가 혹은 업데이트' },
     { value: '🪄 create', name: '🪄 create:\t새로운 파일 생성' },
     { value: '🔥 remove', name: '🔥 remove:\t파일 삭제 또는 파일명 변경' },
     {
