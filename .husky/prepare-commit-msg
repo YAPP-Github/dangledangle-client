@@ -1,0 +1,20 @@
+COMMIT_MSG_FILE=$1
+BEFORE_FIRST_LINE=$(head -n1 $COMMIT_MSG_FILE)
+
+# echo "작성전 첫째줄 확인 :: $BEFORE_FIRST_LINE"
+
+exec < /dev/tty && yarn cz --hook || true
+
+
+AFTER_FIRST_LINE=$(head -n1 $COMMIT_MSG_FILE)
+
+# echo "작성후 첫째줄 확인 :: $AFTER_FIRST_LINE"
+
+if [ -z "$AFTER_FIRST_LINE" ]
+then
+  echo "커밋 메시지를 입력하는 도중 에러가 발생했습니다"
+  exit 1
+else
+  echo "커밋 메시지 작성 성공"
+  exit 0
+fi
