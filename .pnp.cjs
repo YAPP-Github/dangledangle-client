@@ -38,20 +38,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:10.4.14"],\
             ["commitizen", "npm:4.3.0"],\
             ["cz-customizable", "npm:7.0.0"],\
+            ["emotion", "npm:11.0.0"],\
             ["eslint", "npm:8.40.0"],\
             ["eslint-config-next", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:13.4.2"],\
             ["eslint-config-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:8.8.0"],\
             ["eslint-plugin-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.2.1"],\
             ["husky", "npm:8.0.3"],\
+            ["ky", "npm:0.33.3"],\
             ["lint-staged", "npm:13.2.2"],\
             ["next", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:13.4.2"],\
             ["postcss", "npm:8.4.23"],\
             ["prettier", "npm:2.8.8"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:18.2.0"],\
+            ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"],\
             ["recoil", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.7.7"],\
             ["tailwindcss", "npm:3.3.2"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -2438,6 +2442,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["emotion", [\
+        ["npm:11.0.0", {\
+          "packageLocation": "./.yarn/cache/emotion-npm-11.0.0-37796da599-ab160e7378.zip/node_modules/emotion/",\
+          "packageDependencies": [\
+            ["emotion", "npm:11.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["encoding", [\
         ["npm:0.1.13", {\
           "packageLocation": "./.yarn/cache/encoding-npm-0.1.13-82a1837d30-bb98632f8f.zip/node_modules/encoding/",\
@@ -4579,6 +4592,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["ky", [\
+        ["npm:0.33.3", {\
+          "packageLocation": "./.yarn/cache/ky-npm-0.33.3-7d1cbfa9f4-d1869e1f33.zip/node_modules/ky/",\
+          "packageDependencies": [\
+            ["ky", "npm:0.33.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["language-subtag-registry", [\
         ["npm:0.3.22", {\
           "packageLocation": "./.yarn/cache/language-subtag-registry-npm-0.3.22-e9f79fe04e-8ab70a7e0e.zip/node_modules/language-subtag-registry/",\
@@ -5994,6 +6016,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["property-expr", [\
+        ["npm:2.0.5", {\
+          "packageLocation": "./.yarn/cache/property-expr-npm-2.0.5-6f6bda4c65-4ebe82ce45.zip/node_modules/property-expr/",\
+          "packageDependencies": [\
+            ["property-expr", "npm:2.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["punycode", [\
         ["npm:2.3.0", {\
           "packageLocation": "./.yarn/cache/punycode-npm-2.3.0-df4bdce06b-39f760e09a.zip/node_modules/punycode/",\
@@ -6056,6 +6087,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["loose-envify", "npm:1.4.0"],\
             ["react", "npm:18.2.0"],\
             ["scheduler", "npm:0.23.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-hook-form", [\
+        ["npm:7.44.1", {\
+          "packageLocation": "./.yarn/cache/react-hook-form-npm-7.44.1-7324c7f9e1-ad49f47471.zip/node_modules/react-hook-form/",\
+          "packageDependencies": [\
+            ["react-hook-form", "npm:7.44.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1", {\
+          "packageLocation": "./.yarn/__virtual__/react-hook-form-virtual-1fd955daf2/0/cache/react-hook-form-npm-7.44.1-7324c7f9e1-ad49f47471.zip/node_modules/react-hook-form/",\
+          "packageDependencies": [\
+            ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"],\
+            ["@types/react", "npm:18.2.6"],\
+            ["react", "npm:18.2.0"]\
           ],\
           "packagePeers": [\
             "@types/react",\
@@ -7086,6 +7139,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["tiny-case", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/tiny-case-npm-1.0.3-8c9747c74e-3f7a30c39d.zip/node_modules/tiny-case/",\
+          "packageDependencies": [\
+            ["tiny-case", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["titleize", [\
         ["npm:3.0.0", {\
           "packageLocation": "./.yarn/cache/titleize-npm-3.0.0-7deac2f3a3-71fbbeabbf.zip/node_modules/titleize/",\
@@ -7111,6 +7173,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["to-regex-range", "npm:5.0.1"],\
             ["is-number", "npm:7.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["toposort", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/toposort-npm-2.0.2-d472329c7d-d64c74b570.zip/node_modules/toposort/",\
+          "packageDependencies": [\
+            ["toposort", "npm:2.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7280,6 +7351,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/type-fest-npm-0.8.1-351ad028fe-d61c4b2eba.zip/node_modules/type-fest/",\
           "packageDependencies": [\
             ["type-fest", "npm:0.8.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.19.0", {\
+          "packageLocation": "./.yarn/cache/type-fest-npm-2.19.0-918b953248-a4ef07ece2.zip/node_modules/type-fest/",\
+          "packageDependencies": [\
+            ["type-fest", "npm:2.19.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7613,20 +7691,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:10.4.14"],\
             ["commitizen", "npm:4.3.0"],\
             ["cz-customizable", "npm:7.0.0"],\
+            ["emotion", "npm:11.0.0"],\
             ["eslint", "npm:8.40.0"],\
             ["eslint-config-next", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:13.4.2"],\
             ["eslint-config-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:8.8.0"],\
             ["eslint-plugin-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.2.1"],\
             ["husky", "npm:8.0.3"],\
+            ["ky", "npm:0.33.3"],\
             ["lint-staged", "npm:13.2.2"],\
             ["next", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:13.4.2"],\
             ["postcss", "npm:8.4.23"],\
             ["prettier", "npm:2.8.8"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:18.2.0"],\
+            ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"],\
             ["recoil", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.7.7"],\
             ["tailwindcss", "npm:3.3.2"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7677,6 +7759,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yocto-queue-npm-0.1.0-c6c9a7db29-f77b3d8d00.zip/node_modules/yocto-queue/",\
           "packageDependencies": [\
             ["yocto-queue", "npm:0.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["yup", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/yup-npm-1.2.0-1fa3b3178d-f0cdceb144.zip/node_modules/yup/",\
+          "packageDependencies": [\
+            ["yup", "npm:1.2.0"],\
+            ["property-expr", "npm:2.0.5"],\
+            ["tiny-case", "npm:1.0.3"],\
+            ["toposort", "npm:2.0.2"],\
+            ["type-fest", "npm:2.19.0"]\
           ],\
           "linkType": "HARD"\
         }]\
