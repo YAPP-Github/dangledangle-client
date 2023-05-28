@@ -1,3 +1,5 @@
+# 22nd-Web-Team-2-Web
+
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/YAPP-Github/22nd-Web-Team-2-Web?style=flat-square)
 ![GitHub package.json dynamic](https://img.shields.io/github/package-json/packageManager/YAPP-Github/22nd-Web-Team-2-Web?color=2783B3&logo=yarn&logoColor=2783B3&style=flat-square)
 ![npm](https://img.shields.io/npm/v/typescript?color=%231976D2&label=Typescript&logo=Typescript&logoColor=%231976D2&style=flat-square)
@@ -5,8 +7,6 @@
 ![npm](https://img.shields.io/npm/v/next?color=lightgrey&label=Next.js&logo=Next.js&logoColor=white&style=flat-square)
 ![npm](https://img.shields.io/npm/v/@tanstack/react-query?color=FF394A&label=react-query%20&logo=react-query&logoColor=FF394A&style=flat-square)
 ![npm](https://img.shields.io/npm/v/recoil?color=2F6CE2&label=recoil&logo=recoil&logoColor=2F6CE2&style=flat-square)
-
-# 22nd-Web-Team-2-Web
 
 > 유기견 봉사 스케줄링 & 커뮤니티 플랫폼
 
