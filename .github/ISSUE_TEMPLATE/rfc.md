@@ -1,3 +1,11 @@
+---
+name: RFC
+about: 기술 스택 변경, 아키텍쳐 변경, 컨벤션 변경 등 프로젝트에서 기술적으로 논의할 사항이 있을때 RFC 문서로 작성해주세요
+title: 'RFC: '
+labels: 논의사항💬
+assignees: ""
+---
+
 # Title of RFC
 
 | 상태        | (Proposed / Accepted / Implemented / Obsolete)       |
