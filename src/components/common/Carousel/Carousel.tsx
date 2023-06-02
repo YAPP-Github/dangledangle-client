@@ -1,5 +1,6 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 import * as styles from './styles.css';
 interface CarouselProps extends React.PropsWithChildren {}
 const Carousel: React.FC<CarouselProps> = props => {
@@ -27,14 +28,23 @@ const Carousel: React.FC<CarouselProps> = props => {
     scrollAreaRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  const onWheel: React.WheelEventHandler<HTMLDivElement> = e => {
+    if (!scrollAreaRef.current) return;
+    scrollAreaRef.current.scrollLeft += e.deltaY + e.deltaX;
+  };
+
   return (
     <div
       className={styles.container}
+      style={assignInlineVars({
+        [styles.cursor]: isDragging ? '-webkit-grabbing' : '-webkit-grab'
+      })}
       ref={scrollAreaRef}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
       onMouseLeave={onMouseUp}
+      onWheel={onWheel}
     >
       <div className={styles.itemsWrapper}>{props.children}</div>
     </div>
