@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.2.6"],\
             ["@types/react-dom", "npm:18.2.4"],\
             ["@vanilla-extract/css", "npm:1.11.0"],\
+            ["@vanilla-extract/dynamic", "npm:2.0.3"],\
             ["@vanilla-extract/next-plugin", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2.1.3"],\
             ["@vanilla-extract/recipes", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.4.0"],\
             ["commitizen", "npm:4.3.0"],\
@@ -1666,6 +1667,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["deepmerge", "npm:4.3.1"],\
             ["media-query-parser", "npm:2.0.2"],\
             ["outdent", "npm:0.8.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@vanilla-extract/dynamic", [\
+        ["npm:2.0.3", {\
+          "packageLocation": "./.yarn/cache/@vanilla-extract-dynamic-npm-2.0.3-5224c4cda8-9ad4068d7e.zip/node_modules/@vanilla-extract/dynamic/",\
+          "packageDependencies": [\
+            ["@vanilla-extract/dynamic", "npm:2.0.3"],\
+            ["@vanilla-extract/private", "npm:1.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8444,6 +8455,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.2.6"],\
             ["@types/react-dom", "npm:18.2.4"],\
             ["@vanilla-extract/css", "npm:1.11.0"],\
+            ["@vanilla-extract/dynamic", "npm:2.0.3"],\
             ["@vanilla-extract/next-plugin", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2.1.3"],\
             ["@vanilla-extract/recipes", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.4.0"],\
             ["commitizen", "npm:4.3.0"],\
