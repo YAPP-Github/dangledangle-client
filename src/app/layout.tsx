@@ -1,4 +1,6 @@
 import '@/styles/global.css';
+import * as styles from './layout.css';
+
 import font from '@/styles/font';
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={font.className}>
-      <body>{children}</body>
+      <body className={styles.container}>{children}</body>
     </html>
   );
 }
