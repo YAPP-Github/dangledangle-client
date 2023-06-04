@@ -1,24 +1,8 @@
 import React from 'react';
-import { h1 } from './Typography.css';
-import classNames from 'classnames';
+import { TypographyProps, withTypographyBase } from './base';
 
-interface Heading1Props
-  extends React.PropsWithChildren,
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLHeadingElement>,
-      HTMLHeadingElement
-    > {}
-
-const Heading1: React.FC<Heading1Props> = ({
-  className,
-  children,
-  ...props
-}) => {
-  return (
-    <h1 className={classNames(className, h1)} {...props}>
-      {children}
-    </h1>
-  );
+const Heading1: React.FC<TypographyProps> = props => {
+  return <h1 {...props} />;
 };
 
-export default Heading1;
+export default withTypographyBase(Heading1, 'h1');
