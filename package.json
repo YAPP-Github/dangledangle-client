@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.1",
     "recoil": "^0.7.7",
+    "vanilla-reset": "^2021.11.29",
     "yup": "^1.2.0"
   },
   "devDependencies": {

@@ -7089,6 +7089,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vanilla-reset@npm:^2021.11.29":
+  version: 2021.11.29
+  resolution: "vanilla-reset@npm:2021.11.29"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.6.3
+  checksum: b879d2c8d233b5253f8e10752131f6e9489fce924e52ac310001771b72f221a413a4e3814bc9ebeb8500df4ab93b3f9e20573a080c6eaaa7d6fe7881adaa546f
+  languageName: node
+  linkType: hard
+
 "vite-node@npm:^0.28.5":
   version: 0.28.5
   resolution: "vite-node@npm:0.28.5"
@@ -7318,6 +7327,7 @@ __metadata:
     react-hook-form: ^7.44.1
     recoil: ^0.7.7
     typescript: 5.0.4
+    vanilla-reset: ^2021.11.29
     yup: ^1.2.0
   languageName: unknown
   linkType: soft
