@@ -2,7 +2,7 @@ import localFont from 'next/font/local';
 
 // Font files can be colocated inside of `app`
 const pretendard = localFont({
-  src: '../../public/Pretendard-Regular.subset.woff2',
+  src: '../../public/PretendardVariable.woff2',
   fallback: [
     '-apple-system',
     'BlinkMacSystemFont',
