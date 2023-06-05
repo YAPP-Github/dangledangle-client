@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
-import { breakPoints } from '@/styles/theme';
+import { breakPoint } from '@/styles/global.css';
 
 export const container = style({
-  maxWidth: breakPoints,
+  maxWidth: breakPoint,
   marginRight: 'auto',
   marginLeft: 'auto',
   paddingRight: '20px',

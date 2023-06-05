@@ -14,6 +14,6 @@ export const palette = {
   primary200: '#9DF5F3',
   primary300: '#00D9D4',
   error: '#FF2121'
-};
+} as const;
 
 export type Color = keyof typeof palette;
