@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vanilla-extract/css", "npm:1.11.0"],\
             ["@vanilla-extract/next-plugin", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2.1.3"],\
             ["@vanilla-extract/recipes", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.4.0"],\
+            ["clsx", "npm:1.2.1"],\
             ["commitizen", "npm:4.3.0"],\
             ["cz-customizable", "npm:7.0.0"],\
             ["eslint", "npm:8.40.0"],\
@@ -55,6 +56,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"],\
             ["recoil", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.7.7"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["vanilla-reset", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2021.11.29"],\
             ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\
@@ -2575,6 +2577,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/clone-npm-1.0.4-a610fcbcf9-d06418b733.zip/node_modules/clone/",\
           "packageDependencies": [\
             ["clone", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["clsx", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/clsx-npm-1.2.1-77792dc182-30befca801.zip/node_modules/clsx/",\
+          "packageDependencies": [\
+            ["clsx", "npm:1.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8239,6 +8250,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["vanilla-reset", [\
+        ["npm:2021.11.29", {\
+          "packageLocation": "./.yarn/cache/vanilla-reset-npm-2021.11.29-1f4da0c784-b879d2c8d2.zip/node_modules/vanilla-reset/",\
+          "packageDependencies": [\
+            ["vanilla-reset", "npm:2021.11.29"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2021.11.29", {\
+          "packageLocation": "./.yarn/__virtual__/vanilla-reset-virtual-620ad0a2d6/0/cache/vanilla-reset-npm-2021.11.29-1f4da0c784-b879d2c8d2.zip/node_modules/vanilla-reset/",\
+          "packageDependencies": [\
+            ["vanilla-reset", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2021.11.29"],\
+            ["@types/vanilla-extract__css", null],\
+            ["@vanilla-extract/css", "npm:1.11.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/vanilla-extract__css",\
+            "@vanilla-extract/css"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["vite", [\
         ["npm:4.3.9", {\
           "packageLocation": "./.yarn/cache/vite-npm-4.3.9-24f3552941-8c45a51627.zip/node_modules/vite/",\
@@ -8470,6 +8503,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@vanilla-extract/css", "npm:1.11.0"],\
             ["@vanilla-extract/next-plugin", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2.1.3"],\
             ["@vanilla-extract/recipes", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.4.0"],\
+            ["clsx", "npm:1.2.1"],\
             ["commitizen", "npm:4.3.0"],\
             ["cz-customizable", "npm:7.0.0"],\
             ["eslint", "npm:8.40.0"],\
@@ -8486,6 +8520,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"],\
             ["recoil", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:0.7.7"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["vanilla-reset", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:2021.11.29"],\
             ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\

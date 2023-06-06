@@ -2108,6 +2108,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^1.9.0":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
@@ -7091,6 +7098,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vanilla-reset@npm:^2021.11.29":
+  version: 2021.11.29
+  resolution: "vanilla-reset@npm:2021.11.29"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.6.3
+  checksum: b879d2c8d233b5253f8e10752131f6e9489fce924e52ac310001771b72f221a413a4e3814bc9ebeb8500df4ab93b3f9e20573a080c6eaaa7d6fe7881adaa546f
+  languageName: node
+  linkType: hard
+
 "vite-node@npm:^0.28.5":
   version: 0.28.5
   resolution: "vite-node@npm:0.28.5"
@@ -7304,6 +7320,7 @@ __metadata:
     "@vanilla-extract/css": ^1.11.0
     "@vanilla-extract/next-plugin": ^2.1.3
     "@vanilla-extract/recipes": ^0.4.0
+    clsx: ^1.2.1
     commitizen: ^4.3.0
     cz-customizable: ^7.0.0
     eslint: 8.40.0
@@ -7320,6 +7337,7 @@ __metadata:
     react-hook-form: ^7.44.1
     recoil: ^0.7.7
     typescript: 5.0.4
+    vanilla-reset: ^2021.11.29
     yup: ^1.2.0
   languageName: unknown
   linkType: soft
