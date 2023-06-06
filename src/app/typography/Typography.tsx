@@ -9,19 +9,19 @@ import {
   ButtonText2,
   Caption1,
   Caption2,
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4
+  H1,
+  H2,
+  H3,
+  H4
 } from '@/components/common/typography';
 
 export default function Typography() {
   return (
     <>
-      <Heading1 color="gray900">다람쥐 헌 쳇바퀴에 타고파</Heading1>
-      <Heading2 color="gray800">다람쥐 헌 쳇바퀴에 타고파</Heading2>
-      <Heading3 color="gray700">다람쥐 헌 쳇바퀴에 타고파</Heading3>
-      <Heading4 color="gray600">다람쥐 헌 쳇바퀴에 타고파</Heading4>
+      <H1 color="gray900">다람쥐 헌 쳇바퀴에 타고파</H1>
+      <H2 color="gray800">다람쥐 헌 쳇바퀴에 타고파</H2>
+      <H3 color="gray700">다람쥐 헌 쳇바퀴에 타고파</H3>
+      <H4 color="gray600">다람쥐 헌 쳇바퀴에 타고파</H4>
       <Body1 color="gray500">다람쥐 헌 쳇바퀴에 타고파</Body1>
       <Body2 color="gray400">다람쥐 헌 쳇바퀴에 타고파</Body2>
       <Body3 color="gray300">다람쥐 헌 쳇바퀴에 타고파</Body3>
