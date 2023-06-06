@@ -29,8 +29,9 @@ export default function ImageUploader({
   const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event?.currentTarget?.files || event.currentTarget.files.length < 1)
+    if (!event?.currentTarget?.files || event.currentTarget.files.length < 1) {
       return;
+    }
 
     const selectedFile = event.currentTarget.files[0];
     setFile(selectedFile);
