@@ -40,11 +40,11 @@ export default function ImageUploader({
     onChangeCallback?.(selectedFile);
   };
 
-  const renderImage = (url: string, alt: string) => (
+  const renderImage = (url: string) => (
     <Image
       src={url}
       className={imageCircle}
-      alt={alt}
+      alt={`${inputId}-preview`}
       width={100}
       height={100}
     />
@@ -58,11 +58,7 @@ export default function ImageUploader({
 
   return (
     <div>
-      {imageSrc ? (
-        renderImage(imageSrc, 'input-image')
-      ) : (
-        <div className={defaultCircle} />
-      )}
+      {imageSrc ? renderImage(imageSrc) : <div className={defaultCircle} />}
 
       <label className={camera} htmlFor={inputId}>
         <Image src={Camera} alt="camera" />
