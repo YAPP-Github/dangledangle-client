@@ -26,7 +26,7 @@ export default function ImageUploader({
   const inputId = `${name}-fileInput`;
   const { register } = useFormContext();
 
-  const [file, setFile] = useState<File | undefined | null>();
+  const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.currentTarget?.files || event.currentTarget.files.length < 1)
