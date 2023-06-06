@@ -1,6 +1,6 @@
 import { Color, palette } from '@/styles/color';
 import * as styles from './Typography.css';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export interface TypographyProps
   extends React.PropsWithChildren,
@@ -26,7 +26,7 @@ export function withTypographyBase(
 
     return (
       <WrappedTypography
-        className={classNames(styles.variants[variant], className)}
+        className={clsx(styles.variants[variant], className)}
         style={{
           ...style,
           color: textColor
