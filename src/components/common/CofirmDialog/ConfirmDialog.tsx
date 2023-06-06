@@ -22,20 +22,23 @@ interface ConfirmDialogProps {
   /** dialog message - @/utils/setting/settingConstEnum  */
   message: string;
   /** dialog close function  */
-  handleClose: () => void;
+  onClose: () => void;
   /** dialog 추가버튼  */
   actionButton?: boolean;
+  /** dialog 추가버튼 타이틀  */
+  actionTitle?: string;
   /** dialog 추가버튼 callback  */
-  actionCallback?: () => void;
+  onActionClick?: () => void;
   children?: React.ReactNode;
 }
 
 export default function ConfirmDialog({
   open = false,
   message,
-  handleClose,
+  onClose,
   actionButton = false,
-  actionCallback,
+  actionTitle = '저장',
+  onActionClick,
   children,
   ...rest
 }: ConfirmDialogProps) {
@@ -49,7 +52,11 @@ export default function ConfirmDialog({
     ? { animation: `${modalHide} 0.4s` }
     : { animation: `${modalShow} 0.4s` };
 
-  const startClosingAnimation = useCallback(() => {
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  const handleClosingAnimation = useCallback(() => {
     setClosing(true);
 
     setTimeout(() => {
@@ -58,12 +65,12 @@ export default function ConfirmDialog({
     }, 400);
   }, [handleClose]);
 
-  const handleConfrim = () => {
-    if (actionCallback) {
-      actionCallback();
+  const handleConfrim = useCallback(() => {
+    if (onActionClick) {
+      onActionClick();
     }
-    startClosingAnimation();
-  };
+    handleClosingAnimation();
+  }, [onActionClick, handleClosingAnimation]);
 
   return (
     <>
@@ -72,7 +79,7 @@ export default function ConfirmDialog({
           <div
             className={dialogOverlay}
             style={backgroundAnimation}
-            onClick={startClosingAnimation}
+            onClick={handleClosingAnimation}
           />
 
           <article className={modalBlock} style={modalBlockAnimation} {...rest}>
@@ -80,7 +87,7 @@ export default function ConfirmDialog({
               <Image
                 src={CloseSquare}
                 alt="close"
-                onClick={startClosingAnimation}
+                onClick={handleClosingAnimation}
               />
             </header>
 
@@ -101,17 +108,14 @@ export default function ConfirmDialog({
             <footer className={buttonWrapper}>
               {actionButton ? (
                 <>
-                  <ConfirmButton title="저장" handleButton={handleConfrim} />
+                  <ConfirmButton title={actionTitle} onClick={handleConfrim} />
                   <ConfirmButton
                     title="닫기"
-                    handleButton={startClosingAnimation}
+                    onClick={handleClosingAnimation}
                   />
                 </>
               ) : (
-                <ConfirmButton
-                  title="닫기"
-                  handleButton={startClosingAnimation}
-                />
+                <ConfirmButton title="닫기" onClick={handleClosingAnimation} />
               )}
             </footer>
           </article>

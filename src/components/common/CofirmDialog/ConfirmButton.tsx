@@ -3,14 +3,15 @@ import { button } from './ConfirmDialog.css';
 
 interface ConfirmButtonProps {
   title: string;
-  handleButton?: () => void;
+  onClick?: () => void;
 }
-export default function ConfirmButton({
-  title,
-  handleButton
-}: ConfirmButtonProps) {
+export default function ConfirmButton({ title, onClick }: ConfirmButtonProps) {
+  const handleButtonClick = () => {
+    onClick?.();
+  };
+
   return (
-    <button className={button} onClick={handleButton}>
+    <button className={button} onClick={handleButtonClick}>
       {title}
     </button>
   );
