@@ -1,27 +1,14 @@
-import Heading1 from './Heading1';
-import Heading2 from './Heading2';
-import Heading3 from './Heading3';
-import Heading4 from './Heading4';
-import Body1 from './Body1';
-import Body2 from './Body2';
-import Body3 from './Body3';
-import Body4 from './Body4';
-import ButtonText1 from './ButtonText1';
-import ButtonText2 from './ButtonText2';
-import Caption1 from './Caption1';
-import Caption2 from './Caption2';
+import { withTypographyBase } from './base';
 
-export {
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
-  Body1,
-  Body2,
-  Body3,
-  Body4,
-  ButtonText1,
-  ButtonText2,
-  Caption1,
-  Caption2
-};
+export const Heading1 = withTypographyBase('h1', 'h1');
+export const Heading2 = withTypographyBase('h2', 'h2');
+export const Heading3 = withTypographyBase('h3', 'h3');
+export const Heading4 = withTypographyBase('h4', 'h4');
+export const Body1 = withTypographyBase('p', 'body1');
+export const Body2 = withTypographyBase('p', 'body2');
+export const Body3 = withTypographyBase('p', 'body3');
+export const Body4 = withTypographyBase('p', 'body4');
+export const ButtonText1 = withTypographyBase('span', 'button1');
+export const ButtonText2 = withTypographyBase('span', 'button2');
+export const Caption1 = withTypographyBase('span', 'caption1');
+export const Caption2 = withTypographyBase('span', 'caption2');
