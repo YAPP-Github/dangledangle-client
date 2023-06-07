@@ -70,8 +70,8 @@ const Carousel: React.FC<CarouselProps> = props => {
       if (!scrollAreaRef.current || !isMouseDown) return;
 
       const x = e.pageX - scrollAreaRef.current.offsetLeft;
-      const walk = (x - startX) * 1;
-      scrollAreaRef.current.scrollLeft = scrollLeft - walk;
+      const walk = startX - x;
+      scrollAreaRef.current.scrollLeft = scrollLeft + walk;
     },
     [isMouseDown, startX, scrollLeft]
   );
@@ -85,7 +85,9 @@ const Carousel: React.FC<CarouselProps> = props => {
   const handleWheel = useCallback<React.WheelEventHandler>(
     e => {
       if (!scrollAreaRef.current) return;
-      scrollAreaRef.current.scrollLeft += (e.deltaY + e.deltaX) * WHEEL_SPEED;
+
+      const walk = (e.deltaY + e.deltaX) * WHEEL_SPEED;
+      scrollAreaRef.current.scrollLeft += walk;
       debounce(paginate, 100)();
     },
     [paginate]
@@ -103,7 +105,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     >
       <div ref={itemsWrapperRef} className={styles.itemsWrapper}>
         {props.children}
-        <div style={{ width: itemWidth }} />
+        <div style={{ width: itemWidth * SENSITIVITY }} />
       </div>
     </div>
   );
