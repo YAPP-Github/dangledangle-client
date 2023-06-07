@@ -40,7 +40,7 @@ const TextField = React.forwardRef(function TextField(
     name,
     size = 'small',
     label,
-    message: receivedMessage,
+    message: receivedMessage = '',
     placeholder,
     validation,
     status: receivedStatus = 'default',
@@ -53,10 +53,8 @@ const TextField = React.forwardRef(function TextField(
   if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
 
   /** state */
-  const { status, message, setStatus, updateStatusFromInput } =
-    useTextFieldStatus(receivedStatus, {
-      [receivedStatus]: receivedMessage
-    });
+  const { status, message, setTextFieldStatus, updateStatusFromInputValue } =
+    useTextFieldStatus([receivedStatus, receivedMessage]);
 
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
@@ -83,7 +81,7 @@ const TextField = React.forwardRef(function TextField(
       lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
     }
     onChange(e);
-    setStatus('default');
+    setTextFieldStatus('default');
   };
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = e => {
@@ -93,7 +91,7 @@ const TextField = React.forwardRef(function TextField(
       inputRef.current.placeholder = placeholder;
     }
     onBlur(e);
-    updateStatusFromInput(inputRef.current.value);
+    updateStatusFromInputValue(inputRef.current.value);
   };
 
   const handleFocus: FocusEventHandler<HTMLInputElement> = () => {
@@ -102,7 +100,7 @@ const TextField = React.forwardRef(function TextField(
     if (inputRef.current.value === '') {
       inputRef.current.placeholder = '';
     }
-    updateStatusFromInput(inputRef.current.value);
+    updateStatusFromInputValue(inputRef.current.value);
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = async e => {
@@ -113,8 +111,9 @@ const TextField = React.forwardRef(function TextField(
     }
     onChange(e);
 
-    if (!(await validate(inputRef.current.value))) return setStatus('error');
-    else setStatus('active');
+    if (!(await validate(inputRef.current.value))) {
+      setTextFieldStatus('error', '글자수를 초과했습니다.');
+    } else setTextFieldStatus('active');
   };
 
   return (
