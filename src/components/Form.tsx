@@ -1,16 +1,31 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TextField from './TextField/TextField';
 import { FieldValues, useForm } from 'react-hook-form';
 
 export default function TextFieldForm() {
   const { handleSubmit, control, register } = useForm();
+  const [status, setStatus] = useState<{
+    status: 'default' | 'active' | 'success' | 'error' | 'loading';
+    message: string;
+  }>({ status: 'default', message: '12312' });
   const ref = useRef<HTMLInputElement>(null);
   const ref2 = useRef<HTMLInputElement>(null);
+
   const onSubmit = (data: FieldValues) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    setStatus({ status: 'loading', message: '로딩중입니다' });
+    setTimeout(() => {
+      setStatus({ status: 'error', message: '에러입니다' });
+    }, 1000);
+    setTimeout(() => {
+      setStatus({ status: 'success', message: '성공!' });
+    }, 2000);
+  }, []);
 
   return (
     <div>
@@ -24,6 +39,7 @@ export default function TextFieldForm() {
           label="기본 사용 폼"
           name="인풋3"
           placeholder="123123"
+          status={status.status}
           ref={ref} //useRef와 함께 사용
         />
         <TextField

@@ -9,12 +9,13 @@ export const inputTypeRecipe = recipe({
       default: 'default',
       active: 'active',
       error: 'error',
+      loading: 'loading',
       success: 'success'
     }
   },
   compoundVariants: [
     {
-      variants: { status: 'default' },
+      variants: {},
       style: {
         vars: {
           '--status-color': palette.gray300

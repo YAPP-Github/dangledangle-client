@@ -5,13 +5,15 @@ import React, {
   MouseEventHandler,
   useRef,
   FocusEventHandler,
-  useState,
   useMemo
 } from 'react';
 import * as style from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
 import { variants } from '../common/typography/Typography.css';
 import clsx from 'clsx';
+import useTextFieldStatus, {
+  TextFieldStatus
+} from './hooks/useTextFieldStatus';
 
 /**
  * props 타입, status 타입 정의
@@ -23,14 +25,12 @@ interface TextFieldProps {
   placeholder?: string;
   validation?: ValidationArgs;
   message?: string;
-
+  status?: TextFieldStatus;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.SyntheticEvent) => void;
   // eslint-disable-next-line no-unused-vars
   onBlur?: (e: React.SyntheticEvent) => void;
 }
-
-type TextFieldStatus = 'default' | 'active' | 'success' | 'error';
 
 /**
  * TextField 컴포넌트
@@ -40,25 +40,34 @@ const TextField = React.forwardRef(function TextField(
     name,
     size = 'small',
     label,
-    message,
+    message: receivedMessage,
     placeholder,
     validation,
-    onChange,
-    onBlur
+    status: receivedStatus = 'default',
+    onChange = () => {},
+    onBlur = () => {}
   }: TextFieldProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
   //forwardRef로 받는 경우, ref 전달 여부를 체크를 해주지 않아서 throw 하도록 추가,
   if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
 
-  const [status, setStatus] = useState<TextFieldStatus>('default');
+  /** state */
+  const { status, message, setStatus, updateStatusFromInput } =
+    useTextFieldStatus(receivedStatus, {
+      [receivedStatus]: receivedMessage
+    });
+
+  /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
   const inputRef = useMemo<{ current: HTMLInputElement | null }>(
     (current = null) => ({ current }),
     []
   );
-
+  /** hook */
   const { validate } = useValidation(validation);
+
+  /** rename variable */
   const max = validation?.max;
 
   const handleRemoveClick: MouseEventHandler<HTMLButtonElement> = e => {
@@ -73,7 +82,7 @@ const TextField = React.forwardRef(function TextField(
     if (lengthCountRef.current) {
       lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
     }
-    onChange && onChange(e);
+    onChange(e);
     setStatus('default');
   };
 
@@ -83,14 +92,8 @@ const TextField = React.forwardRef(function TextField(
     if (inputRef.current.value.length <= 0 && placeholder) {
       inputRef.current.placeholder = placeholder;
     }
-    setStatus(prev =>
-      prev === 'error'
-        ? 'error'
-        : inputRef.current!.value.length <= 0
-        ? 'default'
-        : 'active'
-    );
-    onBlur && onBlur(e);
+    onBlur(e);
+    updateStatusFromInput(inputRef.current.value);
   };
 
   const handleFocus: FocusEventHandler<HTMLInputElement> = () => {
@@ -99,13 +102,7 @@ const TextField = React.forwardRef(function TextField(
     if (inputRef.current.value === '') {
       inputRef.current.placeholder = '';
     }
-    setStatus(prev =>
-      prev === 'error'
-        ? 'error'
-        : inputRef.current!.value.length <= 0
-        ? 'default'
-        : 'active'
-    );
+    updateStatusFromInput(inputRef.current.value);
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = async e => {
@@ -114,10 +111,10 @@ const TextField = React.forwardRef(function TextField(
     if (lengthCountRef.current) {
       lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
     }
-    onChange && onChange(e);
+    onChange(e);
 
     if (!(await validate(inputRef.current.value))) return setStatus('error');
-    setStatus('active');
+    else setStatus('active');
   };
 
   return (
@@ -125,17 +122,12 @@ const TextField = React.forwardRef(function TextField(
       className={clsx([style.inputTypeRecipe({ status }), style.wrapper])}
       arial-lable="text"
     >
-      {label && (
-        <label className={clsx([style.label, variants.caption1])}>
-          {label}
-        </label>
-      )}
-
+      <label className={clsx([style.label, variants.caption1])}>{label}</label>
       <div className={style.inputContainer}>
         <input
           ref={node => {
             inputRef.current = node; // TextField 내부의 inputRef 사용
-            if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우, 적용
+            if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우 적용
           }}
           className={style.input({ size })}
           name={name}
@@ -148,7 +140,7 @@ const TextField = React.forwardRef(function TextField(
         {max && <Count max={max} ref={lengthCountRef} />}
         <div className={style.underbar} />
       </div>
-      <p className={clsx([style.message, variants.caption2])}>{message}</p>
+      <Message status={status} message={message} />
     </div>
   );
 });
@@ -167,3 +159,21 @@ const Count = React.forwardRef(function Count(
     </div>
   );
 });
+
+const Message = ({
+  status,
+  message
+}: {
+  status: TextFieldStatus;
+  message?: string;
+}) => {
+  return (
+    <>
+      {status === 'loading' ? (
+        <p>loading</p>
+      ) : (
+        <p className={clsx([style.message, variants.caption2])}>{message}</p>
+      )}
+    </>
+  );
+};
