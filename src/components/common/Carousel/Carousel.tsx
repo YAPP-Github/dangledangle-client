@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import * as styles from './styles.css';
+import * as styles from './Carousel.css';
 import { debounce } from 'lodash';
 
 interface CarouselProps extends React.PropsWithChildren {}
