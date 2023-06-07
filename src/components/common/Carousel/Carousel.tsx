@@ -6,6 +6,7 @@ interface CarouselProps extends React.PropsWithChildren {}
 
 // 0 < SENSITIVITY < 1. 값이 작을수록 인덱스가 쉽게 변경됨
 const SENSITIVITY = 0.4;
+const WHEEL_SPEED = 0.3;
 const Carousel: React.FC<CarouselProps> = props => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -23,14 +24,14 @@ const Carousel: React.FC<CarouselProps> = props => {
     }
   }, [props.children]);
 
-  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseDown: MouseEventHandler = e => {
     if (!scrollAreaRef.current) return;
     setIsMouseDown(true);
     setStartX(e.pageX - scrollAreaRef.current.offsetLeft);
     setScrollLeft(scrollAreaRef.current.scrollLeft);
   };
 
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseMove: MouseEventHandler = e => {
     if (!scrollAreaRef.current || !isMouseDown) return;
 
     const x = e.pageX - scrollAreaRef.current.offsetLeft;
@@ -38,10 +39,20 @@ const Carousel: React.FC<CarouselProps> = props => {
     scrollAreaRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const onMouseUp: MouseEventHandler = e => {
+  const onMouseUp: MouseEventHandler = () => {
     setIsMouseDown(false);
-    if (!scrollAreaRef.current || !isMouseDown) return;
+    if (!isMouseDown) return;
+    paginate();
+  };
 
+  const onWheel: React.WheelEventHandler = e => {
+    if (!scrollAreaRef.current) return;
+    scrollAreaRef.current.scrollLeft += (e.deltaY + e.deltaX) * WHEEL_SPEED;
+    paginate();
+  };
+
+  const paginate = () => {
+    if (!scrollAreaRef.current) return;
     const currentScrollLeft = scrollAreaRef.current.scrollLeft;
 
     const rightThreshold = itemWidth * (index + SENSITIVITY);
@@ -60,11 +71,6 @@ const Carousel: React.FC<CarouselProps> = props => {
       behavior: 'smooth',
       left: newScrollLeft
     });
-  };
-
-  const onWheel: React.WheelEventHandler<HTMLDivElement> = e => {
-    if (!scrollAreaRef.current) return;
-    scrollAreaRef.current.scrollLeft += (e.deltaY + e.deltaX) * 0.5;
   };
 
   return (

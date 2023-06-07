@@ -3,7 +3,8 @@ import { style } from '@vanilla-extract/css';
 export const container = style({
   display: 'flex',
   flexWrap: 'nowrap',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  width: '100%'
 });
 
 export const itemsWrapper = style({
