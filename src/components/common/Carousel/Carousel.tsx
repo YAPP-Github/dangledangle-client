@@ -20,14 +20,24 @@ const Carousel: React.FC<CarouselProps> = props => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (itemsWrapperRef.current && itemsWrapperRef.current) {
-      const itemWidth = itemsWrapperRef.current.children[0]?.clientWidth;
-      setItemWidth(itemWidth);
+    function calculateItemWidth() {
+      if (itemsWrapperRef.current && itemsWrapperRef.current) {
+        const itemWidth = itemsWrapperRef.current.children[0]?.clientWidth;
+        setItemWidth(itemWidth);
+      }
     }
-  }, [props.children]);
+    calculateItemWidth();
+    window.addEventListener('resize', calculateItemWidth);
+    return () => {
+      window.removeEventListener('resize', calculateItemWidth);
+    };
+  }, []);
 
   const paginate = useCallback(() => {
-    if (!scrollAreaRef.current) return;
+    if (!scrollAreaRef.current || !itemsWrapperRef.current) return;
+
+    const areaWidth = scrollAreaRef.current.clientWidth;
+    const offsetX = (areaWidth - itemWidth) / 2; // 가운데 정렬을 위한 오프셋
     const currentScrollLeft = scrollAreaRef.current.scrollLeft;
 
     const rightThreshold = itemWidth * (index + SENSITIVITY);
@@ -41,7 +51,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     }
     setIndex(newIndex);
 
-    const newScrollLeft = newIndex * itemWidth;
+    const newScrollLeft = newIndex * (itemWidth + styles.gap) - offsetX;
     scrollAreaRef.current.scroll({
       behavior: 'smooth',
       left: newScrollLeft
@@ -93,6 +103,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     >
       <div ref={itemsWrapperRef} className={styles.itemsWrapper}>
         {props.children}
+        <div style={{ width: itemWidth }} />
       </div>
     </div>
   );
