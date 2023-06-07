@@ -2,10 +2,10 @@
 
 import { useRef } from 'react';
 import TextField from './TextField/TextField';
-import { Controller, FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function TextFieldForm() {
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, register } = useForm();
   const ref = useRef<HTMLInputElement>(null);
   const ref2 = useRef<HTMLInputElement>(null);
   const onSubmit = (data: FieldValues) => {
@@ -21,25 +21,28 @@ export default function TextFieldForm() {
       ></div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          name="상준상준"
-          label="라벨라벨"
+          label="기본 사용 폼"
+          name="인풋3"
+          placeholder="123123"
+          ref={ref} //useRef와 함께 사용
+        />
+        <TextField
+          name="인풋2"
+          label="크기가 big인 폼"
+          size="big"
+          placeholder="123123"
+          validation={{ max: 5 }}
+          message="메세지2222"
+          ref={ref2}
+        />
+        <TextField
+          label="react-form-hook과 함께 사용하는 폼"
+          {...register('인풋1')} //react-form-hook과 함께 사용
           placeholder="123123"
           validation={{ max: 10 }}
-          message="메세세세세"
-          ref={ref}
+          message="메세지111"
         />
-        <Controller
-          name="상준상준2"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              placeholder="123123"
-              validation={{ max: 5 }}
-              ref={ref2}
-            />
-          )}
-        />
+
         <input type="submit"></input>
       </form>
     </div>

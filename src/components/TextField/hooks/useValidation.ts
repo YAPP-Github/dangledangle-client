@@ -1,9 +1,9 @@
 import { string } from 'yup';
 
 /**
- * @description
+ * @description Valdation
  * yup schema를 리턴하는 validation 메서드 모아두는곳,
- *
+ * [methodName] : (value) => yupSchema
  */
 const Validation = {
   max: (n: number) => string().max(n, `글자는 ${n}자 이하로 입력해주세요`)
@@ -14,21 +14,23 @@ export type ValidationArgs = {
 };
 
 function useValidation(options?: ValidationArgs) {
-  const validate = async (string: string) => {
-    if (!options) return;
-    const validations = Object.entries(options);
+  const validate = async (forValidate: string) => {
+    if (!options) return true;
+    const validationEntries = Object.entries(options); //options로 넘어오는 값들 entries 생성
 
-    const results = Promise.all(
-      validations.map(async ([method, value]) => {
-        const key = method as keyof typeof Validation;
-        const validateResult = await Validation[key](value).isValid(string);
-        if (!validateResult) throw false;
+    /// entries 순회하며 validation 실행
+    const result = Promise.all(
+      validationEntries.map(async ([key, value]) => {
+        const method = key as keyof typeof Validation;
+        const validation = await Validation[method](value).isValid(forValidate);
+        if (!validation) throw false; // 검증 실패한 경우가 나오면, false를 throw
         return true;
       })
     )
-      .then(() => true)
-      .catch(() => false);
-    return results;
+      .then(() => true) // 모든 검증 성공, true 반환
+      .catch(() => false); // 검증 실패, false 반환
+
+    return result;
   };
 
   return { validate };

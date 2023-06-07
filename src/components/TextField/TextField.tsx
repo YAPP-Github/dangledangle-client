@@ -3,16 +3,19 @@ import React, {
   ForwardedRef,
   ChangeEventHandler,
   MouseEventHandler,
-  MutableRefObject,
   useRef,
   FocusEventHandler,
-  useState
+  useState,
+  useMemo
 } from 'react';
 import * as style from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
 import { variants } from '../common/typography/Typography.css';
 import clsx from 'clsx';
 
+/**
+ * props 타입, status 타입 정의
+ */
 interface TextFieldProps {
   name: string;
   size?: 'big' | 'small';
@@ -29,6 +32,9 @@ interface TextFieldProps {
 
 type TextFieldStatus = 'default' | 'active' | 'success' | 'error';
 
+/**
+ * TextField 컴포넌트
+ */
 const TextField = React.forwardRef(function TextField(
   {
     name,
@@ -42,54 +48,75 @@ const TextField = React.forwardRef(function TextField(
   }: TextFieldProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const lengthCountRef = useRef<HTMLDivElement>(null);
-  const forwardRef = ref as MutableRefObject<HTMLInputElement>;
-  const [status, setStatus] = useState<TextFieldStatus>('default');
-  const { validate } = useValidation(validation);
+  //forwardRef로 받는 경우, ref 전달 여부를 체크를 해주지 않아서 throw 하도록 추가,
+  if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
 
-  const max = validation?.max || null;
+  const [status, setStatus] = useState<TextFieldStatus>('default');
+  const lengthCountRef = useRef<HTMLDivElement>(null);
+  const inputRef = useMemo<{ current: HTMLInputElement | null }>(
+    (current = null) => ({ current }),
+    []
+  );
+
+  const { validate } = useValidation(validation);
+  const max = validation?.max;
 
   const handleRemoveClick: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
     e.stopPropagation();
-    if (!forwardRef.current) return;
-    if (!lengthCountRef.current) return;
+    if (!inputRef.current) return;
+    inputRef.current.value = '';
 
-    forwardRef.current.value = '';
-    forwardRef.current.placeholder = placeholder || '';
-    lengthCountRef.current.innerText = `${forwardRef.current.value.length}/${max}`;
+    if (placeholder) {
+      inputRef.current.placeholder = placeholder || '';
+    }
+    if (lengthCountRef.current) {
+      lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
+    }
     onChange && onChange(e);
     setStatus('default');
   };
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = e => {
-    if (!(forwardRef.current && placeholder)) return;
-    if (forwardRef.current.value.length <= 0) {
-      forwardRef.current.placeholder = placeholder;
+    if (!inputRef.current) return;
+
+    if (inputRef.current.value.length <= 0 && placeholder) {
+      inputRef.current.placeholder = placeholder;
     }
     setStatus(prev =>
       prev === 'error'
         ? 'error'
-        : forwardRef.current.value.length <= 0
+        : inputRef.current!.value.length <= 0
         ? 'default'
         : 'active'
     );
     onBlur && onBlur(e);
   };
+
   const handleFocus: FocusEventHandler<HTMLInputElement> = () => {
-    if (!forwardRef.current) return;
-    if (forwardRef.current.value === '') {
-      forwardRef.current.placeholder = '';
+    if (!inputRef.current) return;
+
+    if (inputRef.current.value === '') {
+      inputRef.current.placeholder = '';
     }
-    setStatus('active');
+    setStatus(prev =>
+      prev === 'error'
+        ? 'error'
+        : inputRef.current!.value.length <= 0
+        ? 'default'
+        : 'active'
+    );
   };
+
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = async e => {
-    if (!lengthCountRef.current) return;
-    const forwardRef = ref as unknown as MutableRefObject<HTMLInputElement>;
-    lengthCountRef.current.innerText = `${forwardRef.current.value.length}/${max}`;
+    if (!inputRef.current) return;
+
+    if (lengthCountRef.current) {
+      lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
+    }
     onChange && onChange(e);
 
-    if (!(await validate(forwardRef.current.value))) return setStatus('error');
+    if (!(await validate(inputRef.current.value))) return setStatus('error');
     setStatus('active');
   };
 
@@ -98,12 +125,18 @@ const TextField = React.forwardRef(function TextField(
       className={clsx([style.inputTypeRecipe({ status }), style.wrapper])}
       arial-lable="text"
     >
-      <label className={clsx([style.label, variants.caption1])}>
-        {label || ''}
-      </label>
+      {label && (
+        <label className={clsx([style.label, variants.caption1])}>
+          {label}
+        </label>
+      )}
+
       <div className={style.inputContainer}>
         <input
-          ref={ref}
+          ref={node => {
+            inputRef.current = node; // TextField 내부의 inputRef 사용
+            if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우, 적용
+          }}
           className={style.input({ size })}
           name={name}
           onChange={handleInputChange}
@@ -122,7 +155,7 @@ const TextField = React.forwardRef(function TextField(
 export default TextField;
 
 /**
- * 글자 수를 카운트하는 컴포넌트
+ * 글자 수 카운트하는 컴포넌트
  */
 const Count = React.forwardRef(function Count(
   { max }: { max: number | string },
