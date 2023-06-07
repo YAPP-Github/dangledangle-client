@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { palette } from '@/styles/color';
+import { variants } from '../common/typography/Typography.css';
 
 export const inputTypeRecipe = recipe({
   variants: {
@@ -7,7 +9,7 @@ export const inputTypeRecipe = recipe({
       default: 'default',
       active: 'active',
       error: 'error',
-      success: 'green'
+      success: 'success'
     }
   },
   compoundVariants: [
@@ -15,7 +17,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'default' },
       style: {
         vars: {
-          '--status-color': 'lightgray'
+          '--status-color': palette.gray300
         }
       }
     },
@@ -23,7 +25,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'active' },
       style: {
         vars: {
-          '--status-color': 'black'
+          '--status-color': palette.gray900
         }
       }
     },
@@ -31,7 +33,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'error' },
       style: {
         vars: {
-          '--status-color': 'red'
+          '--status-color': palette.error
         }
       }
     },
@@ -39,7 +41,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'success' },
       style: {
         vars: {
-          '--status-color': 'green'
+          '--status-color': palette.primary300
         }
       }
     }
@@ -53,23 +55,39 @@ export const wrapper = style({
 });
 
 export const label = style({
-  color: 'grey'
+  color: palette.gray600
 });
 
 export const inputContainer = style({
   position: 'relative',
-  display: 'flex',
-  boxSizing: 'border-box',
-  alignItems: 'center',
   maxWidth: '400px',
+  display: 'flex',
+  alignItems: 'center',
+  boxSizing: 'border-box',
+  marginBottom: '12px',
   '::placeholder': {
-    color: 'lightgrey'
+    color: palette.gray200
   }
 });
 
-export const input = style({
-  padding: '12px',
-  width: '100%'
+export const input = recipe({
+  variants: {
+    size: {
+      big: variants.h3,
+      small: variants.body2
+    }
+  },
+
+  compoundVariants: [
+    {
+      variants: {},
+      style: {
+        position: 'relative',
+        margin: '6px 0px',
+        width: '100%'
+      }
+    }
+  ]
 });
 
 export const underbar = style({
@@ -86,5 +104,6 @@ export const message = style({
 });
 
 export const count = style({
+  marginLeft: '8px',
   color: 'var(--status-color)'
 });
