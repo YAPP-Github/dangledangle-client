@@ -7,7 +7,7 @@ export const checkBoxColor = createVar('checkBoxColor');
 export const container = style({
   display: 'flex',
   alignItems: 'center',
-  width: '100%',
+  width: 'fit-content',
   height: '100%'
 });
 
@@ -41,6 +41,7 @@ export const checkBox = recipe({
     disabled: {
       true: {
         backgroundColor: palette.gray200,
+        borderColor: palette.gray200,
         cursor: 'not-allowed'
       }
     }
