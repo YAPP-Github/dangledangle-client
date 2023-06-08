@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import * as styles from './Carousel.css';
 import { debounce } from 'lodash';
+import { globalPaddingX } from '@/styles/global.css';
 
 interface CarouselProps extends React.PropsWithChildren {}
 
@@ -20,16 +21,20 @@ const Carousel: React.FC<CarouselProps> = props => {
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function calculateItemWidth() {
-      if (itemsWrapperRef.current && itemsWrapperRef.current) {
+    function adjustWidth() {
+      if (itemsWrapperRef.current) {
         const itemWidth = itemsWrapperRef.current.children[0]?.clientWidth;
         setItemWidth(itemWidth);
       }
+      if (scrollAreaRef.current) {
+        const containerWidth = document.body.clientWidth - globalPaddingX;
+        scrollAreaRef.current.style.width = `${containerWidth}px`;
+      }
     }
-    calculateItemWidth();
-    window.addEventListener('resize', calculateItemWidth);
+    adjustWidth();
+    window.addEventListener('resize', adjustWidth);
     return () => {
-      window.removeEventListener('resize', calculateItemWidth);
+      window.removeEventListener('resize', adjustWidth);
     };
   }, []);
 
@@ -37,7 +42,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     if (!scrollAreaRef.current || !itemsWrapperRef.current) return;
 
     const areaWidth = scrollAreaRef.current.clientWidth;
-    const offsetX = (areaWidth - itemWidth) / 2; // 가운데 정렬을 위한 오프셋
+    const offsetX = (areaWidth - itemWidth) / 2 - globalPaddingX; // 가운데 정렬을 위한 오프셋
     const currentScrollLeft = scrollAreaRef.current.scrollLeft;
 
     const rightThreshold = itemWidth * (index + SENSITIVITY);
