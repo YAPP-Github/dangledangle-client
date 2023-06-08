@@ -11,22 +11,22 @@ export type TextFieldStatus =
 type TextFieldMessagesType = { [key in TextFieldStatus]: string };
 type TextFieldStatusDto = [TextFieldStatus, string];
 
-// eslint-disable-next-line no-unused-vars
-const defaultMessages: TextFieldMessagesType = {
-  default: '올바른 값을 입력해주세요',
-  loading: '로딩중입니다',
-  active: '활성화 되었습니다',
-  success: '입력 성공!',
-  error: '입력에 오류가 있습니다.'
-};
-
 function useTextFieldStatus(
   receivedStatus: TextFieldStatusDto = ['default', '']
 ) {
   const [state, setState] = useState<TextFieldStatusDto>(receivedStatus);
 
   //가장 최신 message들을 저장
-  const cachedMessages = useMemo(() => ({ ...defaultMessages }), []);
+  const cachedMessages = useMemo(
+    () => ({
+      default: '',
+      loading: '',
+      active: '',
+      success: '',
+      error: '입력에 오류가 있습니다.'
+    }),
+    []
+  );
 
   const textFieldMessages: TextFieldMessagesType = useMemo(() => {
     //state deps로 인해, state가 변경되면서 message가 변경되면 cachedMessages에 저장
