@@ -23,6 +23,7 @@ import { getStringOfValueLengthPerMax } from './utils/getStringOfValueLengthPerM
  */
 interface TextFieldProps {
   name: string;
+  type?: 'text' | 'password';
   size?: 'big' | 'small';
   label?: string;
   placeholder?: string;
@@ -44,6 +45,7 @@ interface TextFieldProps {
 const TextField = React.forwardRef(function TextField(
   {
     name,
+    type = 'text',
     size = 'small',
     label,
     placeholder,
@@ -153,16 +155,17 @@ const TextField = React.forwardRef(function TextField(
       <label className={clsx([style.label, variants.caption1])}>{label}</label>
       <div className={style.inputContainer}>
         <input
+          name={name}
+          type={type}
+          className={style.input({ size })}
+          placeholder={placeholder}
+          onChange={handleInputChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           ref={node => {
             inputRef.current = node; // TextField 내부의 inputRef 사용
             if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우 적용
           }}
-          className={style.input({ size })}
-          name={name}
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          placeholder={placeholder}
         />
         <button onClick={handleRemoveClick}>x</button>
         <Count max={max} ref={lengthCountRef} />

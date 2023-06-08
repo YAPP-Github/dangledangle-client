@@ -44,6 +44,7 @@ export default function TextFieldForm() {
           label="기본 사용 폼"
           name="인풋1"
           placeholder="123123"
+          type="password"
           ref={ref} //useRef와 함께 사용
         />
 
@@ -62,6 +63,7 @@ export default function TextFieldForm() {
           placeholder="123123"
           defaultValue="12312"
           validation={{ max: 5 }} //validation
+          type="password"
           ref={ref3}
         />
 
