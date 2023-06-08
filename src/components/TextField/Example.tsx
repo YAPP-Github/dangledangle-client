@@ -60,6 +60,7 @@ export default function TextFieldForm() {
           label="크기가 big인 폼"
           size="big"
           placeholder="123123"
+          defaultValue="12312"
           validation={{ max: 5 }} //validation
           ref={ref3}
         />

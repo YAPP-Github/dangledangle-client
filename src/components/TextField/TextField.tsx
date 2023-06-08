@@ -72,6 +72,13 @@ const TextField = React.forwardRef(function TextField(
     }
   }, [status]);
 
+  useEffect(() => {
+    const inputElem = getInitializedRef(inputRef);
+    inputElem.value = receivedDefaultValue;
+    const lengthCountElem = getInitializedRef(lengthCountRef);
+    lengthCountElem.innerText = max ? `${inputElem.value.length}/${max}` : '';
+  }, [receivedDefaultValue]);
+
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
   const inputRef = useMemo<{ current: HTMLInputElement | null }>(
