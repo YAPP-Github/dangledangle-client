@@ -1,10 +1,10 @@
 import { style } from '@vanilla-extract/css';
-import { breakPoint } from '@/styles/global.css';
+import { breakPoint, globalPaddingX } from '@/styles/global.css';
 
 export const container = style({
+  boxSizing: 'border-box',
   maxWidth: breakPoint,
   marginRight: 'auto',
   marginLeft: 'auto',
-  paddingRight: '20px',
-  paddingLeft: '20px'
+  padding: `0 ${globalPaddingX}px`
 });
