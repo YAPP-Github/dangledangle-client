@@ -42,6 +42,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     if (!scrollAreaRef.current || !itemsWrapperRef.current) return;
 
     const areaWidth = scrollAreaRef.current.clientWidth;
+    const childCount = itemsWrapperRef.current.childElementCount - 1;
     const offsetX = (areaWidth - itemWidth) / 2 - globalPaddingX; // 가운데 정렬을 위한 오프셋
     const currentScrollLeft = scrollAreaRef.current.scrollLeft;
 
@@ -54,6 +55,8 @@ const Carousel: React.FC<CarouselProps> = props => {
     } else if (currentScrollLeft < leftThreshold) {
       newIndex = index - 1;
     }
+
+    newIndex = Math.min(newIndex, childCount - 1);
     setIndex(newIndex);
 
     const newScrollLeft = newIndex * (itemWidth + styles.gap) - offsetX;
@@ -93,7 +96,7 @@ const Carousel: React.FC<CarouselProps> = props => {
 
       const walk = (e.deltaY + e.deltaX) * WHEEL_SPEED;
       scrollAreaRef.current.scrollLeft += walk;
-      debounce(paginate, 100)();
+      debounce(paginate, 50)();
     },
     [paginate]
   );
@@ -110,7 +113,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     >
       <div ref={itemsWrapperRef} className={styles.itemsWrapper}>
         {props.children}
-        <div style={{ width: itemWidth * SENSITIVITY }} />
+        <div style={{ width: itemWidth }} />
       </div>
     </div>
   );
