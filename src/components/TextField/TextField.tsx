@@ -5,7 +5,8 @@ import React, {
   MouseEventHandler,
   useRef,
   FocusEventHandler,
-  useMemo
+  useMemo,
+  useEffect
 } from 'react';
 import * as style from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
@@ -14,6 +15,7 @@ import clsx from 'clsx';
 import useTextFieldStatus, {
   TextFieldStatus
 } from './hooks/useTextFieldStatus';
+import getInitializedRef from './utils/getInitializedRef';
 
 /**
  * props 타입, status 타입 정의
@@ -26,6 +28,8 @@ interface TextFieldProps {
   validation?: ValidationArgs;
   message?: string;
   status?: TextFieldStatus;
+  // eslint-disable-next-line no-unused-vars
+  errorCallback?: ({ name }: { name: string }) => void;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.SyntheticEvent) => void;
   // eslint-disable-next-line no-unused-vars
@@ -44,6 +48,7 @@ const TextField = React.forwardRef(function TextField(
     placeholder,
     validation,
     status: receivedStatus = 'default',
+    errorCallback = () => {},
     onChange = () => {},
     onBlur = () => {}
   }: TextFieldProps,
@@ -56,62 +61,74 @@ const TextField = React.forwardRef(function TextField(
   const { status, message, setTextFieldStatus, updateStatusFromInputValue } =
     useTextFieldStatus([receivedStatus, receivedMessage]);
 
+  /** hook */
+  const { validate } = useValidation(validation);
+
+  useEffect(() => {
+    if (status === 'error') {
+      errorCallback({ name });
+    }
+  }, [status]);
+
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
   const inputRef = useMemo<{ current: HTMLInputElement | null }>(
     (current = null) => ({ current }),
     []
   );
-  /** hook */
-  const { validate } = useValidation(validation);
 
   /** rename variable */
   const max = validation?.max;
 
+  /** event handler */
   const handleRemoveClick: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
     e.stopPropagation();
-    if (!inputRef.current) return;
-    inputRef.current.value = '';
+
+    const inputElem = getInitializedRef(inputRef);
+    const lengthCountElem = getInitializedRef(inputRef);
+
+    inputElem.value = '';
 
     if (placeholder) {
-      inputRef.current.placeholder = placeholder || '';
+      inputElem.placeholder = placeholder || '';
     }
-    if (lengthCountRef.current) {
-      lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
+
+    if (lengthCountElem) {
+      lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
     }
+
     onChange(e);
     setTextFieldStatus('default');
   };
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = e => {
-    if (!inputRef.current) return;
+    const inputElem = getInitializedRef(inputRef);
 
-    if (inputRef.current.value.length <= 0 && placeholder) {
-      inputRef.current.placeholder = placeholder;
-    }
+    if (inputElem.value.length <= 0 && placeholder)
+      inputElem.placeholder = placeholder;
+
     onBlur(e);
-    updateStatusFromInputValue(inputRef.current.value);
+    updateStatusFromInputValue(inputElem.value);
   };
 
   const handleFocus: FocusEventHandler<HTMLInputElement> = () => {
-    if (!inputRef.current) return;
+    const inputElem = getInitializedRef(inputRef);
 
-    if (inputRef.current.value === '') {
-      inputRef.current.placeholder = '';
-    }
-    updateStatusFromInputValue(inputRef.current.value);
+    if (inputElem.value === '') inputElem.placeholder = '';
+
+    updateStatusFromInputValue(inputElem.value);
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = async e => {
-    if (!inputRef.current) return;
+    const inputElem = getInitializedRef(inputRef);
+    const lengthCountElem = getInitializedRef(lengthCountRef);
 
-    if (lengthCountRef.current) {
-      lengthCountRef.current.innerText = `${inputRef.current.value.length}/${max}`;
-    }
+    lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
+
     onChange(e);
 
-    if (!(await validate(inputRef.current.value))) {
+    if (!(await validate(inputElem.value))) {
       setTextFieldStatus('error', '글자수를 초과했습니다.');
     } else setTextFieldStatus('active');
   };
@@ -159,6 +176,9 @@ const Count = React.forwardRef(function Count(
   );
 });
 
+/**
+ * 입력 문구 안내 메시지, loading, 오류 메시지 보여주는 컴포넌트
+ */
 const Message = ({
   status,
   message
