@@ -1,9 +1,8 @@
-import TextFieldForm from '@/components/Form';
+import TextFieldForm from '@/components/TextField/Example';
 
 export default function Home() {
   return (
     <main>
-      {/* register your input into the hook by invoking the "register" function */}
       <TextFieldForm />
     </main>
   );

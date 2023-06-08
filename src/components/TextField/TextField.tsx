@@ -27,6 +27,7 @@ interface TextFieldProps {
   placeholder?: string;
   validation?: ValidationArgs;
   message?: string;
+  defaultValue?: string;
   status?: TextFieldStatus;
   // eslint-disable-next-line no-unused-vars
   errorCallback?: ({ name }: { name: string }) => void;
@@ -44,10 +45,11 @@ const TextField = React.forwardRef(function TextField(
     name,
     size = 'small',
     label,
-    message: receivedMessage = '',
     placeholder,
     validation,
+    message: receivedMessage = '',
     status: receivedStatus = 'default',
+    defaultValue: receivedDefaultValue = '',
     errorCallback = () => {},
     onChange = () => {},
     onBlur = () => {}
@@ -120,10 +122,13 @@ const TextField = React.forwardRef(function TextField(
     lengthCountElem.innerText = max ? `${inputElem.value.length}/${max}` : '';
 
     onChange(e);
+    const valdationResult = await validate(inputElem.value);
 
-    if (!(await validate(inputElem.value))) {
-      max && setTextFieldStatus('error', '글자수를 초과했습니다.');
-    } else setTextFieldStatus('active');
+    if (valdationResult.result === true) return setTextFieldStatus('active');
+    if (valdationResult.type === 'max')
+      return setTextFieldStatus('error', '글자수를 초과했습니다.');
+    if (valdationResult.type === 'email')
+      return setTextFieldStatus('error', '이메일 형식이 아닙니다.');
   };
 
   return (
