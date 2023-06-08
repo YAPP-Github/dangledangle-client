@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+import { Caption1 } from '../typography';
 import * as styles from './Badge.css';
 interface BadgeProps {
   type?: 'primary' | 'gray';
@@ -6,12 +8,8 @@ interface BadgeProps {
 
 const Badge: React.FC<BadgeProps> = ({ type = 'primary', children }) => {
   return (
-    <span
-      className={styles.badge({
-        type: type
-      })}
-    >
-      {children}
+    <span className={clsx(styles.badge, styles.badgeColor[type])}>
+      <Caption1 className={styles.badgeColor[type]}>{children}</Caption1>
     </span>
   );
 };

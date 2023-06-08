@@ -1,22 +1,13 @@
 import { palette } from '@/styles/color';
-import { recipe } from '@vanilla-extract/recipes';
+import { style, styleVariants } from '@vanilla-extract/css';
 
-export const badge = recipe({
-  base: {
-    width: 'fit-content',
-    padding: '2px 4px',
-    borderRadius: '4px'
-  },
-  variants: {
-    type: {
-      primary: {
-        backgroundColor: palette.primary100,
-        color: palette.primary300
-      },
-      gray: {
-        backgroundColor: palette.gray200,
-        color: palette.gray400
-      }
-    }
-  }
+export const badgeColor = styleVariants({
+  primary: { color: palette.primary300, backgroundColor: palette.primary100 },
+  gray: { color: palette.gray400, backgroundColor: palette.gray200 }
+});
+
+export const badge = style({
+  width: 'fit-content',
+  padding: '2px 4px',
+  borderRadius: '4px'
 });
