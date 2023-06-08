@@ -17,6 +17,7 @@ import useTextFieldStatus, {
 } from './hooks/useTextFieldStatus';
 import getInitializedRef from './utils/getInitializedRef';
 import { getStringOfValueLengthPerMax } from './utils/getStringOfValueLengthPerMax';
+import { TextFieldRemoveIcon } from '@/asset/icons';
 
 /**
  * props 타입, status 타입 정의
@@ -167,7 +168,8 @@ const TextField = React.forwardRef(function TextField(
             if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우 적용
           }}
         />
-        <button onClick={handleRemoveClick}>x</button>
+
+        <TextFieldRemoveIcon onClick={handleRemoveClick} />
         <Count max={max} ref={lengthCountRef} />
         <div className={style.underbar} />
       </div>
@@ -186,7 +188,10 @@ const Count = React.forwardRef(function Count(
 ) {
   return (
     <>
-      <div ref={ref} className={clsx([style.count, variants.body3])}>
+      <div
+        ref={ref}
+        className={`${max && clsx([style.count, variants.body3])}`}
+      >
         {max && `0/${max}`}
       </div>
     </>

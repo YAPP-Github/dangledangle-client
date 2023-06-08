@@ -56,7 +56,8 @@ export const wrapper = style({
 });
 
 export const label = style({
-  color: palette.gray600
+  color: palette.gray600,
+  marginBottom: '6px'
 });
 
 export const inputContainer = style({
@@ -65,7 +66,7 @@ export const inputContainer = style({
   display: 'flex',
   alignItems: 'center',
   boxSizing: 'border-box',
-  marginBottom: '12px',
+  marginBottom: '8px',
   '::placeholder': {
     color: palette.gray200
   }
@@ -84,7 +85,7 @@ export const input = recipe({
       variants: {},
       style: {
         position: 'relative',
-        margin: '6px 0px',
+        marginBottom: '6px',
         width: '100%'
       }
     }
@@ -96,7 +97,7 @@ export const underbar = style({
   width: `100%`,
   height: '1px',
   borderBottom: '1px solid black',
-  bottom: '-1px',
+  bottom: '0px',
   borderColor: 'var(--status-color)'
 });
 
@@ -105,6 +106,7 @@ export const message = style({
 });
 
 export const count = style({
-  marginLeft: '8px',
+  marginLeft: '12px',
+  display: 'inline-block',
   color: 'var(--status-color)'
 });
