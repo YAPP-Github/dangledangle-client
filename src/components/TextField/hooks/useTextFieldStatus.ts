@@ -25,9 +25,11 @@ function useTextFieldStatus(
 ) {
   const [state, setState] = useState<TextFieldStatusDto>(receivedStatus);
 
+  //가장 최신 message들을 저장
   const cachedMessages = useMemo(() => ({ ...defaultMessages }), []);
 
   const textFieldMessages: TextFieldMessagesType = useMemo(() => {
+    //state deps로 인해, state가 변경되면서 message가 변경되면 cachedMessages에 저장
     const [status, message] = state;
     if (message) {
       cachedMessages[status] = message;
@@ -53,7 +55,6 @@ function useTextFieldStatus(
     const [prevStatusType, prevMessage] = state;
     if (prevStatusType === status && prevMessage === message) return;
     if (prevStatusType === status && !message) return;
-    console.log(status, message);
     setState([status, message || textFieldMessages[status]]);
   };
 
@@ -63,7 +64,7 @@ function useTextFieldStatus(
   }, [receivedStatus[0]]);
 
   return {
-    status: state[0],
+    status: state[0], // status 반환
     message: state[1], // status에 맞는 메세지 반환
     setTextFieldStatus,
     updateStatusFromInputValue
