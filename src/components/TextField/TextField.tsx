@@ -16,6 +16,7 @@ import useTextFieldStatus, {
   TextFieldStatus
 } from './hooks/useTextFieldStatus';
 import getInitializedRef from './utils/getInitializedRef';
+import { getStringOfValueLengthPerMax } from './utils/getStringOfValueLengthPerMax';
 
 /**
  * props 타입, status 타입 정의
@@ -76,7 +77,11 @@ const TextField = React.forwardRef(function TextField(
     const inputElem = getInitializedRef(inputRef);
     inputElem.value = receivedDefaultValue;
     const lengthCountElem = getInitializedRef(lengthCountRef);
-    lengthCountElem.innerText = max ? `${inputElem.value.length}/${max}` : '';
+    lengthCountElem.innerText = getStringOfValueLengthPerMax(
+      receivedDefaultValue,
+      max
+    );
+    console.log(123);
   }, [receivedDefaultValue]);
 
   /** ref */
@@ -95,12 +100,11 @@ const TextField = React.forwardRef(function TextField(
     e.stopPropagation();
 
     const inputElem = getInitializedRef(inputRef);
-    const lengthCountElem = getInitializedRef(inputRef);
+    const lengthCountElem = getInitializedRef(lengthCountRef);
 
     inputElem.placeholder = placeholder || '';
     inputElem.value = '';
-    lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
-
+    lengthCountElem.innerText = getStringOfValueLengthPerMax('', max);
     onChange(e);
     setTextFieldStatus('default');
   };
@@ -126,7 +130,10 @@ const TextField = React.forwardRef(function TextField(
     const inputElem = getInitializedRef(inputRef);
     const lengthCountElem = getInitializedRef(lengthCountRef);
 
-    lengthCountElem.innerText = max ? `${inputElem.value.length}/${max}` : '';
+    lengthCountElem.innerText = getStringOfValueLengthPerMax(
+      inputElem.value,
+      max
+    );
 
     onChange(e);
     const valdationResult = await validate(inputElem.value);
