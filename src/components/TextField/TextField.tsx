@@ -84,7 +84,6 @@ const TextField = React.forwardRef(function TextField(
       receivedDefaultValue,
       max
     );
-    console.log(123);
   }, [receivedDefaultValue]);
 
   /** ref */
@@ -168,8 +167,11 @@ const TextField = React.forwardRef(function TextField(
             if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우 적용
           }}
         />
-
-        <TextFieldRemoveIcon onClick={handleRemoveClick} />
+        <RemoveButton
+          onClick={handleRemoveClick}
+          inputRef={inputRef}
+          status={status}
+        />
         <Count max={max} ref={lengthCountRef} />
         <div className={style.underbar} />
       </div>
@@ -178,6 +180,31 @@ const TextField = React.forwardRef(function TextField(
   );
 });
 export default TextField;
+
+/**
+ *
+ */
+const RemoveButton = ({
+  onClick,
+  inputRef
+}: {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  inputRef: { current: HTMLInputElement | null };
+  status: TextFieldStatus;
+}) => {
+  const checkIsOnOff = () =>
+    inputRef.current && inputRef.current.value.length && status !== 'default'
+      ? 'on'
+      : 'off';
+
+  return (
+    <button onClick={onClick}>
+      <TextFieldRemoveIcon
+        className={clsx([style.icon({ status: checkIsOnOff() })])}
+      />
+    </button>
+  );
+};
 
 /**
  * 글자 수 카운트하는 컴포넌트

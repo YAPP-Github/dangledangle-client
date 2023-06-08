@@ -101,6 +101,22 @@ export const underbar = style({
   borderColor: 'var(--status-color)'
 });
 
+export const icon = recipe({
+  base: {
+    visibility: 'hidden'
+  },
+  variants: {
+    status: {
+      on: {
+        visibility: 'visible'
+      },
+      off: {
+        visibility: 'hidden'
+      }
+    }
+  }
+});
+
 export const message = style({
   color: 'var(--status-color)'
 });
