@@ -88,15 +88,9 @@ const TextField = React.forwardRef(function TextField(
     const inputElem = getInitializedRef(inputRef);
     const lengthCountElem = getInitializedRef(inputRef);
 
+    inputElem.placeholder = placeholder || '';
     inputElem.value = '';
-
-    if (placeholder) {
-      inputElem.placeholder = placeholder || '';
-    }
-
-    if (lengthCountElem) {
-      lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
-    }
+    lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
 
     onChange(e);
     setTextFieldStatus('default');
@@ -105,8 +99,7 @@ const TextField = React.forwardRef(function TextField(
   const handleBlur: FocusEventHandler<HTMLInputElement> = e => {
     const inputElem = getInitializedRef(inputRef);
 
-    if (inputElem.value.length <= 0 && placeholder)
-      inputElem.placeholder = placeholder;
+    if (inputElem.value.length <= 0) inputElem.placeholder = placeholder || '';
 
     onBlur(e);
     updateStatusFromInputValue(inputElem.value);
@@ -124,12 +117,12 @@ const TextField = React.forwardRef(function TextField(
     const inputElem = getInitializedRef(inputRef);
     const lengthCountElem = getInitializedRef(lengthCountRef);
 
-    lengthCountElem.innerText = `${inputElem.value.length}/${max}`;
+    lengthCountElem.innerText = max ? `${inputElem.value.length}/${max}` : '';
 
     onChange(e);
 
     if (!(await validate(inputElem.value))) {
-      setTextFieldStatus('error', '글자수를 초과했습니다.');
+      max && setTextFieldStatus('error', '글자수를 초과했습니다.');
     } else setTextFieldStatus('active');
   };
 
@@ -153,7 +146,7 @@ const TextField = React.forwardRef(function TextField(
           placeholder={placeholder}
         />
         <button onClick={handleRemoveClick}>x</button>
-        {max && <Count max={max} ref={lengthCountRef} />}
+        <Count max={max} ref={lengthCountRef} />
         <div className={style.underbar} />
       </div>
       <Message status={status} message={message} />
@@ -166,13 +159,15 @@ export default TextField;
  * 글자 수 카운트하는 컴포넌트
  */
 const Count = React.forwardRef(function Count(
-  { max }: { max: number | string },
+  { max }: { max?: number | string },
   ref: ForwardedRef<HTMLDivElement>
 ) {
   return (
-    <div ref={ref} className={clsx([style.count, variants.body3])}>
-      {`0/${max}`}
-    </div>
+    <>
+      <div ref={ref} className={clsx([style.count, variants.body3])}>
+        {max && `0/${max}`}
+      </div>
+    </>
   );
 });
 
