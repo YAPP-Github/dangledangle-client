@@ -6,29 +6,30 @@ import { globalPaddingX } from '@/styles/global.css';
 
 interface CarouselProps extends React.PropsWithChildren {}
 
-// 0 < SENSITIVITY < 1. 값이 작을수록 인덱스가 쉽게 변경됨
+// 0 < SENSITIVITY <= 1. 값이 작을수록 인덱스가 쉽게 변경됨
 const SENSITIVITY = 0.4;
-// 값이 클수록 휠 한 번에 스크롤되는 양이 많아짐
+// 0 < WHEEL_SPEED <= 1 값이 클수록 휠 한 번에 스크롤되는 양이 많아짐
 const WHEEL_SPEED = 0.5;
+
 const Carousel: React.FC<CarouselProps> = props => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [startScrollLeft, setStartScrollLeft] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
   const [index, setIndex] = useState(0);
 
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const itemsWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function adjustWidth() {
-      if (itemsWrapperRef.current) {
+      if (itemsWrapperRef.current?.children[0]) {
         const itemWidth = itemsWrapperRef.current.children[0]?.clientWidth;
         setItemWidth(itemWidth);
       }
-      if (scrollAreaRef.current) {
+      if (containerRef.current) {
         const containerWidth = document.body.clientWidth - globalPaddingX;
-        scrollAreaRef.current.style.width = `${containerWidth}px`;
+        containerRef.current.style.width = `${containerWidth}px`;
       }
     }
     adjustWidth();
@@ -39,12 +40,13 @@ const Carousel: React.FC<CarouselProps> = props => {
   }, []);
 
   const paginate = useCallback(() => {
-    if (!scrollAreaRef.current || !itemsWrapperRef.current) return;
+    if (!containerRef.current || !itemsWrapperRef.current) return;
 
-    const areaWidth = scrollAreaRef.current.clientWidth;
+    const containerWidth = containerRef.current.clientWidth;
     const childCount = itemsWrapperRef.current.childElementCount - 1;
-    const offsetX = (areaWidth - itemWidth) / 2 - globalPaddingX; // 가운데 정렬을 위한 오프셋
-    const currentScrollLeft = scrollAreaRef.current.scrollLeft;
+    const currentScrollLeft = containerRef.current.scrollLeft;
+
+    const offsetX = (containerWidth - itemWidth) / 2 - globalPaddingX; // 가운데 정렬을 위한 오프셋
 
     const rightThreshold = itemWidth * (index + SENSITIVITY);
     const leftThreshold = itemWidth * (index - SENSITIVITY);
@@ -60,28 +62,28 @@ const Carousel: React.FC<CarouselProps> = props => {
     setIndex(newIndex);
 
     const newScrollLeft = newIndex * (itemWidth + styles.gap) - offsetX;
-    scrollAreaRef.current.scroll({
+    containerRef.current.scroll({
       behavior: 'smooth',
       left: newScrollLeft
     });
   }, [index, itemWidth]);
 
   const handleMouseDown = useCallback<React.MouseEventHandler>(e => {
-    if (!scrollAreaRef.current) return;
+    if (!containerRef.current) return;
     setIsMouseDown(true);
-    setStartX(e.pageX - scrollAreaRef.current.offsetLeft);
-    setScrollLeft(scrollAreaRef.current.scrollLeft);
+    setStartX(e.pageX - containerRef.current.offsetLeft);
+    setStartScrollLeft(containerRef.current.scrollLeft);
   }, []);
 
   const handleMouseMove = useCallback<React.MouseEventHandler>(
     e => {
-      if (!scrollAreaRef.current || !isMouseDown) return;
+      if (!containerRef.current || !isMouseDown) return;
 
-      const x = e.pageX - scrollAreaRef.current.offsetLeft;
+      const x = e.pageX - containerRef.current.offsetLeft;
       const walk = startX - x;
-      scrollAreaRef.current.scrollLeft = scrollLeft + walk;
+      containerRef.current.scrollLeft = startScrollLeft + walk;
     },
-    [isMouseDown, startX, scrollLeft]
+    [isMouseDown, startX, startScrollLeft]
   );
 
   const handleMouseUp = useCallback<React.MouseEventHandler>(() => {
@@ -92,10 +94,10 @@ const Carousel: React.FC<CarouselProps> = props => {
 
   const handleWheel = useCallback<React.WheelEventHandler>(
     e => {
-      if (!scrollAreaRef.current) return;
+      if (!containerRef.current) return;
 
       const walk = (e.deltaY + e.deltaX) * WHEEL_SPEED;
-      scrollAreaRef.current.scrollLeft += walk;
+      containerRef.current.scrollLeft += walk;
       debounce(paginate, 50)();
     },
     [paginate]
@@ -104,7 +106,7 @@ const Carousel: React.FC<CarouselProps> = props => {
   return (
     <div
       className={styles.container}
-      ref={scrollAreaRef}
+      ref={containerRef}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
