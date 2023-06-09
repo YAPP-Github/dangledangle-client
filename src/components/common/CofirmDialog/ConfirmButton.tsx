@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import { button } from './ConfirmDialog.css';
 
-interface ConfirmButtonProps {
-  title: string;
+interface ConfirmButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: string;
   onClick?: () => void;
 }
-export default function ConfirmButton({ title, onClick }: ConfirmButtonProps) {
-  const handleButtonClick = () => {
-    onClick?.();
-  };
-
+export default function ConfirmButton({
+  children,
+  onClick,
+  ...props
+}: ConfirmButtonProps) {
   return (
-    <button className={button} onClick={handleButtonClick}>
-      {title}
+    <button className={button} onClick={onClick} {...props}>
+      {children}
     </button>
   );
 }
