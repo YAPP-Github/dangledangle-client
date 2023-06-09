@@ -1,4 +1,6 @@
+import { palette } from '@/styles/color';
 import { keyframes, style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 export const modalBgShow = keyframes({
   from: {
@@ -62,39 +64,49 @@ export const dialogOverlay = style({
   backdropFilter: 'blur(5)'
 });
 
-export const modalBlock = style({
-  position: 'absolute',
-  top: '10rem',
-  borderRadius: '10px',
-  padding: '1.5rem',
-  background: 'white',
-  width: '30rem',
-  minHeight: '15rem'
+export const modalConatainer = recipe({
+  base: {
+    position: 'fixed',
+    overflow: 'auto',
+    top: '50%',
+    left: '50%',
+    borderRadius: '10px',
+    padding: '1.5rem',
+    background: 'white',
+    width: '25rem',
+    maxHeight: 'calc(85vh)'
+  },
+  variants: {
+    size: {
+      sm: {
+        transform: 'translate(-50%, -100%)'
+      },
+      lg: {
+        transform: 'translate(-50%, -50%)'
+      }
+    }
+  }
 });
 
-export const close = style({
+export const header = style({
   position: 'absolute',
-  right: '1.5rem',
-  top: '1.5rem',
+  right: '0.5rem',
+  top: '0.5rem',
+  padding: 10,
   cursor: 'pointer'
+});
+
+export const childrenWarp = style({
+  width: '100%',
+  height: 'auto'
 });
 
 export const contents = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '30px'
-});
-
-export const typograpy = style({
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  fontWeight: '700',
-  fontSize: '22px',
-  lineHeight: '22px',
-  margin: 'auto',
-  textAlign: 'center',
-  padding: 10
+  height: '100%',
+  padding: 30
 });
 
 export const buttonWrapper = style({
@@ -106,13 +118,12 @@ export const button = style({
   width: '100%',
   height: '48px',
   cursor: 'pointer',
-
-  /* Primary/300 */
-  background: '#15D3CF',
+  background: palette.primary300,
   ':hover': {
-    background: '#9DF5F3'
+    background: palette.primary200
   },
   borderRadius: '8px',
   border: '0px',
-  color: '#FFFFFF'
+  color: palette.white,
+  textAlign: 'center'
 });
