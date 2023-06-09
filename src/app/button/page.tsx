@@ -1,4 +1,8 @@
 'use client';
+import EmphasizedTitle, {
+  Line,
+  E
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import Button from '@/components/common/button/Button';
 import { useState } from 'react';
 
@@ -13,7 +17,14 @@ export default function ButtonPage() {
         justifyContent: 'space-around'
       }}
     >
-      <div>기본버튼</div>
+      <EmphasizedTitle>
+        <Line>
+          <E>보호소 파트너</E>로
+        </Line>
+        <Line>가입하시는게 맞는지</Line>
+        <Line>확인해주세요🔥</Line>
+      </EmphasizedTitle>
+
       <Button>버튼1</Button>
       <div>
         acitve 테스트
