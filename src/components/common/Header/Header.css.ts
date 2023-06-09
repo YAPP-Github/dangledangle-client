@@ -1,33 +1,18 @@
+import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
-export const box = style({
+export const container = style({
   width: '100%',
-  height: '56px',
+  height: '20px',
   display: 'flex',
   padding: '20px',
   justifyContent: 'space-between',
   alignItems: 'center',
-  background: '#ffffff'
+  background: palette.white,
+  borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+  boxShadow: '0 4px 4px -2px rgba(0, 0, 0, 0.03)'
 });
 
 export const arrowLeft = style({
   cursor: 'pointer'
-});
-
-export const headLine = style({
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  fontWeight: '700',
-  fontSize: '16px',
-  lineHeight: '22px',
-  color: '#000000'
-});
-
-export const bodyLine = style({
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  fontWeight: '400',
-  fontSize: '16px',
-  lineHeight: '22px',
-  color: '#000000'
 });
