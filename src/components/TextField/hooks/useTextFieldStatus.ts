@@ -9,12 +9,19 @@ export type TextFieldStatus =
 
 // eslint-disable-next-line no-unused-vars
 type TextFieldMessagesType = { [key in TextFieldStatus]: string };
-type TextFieldStatusDto = [TextFieldStatus, string];
+type TextFieldStateType = {
+  status: TextFieldStatus;
+  message: string;
+};
 
-function useTextFieldStatus(
-  receivedStatus: TextFieldStatusDto = ['default', '']
-) {
-  const [state, setState] = useState<TextFieldStatusDto>(receivedStatus);
+function useTextFieldStatus({
+  status: receivedStatus,
+  message: recievedMessage
+}: TextFieldStateType) {
+  const [textFieldState, setTextFieldState] = useState<TextFieldStateType>({
+    status: receivedStatus,
+    message: recievedMessage || ''
+  });
 
   //가장 최신 message들을 저장
   const cachedMessages = useMemo(
@@ -28,9 +35,9 @@ function useTextFieldStatus(
     []
   );
 
+  //state deps로 인해, state나 message가 변경되면 cachedMessages에 최신값 저장
   const textFieldMessages: TextFieldMessagesType = useMemo(() => {
-    //state deps로 인해, state가 변경되면서 message가 변경되면 cachedMessages에 저장
-    const [status, message] = state;
+    const { status, message } = textFieldState;
     if (message) {
       cachedMessages[status] = message;
     }
@@ -39,34 +46,42 @@ function useTextFieldStatus(
       loading: cachedMessages.default,
       active: cachedMessages.default
     };
-  }, [state, cachedMessages]);
+  }, [textFieldState, cachedMessages]);
 
-  // input의 길이에 따라 status를 업데이트
+  // input의 길이와 상태 따라 status를 업데이트
   const updateStatusFromInputValue = (input: string) => {
-    setState(prev => {
-      const status = prev[0];
-      if (status === 'error') return ['error', textFieldMessages.error];
-      else if (input.length <= 0) return ['default', textFieldMessages.default];
-      else return ['active', textFieldMessages.active];
+    setTextFieldState(prev => {
+      const { status } = prev;
+      if (status === 'error') {
+        return { status: 'error', message: textFieldMessages.error };
+      } else if (input.length <= 0) {
+        return { status: 'default', message: textFieldMessages.default };
+      } else {
+        return { status: 'active', message: textFieldMessages.active };
+      }
     });
   };
 
-  const setTextFieldStatus = (status: TextFieldStatus, message?: string) => {
-    const [prevStatusType, prevMessage] = state;
+  //이전 state와 message를 비교해서 상태 업데이트
+  const updateTextFieldState = (status: TextFieldStatus, message?: string) => {
+    const { status: prevStatusType, message: prevMessage } = textFieldState;
     if (prevStatusType === status && prevMessage === message) return;
     if (prevStatusType === status && !message) return;
-    setState([status, message || textFieldMessages[status]]);
+    setTextFieldState({
+      status,
+      message: message || textFieldMessages[status]
+    });
   };
 
-  //파라미터로 받은 status가 변경되면 status를 업데이트
+  //hook 파라미터 state가 변경되면 업데이트
   useEffect(() => {
-    setState(receivedStatus);
-  }, [receivedStatus[0]]);
+    setTextFieldState({ status: receivedStatus, message: recievedMessage });
+  }, [receivedStatus, recievedMessage]);
 
   return {
-    status: state[0], // status 반환
-    message: state[1], // status에 맞는 메세지 반환
-    setTextFieldStatus,
+    status: textFieldState.status, // status 반환
+    message: textFieldState.message, // status에 맞는 메세지 반환
+    updateTextFieldState,
     updateStatusFromInputValue
   };
 }

@@ -18,6 +18,7 @@ import useTextFieldStatus, {
 import getInitializedRef from './utils/getInitializedRef';
 import { getStringOfValueLengthPerMax } from './utils/getStringOfValueLengthPerMax';
 import { TextFieldRemoveIcon } from '@/asset/icons';
+import useForwardRef from '@/utils/useForwardRef';
 
 /**
  * props 타입, status 타입 정의
@@ -64,8 +65,8 @@ const TextField = React.forwardRef(function TextField(
   if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
 
   /** state */
-  const { status, message, setTextFieldStatus, updateStatusFromInputValue } =
-    useTextFieldStatus([receivedStatus, receivedMessage]);
+  const { status, message, updateTextFieldState, updateStatusFromInputValue } =
+    useTextFieldStatus({ status: receivedStatus, message: receivedMessage });
 
   /** hook */
   const { validate } = useValidation(validation);
@@ -108,7 +109,7 @@ const TextField = React.forwardRef(function TextField(
     inputElem.value = '';
     lengthCountElem.innerText = getStringOfValueLengthPerMax('', max);
     onChange(e);
-    setTextFieldStatus('default');
+    updateTextFieldState('default');
   };
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = e => {
@@ -140,11 +141,11 @@ const TextField = React.forwardRef(function TextField(
     onChange(e);
     const valdationResult = await validate(inputElem.value);
 
-    if (valdationResult.result === true) return setTextFieldStatus('active');
+    if (valdationResult.result === true) return updateTextFieldState('active');
     if (valdationResult.type === 'max')
-      return setTextFieldStatus('error', '글자수를 초과했습니다.');
+      return updateTextFieldState('error', '글자수를 초과했습니다.');
     if (valdationResult.type === 'email')
-      return setTextFieldStatus('error', '이메일 형식이 아닙니다.');
+      return updateTextFieldState('error', '이메일 형식이 아닙니다.');
   };
 
   return (
