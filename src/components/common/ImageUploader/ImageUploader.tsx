@@ -1,36 +1,39 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  camera,
-  defaultCircle,
-  fileInput,
-  imageCircle
-} from './ImageUploader.css';
-import Image from 'next/image';
-import Camera from 'public/icons/Camera.svg';
+import { Body3 } from '../typography';
+import * as styles from './ImageUploader.css';
 
-interface ImageUploaderProps {
+interface ImageUploaderProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   /** input name */
   name: string;
   /** 수정 시 기존 imagePath */
   imagePath?: string;
   /** input callback */
   onChangeCallback?: (fileData?: File) => void;
+  /** 에러 메세지 표출 여부 */
+  help?: boolean;
 }
 
 export default function ImageUploader({
   name,
   onChangeCallback,
-  imagePath
+  imagePath,
+  help = false,
+  ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors }
+  } = useFormContext();
 
   const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.currentTarget?.files || event.currentTarget.files.length < 1) {
-      return;
+      return setFile(null);
     }
 
     const selectedFile = event.currentTarget.files[0];
@@ -43,7 +46,7 @@ export default function ImageUploader({
   const renderImage = (url: string) => (
     <Image
       src={url}
-      className={imageCircle}
+      className={styles.imageCircle}
       alt={`${inputId}-preview`}
       width={100}
       height={100}
@@ -58,20 +61,30 @@ export default function ImageUploader({
 
   return (
     <div>
-      {imageSrc ? renderImage(imageSrc) : <div className={defaultCircle} />}
+      {imageSrc ? (
+        renderImage(imageSrc)
+      ) : (
+        <div className={styles.defaultCircle} />
+      )}
 
-      <label className={camera} htmlFor={inputId}>
-        <Image src={Camera} alt="camera" />
+      <label className={styles.camera} htmlFor={inputId}>
+        <Image src="/icons/Camera.svg" alt="camera" width={12} height={12} />
+        <input
+          {...register(name)}
+          className={styles.fileInput}
+          id={inputId}
+          onChange={handleChange}
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          {...props}
+        />
       </label>
 
-      <input
-        {...register(name)}
-        className={fileInput}
-        id={inputId}
-        onChange={handleChange}
-        type="file"
-        accept=".jpg, .jpeg, .png"
-      />
+      {help && errors[name] && (
+        <Body3 color="error" style={{ textAlign: 'center' }}>
+          {errors[name]?.message as never}
+        </Body3>
+      )}
     </div>
   );
 }

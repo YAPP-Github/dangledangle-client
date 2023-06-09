@@ -30,6 +30,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@commitlint/cli", "npm:17.6.3"],\
             ["@commitlint/config-conventional", "npm:17.6.3"],\
+            ["@hookform/resolvers", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@types/node", "npm:20.1.3"],\
@@ -1046,6 +1047,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@gar-promisify-npm-1.1.3-ac1a325862-4059f790e2.zip/node_modules/@gar/promisify/",\
           "packageDependencies": [\
             ["@gar/promisify", "npm:1.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@hookform/resolvers", [\
+        ["npm:3.1.0", {\
+          "packageLocation": "./.yarn/cache/@hookform-resolvers-npm-3.1.0-8f7cf259db-8f6690e514.zip/node_modules/@hookform/resolvers/",\
+          "packageDependencies": [\
+            ["@hookform/resolvers", "npm:3.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/@hookform-resolvers-virtual-10997aa52d/0/cache/@hookform-resolvers-npm-3.1.0-8f7cf259db-8f6690e514.zip/node_modules/@hookform/resolvers/",\
+          "packageDependencies": [\
+            ["@hookform/resolvers", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0"],\
+            ["@types/react-hook-form", null],\
+            ["react-hook-form", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:7.44.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-hook-form",\
+            "react-hook-form"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8471,6 +8494,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yapp-web-2", "workspace:."],\
             ["@commitlint/cli", "npm:17.6.3"],\
             ["@commitlint/config-conventional", "npm:17.6.3"],\
+            ["@hookform/resolvers", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@types/node", "npm:20.1.3"],\
