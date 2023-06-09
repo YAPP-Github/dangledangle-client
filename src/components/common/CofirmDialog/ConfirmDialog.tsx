@@ -1,35 +1,27 @@
-import React, { useCallback, useState } from 'react';
-import {
-  container,
-  dialogOverlay,
-  modalBlock,
-  close,
-  contents,
-  typograpy,
-  modalHide,
-  modalBgHide,
-  modalBgShow,
-  modalShow,
-  buttonWrapper
-} from './ConfirmDialog.css';
+import clsx from 'clsx';
 import Image from 'next/image';
-import CloseSquare from 'public/icons/Close-Square.svg';
+import React, { useCallback, useState } from 'react';
+import { H2 } from '../typography';
 import ConfirmButton from './ConfirmButton';
+import * as styles from './ConfirmDialog.css';
+import Portal from './Portal/Portal';
+import useResize from './hooks/useResize';
 
 interface ConfirmDialogProps {
   /** dialog status */
   open: boolean;
-  /** dialog message - @/utils/setting/settingConstEnum  */
-  message: string;
   /** dialog close function  */
   onClose: () => void;
+  /** dialog message - @/utils/setting/settingConstEnum  */
+  message?: string;
+  /** dialog 요소 */
+  children?: React.ReactNode;
   /** dialog 추가버튼  */
   actionButton?: boolean;
   /** dialog 추가버튼 타이틀  */
   actionTitle?: string;
   /** dialog 추가버튼 callback  */
   onActionClick?: () => void;
-  children?: React.ReactNode;
 }
 
 export default function ConfirmDialog({
@@ -39,31 +31,28 @@ export default function ConfirmDialog({
   actionButton = false,
   actionTitle = '저장',
   onActionClick,
-  children,
-  ...rest
+  children
 }: ConfirmDialogProps) {
+  const { modalSize, modalRef } = useResize(open);
+
   const [closing, setClosing] = useState(false);
 
   const backgroundAnimation = closing
-    ? { animation: `${modalBgHide} 0.4s` }
-    : { animation: `${modalBgShow} 0.4s` };
+    ? { animation: `${styles.modalBgHide} 0.4s` }
+    : { animation: `${styles.modalBgShow} 0.4s` };
 
   const modalBlockAnimation = closing
-    ? { animation: `${modalHide} 0.4s` }
-    : { animation: `${modalShow} 0.4s` };
-
-  const handleClose = useCallback(() => {
-    onClose();
-  }, [onClose]);
+    ? { animation: `${styles.modalHide} 0.4s` }
+    : { animation: `${styles.modalShow} 0.4s` };
 
   const handleClosingAnimation = useCallback(() => {
     setClosing(true);
 
     setTimeout(() => {
-      handleClose();
+      onClose();
       setClosing(false);
     }, 400);
-  }, [handleClose]);
+  }, [onClose]);
 
   const handleConfrim = useCallback(() => {
     if (onActionClick) {
@@ -73,54 +62,64 @@ export default function ConfirmDialog({
   }, [onActionClick, handleClosingAnimation]);
 
   return (
-    <>
+    <Portal>
       {open && (
-        <section className={container}>
+        <section className={styles.container}>
           <div
-            className={dialogOverlay}
+            className={styles.dialogOverlay}
             style={backgroundAnimation}
             onClick={handleClosingAnimation}
           />
+          <>
+            <article
+              className={clsx(styles.modalConatainer({ size: modalSize }))}
+              ref={modalRef}
+              style={modalBlockAnimation}
+            >
+              <header className={styles.header}>
+                <Image
+                  src="/icons/Close-Square.svg"
+                  alt="close"
+                  onClick={handleClosingAnimation}
+                  width={24}
+                  height={24}
+                />
+              </header>
 
-          <article className={modalBlock} style={modalBlockAnimation} {...rest}>
-            <header className={close}>
-              <Image
-                src={CloseSquare}
-                alt="close"
-                onClick={handleClosingAnimation}
-              />
-            </header>
+              <main className={styles.contents}>
+                <div>
+                  {message?.split('<br/>').map((value, index) => {
+                    return (
+                      <H2 key={index} style={{ textAlign: 'center' }}>
+                        {value}
+                        <br />
+                      </H2>
+                    );
+                  })}
+                </div>
+                <div className={styles.childrenWarp}>{children}</div>
+              </main>
 
-            <main className={contents}>
-              <div>
-                {message.split('<br/>').map((value, index) => {
-                  return (
-                    <p key={index} className={typograpy}>
-                      {value}
-                      <br />
-                    </p>
-                  );
-                })}
-              </div>
-              <div>{children}</div>
-            </main>
-
-            <footer className={buttonWrapper}>
-              {actionButton ? (
-                <>
-                  <ConfirmButton title={actionTitle} onClick={handleConfrim} />
-                  <ConfirmButton
-                    title="닫기"
-                    onClick={handleClosingAnimation}
-                  />
-                </>
-              ) : (
-                <ConfirmButton title="닫기" onClick={handleClosingAnimation} />
-              )}
-            </footer>
-          </article>
+              <footer className={styles.buttonWrapper}>
+                {actionButton ? (
+                  <>
+                    <ConfirmButton onClick={handleConfrim}>
+                      {actionTitle}
+                    </ConfirmButton>
+                    <ConfirmButton onClick={handleClosingAnimation}>
+                      닫기
+                    </ConfirmButton>
+                  </>
+                ) : (
+                  <ConfirmButton onClick={handleClosingAnimation}>
+                    닫기
+                  </ConfirmButton>
+                )}
+              </footer>
+            </article>
+          </>
         </section>
       )}
-    </>
+    </Portal>
   );
 }
