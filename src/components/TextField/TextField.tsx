@@ -5,7 +5,6 @@ import React, {
   MouseEventHandler,
   useRef,
   FocusEventHandler,
-  useMemo,
   useEffect
 } from 'react';
 import * as style from './TextField.css';
@@ -89,10 +88,7 @@ const TextField = React.forwardRef(function TextField(
 
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
-  const inputRef = useMemo<{ current: HTMLInputElement | null }>(
-    (current = null) => ({ current }),
-    []
-  );
+  const inputRef = useForwardRef<HTMLInputElement>(ref);
 
   /** rename variable */
   const max = validation?.max;
@@ -153,7 +149,7 @@ const TextField = React.forwardRef(function TextField(
       className={clsx([style.inputTypeRecipe({ status }), style.wrapper])}
       arial-lable="text"
     >
-      <label className={clsx([style.label, variants.caption1])}>{label}</label>
+      <label className={clsx([variants.caption1, style.label])}>{label}</label>
       <div className={style.inputContainer}>
         <input
           name={name}
@@ -163,10 +159,7 @@ const TextField = React.forwardRef(function TextField(
           onChange={handleInputChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          ref={node => {
-            inputRef.current = node; // TextField 내부의 inputRef 사용
-            if (typeof ref === 'function') ref(node); // RefCallback이 오는 경우 적용
-          }}
+          ref={inputRef}
         />
         <RemoveButton
           onClick={handleRemoveClick}
@@ -187,22 +180,26 @@ export default TextField;
  */
 const RemoveButton = ({
   onClick,
-  inputRef
+  inputRef,
+  status
 }: {
   onClick: MouseEventHandler<HTMLButtonElement>;
   inputRef: { current: HTMLInputElement | null };
   status: TextFieldStatus;
 }) => {
-  const checkIsOnOff = () =>
-    inputRef.current && inputRef.current.value.length && status !== 'default'
-      ? 'on'
-      : 'off';
+  const isVisible = () =>
+    !!(
+      inputRef.current &&
+      inputRef.current.value.length &&
+      status !== 'default'
+    );
 
   return (
-    <button onClick={onClick}>
-      <TextFieldRemoveIcon
-        className={clsx([style.icon({ status: checkIsOnOff() })])}
-      />
+    <button
+      onClick={onClick}
+      className={clsx(style.icon({ visible: isVisible() }))}
+    >
+      <TextFieldRemoveIcon />
     </button>
   );
 };
@@ -218,7 +215,10 @@ const Count = React.forwardRef(function Count(
     <>
       <div
         ref={ref}
-        className={`${max && clsx([style.count, variants.body3])}`}
+        className={clsx({
+          [variants.body3]: true,
+          [style.count]: Boolean(max)
+        })}
       >
         {max && `0/${max}`}
       </div>
@@ -238,11 +238,9 @@ const Message = ({
 }) => {
   return (
     <>
-      {status === 'loading' ? (
-        <p>loading</p>
-      ) : (
-        <p className={clsx([style.message, variants.caption2])}>{message}</p>
-      )}
+      <p className={clsx([style.message, variants.caption2])}>
+        {status === 'loading' ? 'loading' : `${message}`}
+      </p>
     </>
   );
 };
