@@ -3,10 +3,10 @@ import { style } from '@vanilla-extract/css';
 export const panel = style({
   position: 'fixed',
   bottom: 0,
-  left: 0,
   height: 500,
   borderRadius: '30px',
-  width: '100%',
+  width: 'calc(100% - 40px)',
+  margin: 'auto',
   backgroundColor: 'rgb(255, 255, 255)',
   boxShadow: `0px 0px 10px #888888`,
   transition: 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
