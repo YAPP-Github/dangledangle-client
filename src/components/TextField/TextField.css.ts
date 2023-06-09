@@ -1,9 +1,14 @@
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { palette } from '@/styles/color';
 import { variants } from '../common/typography/Typography.css';
 
+const statusColor = createVar();
+
 export const inputTypeRecipe = recipe({
+  base: {
+    vars: { statusColor }
+  },
   variants: {
     status: {
       default: 'default',
@@ -18,7 +23,7 @@ export const inputTypeRecipe = recipe({
       variants: {},
       style: {
         vars: {
-          '--status-color': palette.gray300
+          [statusColor]: palette.gray300
         }
       }
     },
@@ -26,7 +31,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'active' },
       style: {
         vars: {
-          '--status-color': palette.gray900
+          [statusColor]: palette.gray900
         }
       }
     },
@@ -34,7 +39,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'error' },
       style: {
         vars: {
-          '--status-color': palette.error
+          [statusColor]: palette.error
         }
       }
     },
@@ -42,7 +47,7 @@ export const inputTypeRecipe = recipe({
       variants: { status: 'success' },
       style: {
         vars: {
-          '--status-color': palette.primary300
+          [statusColor]: palette.primary300
         }
       }
     }
@@ -65,6 +70,7 @@ export const inputContainer = style({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
+  paddingBottom: '6px',
   boxSizing: 'border-box',
   marginBottom: '8px',
   '::placeholder': {
@@ -85,7 +91,6 @@ export const input = recipe({
       variants: {},
       style: {
         position: 'relative',
-        marginBottom: '6px',
         width: '100%'
       }
     }
@@ -98,19 +103,20 @@ export const underbar = style({
   height: '1px',
   borderBottom: '1px solid black',
   bottom: '0px',
-  borderColor: 'var(--status-color)'
+  borderColor: statusColor
 });
 
 export const icon = recipe({
   base: {
+    height: '24px',
     visibility: 'hidden'
   },
   variants: {
-    status: {
-      on: {
+    visible: {
+      true: {
         visibility: 'visible'
       },
-      off: {
+      false: {
         visibility: 'hidden'
       }
     }
@@ -118,11 +124,11 @@ export const icon = recipe({
 });
 
 export const message = style({
-  color: 'var(--status-color)'
+  color: statusColor
 });
 
 export const count = style({
   marginLeft: '12px',
   display: 'inline-block',
-  color: 'var(--status-color)'
+  color: statusColor
 });
