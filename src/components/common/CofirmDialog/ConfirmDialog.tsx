@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import { H2 } from '../typography';
 import ConfirmButton from './ConfirmButton';
 import * as styles from './ConfirmDialog.css';
 import Portal from './Portal/Portal';
 import useResize from './hooks/useResize';
+import { CloseSquare } from '@/asset/icons';
 
 interface ConfirmDialogProps {
   /** dialog status */
@@ -77,13 +77,7 @@ export default function ConfirmDialog({
               style={modalBlockAnimation}
             >
               <header className={styles.header}>
-                <Image
-                  src="/icons/Close-Square.svg"
-                  alt="close"
-                  onClick={handleClosingAnimation}
-                  width={24}
-                  height={24}
-                />
+                <CloseSquare onClick={handleClosingAnimation} />
               </header>
 
               <main className={styles.contents}>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Body3 } from '../typography';
 import * as styles from './ImageUploader.css';
+import { Camera } from '@/asset/icons';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -68,7 +69,7 @@ export default function ImageUploader({
       )}
 
       <label className={styles.camera} htmlFor={inputId}>
-        <Image src="/icons/Camera.svg" alt="camera" width={12} height={12} />
+        <Camera />
         <input
           {...register(name)}
           className={styles.fileInput}

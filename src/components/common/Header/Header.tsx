@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Body2, H4 } from '../typography';
 import * as styles from './Header.css';
+import { ArrowLeft } from '@/asset/icons';
 
 interface HeaderProps {
   /** 헤더 타이틀 */
@@ -31,12 +31,7 @@ export default function Header({
   return (
     <nav className={styles.container}>
       <a className={styles.arrowLeft} onClick={navigate}>
-        <Image
-          src="icons/Arrow-Left.svg"
-          alt="LeftArrow"
-          width={24}
-          height={24}
-        />
+        <ArrowLeft />
       </a>
       <H4>{title}</H4>
       <Body2>
