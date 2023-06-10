@@ -1,4 +1,4 @@
-import { breakPoint } from './../../../styles/global.css';
+import { BREAK_POINT } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const panel = style({
@@ -6,7 +6,7 @@ export const panel = style({
   bottom: 0,
   height: 500,
   borderRadius: '30px',
-  width: breakPoint,
+  width: BREAK_POINT,
   margin: 'auto',
   backgroundColor: 'rgb(255, 255, 255)',
   boxShadow: `0px 0px 10px #888888`,
