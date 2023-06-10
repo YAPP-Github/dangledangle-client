@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Caption1 } from '../typography';
+import { Caption1 } from '../Typography';
 import * as styles from './Badge.css';
 interface BadgeProps {
   type?: 'primary' | 'gray';

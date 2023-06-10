@@ -2,7 +2,7 @@ import * as styles from './CheckBox.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Color, palette } from '@/styles/color';
 import { useCallback } from 'react';
-import { Body1 } from '../typography';
+import { Body1 } from '../Typography';
 import { CheckIcon } from '@/asset/icons';
 
 interface CheckBoxProps {
