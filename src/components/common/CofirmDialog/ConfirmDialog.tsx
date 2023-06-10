@@ -1,11 +1,11 @@
+import { CloseSquare } from '@/asset/icons';
 import clsx from 'clsx';
 import React, { useCallback, useState } from 'react';
-import { H2 } from '../typography';
-import ConfirmButton from './ConfirmButton';
+import Button from '../Button/Button';
 import * as styles from './ConfirmDialog.css';
 import Portal from './Portal/Portal';
 import useResize from './hooks/useResize';
-import { CloseSquare } from '@/asset/icons';
+import { H2 } from '../Typography';
 
 interface ConfirmDialogProps {
   /** dialog status */
@@ -97,17 +97,11 @@ export default function ConfirmDialog({
               <footer className={styles.buttonWrapper}>
                 {actionButton ? (
                   <>
-                    <ConfirmButton onClick={handleConfrim}>
-                      {actionTitle}
-                    </ConfirmButton>
-                    <ConfirmButton onClick={handleClosingAnimation}>
-                      닫기
-                    </ConfirmButton>
+                    <Button onClick={handleConfrim}>{actionTitle}</Button>
+                    <Button onClick={handleClosingAnimation}>닫기</Button>
                   </>
                 ) : (
-                  <ConfirmButton onClick={handleClosingAnimation}>
-                    닫기
-                  </ConfirmButton>
+                  <Button onClick={handleClosingAnimation}>닫기</Button>
                 )}
               </footer>
             </article>
