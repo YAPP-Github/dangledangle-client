@@ -9,7 +9,6 @@ import { palette } from '@/styles/color';
 
 export default function CarouselTest() {
   const [checked, setChecked] = useState(false);
-  const [open, setOpen] = useState(false);
   return (
     <div style={{ width: '100%' }}>
       <Carousel>
@@ -32,8 +31,6 @@ export default function CarouselTest() {
       <div style={{ marginBottom: '80px' }} />
       <Accordion
         title="Accordion Title"
-        open={open}
-        onClick={() => setOpen(!open)}
         titleSuffix={<Badge type="primary">suffix</Badge>}
       >
         <div className={styles.accordionBody}>Accordion Children</div>

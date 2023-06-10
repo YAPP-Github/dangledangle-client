@@ -1,24 +1,21 @@
 import { H4 } from '@/components/common/typography';
 import clsx from 'clsx';
-import { PropsWithChildren, useEffect, useRef } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import * as styles from './Accordion.css';
 import Image from 'next/image';
 import IconArrowDown from '/public/icons/Arrow-Down.svg';
 
 interface AccordionProps extends PropsWithChildren {
-  open: boolean;
   title: string;
   titleSuffix?: React.ReactElement;
-  onClick: () => void;
 }
 
 const Accordion: React.FC<AccordionProps> = ({
-  open,
   title,
   titleSuffix,
-  onClick,
   children
 }) => {
+  const [open, setOpen] = useState(false);
   const bodyWrapperRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +27,7 @@ const Accordion: React.FC<AccordionProps> = ({
 
   return (
     <div className="accordion">
-      <div className={styles.header} onClick={onClick}>
+      <div className={styles.header} onClick={() => setOpen(!open)}>
         <div className={styles.titleWrapper}>
           <H4>{title}</H4>
           {titleSuffix}
