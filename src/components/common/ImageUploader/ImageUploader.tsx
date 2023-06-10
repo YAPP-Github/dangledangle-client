@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Body3 } from '../typography';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
+import { Body3 } from '../Typography';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

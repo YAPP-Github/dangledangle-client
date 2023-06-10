@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Body2, H4 } from '../typography';
 import * as styles from './Header.css';
 import { ArrowLeft } from '@/asset/icons';
+import { Body2, H4 } from '../Typography';
 
 interface HeaderProps {
   /** 헤더 타이틀 */
