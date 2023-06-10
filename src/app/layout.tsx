@@ -14,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={font.className}>
-      <body className={styles.container}>{children}</body>
+      <body className={styles.container}>
+        <div id="modal-portal" />
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
