@@ -1,4 +1,8 @@
-import TextFieldExample from '@/components/TextField/Example';
+import TextFieldExample from '@/components/common/TextField/Example';
 export default function Home() {
-  return <TextFieldExample />;
+  return (
+    <>
+      <TextFieldExample />
+    </>
+  );
 }
