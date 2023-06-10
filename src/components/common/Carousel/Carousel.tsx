@@ -92,16 +92,26 @@ const Carousel: React.FC<CarouselProps> = props => {
     paginate();
   }, [isMouseDown, paginate]);
 
-  const handleWheel = useCallback<React.WheelEventHandler>(
-    e => {
-      if (!containerRef.current) return;
+  useEffect(() => {
+    const ref = containerRef.current;
+    if (!ref) return;
 
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (!ref) return;
       const walk = (e.deltaY + e.deltaX) * WHEEL_SPEED;
-      containerRef.current.scrollLeft += walk;
+      ref.scrollLeft += walk;
       debounce(paginate, 50)();
-    },
-    [paginate]
-  );
+    };
+
+    ref.addEventListener('wheel', handleWheel, {
+      passive: false
+    });
+
+    return () => {
+      ref?.removeEventListener('wheel', handleWheel);
+    };
+  }, [paginate]);
 
   return (
     <div
@@ -111,7 +121,6 @@ const Carousel: React.FC<CarouselProps> = props => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      onWheel={handleWheel}
     >
       <div ref={itemsWrapperRef} className={styles.itemsWrapper}>
         {props.children}
