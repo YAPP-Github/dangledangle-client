@@ -20,15 +20,15 @@ export function withTypographyBase(element: string, variant: styles.Variant) {
     style,
     ...props
   }: TypographyProps) {
-    const textColor = color ? palette[color] : styles.defaultColor;
     return React.createElement(
       element,
       {
         className: clsx(styles.variants[variant], className),
         style: {
           ...style,
-          color: textColor
-        }
+          ...(color && { color })
+        },
+        ...props
       },
       children
     );
