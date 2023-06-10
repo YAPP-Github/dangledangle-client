@@ -1,16 +1,16 @@
 'use client';
-
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
 import ConfirmDialog from '@/components/common/CofirmDialog/ConfirmDialog';
+import FormProvider from '@/components/common/FormProvider/FormProvider';
 import Header from '@/components/common/Header/Header';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import useBooleanState from '@/hooks/useBooleanState';
 import { CONFIRM_MSG } from '@/utils/setting/settingConstEnum';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-export default function LoginPage() {
+export default function ModalPage() {
   const [isDialog, isOpenDialog, isCloseDialog] = useBooleanState();
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
 
@@ -33,7 +33,7 @@ export default function LoginPage() {
     mode: 'all',
     resolver: yupResolver(testSchema)
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, register } = methods;
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -43,14 +43,12 @@ export default function LoginPage() {
     <>
       <Header title="로그인" thisPage={0} entirePage={5} />
 
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ImageUploader name="test1" help />
-          <ImageUploader name="test2" help />
+      <FormProvider {...{ methods }} onSubmit={handleSubmit(onSubmit)}>
+        <ImageUploader name="test1" help />
+        <ImageUploader name="test2" help />
 
-          <div style={{ height: '100px' }}></div>
-          <button type="submit">저장</button>
-        </form>
+        <div style={{ height: '100px' }}></div>
+        <button type="submit">저장</button>
       </FormProvider>
 
       <button onClick={isOpenSheet}>Open Bottom Sheet</button>
