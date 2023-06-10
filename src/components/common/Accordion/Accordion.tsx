@@ -2,8 +2,7 @@ import { H4 } from '@/components/common/typography';
 import clsx from 'clsx';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import * as styles from './Accordion.css';
-import Image from 'next/image';
-import IconArrowDown from '/public/icons/Arrow-Down.svg';
+import { ArrowDownIcon } from '@/asset/icons';
 
 interface AccordionProps extends PropsWithChildren {
   title: string;
@@ -32,12 +31,7 @@ const Accordion: React.FC<AccordionProps> = ({
           <H4>{title}</H4>
           {titleSuffix}
         </div>
-        {/* TODO: svg 최적화 */}
-        <Image
-          alt="icon"
-          src={IconArrowDown}
-          className={clsx(styles.iconArrow, { reversed: open })}
-        />
+        <ArrowDownIcon className={clsx(styles.iconArrow, { reversed: open })} />
       </div>
       <div
         ref={bodyWrapperRef}

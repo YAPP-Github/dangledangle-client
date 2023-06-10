@@ -1,10 +1,9 @@
-import IconCheck from '/public/icons/Check.svg';
 import * as styles from './CheckBox.css';
-import Image from 'next/image';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Color, palette } from '@/styles/color';
 import { useCallback } from 'react';
 import { Body1 } from '../typography';
+import { CheckIcon } from '@/asset/icons';
 
 interface CheckBoxProps {
   name?: string;
@@ -39,7 +38,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         type="button"
         onClick={handleClick}
       >
-        <Image src={IconCheck} alt="close" />
+        <CheckIcon alt="close" />
       </button>
       {label && <Body1 className={styles.label}>{label}</Body1>}
     </div>
