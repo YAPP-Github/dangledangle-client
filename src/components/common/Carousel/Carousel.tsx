@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import * as styles from './Carousel.css';
 import { debounce } from 'lodash';
-import { globalPaddingX } from '@/styles/global.css';
+import { GLOBAL_PADDING_X } from '@/styles/global.css';
 
 interface CarouselProps extends React.PropsWithChildren {}
 
@@ -28,7 +28,7 @@ const Carousel: React.FC<CarouselProps> = props => {
         setItemWidth(itemWidth);
       }
       if (containerRef.current) {
-        const containerWidth = document.body.clientWidth - globalPaddingX;
+        const containerWidth = document.body.clientWidth - GLOBAL_PADDING_X;
         containerRef.current.style.width = `${containerWidth}px`;
       }
     }
@@ -46,7 +46,7 @@ const Carousel: React.FC<CarouselProps> = props => {
     const childCount = itemsWrapperRef.current.childElementCount - 1;
     const currentScrollLeft = containerRef.current.scrollLeft;
 
-    const offsetX = (containerWidth - itemWidth) / 2 - globalPaddingX; // 가운데 정렬을 위한 오프셋
+    const offsetX = (containerWidth - itemWidth) / 2 - GLOBAL_PADDING_X; // 가운데 정렬을 위한 오프셋
 
     const rightThreshold = itemWidth * (index + SENSITIVITY);
     const leftThreshold = itemWidth * (index - SENSITIVITY);
