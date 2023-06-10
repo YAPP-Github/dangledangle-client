@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import * as style from './EmphasizedTitle.css';
 import clsx from 'clsx';
-import { variants } from '../typography/Typography.css';
+import { variants } from '../Typography/Typography.css';
 
 const EmphasizedTitle = ({
   children

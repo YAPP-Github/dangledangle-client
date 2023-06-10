@@ -3,7 +3,7 @@ import EmphasizedTitle, {
   Line,
   E
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import Button from '@/components/common/button/Button';
+import Button from '@/components/common/Button/Button';
 import { useState } from 'react';
 
 export default function ButtonPage() {

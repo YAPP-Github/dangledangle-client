@@ -13,7 +13,7 @@ import {
   H2,
   H3,
   H4
-} from '@/components/common/typography';
+} from '@/components/common/Typography';
 
 export default function Typography() {
   return (
