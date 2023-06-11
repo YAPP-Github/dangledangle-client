@@ -2477,6 +2477,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:^4.29.11":
+  version: 4.29.11
+  resolution: "@tanstack/query-core@npm:4.29.11"
+  checksum: 2a17223f34e99e17d564a15206668eb79324da72e630a47cf41690f92fb091a8669bdc89e9ab1b0d8f0e3e8f579529cfb0aa6f10b4fc58ea81cc7e5caede9229
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query-devtools@npm:^4.29.7":
   version: 4.29.7
   resolution: "@tanstack/react-query-devtools@npm:4.29.7"
@@ -9043,6 +9050,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.6.3
     "@hookform/resolvers": ^3.1.0
     "@svgr/webpack": ^8.0.1
+    "@tanstack/query-core": ^4.29.11
     "@tanstack/react-query": ^4.29.7
     "@tanstack/react-query-devtools": ^4.29.7
     "@types/lodash": ^4.14.195

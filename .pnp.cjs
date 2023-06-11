@@ -32,6 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.6.3"],\
             ["@hookform/resolvers", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0"],\
             ["@svgr/webpack", "npm:8.0.1"],\
+            ["@tanstack/query-core", "npm:4.29.11"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@types/lodash", "npm:4.14.195"],\
@@ -3896,6 +3897,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@tanstack/query-core", [\
+        ["npm:4.29.11", {\
+          "packageLocation": "./.yarn/cache/@tanstack-query-core-npm-4.29.11-9d24d63eb1-2a17223f34.zip/node_modules/@tanstack/query-core/",\
+          "packageDependencies": [\
+            ["@tanstack/query-core", "npm:4.29.11"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.29.7", {\
           "packageLocation": "./.yarn/cache/@tanstack-query-core-npm-4.29.7-f55047b190-f28441a1fc.zip/node_modules/@tanstack/query-core/",\
           "packageDependencies": [\
@@ -11473,6 +11481,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.6.3"],\
             ["@hookform/resolvers", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:3.1.0"],\
             ["@svgr/webpack", "npm:8.0.1"],\
+            ["@tanstack/query-core", "npm:4.29.11"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.7"],\
             ["@types/lodash", "npm:4.14.195"],\
