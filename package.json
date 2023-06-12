@@ -1,7 +1,7 @@
 {
   "name": "yapp-web-2",
   "version": "0.1.0",
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@3.6.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -43,18 +43,18 @@
     "@tanstack/react-query-devtools": "^4.29.7",
     "@types/lodash": "^4.14.195",
     "@types/node": "20.1.3",
-    "@types/react": "18.2.6",
+    "@types/react": "^18.2.11",
     "@types/react-dom": "18.2.4",
     "commitizen": "^4.3.0",
     "cz-customizable": "^7.0.0",
-    "eslint": "8.40.0",
+    "eslint": "^8.42.0",
     "eslint-config-next": "13.4.2",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
-    "typescript": "5.0.4"
+    "typescript": "^5.1.3"
   },
   "config": {
     "commitizen": {
