@@ -7,25 +7,45 @@ export const ButtonWrapper = recipe({
     width: '100%',
     height: '48px',
     borderRadius: '8px',
-    color: palette.white,
     boxSizing: 'border-box',
     textAlign: 'center',
     display: ' inline-block',
     transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
   },
   variants: {
-    disabled: {
-      true: {
-        backgroundColor: palette.primary100,
-        transitionDuration: '0.4s'
-      },
-      false: {
+    variant: {
+      filled: {
         backgroundColor: palette.primary300,
+        color: palette.white,
         transitionTimingFunction: 'ease-out',
         transitionDuration: '0.2s',
-        ':active': {
+
+        '&:hover, &:active': {
           backgroundColor: palette.primary200 //추후 논의후 색깔 수정예정
+        },
+        '&:disabled': {
+          backgroundColor: palette.primary100
         }
+      },
+      line: {
+        border: `solid 1px ${palette.gray300}`,
+        backgroundColor: palette.gray50,
+        color: palette.gray600,
+
+        '&:hover, &:active': {
+          border: `solid 1px ${palette.primary300}`,
+          color: palette.primary300
+        },
+        '&:disabled': {
+          border: 'inherit',
+          color: 'inherit'
+        }
+      }
+    },
+    disabled: {
+      true: {
+        transitionDuration: '0.4s',
+        cursor: 'not-allowed'
       }
     },
     size: {
@@ -39,3 +59,4 @@ export const ButtonWrapper = recipe({
 
 type ButtonVariants = RecipeVariants<typeof ButtonWrapper>;
 export type ButtonSizeType = NonNullable<ButtonVariants>['size'];
+export type ButtonVariant = NonNullable<ButtonVariants>['variant'];

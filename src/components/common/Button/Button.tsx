@@ -4,11 +4,13 @@ import clsx from 'clsx';
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   size?: style.ButtonSizeType;
+  variant?: style.ButtonVariant;
 }
 
 function Button({
   size = 'middle',
   disabled = false,
+  variant = 'filled',
   children,
   className,
   ...rest
@@ -16,7 +18,11 @@ function Button({
   return (
     <button
       {...rest}
-      className={clsx([style.ButtonWrapper({ disabled, size }), className])}
+      className={clsx([
+        style.ButtonWrapper({ variant, disabled, size }),
+        className
+      ])}
+      disabled={disabled}
     >
       {children}
     </button>
