@@ -3,8 +3,7 @@ import { style } from '@vanilla-extract/css';
 export const container = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
-  cursor: 'pointer'
+  alignItems: 'center'
 });
 
 export const titleWrapper = style({

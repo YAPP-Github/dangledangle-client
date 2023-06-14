@@ -1,7 +1,6 @@
 import { ArrowDownIcon } from '@/asset/icons';
 import { Caption2, H4 } from '@/components/common/Typography';
 import * as styles from './EditMenu.css';
-import Divider from '@/components/common/Divider/Divider';
 
 interface EditMenuProps {
   className?: string;
@@ -9,6 +8,7 @@ interface EditMenuProps {
   title: string;
   titleSuffix?: React.ReactNode;
   caption: string;
+  onClick?: React.MouseEventHandler<HTMLLIElement>;
 }
 
 const EditMenu: React.FC<EditMenuProps> = ({
@@ -16,11 +16,16 @@ const EditMenu: React.FC<EditMenuProps> = ({
   titleSuffix,
   caption,
   className,
-  style
+  style,
+  onClick
 }) => {
   return (
-    <li className={className} style={style}>
-      <div className={styles.container}>
+    <li
+      className={className}
+      style={{ ...style, cursor: onClick ? 'pointer' : 'unset' }}
+      onClick={onClick}
+    >
+      <a className={styles.container}>
         <div>
           <div className={styles.titleWrapper}>
             <H4>{title}</H4>
@@ -30,8 +35,8 @@ const EditMenu: React.FC<EditMenuProps> = ({
             {caption}
           </Caption2>
         </div>
-        <ArrowDownIcon style={{ transform: 'rotate(-90deg)' }} />
-      </div>
+        {onClick && <ArrowDownIcon style={{ transform: 'rotate(-90deg)' }} />}
+      </a>
     </li>
   );
 };
