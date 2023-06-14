@@ -40,6 +40,7 @@ export default function ShelterEditPage() {
           imagePath={imagePath}
           name="image"
           onChangeCallback={handleChangeImage}
+          placeholder="대표 사진"
         />
       </section>
       <section>

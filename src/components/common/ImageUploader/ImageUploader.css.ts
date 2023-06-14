@@ -2,6 +2,9 @@ import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const defaultCircle = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   position: 'relative',
   width: '96px',
   height: '96px',

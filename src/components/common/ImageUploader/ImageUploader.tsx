@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
-import { Body3 } from '../Typography';
+import { Body3, Caption2 } from '../Typography';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -15,6 +15,7 @@ interface ImageUploaderProps
   onChangeCallback?: (fileData?: File) => void;
   /** 에러 메세지 표출 여부 */
   help?: boolean;
+  placeholder?: string;
 }
 
 export default function ImageUploader({
@@ -22,6 +23,7 @@ export default function ImageUploader({
   onChangeCallback,
   imagePath,
   help = false,
+  placeholder,
   ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
@@ -65,7 +67,9 @@ export default function ImageUploader({
       {imageSrc ? (
         renderImage(imageSrc)
       ) : (
-        <div className={styles.defaultCircle} />
+        <div className={styles.defaultCircle}>
+          <Caption2 color="gray500">{placeholder}</Caption2>
+        </div>
       )}
 
       <label className={styles.camera} htmlFor={inputId}>
@@ -77,6 +81,7 @@ export default function ImageUploader({
           onChange={handleChange}
           type="file"
           accept=".jpg, .jpeg, .png"
+          placeholder="vmfghfgmvjf"
           {...props}
         />
       </label>
