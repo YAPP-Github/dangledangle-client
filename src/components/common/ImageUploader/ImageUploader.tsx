@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
 import { Body3, Caption2 } from '../Typography';
@@ -16,6 +16,7 @@ interface ImageUploaderProps
   /** 에러 메세지 표출 여부 */
   help?: boolean;
   placeholder?: string;
+  formContext?: UseFormReturn<FieldValues>;
 }
 
 export default function ImageUploader({
@@ -24,13 +25,10 @@ export default function ImageUploader({
   imagePath,
   help = false,
   placeholder,
+  formContext,
   ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
-  const {
-    register,
-    formState: { errors }
-  } = useFormContext();
 
   const [file, setFile] = useState<File | null>(null);
 
@@ -75,7 +73,7 @@ export default function ImageUploader({
       <label className={styles.camera} htmlFor={inputId}>
         <Camera />
         <input
-          {...register(name)}
+          {...formContext?.register(name)}
           className={styles.fileInput}
           id={inputId}
           onChange={handleChange}
@@ -86,9 +84,9 @@ export default function ImageUploader({
         />
       </label>
 
-      {help && errors[name] && (
+      {help && formContext?.formState.errors[name] && (
         <Body3 color="error" style={{ textAlign: 'center' }}>
-          {errors[name]?.message as never}
+          {formContext.formState.errors[name]?.message as never}
         </Body3>
       )}
     </div>

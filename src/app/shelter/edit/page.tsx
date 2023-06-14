@@ -15,26 +15,13 @@ import Button from '@/components/common/Button/Button';
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
   const router = useRouter();
+
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
   }, []);
 
-  const testSchema = yup.object().shape({
-    test1: yup.mixed().test('required', '파일을 입력해주세요.', value => {
-      if (value instanceof Object) {
-        return Object.keys(value).length > 0;
-      }
-      return false;
-    })
-  });
-
-  const methods = useForm({
-    mode: 'all',
-    resolver: yupResolver(testSchema)
-  });
-
   return (
-    <FormProvider {...{ methods }}>
+    <>
       <section>
         <ImageUploader
           imagePath={imagePath}
@@ -67,6 +54,6 @@ export default function ShelterEditPage() {
           동물 추가하기
         </Button>
       </section>
-    </FormProvider>
+    </>
   );
 }
