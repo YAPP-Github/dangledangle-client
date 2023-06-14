@@ -1,6 +1,7 @@
 import { palette } from '@/styles/color';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { variants } from '../Typography/Typography.css';
+import { style } from '@vanilla-extract/css';
 
 export const ButtonWrapper = recipe({
   base: {
@@ -8,8 +9,9 @@ export const ButtonWrapper = recipe({
     height: '48px',
     borderRadius: '8px',
     boxSizing: 'border-box',
-    textAlign: 'center',
-    display: ' inline-block',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
   },
   variants: {
@@ -32,13 +34,15 @@ export const ButtonWrapper = recipe({
         backgroundColor: palette.gray50,
         color: palette.gray600,
 
-        '&:hover, &:active': {
-          border: `solid 1px ${palette.primary300}`,
-          color: palette.primary300
-        },
-        '&:disabled': {
-          border: 'inherit',
-          color: 'inherit'
+        selectors: {
+          '&:hover, &:active': {
+            border: `solid 1px ${palette.primary300}`,
+            color: palette.primary300
+          },
+          '&:disabled': {
+            border: 'inherit',
+            color: 'inherit'
+          }
         }
       }
     },
@@ -53,6 +57,23 @@ export const ButtonWrapper = recipe({
       small: variants.h4,
       middle: variants.h4,
       large: variants.h4
+    }
+  }
+});
+
+export const prefixIcon = style({
+  width: '20px',
+  height: '20px',
+  marginRight: '8px',
+  borderRadius: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: palette.gray500,
+
+  selectors: {
+    [`button:hover &`]: {
+      backgroundColor: palette.primary300
     }
   }
 });

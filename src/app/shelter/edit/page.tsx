@@ -10,6 +10,7 @@ import FormProvider from '@/components/common/FormProvider/FormProvider';
 import Divider from '@/components/common/Divider/Divider';
 import { H4 } from '@/components/common/Typography';
 import { useRouter } from 'next/navigation';
+import Button from '@/components/common/Button/Button';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
@@ -61,6 +62,9 @@ export default function ShelterEditPage() {
           caption="돌발행동이나 건강상태 등을 미리 유의해야하는 동물 친구가 있다면 봉사자에게 미리 알려주세요."
           titleSuffix={<H4 color="gray400">0</H4>}
         />
+        <Button style={{ marginTop: '12px' }} variant="line" prefixIcon="plus">
+          동물 추가하기
+        </Button>
       </section>
     </FormProvider>
   );
