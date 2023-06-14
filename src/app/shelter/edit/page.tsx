@@ -3,10 +3,6 @@ import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import { useCallback, useState } from 'react';
 import EditMenu from '@/components/shelter-edit/EditMenu/EditMenu';
 import Badge from '@/components/common/Badge/Badge';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import FormProvider from '@/components/common/FormProvider/FormProvider';
 import Divider from '@/components/common/Divider/Divider';
 import { H4 } from '@/components/common/Typography';
 import { useRouter } from 'next/navigation';
@@ -35,7 +31,7 @@ export default function ShelterEditPage() {
           title="필수 정보"
           caption="보호소 이름 / 연락처 / 주소 / 소개문구"
           titleSuffix={<Badge type="primary">입력완료</Badge>}
-          onClick={() => router.push('#')}
+          onClick={() => router.push(location.pathname + '/required')}
         />
         <Divider spacing={18} />
         <EditMenu
