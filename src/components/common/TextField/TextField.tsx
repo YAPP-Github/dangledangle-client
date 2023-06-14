@@ -35,7 +35,7 @@ interface TextFieldProps {
   // eslint-disable-next-line no-unused-vars
   errorCallback?: ({ name }: { name: string }) => void;
   // eslint-disable-next-line no-unused-vars
-  onChange?: (e: React.SyntheticEvent) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // eslint-disable-next-line no-unused-vars
   onBlur?: (e: React.SyntheticEvent) => void;
 }
@@ -104,7 +104,8 @@ const TextField = React.forwardRef(function TextField(
     inputElem.placeholder = placeholder || '';
     inputElem.value = '';
     lengthCountElem.innerText = getStringOfValueLengthPerMax('', max);
-    onChange(e);
+    (e as any).target = inputRef.current;
+    onChange(e as any);
     updateTextFieldState('default');
   };
 
