@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldErrors, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import * as styles from './styles.css';
+import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 
 type FormValues = {
   instagram: string;
@@ -102,7 +103,9 @@ export default function ShelterEditExtraPage() {
           {...register('notice')}
         />
       </div>
-      <Button itemType="submit">Submit</Button>
+      <FixedFooter>
+        <Button itemType="submit">저장하기</Button>
+      </FixedFooter>
     </form>
   );
 }
