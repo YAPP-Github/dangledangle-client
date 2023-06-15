@@ -2,7 +2,7 @@
 import Button from '@/components/common/Button/Button';
 import TextArea from '@/components/common/TextArea/TextArea';
 import TextField from '@/components/common/TextField/TextField';
-import { formatPhoneNumber } from '@/utils/formatInputs';
+import { formatPhone } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,7 +10,7 @@ import * as yup from 'yup';
 
 type FormValues = {
   name: string;
-  phoneNumber: string;
+  phone: string;
   address: string;
   description: string;
 };
@@ -19,7 +19,7 @@ const schema: yup.ObjectSchema<Partial<FormValues>> = yup
   .object()
   .shape({
     name: yup.string().required(),
-    phoneNumber: yup
+    phone: yup
       .string()
       .required('연락처를 입력해주세요.')
       .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
@@ -40,7 +40,7 @@ export default function ShelterEditRequiredPage() {
   const handlePhoneChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
-      event.target.value = formatPhoneNumber(value);
+      event.target.value = formatPhone(value);
     },
     []
   );
@@ -50,7 +50,7 @@ export default function ShelterEditRequiredPage() {
       <TextField label="보호소 이름" {...register('name')} />
       <TextField
         label="보호소 연락처"
-        {...register('phoneNumber')}
+        {...register('phone')}
         onChange={handlePhoneChange}
       />
       <TextArea
