@@ -1,14 +1,18 @@
 import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
+
 export const container = style({
   display: 'flex',
   columnGap: '22px'
 });
 
-export const label = style({
+export const radioWrapper = style({
   display: 'flex',
-  alignItems: 'center',
-  columnGap: '6px'
+  alignItems: 'center'
+});
+
+export const label = style({
+  marginLeft: '6px'
 });
 
 export const radio = style({
