@@ -5,3 +5,4 @@ export { default as CloseSquare } from './CloseSquare.svg';
 export { default as ArrowDownIcon } from './ArrowDown.svg';
 export { default as CheckIcon } from './Check.svg';
 export { default as PlusIcon } from './Plus.svg';
+export { default as SearchIcon } from './Search.svg';

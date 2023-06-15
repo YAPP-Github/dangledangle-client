@@ -23,7 +23,7 @@ export const inputTypeRecipe = recipe({
       variants: {},
       style: {
         vars: {
-          [statusColor]: palette.gray300
+          [statusColor]: palette.gray200
         }
       }
     },
