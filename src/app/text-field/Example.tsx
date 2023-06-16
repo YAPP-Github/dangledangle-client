@@ -3,11 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import TextField from '../../components/common/TextField/TextField';
 import { FieldValues, useForm } from 'react-hook-form';
-import TextArea from '../../components/common/TextArea/TextArea';
-import useTextFieldFormAdaptor from '../../components/common/TextField/hooks/useTextFieldFormAdaptor';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextAreaWithForm from '@/components/common/TextArea/TextAreatWithForm';
 import TextFieldWithForm from '@/components/common/TextField/TextFieldWIthForm';
+import useCustomHAndleSubmit from '@/components/common/TextField/hooks/useCustomHandleSubmit';
 
 export default function TextFieldExample() {
   const [asyncStatus, setStatus] = useState<{
@@ -19,7 +18,7 @@ export default function TextFieldExample() {
   const ref2 = useRef<HTMLInputElement>(null);
 
   const methods = useForm();
-  const { handleSubmit } = useTextFieldFormAdaptor(methods); //useForm에서 나오는 리턴값 전부 전달.
+  const handleSubmit = useCustomHAndleSubmit(methods); //useForm에서 나오는 리턴값 전부 전달.
 
   const onSubmit = (data: FieldValues) => {
     console.log('성공');
@@ -35,7 +34,7 @@ export default function TextFieldExample() {
    * 비동기로 TextField 상태 변경 확인을 위해 작성한 hooks
    */
   useEffect(() => {
-    setStatus({ status: 'error', message: '에러에러' });
+    // setStatus({ status: 'error', message: '에러에러' });
     setTimeout(() => {
       setStatus({ status: 'active', message: '메시지 작성중' });
     }, 1000);
@@ -60,9 +59,7 @@ export default function TextFieldExample() {
           name="input1"
           label="input1 / max적용 / area Height 설정 / 기본 메세지 적용"
           max={12}
-          fixHeight="200px"
-          defaultValue="123123123"
-          placeholder="QHGHGHGHGHGH"
+          registerOptions={{ required: 'required 옵션 설정' }}
         />
         <TextFieldWithForm
           name="input2"
