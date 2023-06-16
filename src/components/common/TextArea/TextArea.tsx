@@ -10,6 +10,7 @@ import React, {
   FocusEventHandler,
   ForwardedRef,
   useEffect,
+  useMemo,
   useRef
 } from 'react';
 import { variants } from '../Typography/Typography.css';
@@ -27,10 +28,19 @@ interface TextAreaProps {
   label?: string;
   placeholder?: string;
   message?: string;
+  messageFix?: boolean;
   defaultValue?: string;
   status?: TextFieldStatus;
   // eslint-disable-next-line no-unused-vars
-  errorCallback?: ({ name }: { name: string }) => void;
+  handleError?: ({
+    error,
+    name,
+    message
+  }: {
+    error: boolean;
+    name: string;
+    message?: string;
+  }) => void;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.SyntheticEvent) => void;
   // eslint-disable-next-line no-unused-vars
@@ -45,9 +55,10 @@ const TextArea = React.forwardRef(function TextArea(
     fixHeight,
     placeholder,
     message: receivedMessage = '',
+    messageFix: receivedMessageFixFlag = false,
     status: receivedStatus = 'default',
     defaultValue: receivedDefaultValue = '',
-    errorCallback = () => {},
+    handleError = () => {},
     onChange = () => {},
     onBlur = () => {}
   }: TextAreaProps,
@@ -55,17 +66,19 @@ const TextArea = React.forwardRef(function TextArea(
 ) {
   if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
 
-  /**  */
   const max = Number(recievedMax);
 
   /** state */
   const { status, message, updateTextFieldState, updateStatusFromInputValue } =
     useTextFieldStatus({ status: receivedStatus, message: receivedMessage });
 
-  const { validate } = useValidation({ max });
+  /** hooks */
+  const validate = useValidation({ max });
+
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useForwardRef<HTMLTextAreaElement>(ref);
+  const initMessage = useMemo(() => receivedMessage, []); //처음 컴포넌트 선언될때의 메세지 유지
 
   useEffect(() => {
     const textAreaElem = getInitializedRef(textAreaRef);
@@ -79,7 +92,9 @@ const TextArea = React.forwardRef(function TextArea(
 
   useEffect(() => {
     if (status === 'error') {
-      errorCallback({ name });
+      handleError({ error: true, name, message });
+    } else {
+      handleError({ error: false, name });
     }
   }, [status]);
 
@@ -114,9 +129,12 @@ const TextArea = React.forwardRef(function TextArea(
     const valdationResult = await validate(textAreaElem.value);
 
     if (valdationResult.result === true) return updateTextFieldState('active');
-    if (valdationResult.type === 'max') {
-      return updateTextFieldState('error', '글자수를 초과했습니다.');
-    }
+
+    const message = receivedMessageFixFlag
+      ? initMessage
+      : valdationResult.message;
+
+    return updateTextFieldState('error', message);
   };
 
   return (
@@ -132,8 +150,8 @@ const TextArea = React.forwardRef(function TextArea(
         onChange={handleTextChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
-        ref={textAreaRef}
         defaultValue={receivedDefaultValue}
+        ref={textAreaRef}
       />
       <div className={style.messageCountContainer}>
         <Message status={status} message={message} />
