@@ -1,7 +1,7 @@
 import { Color, palette } from '@/styles/color';
 import * as styles from './Typography.css';
 import clsx from 'clsx';
-import React from 'react';
+import React, { ElementType } from 'react';
 
 export interface TypographyProps
   extends React.PropsWithChildren,
@@ -10,6 +10,7 @@ export interface TypographyProps
       HTMLParagraphElement
     > {
   color?: Color;
+  element?: ElementType;
 }
 
 export function withTypographyBase(element: string, variant: styles.Variant) {
@@ -18,20 +19,22 @@ export function withTypographyBase(element: string, variant: styles.Variant) {
     children,
     color,
     style,
+    element: elementProps,
     ...props
   }: TypographyProps) {
-    return React.createElement(
-      element,
+    const TypographyEl = React.createElement(
+      elementProps || element,
       {
         className: clsx(styles.variants[variant], className),
         style: {
           ...style,
-          ...(color && { color })
+          ...(color && { color: palette[color] })
         },
         ...props
       },
       children
     );
+    return TypographyEl;
   }
   return Typography;
 }
