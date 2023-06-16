@@ -19,10 +19,12 @@ const ValidationList: ValidationListType = {
     ),
   phoneNum: (b: boolean) =>
     b &&
-    Yup.string().matches(
-      /^(01[0-9]{1}[0-9]{3,4}[0-9]{4})|((02|0[3-9]{2})[0-9]{3,4}[0-9]{4})$/,
-      '전화번호 형식이 아닙니다'
-    )
+    Yup.string()
+      .matches(
+        /^(01[0-9]{1}[0-9]{3,4}[0-9]{4})|((02|0[3-9]{2})[0-9]{3,4}[0-9]{4})$/,
+        '전화번호 형식이 아닙니다'
+      )
+      .max(11, '전화번호는 11자리 이하로 입력해주세요')
 };
 export default function useValidation(
   options?: ValidationArgs
