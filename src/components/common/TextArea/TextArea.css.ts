@@ -12,7 +12,7 @@ export const wrapper = recipe({
     flexDirection: 'column',
     position: 'relative',
     height: textAreaHeight,
-    maxHeight: '400px',
+    minHeight: '120px',
     width: '100%',
     overflowY: 'scroll'
   },

@@ -67,7 +67,6 @@ export const label = style({
 
 export const inputContainer = style({
   position: 'relative',
-  maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
   paddingBottom: '6px',
