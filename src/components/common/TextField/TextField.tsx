@@ -5,7 +5,8 @@ import React, {
   MouseEventHandler,
   useRef,
   FocusEventHandler,
-  useEffect
+  useEffect,
+  useMemo
 } from 'react';
 import * as style from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
@@ -30,10 +31,19 @@ interface TextFieldProps {
   placeholder?: string;
   validation?: ValidationArgs;
   message?: string;
+  messageFix?: boolean;
   defaultValue?: string;
   status?: TextFieldStatus;
   // eslint-disable-next-line no-unused-vars
-  errorCallback?: ({ name }: { name: string }) => void;
+  handleError?: ({
+    error,
+    name,
+    message
+  }: {
+    error: boolean;
+    name: string;
+    message?: string;
+  }) => void;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.SyntheticEvent) => void;
   // eslint-disable-next-line no-unused-vars
@@ -52,9 +62,10 @@ const TextField = React.forwardRef(function TextField(
     placeholder,
     validation,
     message: receivedMessage = '',
+    messageFix: receivedMessageFixFlag = false,
     status: receivedStatus = 'default',
     defaultValue: receivedDefaultValue = '',
-    errorCallback = () => {},
+    handleError = () => {},
     onChange = () => {},
     onBlur = () => {}
   }: TextFieldProps,
@@ -65,14 +76,19 @@ const TextField = React.forwardRef(function TextField(
 
   /** state */
   const { status, message, updateTextFieldState, updateStatusFromInputValue } =
-    useTextFieldStatus({ status: receivedStatus, message: receivedMessage });
+    useTextFieldStatus({
+      status: receivedStatus,
+      message: receivedMessage
+    });
 
   /** hook */
-  const { validate } = useValidation(validation);
+  const validate = useValidation(validation);
 
   useEffect(() => {
     if (status === 'error') {
-      errorCallback({ name });
+      handleError({ error: true, name, message });
+    } else {
+      handleError({ error: false, name });
     }
   }, [status]);
 
@@ -89,9 +105,16 @@ const TextField = React.forwardRef(function TextField(
   /** ref */
   const lengthCountRef = useRef<HTMLDivElement>(null);
   const inputRef = useForwardRef<HTMLInputElement>(ref);
+  const initMessage = useMemo(() => receivedMessage, []); //처음 컴포넌트 선언될때의 메세지 유지
 
   /** rename variable */
-  const max = validation?.max;
+
+  const max: number | undefined =
+    validation && validation.max
+      ? typeof validation.max === 'number'
+        ? validation.max
+        : validation.max.value
+      : undefined;
 
   /** event handler */
   const handleRemoveClick: MouseEventHandler<HTMLButtonElement> = e => {
@@ -104,6 +127,9 @@ const TextField = React.forwardRef(function TextField(
     inputElem.placeholder = placeholder || '';
     inputElem.value = '';
     lengthCountElem.innerText = getStringOfValueLengthPerMax('', max);
+
+    e.target = inputElem; // 이벤트 타겟을 input Elem으로 변경
+
     onChange(e);
     updateTextFieldState('default');
   };
@@ -112,7 +138,6 @@ const TextField = React.forwardRef(function TextField(
     const inputElem = getInitializedRef(inputRef);
 
     if (inputElem.value.length <= 0) inputElem.placeholder = placeholder || '';
-
     onBlur(e);
     updateStatusFromInputValue(inputElem.value);
   };
@@ -133,15 +158,15 @@ const TextField = React.forwardRef(function TextField(
       inputElem.value,
       max
     );
-
     onChange(e);
     const valdationResult = await validate(inputElem.value);
-
     if (valdationResult.result === true) return updateTextFieldState('active');
-    if (valdationResult.type === 'max')
-      return updateTextFieldState('error', '글자수를 초과했습니다.');
-    if (valdationResult.type === 'email')
-      return updateTextFieldState('error', '이메일 형식이 아닙니다.');
+
+    const message = receivedMessageFixFlag
+      ? initMessage
+      : valdationResult.message;
+
+    return updateTextFieldState('error', message);
   };
 
   return (
