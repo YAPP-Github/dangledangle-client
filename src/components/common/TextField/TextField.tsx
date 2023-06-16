@@ -6,7 +6,8 @@ import React, {
   useRef,
   FocusEventHandler,
   useEffect,
-  useMemo
+  useMemo,
+  ChangeEvent
 } from 'react';
 import * as style from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
@@ -23,7 +24,7 @@ import useForwardRef from '@/utils/useForwardRef';
 /**
  * props 타입, status 타입 정의
  */
-interface TextFieldProps {
+export interface TextFieldProps {
   name: string;
   type?: 'text' | 'password';
   size?: 'big' | 'small';
@@ -45,7 +46,7 @@ interface TextFieldProps {
     message?: string;
   }) => void;
   // eslint-disable-next-line no-unused-vars
-  onChange?: (e: React.SyntheticEvent) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // eslint-disable-next-line no-unused-vars
   onBlur?: (e: React.SyntheticEvent) => void;
 }
@@ -130,7 +131,7 @@ const TextField = React.forwardRef(function TextField(
 
     e.target = inputElem; // 이벤트 타겟을 input Elem으로 변경
 
-    onChange(e);
+    onChange(e as unknown as ChangeEvent<HTMLInputElement>); // onChange 이벤트 발생
     updateTextFieldState('default');
   };
 
@@ -159,6 +160,7 @@ const TextField = React.forwardRef(function TextField(
       max
     );
     onChange(e);
+
     const valdationResult = await validate(inputElem.value);
     if (valdationResult.result === true) return updateTextFieldState('active');
 

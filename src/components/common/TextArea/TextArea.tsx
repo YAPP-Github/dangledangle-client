@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import useValidation from '@/components/common/TextField/hooks/useValidation';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
-interface TextAreaProps {
+export interface TextAreaProps {
   name: string;
   max: number | string;
   fixHeight?: string;
@@ -42,7 +42,7 @@ interface TextAreaProps {
     message?: string;
   }) => void;
   // eslint-disable-next-line no-unused-vars
-  onChange?: (e: React.SyntheticEvent) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   // eslint-disable-next-line no-unused-vars
   onBlur?: (e: React.SyntheticEvent) => void;
 }
@@ -105,6 +105,7 @@ const TextArea = React.forwardRef(function TextArea(
       textAreaElem.placeholder = placeholder || '';
 
     onBlur(e);
+
     updateStatusFromInputValue(textAreaElem.value);
   };
 
@@ -127,7 +128,6 @@ const TextArea = React.forwardRef(function TextArea(
 
     onChange(e);
     const valdationResult = await validate(textAreaElem.value);
-
     if (valdationResult.result === true) return updateTextFieldState('active');
 
     const message = receivedMessageFixFlag
