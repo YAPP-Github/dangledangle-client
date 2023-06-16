@@ -21,12 +21,9 @@ function TextFieldWithForm({ ...props }: TextFieldProps & AddRegisterOptions) {
 
   useEffect(() => {
     if (thisFieldError) {
-      setStatus(prev => {
-        console.log('prev', prev);
-        return {
-          status: 'error',
-          message: String(thisFieldError.message) || ''
-        };
+      setStatus({
+        status: 'error',
+        message: String(thisFieldError.message) || ''
       });
     } else {
       setStatus({
