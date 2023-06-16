@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
+import { GrayCamera } from '@/asset/icons';
 import { Body3, Caption2 } from '../Typography';
+import clsx from 'clsx';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -17,6 +19,7 @@ interface ImageUploaderProps
   help?: boolean;
   placeholder?: string;
   formContext?: UseFormReturn<FieldValues>;
+  variant?: styles.ImageVariant;
 }
 
 export default function ImageUploader({
@@ -26,6 +29,7 @@ export default function ImageUploader({
   help = false,
   placeholder,
   formContext,
+  variant = 'circle',
   ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
@@ -45,13 +49,17 @@ export default function ImageUploader({
   };
 
   const renderImage = (url: string) => (
-    <Image
-      src={url}
-      className={styles.imageCircle}
-      alt={`${inputId}-preview`}
-      width={100}
-      height={100}
-    />
+    <>
+      <label htmlFor={inputId}>
+        <Image
+          src={url}
+          className={clsx([styles.imageCircle({ variant })])}
+          alt={`${inputId}-preview`}
+          width={100}
+          height={100}
+        />
+      </label>
+    </>
   );
 
   const imageSrc = file
@@ -61,17 +69,24 @@ export default function ImageUploader({
     : '';
 
   return (
-    <div>
+    <div className={styles.container}>
       {imageSrc ? (
         renderImage(imageSrc)
       ) : (
-        <div className={styles.defaultCircle}>
+        <div className={clsx([styles.defaultCircle({ variant })])}>
           <Caption2 color="gray500">{placeholder}</Caption2>
         </div>
       )}
 
-      <label className={styles.camera} htmlFor={inputId}>
-        <Camera />
+      <label
+        className={clsx([
+          styles.camera({
+            variant: variant === 'circle' ? 'circle' : !file ? 'square' : 'none'
+          })
+        ])}
+        htmlFor={inputId}
+      >
+        {variant === 'circle' ? <Camera /> : <GrayCamera />}
         <input
           {...formContext?.register(name)}
           className={styles.fileInput}
