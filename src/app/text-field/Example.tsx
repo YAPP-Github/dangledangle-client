@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import TextField from './TextField';
+import TextField from '../../components/common/TextField/TextField';
 import { FieldValues, useForm } from 'react-hook-form';
-import TextArea from '../TextArea/TextArea';
-import useTextFieldFormAdaptor from './hooks/useTextFieldFormAdaptor';
+import TextArea from '../../components/common/TextArea/TextArea';
+import useTextFieldFormAdaptor from '../../components/common/TextField/hooks/useTextFieldFormAdaptor';
+import FormProvider from '@/components/common/FormProvider/FormProvider';
+import TextAreaWithForm from '@/components/common/TextArea/TextAreatWithForm';
+import TextFieldWithForm from '@/components/common/TextField/TextFieldWIthForm';
 
 export default function TextFieldExample() {
   const [asyncStatus, setStatus] = useState<{
@@ -16,7 +19,7 @@ export default function TextFieldExample() {
   const ref2 = useRef<HTMLInputElement>(null);
 
   const methods = useForm();
-  const { handleSubmit, handleError } = useTextFieldFormAdaptor(methods); //useForm에서 나오는 리턴값 전부 전달.
+  const { handleSubmit } = useTextFieldFormAdaptor(methods); //useForm에서 나오는 리턴값 전부 전달.
 
   const onSubmit = (data: FieldValues) => {
     console.log('성공');
@@ -25,6 +28,7 @@ export default function TextFieldExample() {
   const onError = (...args: any[]) => {
     console.log('Errrrorrrr');
     console.log(methods.control._formState.errors);
+    console.log(methods.getValues());
   };
 
   /**
@@ -38,22 +42,30 @@ export default function TextFieldExample() {
     setTimeout(() => {
       setStatus({ status: 'success', message: '성공' });
     }, 2000);
+    setTimeout(() => {
+      setStatus({ status: 'error', message: '에러' });
+    }, 3000);
   }, []);
 
   return (
     <div style={{ height: '100vh' }}>
-      {/* useTextFieldFormAdaptor에서 작성된 handleSubmit 사용 */}
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <TextArea
+      {/* 
+      FormProvider와 사용
+      useTextFieldFormAdaptor에서 작성된 handleSubmit 사용 */}
+      <FormProvider
+        methods={methods}
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <TextAreaWithForm
+          name="input1"
           label="input1 / max적용 / area Height 설정 / 기본 메세지 적용"
           max={12}
           fixHeight="200px"
           defaultValue="123123123"
           placeholder="QHGHGHGHGHGH"
-          {...methods.register('input1')} //useForm의 register
-          handleError={handleError} // useTextFieldFormAdaptor에서 가져옴
         />
-        <TextField
+        <TextFieldWithForm
+          name="input2"
           label="input2 / 전화번호 "
           placeholder="123123"
           message="- 없이 핸드폰 번호를 입력해주세요"
@@ -61,21 +73,19 @@ export default function TextFieldExample() {
           validation={{
             phoneNum: true
           }} //validation
-          handleError={handleError}
-          {...methods.register('input2')}
         />
 
-        <TextField
+        <TextFieldWithForm
+          name="input3"
           label="input3 / 이모지 / 기본 메시지적용"
           placeholder="123123"
           validation={{
             emoji: true
           }}
           message="이모지이모지이모지1"
-          handleError={handleError}
-          {...methods.register('input3')} //react-form-hook과 함께 사용
         />
-        <TextField
+        <TextFieldWithForm
+          name="input4"
           label="input4 / 이모지 / 커스텀 메시지 적용"
           placeholder="123123"
           validation={{
@@ -85,44 +95,51 @@ export default function TextFieldExample() {
             }
           }}
           message="이모지이모지이모지"
-          handleError={handleError}
-          {...methods.register('input4')} //react-form-hook과 함께 사용
+          registerOptions={{ required: 'required 필요합니다' }} // registerOption 추가
         />
 
-        <TextField
-          label="react-form-hook과 함께 사용하는 폼 2, 이메일 "
+        <TextFieldWithForm
+          name="input5"
+          label="input5/ 이메일 "
           placeholder="123123"
           validation={{ email: true }}
           message="이메일을 입력해주세요"
-          handleError={handleError}
-          {...methods.register('input5')} //react-form-hook과 함께 사용
         />
-
-        <TextField
-          name="인풋3"
-          label="인풋5 / 크기가 big인 폼 , max"
-          size="big"
+        <TextFieldWithForm
+          name="input6"
+          label="input6 / 외부 상태 전달"
           placeholder="123123"
-          defaultValue="12312"
+          validation={{ max: 5 }}
           status={asyncStatus.status}
           message={asyncStatus.message}
-          validation={{ max: 5, emoji: true }} //validation
-          ref={ref}
-        />
-        <TextField
-          name="인풋3"
-          label="인풋5 / 크기가 big인 폼 , max"
-          size="big"
-          placeholder="123123"
-          defaultValue="12312"
-          status={asyncStatus.status}
-          message={asyncStatus.message}
-          messageFix // 비동기로 메세지 전달시, 제일 처음에 전달된 메세지를 유지함
-          validation={{ max: 5, emoji: true }} //validation
-          ref={ref2}
         />
         <input type="submit"></input>
-      </form>
+      </FormProvider>
+
+      {/* ref에 달아서 사용할 때 */}
+      <TextField
+        name="인풋3"
+        label="인풋5 / 크기가 big인 폼 , max"
+        size="big"
+        placeholder="123123"
+        defaultValue="12312"
+        status={asyncStatus.status}
+        message={asyncStatus.message}
+        validation={{ max: 5, emoji: true }} //validation
+        ref={ref}
+      />
+      <TextField
+        name="인풋3"
+        label="인풋5 / 크기가 big인 폼 , max"
+        size="big"
+        placeholder="123123"
+        defaultValue="12312"
+        status={asyncStatus.status}
+        message={asyncStatus.message}
+        messageFix // 비동기로 메세지 전달시, 제일 처음에 전달된 메세지를 유지함
+        validation={{ max: 5, emoji: true }} //validation
+        ref={ref2}
+      />
     </div>
   );
 }
