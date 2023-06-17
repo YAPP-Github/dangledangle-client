@@ -6,6 +6,8 @@ import { Camera } from '@/asset/icons';
 import { GrayCamera } from '@/asset/icons';
 import { Body3, Caption2 } from '../Typography';
 import clsx from 'clsx';
+import uploadImage, { ResizingOptions } from '@/utils/uploadImage';
+import useBooleanState from '@/hooks/useBooleanState';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -20,21 +22,26 @@ interface ImageUploaderProps
   placeholder?: string;
   formContext?: UseFormReturn<FieldValues>;
   variant?: styles.ImageVariant;
+  resizingOptions?: ResizingOptions;
+  onUploaded?: (url?: string) => void;
 }
 
 export default function ImageUploader({
   name,
   onChangeCallback,
+  onUploaded,
   imagePath,
   help = false,
   placeholder,
   formContext,
   variant = 'circle',
+  resizingOptions,
   ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
 
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoadingOn, setLoadingOff] = useBooleanState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.currentTarget?.files || event.currentTarget.files.length < 1) {
@@ -44,8 +51,13 @@ export default function ImageUploader({
     const selectedFile = event.currentTarget.files[0];
     setFile(selectedFile);
 
-    /** FIXME: url 업로드 함수로 변경 필요 */
     onChangeCallback?.(selectedFile);
+    if (onUploaded) upload(selectedFile);
+  };
+
+  const upload = (file: File) => {
+    setLoadingOn();
+    uploadImage(file, resizingOptions).then(onUploaded).finally(setLoadingOff);
   };
 
   const renderImage = (url: string) => (

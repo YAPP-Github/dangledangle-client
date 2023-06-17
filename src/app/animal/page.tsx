@@ -17,7 +17,7 @@ import { aniValidation } from './utils/aniValidation';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 
 export interface Animal {
-  image: string;
+  image?: string;
   name: string;
   specipic: string;
   age: number;
