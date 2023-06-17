@@ -1,5 +1,6 @@
 'use client';
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
+import Button from '@/components/common/Button/Button';
 import ConfirmDialog from '@/components/common/CofirmDialog/ConfirmDialog';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import Header from '@/components/common/Header/Header';
@@ -60,22 +61,19 @@ export default function ModalPage() {
         <ConfirmDialog
           open={isDialog}
           onClose={isCloseDialog}
-          actionButton
-          actionTitle="저장"
           message={CONFIRM_MSG.common.updateSave}
-          onActionClick={() => console.log('hello')}
+          actionButton={
+            <>
+              <Button onClick={isCloseDialog}>저장</Button>
+              <Button onClick={isCloseDialog}>닫기</Button>
+            </>
+          }
         >
           {/* 크기 늘어난 모달 확인용 */}
-          {/* <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <ImageUploader name="test3" help />
-              <ImageUploader name="test4" help />
-              <ImageUploader name="test5" help />
-              <ImageUploader name="test6" help />
-
-              <div style={{ height: '100px' }}></div>
-              <button type="submit">저장</button>
-            </form>
+          {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <ImageUploader name="test3" help />
+            <ImageUploader name="test4" help />
+            <div style={{ height: '100px' }}></div>
           </FormProvider> */}
         </ConfirmDialog>
       </div>
