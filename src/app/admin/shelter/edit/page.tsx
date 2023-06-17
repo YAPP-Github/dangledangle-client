@@ -38,7 +38,7 @@ export default function ShelterEditPage() {
           title="추가 정보"
           caption="SNS계정 / 후원 계좌 정보 / 주차 정보 / 사전 안내사항"
           titleSuffix={<Badge type="gray">미입력</Badge>}
-          onClick={() => router.push('#')}
+          onClick={() => router.push(location.pathname + '/extra')}
         />
         <Divider spacing={18} />
         <EditMenu
