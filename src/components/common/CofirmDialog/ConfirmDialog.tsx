@@ -1,11 +1,12 @@
-import { CloseSquare } from '@/asset/icons';
+import { Close } from '@/asset/icons';
 import clsx from 'clsx';
-import React, { useCallback, useState } from 'react';
-import Button from '../Button/Button';
+import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
+import { H3 } from '../Typography';
 import * as styles from './ConfirmDialog.css';
 import Portal from './Portal/Portal';
 import useResize from './hooks/useResize';
-import { H2 } from '../Typography';
+import * as m from './utils/motion';
 
 interface ConfirmDialogProps {
   /** dialog status */
@@ -17,97 +18,64 @@ interface ConfirmDialogProps {
   /** dialog 요소 */
   children?: React.ReactNode;
   /** dialog 추가버튼  */
-  actionButton?: boolean;
-  /** dialog 추가버튼 타이틀  */
-  actionTitle?: string;
-  /** dialog 추가버튼 callback  */
-  onActionClick?: () => void;
+  actionButton?: React.ReactNode;
 }
 
 export default function ConfirmDialog({
   open = false,
   message,
   onClose,
-  actionButton = false,
-  actionTitle = '저장',
-  onActionClick,
+  actionButton,
   children
 }: ConfirmDialogProps) {
   const { modalSize, modalRef } = useResize(open);
 
-  const [closing, setClosing] = useState(false);
-
-  const backgroundAnimation = closing
-    ? { animation: `${styles.modalBgHide} 0.4s` }
-    : { animation: `${styles.modalBgShow} 0.4s` };
-
-  const modalBlockAnimation = closing
-    ? { animation: `${styles.modalHide} 0.4s` }
-    : { animation: `${styles.modalShow} 0.4s` };
-
-  const handleClosingAnimation = useCallback(() => {
-    setClosing(true);
-
-    setTimeout(() => {
-      onClose();
-      setClosing(false);
-    }, 400);
-  }, [onClose]);
-
-  const handleConfrim = useCallback(() => {
-    if (onActionClick) {
-      onActionClick();
-    }
-    handleClosingAnimation();
-  }, [onActionClick, handleClosingAnimation]);
-
   return (
     <Portal>
-      {open && (
-        <section className={styles.container}>
-          <div
-            className={styles.dialogOverlay}
-            style={backgroundAnimation}
-            onClick={handleClosingAnimation}
-          />
-          <>
-            <article
-              className={clsx(styles.modalConatainer({ size: modalSize }))}
-              ref={modalRef}
-              style={modalBlockAnimation}
-            >
-              <header className={styles.header}>
-                <CloseSquare onClick={handleClosingAnimation} />
-              </header>
+      <section className={styles.container}>
+        <AnimatePresence>
+          {open && (
+            <>
+              <motion.div
+                className={styles.dialogOverlay}
+                onClick={onClose}
+                variants={m.overlayVariants}
+                initial="initial"
+                animate="visible"
+                exit="leaving"
+              />
+              <motion.article
+                className={clsx(styles.modalConatainer({ size: modalSize }))}
+                ref={modalRef}
+                variants={m.boxVariants}
+                initial="initial"
+                animate="visible"
+                exit="leaving"
+              >
+                <header className={styles.header}>
+                  <Close onClick={onClose} />
+                </header>
 
-              <main className={styles.contents}>
-                <div>
-                  {message?.split('<br/>').map((value, index) => {
-                    return (
-                      <H2 key={index} style={{ textAlign: 'center' }}>
-                        {value}
-                        <br />
-                      </H2>
-                    );
-                  })}
-                </div>
-                <div className={styles.childrenWarp}>{children}</div>
-              </main>
+                <main className={styles.contents}>
+                  <div>
+                    {message?.split('<br/>').map((value, index) => {
+                      return (
+                        <H3 key={index} style={{ textAlign: 'center' }}>
+                          {value}
+                          <br />
+                        </H3>
+                      );
+                    })}
+                  </div>
+                  <div className={styles.childrenWarp}>{children}</div>
+                </main>
 
-              <footer className={styles.buttonWrapper}>
-                {actionButton ? (
-                  <>
-                    <Button onClick={handleConfrim}>{actionTitle}</Button>
-                    <Button onClick={handleClosingAnimation}>닫기</Button>
-                  </>
-                ) : (
-                  <Button onClick={handleClosingAnimation}>닫기</Button>
-                )}
-              </footer>
-            </article>
-          </>
-        </section>
-      )}
+                <footer className={styles.buttonWrapper}>{actionButton}</footer>
+              </motion.article>
+            </>
+          )}
+        </AnimatePresence>
+      </section>
     </Portal>
   );
 }
