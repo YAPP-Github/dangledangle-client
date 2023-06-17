@@ -2,7 +2,7 @@ import { Stage } from '@/types';
 import ky from 'ky';
 import { makeUrlSearchParams } from './url';
 
-interface ResizingOptions {
+export interface ResizingOptions {
   width: number;
   height: number;
 }
