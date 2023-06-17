@@ -11,7 +11,7 @@ import useForwardRef from '@/utils/useForwardRef';
  */
 interface TextFieldProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
-  error?: { message: string };
+  error?: { message?: string };
   size?: styles.InputSize;
   helper?: string;
   label?: string;
@@ -25,7 +25,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   function TextField(
     {
       name,
-      size = 'big',
+      size = 'small',
       helper,
       error,
       label,
@@ -46,6 +46,12 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       inputRef.current.value = '';
       setClearable(false);
       setLength(0);
+
+      onChange &&
+        onChange({
+          target: inputRef.current
+        } as React.ChangeEvent<HTMLInputElement>);
+      inputRef.current.focus();
     }, []);
 
     const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(

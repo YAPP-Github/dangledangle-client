@@ -27,7 +27,7 @@ export const input = recipe({
 
   variants: {
     size: {
-      big: variants.h3,
+      large: variants.h3,
       small: variants.body2
     }
   }
