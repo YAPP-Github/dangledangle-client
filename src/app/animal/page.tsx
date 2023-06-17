@@ -17,7 +17,7 @@ import { aniValidation } from './utils/aniValidation';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 
 export interface Animal {
-  image?: string;
+  image: string;
   name: string;
   specipic: string;
   age: number;
@@ -25,7 +25,7 @@ export interface Animal {
   special_note: string;
 }
 
-const parkingOptions: RadioOption[] = [
+const genderOptions: RadioOption[] = [
   {
     label: '여아',
     value: '여아'
@@ -59,6 +59,7 @@ export default function AnimalPage() {
   };
 
   useEffect(() => {
+    setError('image', { type: 'focus' }, { shouldFocus: true });
     setError('name', { type: 'focus' }, { shouldFocus: true });
     setError('special_note', { type: 'focus' }, { shouldFocus: true });
     setError('specipic', { type: 'focus' }, { shouldFocus: true });
@@ -80,7 +81,11 @@ export default function AnimalPage() {
         }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ImageUploader name="image" help variant="square" />
+          <ImageUploader
+            {...register(`image`)}
+            variant="square"
+            error={errors.image}
+          />
 
           <TextField
             label="이름"
@@ -107,7 +112,7 @@ export default function AnimalPage() {
               <RadioButton
                 style={{ marginBottom: '12px' }}
                 label="성별"
-                options={parkingOptions}
+                options={genderOptions}
                 {...register('gender')}
               />
             </div>

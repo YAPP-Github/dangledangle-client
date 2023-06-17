@@ -32,14 +32,7 @@ Yup.setLocale({
 });
 
 export const aniValidation = Yup.object({
-  // FIXME: image URL return 하도록 imageUpload 수정하면 좋을 것 같아 주석처리
-
-  // image: Yup.mixed().test('required', '파일을 입력해주세요.', value => {
-  //   if (value instanceof Object) {
-  //     return Object.keys(value).length > 0;
-  //   }
-  //   return false;
-  // }),
+  image: Yup.string().required(),
   name: Yup.string().required(),
   specipic: Yup.string().required(),
   age: Yup.number().required(),
