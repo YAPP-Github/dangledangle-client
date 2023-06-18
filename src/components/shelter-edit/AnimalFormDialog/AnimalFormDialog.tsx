@@ -1,17 +1,16 @@
 'use client';
 
-import { Gender, ObservationAnimal } from '@/api/shelter/observation-animal';
+import { ObservationAnimal } from '@/api/shelter/observation-animal';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog, {
   ConfirmDialogProps
 } from '@/components/common/CofirmDialog/ConfirmDialog';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
-import RadioButton, {
-  RadioOption
-} from '@/components/common/RadioButton/RadioButton';
+import RadioButton from '@/components/common/RadioButton/RadioButton';
 import TextArea from '@/components/common/TextArea/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import { ButtonText1 } from '@/components/common/Typography';
+import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useCallback } from 'react';
@@ -26,11 +25,11 @@ type FormValues = {
   name: string;
   breed: string;
   age: number;
-  gender: Gender;
+  gender: AnimalGender;
   specialNote: string;
 };
 
-const genderOptions: RadioOption[] = [
+export const genderOptions: Array<{ value: AnimalGender; label: string }> = [
   {
     label: '여아',
     value: 'FEMALE'

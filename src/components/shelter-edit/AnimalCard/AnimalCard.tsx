@@ -4,6 +4,7 @@ import { Dog } from '@/asset/icons';
 import { Body4, Caption1 } from '@/components/common/Typography';
 import Button from '@/components/common/Button/Button';
 import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import { ANIMAL_GENDER_DICT } from '@/constants/animal';
 
 interface AnimalCardProps {
   data: ObservationAnimal;
@@ -24,7 +25,7 @@ export default function AnimalCard({
         <div>
           <Body4>{name}</Body4>
           <Caption1 color="gray600">
-            {breed}, {age}세, {gender}
+            {breed}, {age}세, {ANIMAL_GENDER_DICT[gender]}
           </Caption1>
         </div>
       </div>

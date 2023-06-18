@@ -53,7 +53,15 @@ export default function ShelterEditPage() {
         <EditMenu
           title="특별 케어 동물"
           caption="돌발행동이나 건강상태 등을 미리 유의해야하는 동물 친구가 있다면 봉사자에게 미리 알려주세요."
-          titleSuffix={<H4 color="gray400">0</H4>}
+          titleSuffix={
+            <H4
+              color={
+                animalList && animalList.length > 0 ? 'primary300' : 'gray400'
+              }
+            >
+              {animalList?.length || 0}
+            </H4>
+          }
         />
         <Button style={{ marginTop: '12px' }} variant="line" prefixIcon="plus">
           동물 추가하기
