@@ -1,13 +1,24 @@
-export type Gender = 'MALE' | 'FEMALE';
-export interface ObservationAnimal {
+import { AnimalGender } from '@/constants/animal';
+import api from '../instance';
+
+export interface ObservationAnimal extends ObservationAnimalPayload {
   id: number;
+}
+
+export interface ObservationAnimalPayload {
   images: string[];
   name: string;
   age: number;
-  gender: Gender;
+  gender: AnimalGender;
   breed: string;
   specialNote: string;
 }
+
+export type PostResponse = {
+  observationAnimalId: number;
+};
+export type PutResponse = PostResponse;
+export type DeleteResponse = PostResponse;
 
 export const mock: ObservationAnimal[] = [
   {
@@ -36,4 +47,40 @@ export const get = async () => {
   return await new Promise<ObservationAnimal[]>(resolve => {
     setTimeout(() => resolve(mock), 100);
   });
+};
+
+export const post = async (data: ObservationAnimalPayload) => {
+  const response = await api
+    .post(`/v1/shelter/observation-animal`, {
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json<PostResponse>());
+
+  return response;
+};
+
+export const put = async (
+  observationAnimalId: number,
+  data: ObservationAnimalPayload
+) => {
+  const response = await api
+    .put(`/v1/shelter/observation-animal/${observationAnimalId}`, {
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json<PutResponse>());
+
+  return response;
+};
+
+export const remove = async (
+  observationAnimalId: number,
+  data: ObservationAnimalPayload
+) => {
+  const response = await api
+    .delete(`/v1/shelter/observation-animal/${observationAnimalId}`, {
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json<DeleteResponse>());
+
+  return response;
 };
