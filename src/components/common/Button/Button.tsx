@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useMemo } from 'react';
 import * as style from './Button.css';
 import clsx from 'clsx';
 import { PlusIcon } from '@/asset/icons';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 type PrefixIcon = 'plus';
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -9,6 +10,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: style.ButtonSizeType;
   variant?: style.ButtonVariant;
   prefixIcon?: PrefixIcon;
+  width?: string;
 }
 
 function Button({
@@ -18,6 +20,7 @@ function Button({
   children,
   className,
   prefixIcon,
+  width = '100%',
   ...rest
 }: ButtonProps) {
   const renderedIcon = useMemo(() => {
@@ -36,6 +39,7 @@ function Button({
         style.ButtonWrapper({ variant, disabled, size }),
         className
       ])}
+      style={assignInlineVars({ width })}
       disabled={disabled}
     >
       {renderedIcon && <div className={style.prefixIcon}>{renderedIcon}</div>}

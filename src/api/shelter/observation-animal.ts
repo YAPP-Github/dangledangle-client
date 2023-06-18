@@ -31,6 +31,8 @@ export const mock: ObservationAnimal[] = [
   }
 ];
 
-export const get = () => {
-  return mock;
+export const get = async () => {
+  return await new Promise<ObservationAnimal[]>(resolve => {
+    setTimeout(() => resolve(mock), 100);
+  });
 };
