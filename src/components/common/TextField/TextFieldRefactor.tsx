@@ -62,11 +62,12 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
       e => {
-        if (!(lengthCountRef.current && inputRef.current)) return;
+        if (!inputRef.current) return;
         onChange(e);
         const value = e.target.value;
         setClearable(value.length > 0);
 
+        if (!lengthCountRef.current) return;
         lengthCountRef.current.innerText = getStringOfValueLengthPerMax(
           inputRef.current.value,
           maxLength

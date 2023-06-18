@@ -1,7 +1,9 @@
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { palette } from '@/styles/color';
 import { variants } from '../Typography/Typography.css';
+
+export const statusColor = createVar();
 
 export const label = style({
   display: 'block',
@@ -75,7 +77,12 @@ export const underbar = recipe({
         borderColor: palette.gray900
       },
       default: {
-        borderColor: palette.gray300
+        borderColor: palette.gray300,
+        selectors: {
+          [`${input()}:active ~ & ,${input()}:focus ~ &`]: {
+            borderBottom: `1px solid ${palette.gray900}`
+          }
+        }
       },
       error: { borderColor: palette.error }
     }
@@ -94,7 +101,12 @@ export const inputSuffix = recipe({
         color: palette.gray900
       },
       default: {
-        color: palette.gray300
+        color: palette.gray300,
+        selectors: {
+          [`${input()}:active ~ & , ${input()}:focus ~ &`]: {
+            color: palette.gray900
+          }
+        }
       },
       error: { color: palette.error }
     }
