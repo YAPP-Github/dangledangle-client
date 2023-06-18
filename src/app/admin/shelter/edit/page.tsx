@@ -63,7 +63,12 @@ export default function ShelterEditPage() {
             </H4>
           }
         />
-        <Button style={{ marginTop: '12px' }} variant="line" prefixIcon="plus">
+        <Button
+          style={{ marginTop: '12px' }}
+          variant="line"
+          prefixIcon="plus"
+          onClick={openDialog}
+        >
           동물 추가하기
         </Button>
         {isSuccess && (

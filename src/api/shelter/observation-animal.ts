@@ -43,15 +43,23 @@ export const mock: ObservationAnimal[] = [
   }
 ];
 
-export const get = async () => {
-  return await new Promise<ObservationAnimal[]>(resolve => {
-    setTimeout(() => resolve(mock), 100);
-  });
+export const get = async (observationAnimalId: number) => {
+  const response = await api
+    .get(`shelter/admin/observation-animal/${observationAnimalId}`)
+    .then(res => res.json<ObservationAnimal>());
+  return response;
+};
+
+export const getAll = async () => {
+  const response = await api
+    .get('shelter/admin/observation-animal')
+    .then(res => res.json<ObservationAnimal[]>());
+  return response;
 };
 
 export const post = async (data: ObservationAnimalPayload) => {
   const response = await api
-    .post(`/v1/shelter/observation-animal`, {
+    .post(`shelter/admin/observation-animal`, {
       body: JSON.stringify(data)
     })
     .then(res => res.json<PostResponse>());
@@ -64,7 +72,7 @@ export const put = async (
   data: ObservationAnimalPayload
 ) => {
   const response = await api
-    .put(`/v1/shelter/observation-animal/${observationAnimalId}`, {
+    .put(`shelter/admin/observation-animal/${observationAnimalId}`, {
       body: JSON.stringify(data)
     })
     .then(res => res.json<PutResponse>());
@@ -77,7 +85,7 @@ export const remove = async (
   data: ObservationAnimalPayload
 ) => {
   const response = await api
-    .delete(`/v1/shelter/observation-animal/${observationAnimalId}`, {
+    .delete(`shelter/admin/observation-animal/${observationAnimalId}`, {
       body: JSON.stringify(data)
     })
     .then(res => res.json<DeleteResponse>());

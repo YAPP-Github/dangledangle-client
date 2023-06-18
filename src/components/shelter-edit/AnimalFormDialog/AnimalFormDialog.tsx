@@ -1,6 +1,7 @@
 'use client';
 
 import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import useCreateObservationAnimal from '@/api/shelter/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog, {
   ConfirmDialogProps
@@ -13,7 +14,7 @@ import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 interface AnimalFormDialogProps
@@ -60,9 +61,24 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
     resolver: yupResolver(scheme)
   });
 
-  const onSubmit = useCallback((data: FormValues) => {
-    console.log('🔸 → onSubmit → data:', data);
-  }, []);
+  const { mutateAsync } = useCreateObservationAnimal();
+
+  const [imagePath, setImagePath] = useState(
+    'https://newsimg-hams.hankookilbo.com/2022/05/19/624e4207-9ee4-46db-ab65-76cc882eb4c2.jpg'
+  );
+
+  const onSubmit = useCallback(
+    (data: FormValues) => {
+      console.log('🔸 → onSubmit → data:', data);
+      const payload = {
+        ...data,
+        images: [imagePath]
+      };
+      mutateAsync({ payload }).then(console.log);
+    },
+    [imagePath, mutateAsync]
+  );
+
   return (
     <ConfirmDialog
       open={open}
