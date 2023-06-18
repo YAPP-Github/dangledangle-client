@@ -7,7 +7,7 @@ import Divider from '@/components/common/Divider/Divider';
 import { H4 } from '@/components/common/Typography';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
-import useObservationAnimalList from '@/api/shelter/useObservationAnimal';
+import useObservationAnimalList from '@/api/shelter/useObservationAnimalList';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import * as styles from './styles.css';
 import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalFormDialog';
