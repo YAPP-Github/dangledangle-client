@@ -1,10 +1,17 @@
 'use client';
-import React, { ChangeEventHandler, useCallback, useState } from 'react';
+import React, {
+  ChangeEventHandler,
+  ForwardedRef,
+  useCallback,
+  useRef,
+  useState
+} from 'react';
 import * as styles from './TextFieldRefactor.css';
 import clsx from 'clsx';
 import { TextFieldRemoveIcon } from '@/asset/icons';
-import { Body3, Caption1, Caption2 } from '../Typography';
+import { Caption1, Caption2 } from '../Typography';
 import useForwardRef from '@/utils/useForwardRef';
+import { getStringOfValueLengthPerMax } from './utils/getStringOfValueLengthPerMax';
 
 /**
  * props 타입, status 타입 정의
@@ -16,6 +23,7 @@ interface TextFieldProps
   helper?: string;
   label?: string;
   maxLength?: number;
+  defaultValue?: string | number;
 }
 
 /**
@@ -29,40 +37,51 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       helper,
       error,
       label,
-      onChange,
+      onChange = () => {},
       maxLength,
+      defaultValue,
       ...inputProps
     },
     ref
   ) {
     if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
     const inputRef = useForwardRef<HTMLInputElement>(ref);
-
+    const lengthCountRef = useRef<HTMLDivElement>(null);
     const [clearable, setClearable] = useState(false);
-    const [length, setLength] = useState(0);
 
     const clearInput = useCallback(() => {
       if (!inputRef.current) return;
       inputRef.current.value = '';
       setClearable(false);
-      setLength(0);
 
-      onChange &&
-        onChange({
-          target: inputRef.current
-        } as React.ChangeEvent<HTMLInputElement>);
+      onChange({
+        target: inputRef.current
+      } as React.ChangeEvent<HTMLInputElement>);
       inputRef.current.focus();
     }, []);
 
     const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
       e => {
-        onChange && onChange(e);
+        if (!(lengthCountRef.current && inputRef.current)) return;
+        onChange(e);
         const value = e.target.value;
         setClearable(value.length > 0);
-        setLength(value.length);
+
+        lengthCountRef.current.innerText = getStringOfValueLengthPerMax(
+          inputRef.current.value,
+          maxLength
+        );
       },
       []
     );
+
+    const status = error
+      ? 'error'
+      : Boolean(inputRef?.current?.value.length)
+      ? 'active'
+      : 'default';
+
+    const message = error?.message || helper || '';
 
     return (
       <div arial-lable="text">
@@ -74,18 +93,27 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         <div className={styles.inputContainer}>
           <input
             ref={inputRef}
-            className={styles.input({ size })}
+            className={styles.input({
+              size
+            })}
             name={name}
             onChange={handleChange}
+            defaultValue={defaultValue}
             {...inputProps}
           />
-          <div className={styles.inputSuffix}>
+          <div className={styles.inputSuffix({ status })}>
             <RemoveButton visible={clearable} onClick={clearInput} />
-            {maxLength && <LengthCounter max={maxLength} length={length} />}
+            {maxLength && (
+              <LengthCounter
+                ref={lengthCountRef}
+                initValueLength={String(defaultValue || '').length}
+                max={maxLength}
+              />
+            )}
           </div>
-          <div className={styles.underbar({ error: Boolean(error) })} />
+          <div className={styles.underbar({ status })} />
         </div>
-        <Message error={error?.message} helper={helper} />
+        <Message className={styles.message({ status })} message={message} />
       </div>
     );
   }
@@ -107,38 +135,28 @@ const RemoveButton: React.FC<RemoveButtonProps> = ({ visible, onClick }) => {
 /**
  * 글자 수 카운트하는 컴포넌트
  */
-interface LengthCounterProps {
-  max: number;
-  length: number;
-}
-const LengthCounter: React.FC<LengthCounterProps> = ({ max, length }) => {
+const LengthCounter = React.forwardRef(function LengthCounter(
+  { max, initValueLength }: { max: number; initValueLength: number },
+  ref: ForwardedRef<HTMLParagraphElement>
+) {
   return (
-    <Body3 color={length > max ? 'error' : 'gray300'}>
-      {length}/{max}
-    </Body3>
+    <p className={styles.counter} ref={ref}>
+      {initValueLength}/{max}
+    </p>
   );
-};
+});
 /**
  * 입력 문구 안내 메시지, loading, 오류 메시지 보여주는 컴포넌트
  */
-
 interface MessageProps {
-  helper?: string;
-  error?: string;
+  className?: string;
+  message: string;
 }
-const Message: React.FC<MessageProps> = ({ helper, error }) => {
+
+const Message = ({ className = '', message }: MessageProps) => {
   return (
-    <>
-      {!error && helper && (
-        <Caption2 className={styles.message} color={'gray600'}>
-          {helper}
-        </Caption2>
-      )}
-      {error && (
-        <Caption2 className={styles.message} color={'error'}>
-          {error}
-        </Caption2>
-      )}
-    </>
+    <div className={className}>
+      <span style={{ whiteSpace: 'pre-wrap' }}>{message}</span>
+    </div>
   );
 };

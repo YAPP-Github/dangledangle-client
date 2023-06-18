@@ -33,9 +33,32 @@ export const input = recipe({
   }
 });
 
-export const message = style({
-  display: 'block',
-  marginTop: '8px'
+export const message = recipe({
+  base: {
+    marginTop: '8px',
+    lineHeight: '16px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: '12px'
+  },
+  variants: {
+    status: {
+      active: {
+        color: palette.gray900
+      },
+      default: {
+        color: palette.gray300
+      },
+      error: { color: palette.error }
+    }
+  }
+});
+
+export const counter = style({
+  fontStyle: 'normal',
+  fontWeight: 400,
+  fontSize: '14px',
+  lineHeight: '22px'
 });
 
 export const underbar = recipe({
@@ -43,27 +66,39 @@ export const underbar = recipe({
     position: 'absolute',
     width: '100%',
     borderBottom: `1px solid ${palette.gray200}`,
-    bottom: '0px',
-
-    selectors: {
-      [`input:focus + &, input:active + &`]: {
-        borderBottom: `1px solid ${palette.gray900}`
-      }
-    }
+    bottom: '0px'
   },
+
   variants: {
-    error: {
-      true: {
-        borderBottom: `1px solid ${palette.error} !important`
-      }
+    status: {
+      active: {
+        borderColor: palette.gray900
+      },
+      default: {
+        borderColor: palette.gray300
+      },
+      error: { borderColor: palette.error }
     }
   }
 });
 
-export const inputSuffix = style({
-  display: 'flex',
-  alignItems: 'center',
-  columnGap: '12px'
+export const inputSuffix = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    columnGap: '12px'
+  },
+  variants: {
+    status: {
+      active: {
+        color: palette.gray900
+      },
+      default: {
+        color: palette.gray300
+      },
+      error: { color: palette.error }
+    }
+  }
 });
 
 export const icon = recipe({
