@@ -26,5 +26,5 @@ export const overlay = style({
 
 export const childrenWrap = style({
   marginTop: '40px',
-  padding: '20px'
+  padding: '22px'
 });
