@@ -5,7 +5,7 @@ export interface StepsProps<T> {
   path: string;
 }
 
-export default function useFunnel<T>(Steps: StepsProps<T>[]) {
+export default function useFunnel<T>(Steps: StepsProps<T>[], pathname: string) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function useFunnel<T>(Steps: StepsProps<T>[]) {
   }, []);
 
   const updatePathname = (text: string) => {
-    const newUrl = `${window.location.origin}/shelter/register/${text}`;
+    const newUrl = `${window.location.origin}${pathname}/${text}`;
     window.history.pushState(null, '', newUrl);
   };
 
