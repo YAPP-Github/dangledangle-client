@@ -1,9 +1,10 @@
+export type Gender = 'MALE' | 'FEMALE';
 export interface ObservationAnimal {
   id: number;
   images: string[];
   name: string;
   age: number;
-  gender: 'MALE' | 'FEMALE';
+  gender: Gender;
   breed: string;
   specialNote: string;
 }

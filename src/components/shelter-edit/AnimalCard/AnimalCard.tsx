@@ -7,9 +7,15 @@ import { ObservationAnimal } from '@/api/shelter/observation-animal';
 
 interface AnimalCardProps {
   data: ObservationAnimal;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
-export default function AnimalCard({ data }: AnimalCardProps) {
+export default function AnimalCard({
+  data,
+  onClickEdit,
+  onClickDelete
+}: AnimalCardProps) {
   const { name, breed, age, gender, specialNote } = data;
   return (
     <section className={styles.container}>
@@ -27,10 +33,15 @@ export default function AnimalCard({ data }: AnimalCardProps) {
 
       <Caption1 className={styles.textClamp}>{specialNote}</Caption1>
       <div className={styles.buttonWarp}>
-        <Button variant="line" size="xsmall" width="61px">
+        <Button variant="line" size="xsmall" width="61px" onClick={onClickEdit}>
           수정
         </Button>
-        <Button variant="line" size="xsmall" width="61px">
+        <Button
+          variant="line"
+          size="xsmall"
+          width="61px"
+          onClick={onClickDelete}
+        >
           삭제
         </Button>
       </div>
