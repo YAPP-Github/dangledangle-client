@@ -7,10 +7,14 @@ import Divider from '@/components/common/Divider/Divider';
 import { H4 } from '@/components/common/Typography';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
+import useObservationAnimalList from '@/api/shelter/useObservationAnimal';
+import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
+import * as styles from './styles.css';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
   const router = useRouter();
+  const { data: animalList, isSuccess } = useObservationAnimalList();
 
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
@@ -41,6 +45,8 @@ export default function ShelterEditPage() {
           onClick={() => router.push(location.pathname + '/extra')}
         />
         <Divider spacing={18} />
+      </section>
+      <section>
         <EditMenu
           title="특별 케어 동물"
           caption="돌발행동이나 건강상태 등을 미리 유의해야하는 동물 친구가 있다면 봉사자에게 미리 알려주세요."
@@ -49,6 +55,13 @@ export default function ShelterEditPage() {
         <Button style={{ marginTop: '12px' }} variant="line" prefixIcon="plus">
           동물 추가하기
         </Button>
+        {isSuccess && (
+          <div className={styles.animalList}>
+            {animalList.map(animal => (
+              <AnimalCard key={animal.id} data={animal} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );
