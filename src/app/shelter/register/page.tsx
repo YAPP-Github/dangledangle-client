@@ -1,7 +1,7 @@
 'use client';
 
 import FormProvider from '@/components/common/FormProvider/FormProvider';
-import { useEffect, useState } from 'react';
+import useFunnel, { StepsProps } from '@/hooks/useFunnel';
 import { useForm } from 'react-hook-form';
 import Account from './components/Account';
 import Address from './components/Address';
@@ -10,12 +10,16 @@ import Hp from './components/Hp';
 import Name from './components/Name';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
+import { usePathname } from 'next/navigation';
+import { useSetRecoilState } from 'recoil';
+import { headerState } from '@/store/header';
+import { useLayoutEffect } from 'react';
 
 export interface onNextProps {
   onNext: VoidFunction;
 }
 
-const Steps = [
+const Steps: StepsProps<onNextProps>[] = [
   {
     component: Sure,
     path: 'step0'
@@ -47,37 +51,20 @@ const Steps = [
 ];
 
 export default function ShelterRegister() {
-  const [data, setData] = useState();
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const setHeader = useSetRecoilState(headerState);
 
-  useEffect(() => {
-    const syncPathWithState = () => {
-      const pathname = window.location.pathname.slice(-1);
-      const stepIndex = Steps.findIndex(
-        step => step.path.slice(-1) === pathname
-      );
-      setCurrentStepIndex(stepIndex >= 0 ? stepIndex : 0);
-    };
+  useLayoutEffect(() => {
+    setHeader(prev => ({
+      ...prev,
+      title: '보호소 파트너 계정 가입'
+    }));
+  }, [setHeader]);
 
-    window.addEventListener('popstate', syncPathWithState);
-    return () => {
-      window.removeEventListener('popstate', syncPathWithState);
-    };
-  }, []);
-
-  const updatePathname = (text: string) => {
-    const newUrl = `${window.location.origin}/shelter/register/${text}`;
-    window.history.pushState(null, '', newUrl);
-  };
-
-  const goToNextStep = () => {
-    if (currentStepIndex < Steps.length - 1) {
-      const nextStepIndex = currentStepIndex + 1;
-      setCurrentStepIndex(nextStepIndex);
-      updatePathname(Steps[nextStepIndex].path);
-    }
-  };
-
+  const pathname = usePathname();
+  const { goToNextStep, currentStepIndex } = useFunnel<onNextProps>(
+    Steps,
+    pathname
+  );
   const CurrentComponent = Steps[currentStepIndex].component;
 
   const methods = useForm();
@@ -85,6 +72,7 @@ export default function ShelterRegister() {
   const onSubmit = (data: any) => {
     console.log(data);
   };
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <CurrentComponent onNext={goToNextStep} />

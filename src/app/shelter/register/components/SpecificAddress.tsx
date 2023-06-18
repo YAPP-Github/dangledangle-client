@@ -9,18 +9,28 @@ import TextField from '@/components/common/TextField/TextField';
 export default function SpecificAddress({ onNext }: onNextProps) {
   const { register } = useFormContext();
   return (
-    <div>
-      <EmphasizedTitle>
-        <H2>상세 주소를 입력해주세요.</H2>
-      </EmphasizedTitle>
+    <div style={{ padding: '20px' }}>
+      <div
+        style={{
+          marginTop: '40px',
+          marginBottom: '109px'
+        }}
+      >
+        <EmphasizedTitle>
+          <H2>상세 주소를 입력해주세요.</H2>
+        </EmphasizedTitle>
+      </div>
       <TextField
-        max={10}
-        message={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 주소을 입력해주세요."
-        errorCallback={e => console.log(e)}
         {...register('address[0].addressDetail')}
       />
-      <Button onClick={onNext}>다음</Button>
+      <TextField
+        placeholder="상세주소를 입력하세요."
+        {...register('address[0].addressDetail')}
+      />
+      <Button onClick={onNext} style={{ marginTop: '47px' }}>
+        다음
+      </Button>
     </div>
   );
 }
