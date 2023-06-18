@@ -35,6 +35,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/query-core", "npm:4.29.14"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.14"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.14"],\
+            ["@types/js-cookie", "npm:3.0.3"],\
             ["@types/lodash", "npm:4.14.195"],\
             ["@types/node", "npm:20.1.3"],\
             ["@types/react", "npm:18.2.12"],\
@@ -52,6 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.2.1"],\
             ["framer-motion", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:10.12.16"],\
             ["husky", "npm:8.0.3"],\
+            ["js-cookie", "npm:3.0.5"],\
             ["ky", "npm:0.33.3"],\
             ["lint-staged", "npm:13.2.2"],\
             ["lodash", "npm:4.17.21"],\
@@ -4030,6 +4032,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tsconfig-node16-npm-1.0.4-b7cb87d859-2023197859.zip/node_modules/@tsconfig/node16/",\
           "packageDependencies": [\
             ["@tsconfig/node16", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/js-cookie", [\
+        ["npm:3.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-js-cookie-npm-3.0.3-ffeb1814e1-927254ec37.zip/node_modules/@types/js-cookie/",\
+          "packageDependencies": [\
+            ["@types/js-cookie", "npm:3.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8034,6 +8045,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["js-cookie", [\
+        ["npm:3.0.5", {\
+          "packageLocation": "./.yarn/cache/js-cookie-npm-3.0.5-8fc8fcc9b4-2dbd2809c6.zip/node_modules/js-cookie/",\
+          "packageDependencies": [\
+            ["js-cookie", "npm:3.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["js-tokens", [\
         ["npm:4.0.0", {\
           "packageLocation": "./.yarn/cache/js-tokens-npm-4.0.0-0ac852e9e2-8a95213a5a.zip/node_modules/js-tokens/",\
@@ -11392,6 +11412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/query-core", "npm:4.29.14"],\
             ["@tanstack/react-query", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.14"],\
             ["@tanstack/react-query-devtools", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.29.14"],\
+            ["@types/js-cookie", "npm:3.0.3"],\
             ["@types/lodash", "npm:4.14.195"],\
             ["@types/node", "npm:20.1.3"],\
             ["@types/react", "npm:18.2.12"],\
@@ -11409,6 +11430,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:4.2.1"],\
             ["framer-motion", "virtual:943ef1e5fc79a83430f53783f5a0ef61d24776bd8b3d5f40c1b27fa5ad67481cc6a61fb6c8a727e4521f0c06145cd7a9d153069e6daa952b556f99768862327b#npm:10.12.16"],\
             ["husky", "npm:8.0.3"],\
+            ["js-cookie", "npm:3.0.5"],\
             ["ky", "npm:0.33.3"],\
             ["lint-staged", "npm:13.2.2"],\
             ["lodash", "npm:4.17.21"],\
