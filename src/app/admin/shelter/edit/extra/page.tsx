@@ -14,13 +14,13 @@ import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
 
 type FormValues = {
-  instagram: string;
-  bankName: string;
-  account: string;
-  donationUrl: string;
-  parking: 'true' | 'false';
-  parkingNotice: string;
-  notice: string;
+  instagram?: string;
+  bankName?: string;
+  account?: string;
+  donationUrl?: string;
+  isParkingEnabled?: string | null;
+  parkingNotice?: string;
+  notice?: string;
 };
 
 const parkingOptions: RadioOption[] = [
@@ -34,39 +34,64 @@ const parkingOptions: RadioOption[] = [
   }
 ];
 
-const schema: yup.ObjectSchema<Partial<FormValues>> = yup
+const maxNoticeLength = 1000;
+const maxParkingNoticeLength = 300;
+const schema: yup.ObjectSchema<FormValues> = yup
   .object()
-  .shape({})
+  .shape({
+    instagram: yup
+      .string()
+      .optional()
+      .matches(/https:\/\/www\.instagram\.com\/[\w\.]+$/i, {
+        excludeEmptyString: true,
+        message: '인스타그램 주소를 다시 확인해주세요'
+      })
+      .url('유효한 url 형식이 아닙니다.'),
+    bankName: yup.string(),
+    account: yup.string(),
+    donationUrl: yup.string().url(),
+    isParkingEnabled: yup.string().nullable().oneOf(['true', 'false']),
+    parkingNotice: yup.string().max(maxParkingNoticeLength),
+    notice: yup.string().max(maxNoticeLength)
+  })
   .required();
 
 export default function ShelterEditExtraPage() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm<FormValues>({
     resolver: yupResolver(schema)
   });
   const onSubmit = (data: FormValues | FieldErrors<FormValues>) =>
     console.log(data);
-
   return (
     <form onSubmit={handleSubmit(onSubmit, onSubmit)}>
       <div className={styles.container}>
         <TextField
           label="인스타그램 계정"
           placeholder="https://www.instagram.com/프로필명"
+          error={errors['instagram']}
           {...register('instagram')}
         />
         <div>
           <TextField
             label="후원 계좌 정보"
             placeholder="은행명"
+            error={errors['bankName']}
             {...register('bankName')}
           />
-          <TextField placeholder="계좌번호" {...register('account')} />
+
+          <TextField
+            placeholder="계좌번호"
+            error={errors['account']}
+            {...register('account')}
+          />
           <TextField
             placeholder="카카오페이 코드 송금 링크 입력"
+            error={errors['donationUrl']}
             {...register('donationUrl')}
           />
           <Caption2 color="gray600">
@@ -88,18 +113,21 @@ export default function ShelterEditExtraPage() {
             style={{ marginBottom: '12px' }}
             label="주차 가능 여부"
             options={parkingOptions}
-            {...register('parking')}
+            {...register('isParkingEnabled')}
           />
           <TextField
             placeholder="추가 주차 관련 안내 (최대 200자)"
+            disabled={!getValues('isParkingEnabled')}
+            error={errors['parkingNotice']}
             {...register('parkingNotice')}
           />
         </div>
         <TextArea
           label="사전 안내 사항"
           placeholder="봉사자에게 사전에 안내해야 할 내용이 있다면 입력해주세요. (최대 1000자)"
-          maxLength={1000}
+          maxLength={maxNoticeLength}
           height="174px"
+          error={errors['notice']}
           {...register('notice')}
         />
       </div>

@@ -37,6 +37,8 @@ export default function ShelterEditRequiredPage() {
     handleSubmit,
     formState: { errors }
   } = useForm<FormValues>({
+    mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schema)
   });
 
@@ -54,24 +56,29 @@ export default function ShelterEditRequiredPage() {
   return (
     <form onSubmit={handleSubmit(onSubmit, onSubmit)}>
       <div className={styles.container}>
-        <TextField label="보호소 이름" {...register('name')} />
+        <TextField
+          label="보호소 이름"
+          {...register('name')}
+          error={errors['name']}
+        />
         <TextField
           label="보호소 연락처"
-          {...register('phone')}
-          onChange={handlePhoneChange}
+          {...register('phone', { onChange: handlePhoneChange })} //onChange Register에 추가
+          error={errors['phone']}
         />
         <div>
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
           <AddressSearchBar />
-          <TextField {...register('address')} />
+          <TextField {...register('address')} error={errors['address']} />
         </div>
         <TextArea
           height="128px"
           maxLength={300}
           label="보호소 소개 문구"
           {...register('description')}
+          error={errors['description']}
         />
       </div>
       <Button className={styles.button} itemType="submit">

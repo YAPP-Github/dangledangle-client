@@ -17,9 +17,8 @@ export default function SpecificAddress({ onNext }: onNextProps) {
         <H2>상세 주소를 입력해주세요.</H2>
       </EmphasizedTitle>
       <TextField
-        max={10}
-        fixedHelper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
-        placeholder="보호소 주소을 입력해주세요."
+        maxLength={10}
+        placeholder="상세 주소를 입력하세요"
         error={errors['address[0].addressDetail']}
         {...register('address[0].addressDetail')}
       />

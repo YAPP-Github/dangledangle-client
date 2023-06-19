@@ -9,3 +9,6 @@ export { default as SearchIcon } from './Search.svg';
 export { default as GrayCamera } from './GrayCamera.svg';
 export { default as Close } from './Close.svg';
 export { default as Dog } from './Dog.svg';
+export { default as Question } from './Question.svg';
+export { default as Warning } from './Warning.svg';
+export { default as Daenggle } from './Daenggle.svg';

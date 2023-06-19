@@ -3,15 +3,21 @@ import * as styles from './Animal.css';
 import { Dog } from '@/asset/icons';
 import { Body4, Caption1 } from '@/components/common/Typography';
 import Button from '@/components/common/Button/Button';
-import Divider from '@/components/common/Divider/Divider';
-import { Animal } from '@/app/animal/page';
+import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import { ANIMAL_GENDER_DICT } from '@/constants/animal';
 
 interface AnimalCardProps {
-  data: Animal;
+  data: ObservationAnimal;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
-export default function AnimalCard({ data }: AnimalCardProps) {
-  const { name, specipic, age, gender, special_note } = data;
+export default function AnimalCard({
+  data,
+  onClickEdit,
+  onClickDelete
+}: AnimalCardProps) {
+  const { name, breed, age, gender, specialNote } = data;
   return (
     <section className={styles.container}>
       <div className={styles.aniCard}>
@@ -19,20 +25,25 @@ export default function AnimalCard({ data }: AnimalCardProps) {
         <div>
           <Body4>{name}</Body4>
           <Caption1 color="gray600">
-            {specipic}, {age}세, {gender}
+            {breed}, {age}세, {ANIMAL_GENDER_DICT[gender]}
           </Caption1>
         </div>
       </div>
       {/* <Divider spacing={10} style={{ width: '100%' }} /> */}
       <div className={styles.divider} />
 
-      <Caption1 className={styles.textClamp}>{special_note}</Caption1>
+      <Caption1 className={styles.textClamp}>{specialNote}</Caption1>
       <div className={styles.buttonWarp}>
-        <Button variant="line" size="small" className={styles.button}>
-          <Caption1>수정</Caption1>
+        <Button variant="line" size="xsmall" width="61px" onClick={onClickEdit}>
+          수정
         </Button>
-        <Button variant="line" size="small" className={styles.button}>
-          <Caption1>삭제</Caption1>
+        <Button
+          variant="line"
+          size="xsmall"
+          width="61px"
+          onClick={onClickDelete}
+        >
+          삭제
         </Button>
       </div>
     </section>

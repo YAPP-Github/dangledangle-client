@@ -7,11 +7,9 @@ export const container = style({
   alignItems: 'center',
   padding: '16px',
   gap: '10px',
-  width: '90%',
   height: '180px',
   background: palette.white,
-  borderRadius: '8px',
-  margin: 5
+  borderRadius: '8px'
 });
 
 export const aniCard = style({

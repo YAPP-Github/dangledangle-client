@@ -5,16 +5,13 @@ import ConfirmDialog from '@/components/common/CofirmDialog/ConfirmDialog';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import RadioButton from '@/components/common/RadioButton/RadioButton';
 import { RadioOption } from '@/components/common/RadioGroup/RadioGroup';
+import TextArea from '@/components/common/TextField/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import { ButtonText1 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { aniValidation } from './utils/aniValidation';
-import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
-import TextArea from '@/components/common/TextField/TextArea';
 
 export interface Animal {
   image: string;
@@ -40,8 +37,8 @@ export default function AnimalPage() {
   const [isDialog, isOpenDialog, isCloseDialog] = useBooleanState();
   const methods = useForm<Animal>({
     mode: 'all',
-    reValidateMode: 'onChange',
-    resolver: yupResolver(aniValidation)
+    reValidateMode: 'onChange'
+    // resolver: yupResolver(aniValidation)
   });
 
   const {
@@ -136,9 +133,9 @@ export default function AnimalPage() {
           width: '100%'
         }}
       >
-        {mock.map((animal, index) => (
+        {/* {mock.map((animal, index) => (
           <AnimalCard key={index} data={animal} />
-        ))}
+        ))} */}
       </article>
     </main>
   );

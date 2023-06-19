@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 export interface StepsProps<T> {
   component: React.FC<T>;
@@ -21,20 +21,23 @@ export default function useFunnel<T>(Steps: StepsProps<T>[], pathname: string) {
     return () => {
       window.removeEventListener('popstate', syncPathWithState);
     };
-  }, []);
+  }, [Steps]);
 
-  const updatePathname = (text: string) => {
-    const newUrl = `${window.location.origin}${pathname}/${text}`;
-    window.history.pushState(null, '', newUrl);
-  };
+  const updatePathname = useCallback(
+    (text: string) => {
+      const newUrl = `${window.location.origin}${pathname}/${text}`;
+      window.history.pushState(null, '', newUrl);
+    },
+    [pathname]
+  );
 
-  const goToNextStep = () => {
+  const goToNextStep = useCallback(() => {
     if (currentStepIndex < Steps.length - 1) {
       const nextStepIndex = currentStepIndex + 1;
       setCurrentStepIndex(nextStepIndex);
       updatePathname(Steps[nextStepIndex].path);
     }
-  };
+  }, [Steps, currentStepIndex, updatePathname]);
 
   return { goToNextStep, currentStepIndex };
 }

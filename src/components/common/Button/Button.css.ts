@@ -1,18 +1,20 @@
 import { palette } from '@/styles/color';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { variants } from '../Typography/Typography.css';
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 
+const width = createVar('width');
 export const ButtonWrapper = recipe({
   base: {
-    width: '100%',
+    width,
     height: '48px',
     borderRadius: '8px',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
+    transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    cursor: 'pointer'
   },
   variants: {
     variant: {
@@ -54,6 +56,13 @@ export const ButtonWrapper = recipe({
     },
     size: {
       // 추후 사이즈 variants 추가 여부에 따라서 변경
+      xsmall: [
+        variants.caption1,
+        {
+          height: '34px',
+          borderRadius: '4px'
+        }
+      ],
       small: variants.h4,
       middle: variants.h4,
       large: variants.h4

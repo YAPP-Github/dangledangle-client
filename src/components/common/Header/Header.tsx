@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import * as styles from './Header.css';
 import { ArrowLeft } from '@/asset/icons';
 import { Body2, H4 } from '../Typography';
+import { useRecoilValue } from 'recoil';
+import { headerState } from '@/store/header';
 
 interface HeaderProps {
   /** 헤더 타이틀 */
@@ -22,8 +24,9 @@ export default function Header({
   entirePage,
   href
 }: HeaderProps) {
-  const router = useRouter();
+  const headerValue = useRecoilValue(headerState);
 
+  const router = useRouter();
   const navigate = () => {
     href ? router.push('/' + href) : router.back();
   };
@@ -33,11 +36,11 @@ export default function Header({
       <a className={styles.arrowLeft} onClick={navigate}>
         <ArrowLeft />
       </a>
-      <H4>{title}</H4>
+      <H4>{headerValue?.title}</H4>
       <Body2>
-        {thisPage}
-        {entirePage ? '/' : null}
-        {entirePage}
+        {headerValue?.thisPage}
+        {headerValue?.entirePage ? '/' : null}
+        {headerValue?.entirePage}
       </Body2>
     </nav>
   );
