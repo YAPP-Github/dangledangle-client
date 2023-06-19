@@ -12,16 +12,24 @@ import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import * as styles from './styles.css';
 import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalFormDialog';
 import useBooleanState from '@/hooks/useBooleanState';
+import useDeleteObservationAnimal from '@/api/shelter/useDeleteObservationAnimal';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
   const router = useRouter();
   const { data: animalList, isSuccess } = useObservationAnimalList();
+  const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
 
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
   }, []);
+
+  const handleDeleteAnimal = (observationAnimalId: number) => {
+    deleteAnimal({ observationAnimalId }).then(() => {
+      window.alert('삭제');
+    });
+  };
 
   return (
     <>
@@ -78,7 +86,7 @@ export default function ShelterEditPage() {
                 key={animal.id}
                 data={animal}
                 onClickEdit={openDialog}
-                onClickDelete={() => ''}
+                onClickDelete={() => handleDeleteAnimal(animal.id)}
               />
             ))}
           </div>

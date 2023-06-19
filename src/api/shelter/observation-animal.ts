@@ -80,14 +80,9 @@ export const put = async (
   return response;
 };
 
-export const remove = async (
-  observationAnimalId: number,
-  data: ObservationAnimalPayload
-) => {
+export const remove = async (observationAnimalId: number) => {
   const response = await api
-    .delete(`shelter/admin/observation-animal/${observationAnimalId}`, {
-      body: JSON.stringify(data)
-    })
+    .delete(`shelter/admin/observation-animal/${observationAnimalId}`)
     .then(res => res.json<DeleteResponse>());
 
   return response;
