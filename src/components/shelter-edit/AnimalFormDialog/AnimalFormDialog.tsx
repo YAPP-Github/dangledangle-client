@@ -8,7 +8,7 @@ import ConfirmDialog, {
 } from '@/components/common/CofirmDialog/ConfirmDialog';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import RadioButton from '@/components/common/RadioButton/RadioButton';
-import TextArea from '@/components/common/TextArea/TextArea';
+import TextArea from '@/components/common/TextField/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
@@ -96,11 +96,13 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
           label="이름"
           placeholder="이름을 입력해주세요"
           {...register(`name`)}
+          error={errors['name']}
         />
         <TextField
           label="견종"
           placeholder="견종을 입력해주세요"
           {...register('breed')}
+          error={errors['breed']}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div
@@ -110,7 +112,12 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
               alignItems: 'center'
             }}
           >
-            <TextField label="나이" placeholder="나이" {...register(`age`)} />
+            <TextField
+              label="나이"
+              placeholder="나이"
+              {...register(`age`)}
+              error={errors['age']}
+            />
             <ButtonText1 style={{ marginTop: 20 }}>살</ButtonText1>
           </div>
           <div>
@@ -125,9 +132,10 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
         <TextArea
           label="상세 주의 사항"
           max={300}
-          fixHeight="150px"
+          height="150px"
           placeholder="특이사항을 입력해주세요"
           {...register('specialNote')}
+          error={errors['specialNote']}
         />
       </form>
     </ConfirmDialog>

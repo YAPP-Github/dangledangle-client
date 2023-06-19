@@ -14,10 +14,27 @@ import { usePathname } from 'next/navigation';
 import { useSetRecoilState } from 'recoil';
 import { headerState } from '@/store/header';
 import { useLayoutEffect } from 'react';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 export interface onNextProps {
   onNext: VoidFunction;
 }
+
+/**
+ * TODO
+ * validation 스케마가 임시로 작성되어 수정이 필요합니다.
+ * 각 페이지별로 에러에 따른 다음 버튼 disabled 상태 연결이 필요합니다.
+ *
+ */
+const validation = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required(),
+  passwordConfirm: yup.string().required(), //// step1
+  name: yup.string().max(20).required(), //// step2
+  phoneNumber: yup.string().required(), //// step3
+  [`address[0].addressDetail`]: yup.string().required(), //step5
+  description: yup.string().max(300, '입력 가능 글자수를 초과했어요,') ///step6
+});
 
 const Steps: StepsProps<onNextProps>[] = [
   {
@@ -67,7 +84,11 @@ export default function ShelterRegister() {
   );
   const CurrentComponent = Steps[currentStepIndex].component;
 
-  const methods = useForm();
+  const methods = useForm({
+    mode: 'all',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(validation)
+  });
   const { handleSubmit } = methods;
   const onSubmit = (data: any) => {
     console.log(data);

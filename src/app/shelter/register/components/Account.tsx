@@ -14,7 +14,10 @@ type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
 export default function Account({ onNext }: onNextProps) {
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors }
+  } = useFormContext();
 
   const [allChecked, setAllChecked] = useState(false);
   const [singleChecked, setsingleChecked] = useState<SingleCheckedState>({
@@ -62,16 +65,19 @@ export default function Account({ onNext }: onNextProps) {
           label="이메일"
           placeholder="이메일을 입력해주세요."
           {...register('email')}
+          error={errors['email']}
         />
         <TextField
           label="비밀번호"
           placeholder="영문, 숫자, 특수문자 2가지 조합 8~15자"
           {...register('password')}
+          error={errors['password']}
         />
         <TextField
           label="비밀번호 확인"
           placeholder="비밀번호를 한번 더 입력해주세요."
           {...register('passwordConfirm')}
+          error={errors['passwordConfirm']}
         />
         <Button onClick={isOpenSheet} style={{ marginTop: '47px' }}>
           다음
