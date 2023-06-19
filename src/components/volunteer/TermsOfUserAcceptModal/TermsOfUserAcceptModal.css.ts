@@ -2,13 +2,9 @@ import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const bottomSheet = style({
-  width: '100%',
   height: '70vh',
-  left: '0',
-  bottom: '0',
   borderBottomLeftRadius: '0',
-  borderBottomRightRadius: '0',
-  transform: 'translateY(0)'
+  borderBottomRightRadius: '0'
 });
 
 export const wrapper = style({

@@ -5,7 +5,6 @@ import CheckBox from '@/components/common/CheckBox/CheckBox';
 import { H2 } from '@/components/common/Typography';
 import * as styles from './TermsOfUserAcceptModal.css';
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 type InitTermsOfUserAcceptStateType = {
   age: boolean;
@@ -16,9 +15,11 @@ type InitTermsOfUserAcceptStateType = {
 
 interface TermsOfUserAcceptModalProps {
   isOpened: boolean;
+  onNext: () => void;
 }
 export default function TermsOfUserAcceptModal({
-  isOpened
+  isOpened,
+  onNext
 }: React.PropsWithChildren<TermsOfUserAcceptModalProps>) {
   const InitTermsOfUserAcceptState = useCallback(
     (initValue: boolean) => ({
@@ -32,8 +33,6 @@ export default function TermsOfUserAcceptModal({
 
   const [allCheck, setAllCheck] = useState<boolean>(false);
   const [checkList, setCheckList] = useState(InitTermsOfUserAcceptState(false));
-
-  const router = useRouter();
 
   useEffect(() => {
     if (
@@ -115,7 +114,7 @@ export default function TermsOfUserAcceptModal({
           className={styles.bottomButton}
           disabled={isDisAbled}
           onClick={() => {
-            router.push('/volunteer/register');
+            onNext();
             console.log(checkList);
           }}
         >
