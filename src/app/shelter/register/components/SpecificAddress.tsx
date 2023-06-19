@@ -20,14 +20,24 @@ export default function SpecificAddress({ onNext }: onNextProps) {
           <H2>상세 주소를 입력해주세요.</H2>
         </EmphasizedTitle>
       </div>
+
+      <TextField
+        placeholder="우편번호를 입력해주세요."
+        {...register('address[postalCode]')}
+      />
       <TextField
         placeholder="보호소 주소을 입력해주세요."
-        {...register('address[0].addressDetail')}
+        {...register('address[address]')}
       />
       <TextField
         placeholder="상세주소를 입력하세요."
-        {...register('address[0].addressDetail')}
+        {...register('address[addressDetail]')}
       />
+
+      {/* longitude x축 경도 latitude y축 위도 */}
+      <input style={{ display: 'none' }} {...register('address[longitude]')} />
+      <input style={{ display: 'none' }} {...register('address[latitude]')} />
+
       <Button onClick={onNext} style={{ marginTop: '47px' }}>
         다음
       </Button>
