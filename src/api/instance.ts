@@ -8,10 +8,13 @@ const api = ky.create({
   hooks: {
     beforeRequest: [
       options => {
-        options.headers.set(
-          'Authorization',
-          `Bearer ${cookie.get('accessToken')}`
-        );
+        const accessToken = cookie.get('accessToken');
+
+        if (accessToken) {
+          options.headers.set('Authorization', `Bearer ${accessToken}`);
+        } else {
+          return;
+        }
       }
     ]
   }
