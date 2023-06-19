@@ -7,7 +7,7 @@ export default function VolunteerLogin() {
     <div>
       <MarqueeTitle />
       <KakaoLogin />
-      <TermsOfUserAcceptModal isOpened />
+      <TermsOfUserAcceptModal isOpened={false} />
     </div>
   );
 }
