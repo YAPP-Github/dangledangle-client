@@ -6,7 +6,7 @@ export interface ObservationAnimal extends ObservationAnimalPayload {
 }
 
 export interface ObservationAnimalPayload {
-  images: string[];
+  profileImageUrl: string;
   name: string;
   age: number;
   gender: AnimalGender;
@@ -23,7 +23,7 @@ export type DeleteResponse = PostResponse;
 export const mock: ObservationAnimal[] = [
   {
     id: 0,
-    images: [''],
+    profileImageUrl: '',
     name: '인절미',
     breed: '비글',
     age: 3,
@@ -33,7 +33,7 @@ export const mock: ObservationAnimal[] = [
   },
   {
     id: 1,
-    images: [''],
+    profileImageUrl: '',
     name: '홍시',
     breed: '비글',
     age: 3,

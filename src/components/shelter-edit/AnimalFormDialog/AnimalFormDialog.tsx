@@ -1,6 +1,9 @@
 'use client';
 
-import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import {
+  ObservationAnimal,
+  ObservationAnimalPayload
+} from '@/api/shelter/observation-animal';
 import useCreateObservationAnimal from '@/api/shelter/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog, {
@@ -70,9 +73,9 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   const onSubmit = useCallback(
     (data: FormValues) => {
       console.log('🔸 → onSubmit → data:', data);
-      const payload = {
+      const payload: ObservationAnimalPayload = {
         ...data,
-        images: [imagePath]
+        profileImageUrl: imagePath
       };
       mutateAsync({ payload }).then(console.log);
     },
