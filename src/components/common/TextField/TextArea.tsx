@@ -1,5 +1,5 @@
 'use client';
-import React, { ChangeEventHandler, useCallback, useRef } from 'react';
+import React, { ChangeEventHandler, useCallback, useMemo, useRef } from 'react';
 import { Caption1 } from '../Typography';
 import useForwardRef from '@/utils/useForwardRef';
 import useHandleInputValues from './hooks/useHandleInputs';
@@ -19,8 +19,8 @@ export interface TextAreaProps
   label?: string;
   maxLength?: number;
   defaultValue?: string | number;
-  multiLine?: boolean;
   height?: string;
+  fixedHelper?: string;
 }
 
 /**
@@ -38,6 +38,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       maxLength,
       height,
       defaultValue,
+      fixedHelper,
       ...inputProps
     },
     ref
@@ -45,6 +46,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
     const textAreaRef = useForwardRef<HTMLTextAreaElement>(ref);
     const lengthCountRef = useRef<HTMLDivElement>(null);
+    const fixedHelperMessage = useMemo(() => fixedHelper, []);
 
     const { updateInputValue } = useHandleInputValues({
       input: {
@@ -70,7 +72,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       ? 'active'
       : 'default';
 
-    const message = error?.message || helper || '';
+    const message = fixedHelperMessage || error?.message || helper || '';
 
     return (
       <div arial-lable={`${name}-text-area`}>

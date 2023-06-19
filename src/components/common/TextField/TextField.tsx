@@ -3,6 +3,7 @@ import React, {
   ChangeEventHandler,
   MouseEventHandler,
   useCallback,
+  useMemo,
   useRef
 } from 'react';
 import * as styles from './TextField.css';
@@ -25,7 +26,7 @@ export interface TextFieldProps
   label?: string;
   maxLength?: number;
   defaultValue?: string | number;
-  multiLine?: boolean;
+  fixedHelper?: string;
 }
 
 /**
@@ -42,6 +43,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       onChange = () => {},
       maxLength,
       defaultValue,
+      fixedHelper,
       ...inputProps
     },
     ref
@@ -49,6 +51,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
     const inputRef = useForwardRef<HTMLInputElement>(ref);
     const lengthCountRef = useRef<HTMLDivElement>(null);
+    const fixedHelperMessage = useMemo(() => fixedHelper, []);
 
     const { clearable, clearInput, updateInputValue } = useHandleInputValues({
       input: {
@@ -84,7 +87,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       ? 'active'
       : 'default';
 
-    const message = error?.message || helper || '';
+    const message = fixedHelperMessage || error?.message || helper || '';
 
     return (
       <div arial-lable={`${name}-text-field`}>

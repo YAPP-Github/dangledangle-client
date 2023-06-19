@@ -47,7 +47,11 @@ const schema2 = yup
       .string()
       .max(10, '글자 길이는 10을 넘어선 안됩니다.')
       .required('필수 입력사항입니다.'),
-    test2: yup.string().email().required('필수 입력사항입니다.')
+    test2: yup.string().email().required('필수 입력사항입니다.'),
+    test3: yup
+      .string()
+      .max(10, '이 메세지는 반영되지 않습니다')
+      .required('이 메세지도 반영되지 않습니다.')
   })
   .required();
 
@@ -128,6 +132,13 @@ export default function TextFieldExample() {
         <TextAreaWithForm
           label={Object.keys(schema2.fields)[1]}
           name={Object.keys(schema2.fields)[1]}
+        />
+
+        <TextAreaWithForm
+          label={Object.keys(schema2.fields)[2]}
+          name={Object.keys(schema2.fields)[2]}
+          fixedHelper="고정되는 메시지 테스트 10자 이내 특수문자 이모지 불가 어쩌구"
+          maxLength={10}
         />
         <input type="submit"></input>
       </FormProvider>
