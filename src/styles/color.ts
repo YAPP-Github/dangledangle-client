@@ -13,7 +13,8 @@ export const palette = {
   primary100: '#D3F0EF',
   primary200: '#9DF5F3',
   primary300: '#00D9D4',
-  error: '#FF2121'
+  error: '#FF2121',
+  background: '#F2F1ED'
 } as const;
 
 export type Color = keyof typeof palette;
