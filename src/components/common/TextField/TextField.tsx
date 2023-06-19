@@ -1,5 +1,10 @@
 'use client';
-import React, { ChangeEventHandler, useCallback, useRef } from 'react';
+import React, {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useRef
+} from 'react';
 import * as styles from './TextField.css';
 import { Caption1 } from '../Typography';
 import useForwardRef from '@/utils/useForwardRef';
@@ -11,8 +16,9 @@ import Message from './Message/Message';
 /**
  * props 타입, status 타입 정의
  */
-interface TextFieldProps
+export interface TextFieldProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
+  name: string;
   error?: { message?: string };
   size?: styles.InputSize;
   helper?: string;
@@ -54,7 +60,10 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       }
     });
 
-    const handleClick = useCallback(() => {
+    const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(e => {
+      e.stopPropagation();
+      e.preventDefault();
+
       onChange({
         target: inputRef.current
       } as React.ChangeEvent<HTMLInputElement>);

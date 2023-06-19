@@ -10,8 +10,9 @@ import * as styles from './TextField.css';
 /**
  * props 타입, status 타입 정의
  */
-interface TextAreaProps
+export interface TextAreaProps
   extends Omit<React.HTMLProps<HTMLTextAreaElement>, 'size'> {
+  name: string;
   error?: { message?: string };
   size?: styles.InputSize;
   helper?: string;
