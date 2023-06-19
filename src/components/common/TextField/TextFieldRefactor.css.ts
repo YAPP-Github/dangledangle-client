@@ -1,16 +1,14 @@
-import { createVar, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { palette } from '@/styles/color';
 import { variants } from '../Typography/Typography.css';
-
-export const statusColor = createVar();
 
 export const label = style({
   display: 'block',
   marginBottom: '6px'
 });
 
-export const inputContainer = style({
+export const textFieldContainer = style({
   height: '30px',
   position: 'relative',
   display: 'flex',
@@ -18,10 +16,9 @@ export const inputContainer = style({
   boxSizing: 'border-box'
 });
 
-export const input = recipe({
+export const textInput = recipe({
   base: {
     width: '100%',
-
     '::placeholder': {
       color: palette.gray300
     }
@@ -35,35 +32,7 @@ export const input = recipe({
   }
 });
 
-export const message = recipe({
-  base: {
-    marginTop: '8px',
-    lineHeight: '16px',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    fontSize: '12px'
-  },
-  variants: {
-    status: {
-      active: {
-        color: palette.gray900
-      },
-      default: {
-        color: palette.gray300
-      },
-      error: { color: palette.error }
-    }
-  }
-});
-
-export const counter = style({
-  fontStyle: 'normal',
-  fontWeight: 400,
-  fontSize: '14px',
-  lineHeight: '22px'
-});
-
-export const underbar = recipe({
+export const textFieldUnderbar = recipe({
   base: {
     position: 'absolute',
     width: '100%',
@@ -79,7 +48,7 @@ export const underbar = recipe({
       default: {
         borderColor: palette.gray300,
         selectors: {
-          [`${input()}:active ~ & ,${input()}:focus ~ &`]: {
+          [`${textInput()}:active ~ & ,${textInput()}:focus ~ &`]: {
             borderBottom: `1px solid ${palette.gray900}`
           }
         }
@@ -89,7 +58,39 @@ export const underbar = recipe({
   }
 });
 
-export const inputSuffix = recipe({
+export const textAreaContainer = recipe({
+  base: {
+    overflowY: 'scroll',
+    height: '100%',
+    width: '100%',
+    border: '1px solid',
+    borderRadius: '5px',
+    boxSizing: 'border-box',
+    padding: '10px',
+    marginBottom: '4px',
+    overflowX: 'hidden' /* 가로 스크롤은 숨김 */,
+    whiteSpace: 'pre-wrap' /* 줄 바꿈과 공백 유지 */,
+    wordWrap: 'break-word'
+  },
+  variants: {
+    status: {
+      active: {
+        borderColor: palette.gray900
+      },
+      default: {
+        borderColor: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & ,${textInput()}:focus ~ &`]: {
+            border: `1px solid ${palette.gray900}`
+          }
+        }
+      },
+      error: { borderColor: palette.error }
+    }
+  }
+});
+
+export const textFieldSuffix = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
@@ -103,7 +104,7 @@ export const inputSuffix = recipe({
       default: {
         color: palette.gray300,
         selectors: {
-          [`${input()}:active ~ & , ${input()}:focus ~ &`]: {
+          [`${textInput()}:active ~ & , ${textInput()}:focus ~ &`]: {
             color: palette.gray900
           }
         }
@@ -113,20 +114,30 @@ export const inputSuffix = recipe({
   }
 });
 
-export const icon = recipe({
+export const textAreaSuffix = recipe({
   base: {
-    height: '24px',
-    visibility: 'hidden',
-    cursor: 'pointer'
+    marginTop: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   variants: {
-    visible: {
-      true: {
-        visibility: 'visible'
-      }
+    status: {
+      active: {
+        color: palette.gray900
+      },
+      default: {
+        color: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & , ${textInput()}:focus ~ &`]: {
+            color: palette.gray900
+          }
+        }
+      },
+      error: { color: palette.error }
     }
   }
 });
 
-type InputVariants = RecipeVariants<typeof input>;
-export type InputSize = NonNullable<InputVariants>['size'];
+type TextInputVariants = RecipeVariants<typeof textInput>;
+export type InputSize = NonNullable<TextInputVariants>['size'];

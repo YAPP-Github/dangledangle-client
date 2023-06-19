@@ -5,13 +5,16 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@/components/common/Button/Button';
+import TextArea from '@/components/common/TextField/TextArea';
 
 type FormValues = {
   instagram?: string;
   donationUrl?: string;
   parkingNotice?: string;
+  notice?: string;
 };
 
+const maxParkingNoticeLength = 10;
 const maxNoticeLength = 10;
 const schema: yup.ObjectSchema<FormValues> = yup
   .object()
@@ -26,7 +29,11 @@ const schema: yup.ObjectSchema<FormValues> = yup
       })
       .url('유효한 url 형식이 아닙니다.'),
     donationUrl: yup.string().url(),
-    parkingNotice: yup.string().max(maxNoticeLength, '123123123123').required()
+    parkingNotice: yup
+      .string()
+      .max(maxParkingNoticeLength, '123123123123')
+      .required(),
+    notice: yup.string().max(maxNoticeLength).required()
   })
   .required();
 
@@ -66,9 +73,19 @@ export default function TextFieldExample() {
         <TextField
           label="추가 주차 관련 안내 (최대 10자)"
           placeholder="추가 주차 관련 안내 (최대 10자)"
-          maxLength={maxNoticeLength}
+          maxLength={maxParkingNoticeLength}
           error={errors.parkingNotice}
           {...register('parkingNotice')}
+        />
+      </div>
+      <div>
+        <TextArea
+          label="추가 주차 관련 안내 (최대 10자)"
+          placeholder="추가 주차 관련 안내 (최대 10자)"
+          maxLength={100}
+          error={errors.notice}
+          height="200px"
+          {...register('notice')}
         />
       </div>
 
