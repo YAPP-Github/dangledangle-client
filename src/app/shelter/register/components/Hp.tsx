@@ -37,10 +37,11 @@ export default function Hp({ onNext }: onNextProps) {
         </EmphasizedTitle>
       </div>
       <TextFieldWithForm
-        name="phoneNumber"
+        {...register('phoneNumber')}
         placeholder="연락처를 입력하세요 (-제외)"
-        error={errors['phoneNumber']}
+        error={errors.phoneNumber}
       />
+
       <Button onClick={onNext} style={{ marginTop: '47px' }}>
         다음
       </Button>

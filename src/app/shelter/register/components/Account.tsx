@@ -47,6 +47,11 @@ export default function Account({ onNext }: onNextProps) {
   const isButtonDisabled =
     !singleChecked.over14 || !singleChecked.terms || !singleChecked.privacy;
 
+  const onClickHandler = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    isOpenSheet();
+  };
+
   return (
     <>
       <div style={{ padding: '20px' }}>
@@ -65,24 +70,27 @@ export default function Account({ onNext }: onNextProps) {
           label="이메일"
           placeholder="이메일을 입력해주세요."
           {...register('email')}
-          error={errors['email']}
+          error={errors.email}
         />
         <TextField
           label="비밀번호"
           placeholder="영문, 숫자, 특수문자 2가지 조합 8~15자"
+          type="password"
           {...register('password')}
-          error={errors['password']}
+          error={errors.password}
         />
         <TextField
           label="비밀번호 확인"
           placeholder="비밀번호를 한번 더 입력해주세요."
+          type="password"
           {...register('passwordConfirm')}
-          error={errors['passwordConfirm']}
+          error={errors.passwordConfirm}
         />
-        <Button onClick={isOpenSheet} style={{ marginTop: '47px' }}>
+        <Button onClick={onClickHandler} style={{ marginTop: '47px' }}>
           다음
         </Button>
       </div>
+
       <BottomSheet isOpened={isSheet} onClose={isCloseSheet}>
         <H2>약관에 동의해주세요.</H2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -97,6 +105,7 @@ export default function Account({ onNext }: onNextProps) {
             <CheckBox value={allChecked} onClick={handleAllChecked} />
             <H3>모두 동의</H3>
           </div>
+
           <CheckBox
             value={singleChecked.over14}
             onClick={() => handleSingleChecked('over14')}
@@ -119,6 +128,7 @@ export default function Account({ onNext }: onNextProps) {
             label="(선택) 마케팅 수신 동의"
           />
         </div>
+
         <Button
           disabled={isButtonDisabled}
           onClick={onNext}

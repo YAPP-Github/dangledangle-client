@@ -3,12 +3,14 @@ import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle
 import TextArea from '@/components/common/TextField/TextArea';
 import { H2 } from '@/components/common/Typography';
 import { headerState } from '@/store/header';
-import React, { useLayoutEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useLayoutEffect } from 'react';
+import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
+import { onNextProps } from '../page';
 
-export default function Description() {
+export default function Description({ onSubmit }: onNextProps) {
   const {
+    handleSubmit,
     register,
     formState: { errors }
   } = useFormContext();
@@ -35,14 +37,21 @@ export default function Description() {
           <H2>보호소를 소개해주세요 🙌</H2>
         </EmphasizedTitle>
       </div>
+
       <TextArea
         maxLength={300}
         height={'128px'}
         placeholder="보호소 소개 문구를 300자 내로 작성해주세요."
         {...register('description')}
-        error={errors['description']}
+        error={errors.description}
       />
-      <Button style={{ marginTop: '38px' }}>저장하기</Button>
+
+      <Button
+        onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
+        style={{ marginTop: '38px' }}
+      >
+        저장하기
+      </Button>
     </div>
   );
 }
