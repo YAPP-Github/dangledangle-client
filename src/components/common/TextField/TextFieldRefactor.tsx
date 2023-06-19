@@ -58,6 +58,12 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         target: inputRef.current
       } as React.ChangeEvent<HTMLInputElement>);
       inputRef.current.focus();
+
+      if (!lengthCountRef.current) return;
+      lengthCountRef.current.innerText = getStringOfValueLengthPerMax(
+        inputRef.current.value,
+        maxLength
+      );
     }, []);
 
     const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
