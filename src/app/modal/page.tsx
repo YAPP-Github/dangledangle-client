@@ -45,8 +45,8 @@ export default function ModalPage() {
       <Header title="로그인" thisPage={0} entirePage={5} />
 
       <FormProvider {...{ methods }} onSubmit={handleSubmit(onSubmit)}>
-        <ImageUploader name="test1" help />
-        <ImageUploader name="test2" help />
+        <ImageUploader name="test1" />
+        <ImageUploader name="test2" />
 
         <div style={{ height: '100px' }}></div>
         <button type="submit">저장</button>
