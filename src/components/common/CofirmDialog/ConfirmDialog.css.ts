@@ -75,7 +75,6 @@ export const contents = style({
   alignItems: 'center',
   height: '100%',
   width: '100%',
-  paddingTop: '32px',
   paddingBottom: '12px'
 });
 

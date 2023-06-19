@@ -22,7 +22,7 @@ export default function ShelterEditPage() {
   const { data: animalList, isSuccess } = useObservationAnimalList();
   const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
-  const { dialogOn } = useDialog();
+  const { dialogOn, dialogOff } = useDialog();
   const toastOn = useToast();
 
   const handleChangeImage = useCallback((fileData?: File) => {
@@ -30,19 +30,19 @@ export default function ShelterEditPage() {
   }, []);
 
   const handleClickDeleteAnimal = (observationAnimalId: number) => {
-    toastOn('동물 정보가 삭제되었습니다.');
-    // dialogOn({
-    //   message: '등록하신 동물 정보를<br/>정말 삭제하시겠습니까?',
-    //   close: {},
-    //   confirm: {
-    //     text: '삭제',
-    //     onClick: () => {
-    //       deleteAnimal({ observationAnimalId }).then(() => {
-    //         window.alert('삭제');
-    //       });
-    //     }
-    //   }
-    // });
+    dialogOn({
+      message: '등록하신 동물 정보를<br/>정말 삭제하시겠습니까?',
+      close: {},
+      confirm: {
+        text: '삭제',
+        onClick: () => {
+          deleteAnimal({ observationAnimalId }).then(() => {
+            dialogOff();
+            toastOn('동물 정보가 삭제되었습니다.');
+          });
+        }
+      }
+    });
   };
 
   return (
