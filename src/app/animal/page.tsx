@@ -40,8 +40,8 @@ export default function AnimalPage() {
   const [isDialog, isOpenDialog, isCloseDialog] = useBooleanState();
   const methods = useForm<Animal>({
     mode: 'all',
-    reValidateMode: 'onChange',
-    resolver: yupResolver(aniValidation)
+    reValidateMode: 'onChange'
+    // resolver: yupResolver(aniValidation)
   });
 
   const {
@@ -136,9 +136,9 @@ export default function AnimalPage() {
           width: '100%'
         }}
       >
-        {mock.map((animal, index) => (
+        {/* {mock.map((animal, index) => (
           <AnimalCard key={index} data={animal} />
-        ))}
+        ))} */}
       </article>
     </main>
   );

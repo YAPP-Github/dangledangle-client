@@ -8,7 +8,7 @@ import Portal from './Portal/Portal';
 import useResize from './hooks/useResize';
 import * as m from './utils/motion';
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps {
   /** dialog status */
   open: boolean;
   /** dialog close function  */

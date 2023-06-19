@@ -22,6 +22,7 @@ interface ImageUploaderProps {
   resizingOptions?: ResizingOptions;
   onUploaded?: (url?: string) => void;
 
+  help?: boolean;
   error?: { message?: string };
   onChange?: (...event: any[]) => void;
 }
@@ -41,6 +42,7 @@ export const ImageUploader = React.forwardRef<
       variant = 'circle',
       resizingOptions,
 
+      help,
       error,
       onChange,
       ...props
