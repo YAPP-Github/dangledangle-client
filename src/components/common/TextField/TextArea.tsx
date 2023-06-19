@@ -5,7 +5,7 @@ import useForwardRef from '@/utils/useForwardRef';
 import useHandleInputValues from './hooks/useHandleInputs';
 import LengthCounter from './LengthCounter/LengthCounter';
 import Message from './Message/Message';
-import * as styles from './TextFieldRefactor.css';
+import * as styles from './TextField.css';
 
 /**
  * props 타입, status 타입 정의

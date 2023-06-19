@@ -24,6 +24,12 @@ const ValidationList: ValidationListType = {
       '전화번호 형식이 아닙니다'
     )
 };
+
+/**
+ * TODO
+ * react hook form에 의존하지 않고 useRef와 함께 사용할수 있도록 개발할 예정
+ *
+ */
 export default function useValidation(
   options?: ValidationArgs
 ): ValidationFunction {
