@@ -7,7 +7,10 @@ import { H2 } from '@/components/common/Typography';
 import TextField from '@/components/common/TextField/TextField';
 
 export default function Address({ onNext }: onNextProps) {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors }
+  } = useFormContext();
   return (
     <div>
       <EmphasizedTitle>
@@ -15,9 +18,9 @@ export default function Address({ onNext }: onNextProps) {
       </EmphasizedTitle>
       <TextField
         max={10}
-        message={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
+        fixedHelper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 주소을 입력해주세요."
-        errorCallback={e => console.log(e)}
+        error={errors['address[0].adress']}
         {...register('address[0].adress')}
       />
       <Button onClick={onNext}>다음</Button>

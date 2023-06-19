@@ -6,7 +6,10 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export default function Description() {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors }
+  } = useFormContext();
   return (
     <div>
       <EmphasizedTitle>
@@ -15,9 +18,9 @@ export default function Description() {
       </EmphasizedTitle>
       <TextField
         max={10}
-        message={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
+        fixedHelper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
-        errorCallback={e => console.log(e)}
+        error={errors['description']}
         {...register('description')}
       />
       <Button>저장하기</Button>

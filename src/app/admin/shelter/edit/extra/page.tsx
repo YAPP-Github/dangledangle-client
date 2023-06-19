@@ -3,7 +3,6 @@ import Button from '@/components/common/Button/Button';
 import RadioGroup, {
   RadioOption
 } from '@/components/common/RadioGroup/RadioGroup';
-import TextArea from '@/components/common/TextArea/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
@@ -12,6 +11,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
+import TextArea from '@/components/common/TextField/TextArea';
 
 type FormValues = {
   instagram: string;
@@ -98,8 +98,8 @@ export default function ShelterEditExtraPage() {
         <TextArea
           label="사전 안내 사항"
           placeholder="봉사자에게 사전에 안내해야 할 내용이 있다면 입력해주세요. (최대 1000자)"
-          max={1000}
-          fixHeight="174px"
+          maxLength={1000}
+          height="174px"
           {...register('notice')}
         />
       </div>

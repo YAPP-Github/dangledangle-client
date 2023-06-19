@@ -1,6 +1,5 @@
 'use client';
 import Button from '@/components/common/Button/Button';
-import TextArea from '@/components/common/TextArea/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import { formatPhone } from '@/utils/formatInputs';
@@ -10,6 +9,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import * as styles from './styles.css';
 import { Caption1 } from '@/components/common/Typography';
+import TextArea from '@/components/common/TextField/TextArea';
 
 type FormValues = {
   name: string;
@@ -68,8 +68,8 @@ export default function ShelterEditRequiredPage() {
           <TextField {...register('address')} />
         </div>
         <TextArea
-          fixHeight="128px"
-          max={300}
+          height="128px"
+          maxLength={300}
           label="보호소 소개 문구"
           {...register('description')}
         />
