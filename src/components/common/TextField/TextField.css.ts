@@ -1,58 +1,7 @@
-import { createVar, style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
+import { style } from '@vanilla-extract/css';
+import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { palette } from '@/styles/color';
 import { variants } from '../Typography/Typography.css';
-
-const statusColor = createVar();
-
-export const inputTypeRecipe = recipe({
-  base: {
-    vars: { statusColor }
-  },
-  variants: {
-    status: {
-      default: 'default',
-      active: 'active',
-      error: 'error',
-      loading: 'loading',
-      success: 'success'
-    }
-  },
-  compoundVariants: [
-    {
-      variants: {},
-      style: {
-        vars: {
-          [statusColor]: palette.gray200
-        }
-      }
-    },
-    {
-      variants: { status: 'active' },
-      style: {
-        vars: {
-          [statusColor]: palette.gray900
-        }
-      }
-    },
-    {
-      variants: { status: 'error' },
-      style: {
-        vars: {
-          [statusColor]: palette.error
-        }
-      }
-    },
-    {
-      variants: { status: 'success' },
-      style: {
-        vars: {
-          [statusColor]: palette.primary300
-        }
-      }
-    }
-  ]
-});
 
 export const wrapper = style({
   display: 'flex',
@@ -61,73 +10,140 @@ export const wrapper = style({
 });
 
 export const label = style({
-  color: palette.gray600,
+  display: 'block',
   marginBottom: '6px'
 });
 
-export const inputContainer = style({
+export const textFieldContainer = style({
+  height: '30px',
   position: 'relative',
   display: 'flex',
-  alignItems: 'center',
-  paddingBottom: '6px',
-  boxSizing: 'border-box',
-  marginBottom: '8px',
-  '::placeholder': {
-    color: palette.gray200
-  }
+  alignItems: 'flex-start',
+  boxSizing: 'border-box'
 });
 
-export const input = recipe({
+export const textInput = recipe({
+  base: {
+    width: '100%',
+    '::placeholder': {
+      color: palette.gray300
+    }
+  },
+
   variants: {
     size: {
-      big: variants.h3,
+      large: variants.h3,
       small: variants.body2
-    }
-  },
-
-  compoundVariants: [
-    {
-      variants: {},
-      style: {
-        position: 'relative',
-        width: '100%'
-      }
-    }
-  ]
-});
-
-export const underbar = style({
-  position: 'absolute',
-  width: `100%`,
-  height: '1px',
-  borderBottom: '1px solid black',
-  bottom: '0px',
-  borderColor: statusColor
-});
-
-export const icon = recipe({
-  base: {
-    height: '24px',
-    visibility: 'hidden'
-  },
-  variants: {
-    visible: {
-      true: {
-        visibility: 'visible'
-      },
-      false: {
-        visibility: 'hidden'
-      }
     }
   }
 });
 
-export const message = style({
-  color: statusColor
+export const textFieldUnderbar = recipe({
+  base: {
+    position: 'absolute',
+    width: '100%',
+    borderBottom: `1px solid ${palette.gray200}`,
+    bottom: '0px'
+  },
+
+  variants: {
+    status: {
+      active: {
+        borderColor: palette.gray900
+      },
+      default: {
+        borderColor: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & ,${textInput()}:focus ~ &`]: {
+            borderBottom: `1px solid ${palette.gray900}`
+          }
+        }
+      },
+      error: { borderColor: palette.error }
+    }
+  }
 });
 
-export const count = style({
-  marginLeft: '12px',
-  display: 'inline-block',
-  color: statusColor
+export const textAreaContainer = recipe({
+  base: {
+    overflowY: 'scroll',
+    height: '100%',
+    width: '100%',
+    border: '1px solid',
+    borderRadius: '5px',
+    boxSizing: 'border-box',
+    padding: '10px',
+    marginBottom: '4px',
+    overflowX: 'hidden' /* 가로 스크롤은 숨김 */,
+    whiteSpace: 'pre-wrap' /* 줄 바꿈과 공백 유지 */,
+    wordWrap: 'break-word'
+  },
+  variants: {
+    status: {
+      active: {
+        borderColor: palette.gray900
+      },
+      default: {
+        borderColor: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & ,${textInput()}:focus ~ &`]: {
+            border: `1px solid ${palette.gray900}`
+          }
+        }
+      },
+      error: { borderColor: palette.error }
+    }
+  }
 });
+
+export const textFieldSuffix = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    columnGap: '12px'
+  },
+  variants: {
+    status: {
+      active: {
+        color: palette.gray900
+      },
+      default: {
+        color: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & , ${textInput()}:focus ~ &`]: {
+            color: palette.gray900
+          }
+        }
+      },
+      error: { color: palette.error }
+    }
+  }
+});
+
+export const textAreaSuffix = recipe({
+  base: {
+    marginTop: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  variants: {
+    status: {
+      active: {
+        color: palette.gray900
+      },
+      default: {
+        color: palette.gray300,
+        selectors: {
+          [`${textInput()}:active ~ & , ${textInput()}:focus ~ &`]: {
+            color: palette.gray900
+          }
+        }
+      },
+      error: { color: palette.error }
+    }
+  }
+});
+
+type TextInputVariants = RecipeVariants<typeof textInput>;
+export type InputSize = NonNullable<TextInputVariants>['size'];
