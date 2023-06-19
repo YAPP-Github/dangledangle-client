@@ -1,6 +1,6 @@
 'use client';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import EditMenu from '@/components/shelter-edit/EditMenu/EditMenu';
 import Badge from '@/components/common/Badge/Badge';
 import Divider from '@/components/common/Divider/Divider';
@@ -15,15 +15,18 @@ import useBooleanState from '@/hooks/useBooleanState';
 import useDeleteObservationAnimal from '@/api/shelter/useDeleteObservationAnimal';
 import useDialog from '@/hooks/useDialog';
 import useToast from '@/hooks/useToast';
+import { ObservationAnimal } from '@/api/shelter/observation-animal';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
   const router = useRouter();
-  const { data: animalList, isSuccess } = useObservationAnimalList();
-  const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
   const { dialogOn, dialogOff } = useDialog();
   const toastOn = useToast();
+  const [targetAnimal, setTargetAnimal] = useState<ObservationAnimal>();
+
+  const { data: animalList, isSuccess } = useObservationAnimalList();
+  const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
 
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
@@ -43,6 +46,18 @@ export default function ShelterEditPage() {
         }
       }
     });
+  };
+
+  const handleClickEdit = (idx: number) => {
+    if (animalList) {
+      setTargetAnimal(animalList[idx]);
+      openDialog();
+    }
+  };
+
+  const handleClickCreate = () => {
+    setTargetAnimal(undefined);
+    openDialog();
   };
 
   return (
@@ -89,23 +104,27 @@ export default function ShelterEditPage() {
           style={{ marginTop: '12px' }}
           variant="line"
           prefixIcon="plus"
-          onClick={openDialog}
+          onClick={handleClickCreate}
         >
           동물 추가하기
         </Button>
         {isSuccess && (
           <div className={styles.animalList}>
-            {animalList.map(animal => (
+            {animalList.map((animal, idx) => (
               <AnimalCard
                 key={animal.id}
                 data={animal}
-                onClickEdit={openDialog}
+                onClickEdit={() => handleClickEdit(idx)}
                 onClickDelete={() => handleClickDeleteAnimal(animal.id)}
               />
             ))}
           </div>
         )}
-        <AnimalFormDialog open={isOpened} onClose={closeDialog} />
+        <AnimalFormDialog
+          initialData={targetAnimal}
+          open={isOpened}
+          onClose={closeDialog}
+        />
       </section>
     </>
   );

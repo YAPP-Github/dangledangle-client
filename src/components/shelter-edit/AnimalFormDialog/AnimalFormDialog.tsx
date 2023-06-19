@@ -5,6 +5,7 @@ import {
   ObservationAnimalPayload
 } from '@/api/shelter/observation-animal';
 import useCreateObservationAnimal from '@/api/shelter/useCreateObservationAnimal';
+import useUpdateObservationAnimal from '@/api/shelter/useUpdateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog, {
   ConfirmDialogProps
@@ -17,11 +18,12 @@ import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 interface AnimalFormDialogProps
   extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
+  initialData?: ObservationAnimal;
   data?: ObservationAnimal;
 }
 
@@ -54,32 +56,48 @@ const scheme: yup.ObjectSchema<FormValues> = yup.object().shape({
 
 const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   open,
-  onClose
+  onClose,
+  initialData
 }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<FormValues>({
     resolver: yupResolver(scheme)
   });
-
-  const { mutateAsync } = useCreateObservationAnimal();
-
   const [imagePath, setImagePath] = useState(
     'https://newsimg-hams.hankookilbo.com/2022/05/19/624e4207-9ee4-46db-ab65-76cc882eb4c2.jpg'
   );
+
+  const { mutateAsync: create } = useCreateObservationAnimal();
+  const { mutateAsync: update } = useUpdateObservationAnimal();
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+      setImagePath(initialData.profileImageUrl);
+    }
+  }, [initialData, reset]);
 
   const onSubmit = useCallback(
     (data: FormValues) => {
       console.log('🔸 → onSubmit → data:', data);
       const payload: ObservationAnimalPayload = {
-        ...data,
-        profileImageUrl: imagePath
+        images: [imagePath],
+        name: data.name,
+        age: data.age,
+        gender: data.gender,
+        breed: data.breed,
+        specialNote: data.specialNote
       };
-      mutateAsync({ payload }).then(console.log);
+
+      if (initialData)
+        update({ observationAnimalId: initialData.id, payload }).then(onClose);
+      else create({ payload }).then(onClose);
     },
-    [imagePath, mutateAsync]
+    [create, imagePath, initialData, onClose, update]
   );
 
   return (
