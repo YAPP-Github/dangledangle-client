@@ -13,6 +13,7 @@ import * as styles from './styles.css';
 import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalFormDialog';
 import useBooleanState from '@/hooks/useBooleanState';
 import useDeleteObservationAnimal from '@/api/shelter/useDeleteObservationAnimal';
+import useDialog from '@/hooks/useDialog';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
@@ -20,14 +21,24 @@ export default function ShelterEditPage() {
   const { data: animalList, isSuccess } = useObservationAnimalList();
   const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
+  const { dialogOn } = useDialog();
 
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
   }, []);
 
   const handleDeleteAnimal = (observationAnimalId: number) => {
-    deleteAnimal({ observationAnimalId }).then(() => {
-      window.alert('삭제');
+    // deleteAnimal({ observationAnimalId }).then(() => {
+    //   window.alert('삭제');
+    // });
+    dialogOn({
+      message: '등록하신 동물 정보를<br/>정말 삭제하시겠습니까?',
+      close: {
+        text: '취소'
+      },
+      confirm: {
+        text: '삭제'
+      }
     });
   };
 

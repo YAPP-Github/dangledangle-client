@@ -1,1 +1,1 @@
-export {};
+export * as DialogStore from './dialog';

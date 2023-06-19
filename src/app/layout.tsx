@@ -3,6 +3,7 @@ import RecoilRootWrapper from '@/providers/RecoilRootWrapper';
 import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
+import { GlobalComponents } from '@/components/common/GlobalComponents/GlobalComponents';
 
 export const metadata = {
   title: 'Create Next App',
@@ -20,6 +21,7 @@ export default function RootLayout({
         <RecoilRootWrapper>
           <QueryProvider>
             <div id="modal-portal" />
+            <GlobalComponents />
             <main>{children}</main>
           </QueryProvider>
         </RecoilRootWrapper>
