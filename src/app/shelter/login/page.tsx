@@ -27,14 +27,14 @@ export default function ShelterLogin() {
     }));
   }, [setHeader]);
 
-  const loginMutation = useShelterLogin();
+  const { mutateAsync } = useShelterLogin();
   const handleLogin = async (data: LoginPayload) => {
     try {
-      await loginMutation.mutateAsync(data);
+      await mutateAsync(data);
       router.push('/event');
     } catch (error) {
       //FIXME: 토스트 알림으로 변경 or SetError 텍스트 알림으로 변경
-      alert('로그인 실패');
+      console.error('로그인 실패', error);
     }
   };
 
