@@ -73,7 +73,7 @@ export default function Address({ onNext }: onNextProps) {
         />
       </div>
 
-      <Button disabled={true} onClick={onNext} style={{ marginTop: '47px' }}>
+      <Button onClick={onNext} style={{ marginTop: '47px' }}>
         다음
       </Button>
     </div>

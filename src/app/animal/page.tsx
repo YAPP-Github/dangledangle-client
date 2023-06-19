@@ -5,16 +5,13 @@ import ConfirmDialog from '@/components/common/CofirmDialog/ConfirmDialog';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import RadioButton from '@/components/common/RadioButton/RadioButton';
 import { RadioOption } from '@/components/common/RadioGroup/RadioGroup';
-import TextArea from '@/components/common/TextArea/TextArea';
+import TextArea from '@/components/common/TextField/TextArea';
 import TextField from '@/components/common/TextField/TextField';
 import { ButtonText1 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { aniValidation } from './utils/aniValidation';
-import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 
 export interface Animal {
   image: string;
@@ -120,7 +117,7 @@ export default function AnimalPage() {
           <TextArea
             label="상세 주의 사항"
             max={300}
-            fixHeight="150px"
+            height="150px"
             placeholder="특이사항을 입력해주세요"
             {...register(`special_note`)}
           />

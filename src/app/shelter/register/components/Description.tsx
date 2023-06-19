@@ -1,7 +1,6 @@
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import TextArea from '@/components/common/TextArea/TextArea';
-import TextField from '@/components/common/TextField/TextField';
+import TextArea from '@/components/common/TextField/TextArea';
 import { H2 } from '@/components/common/Typography';
 import { headerState } from '@/store/header';
 import React, { useLayoutEffect } from 'react';
@@ -9,7 +8,10 @@ import { useFormContext } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
 export default function Description() {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors }
+  } = useFormContext();
 
   const setHeader = useSetRecoilState(headerState);
   useLayoutEffect(() => {
@@ -34,11 +36,11 @@ export default function Description() {
         </EmphasizedTitle>
       </div>
       <TextArea
-        max={300}
-        fixHeight={'128px'}
+        maxLength={300}
+        height={'128px'}
         placeholder="보호소 소개 문구를 300자 내로 작성해주세요."
-        errorCallback={e => console.log(e)}
         {...register('description')}
+        error={errors['description']}
       />
       <Button style={{ marginTop: '38px' }}>저장하기</Button>
     </div>
