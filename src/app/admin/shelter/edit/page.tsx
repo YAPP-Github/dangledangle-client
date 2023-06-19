@@ -14,6 +14,7 @@ import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalF
 import useBooleanState from '@/hooks/useBooleanState';
 import useDeleteObservationAnimal from '@/api/shelter/useDeleteObservationAnimal';
 import useDialog from '@/hooks/useDialog';
+import useToast from '@/hooks/useToast';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
@@ -22,24 +23,26 @@ export default function ShelterEditPage() {
   const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
   const { dialogOn } = useDialog();
+  const toastOn = useToast();
 
   const handleChangeImage = useCallback((fileData?: File) => {
     if (!fileData) setImagePath('');
   }, []);
 
-  const handleDeleteAnimal = (observationAnimalId: number) => {
-    // deleteAnimal({ observationAnimalId }).then(() => {
-    //   window.alert('삭제');
+  const handleClickDeleteAnimal = (observationAnimalId: number) => {
+    toastOn('동물 정보가 삭제되었습니다.');
+    // dialogOn({
+    //   message: '등록하신 동물 정보를<br/>정말 삭제하시겠습니까?',
+    //   close: {},
+    //   confirm: {
+    //     text: '삭제',
+    //     onClick: () => {
+    //       deleteAnimal({ observationAnimalId }).then(() => {
+    //         window.alert('삭제');
+    //       });
+    //     }
+    //   }
     // });
-    dialogOn({
-      message: '등록하신 동물 정보를<br/>정말 삭제하시겠습니까?',
-      close: {
-        text: '취소'
-      },
-      confirm: {
-        text: '삭제'
-      }
-    });
   };
 
   return (
@@ -97,7 +100,7 @@ export default function ShelterEditPage() {
                 key={animal.id}
                 data={animal}
                 onClickEdit={openDialog}
-                onClickDelete={() => handleDeleteAnimal(animal.id)}
+                onClickDelete={() => handleClickDeleteAnimal(animal.id)}
               />
             ))}
           </div>
