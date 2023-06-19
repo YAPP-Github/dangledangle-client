@@ -6,6 +6,9 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@/components/common/Button/Button';
 import TextArea from '@/components/common/TextField/TextArea';
+import FormProvider from '@/components/common/FormProvider/FormProvider';
+import TextFieldWithForm from '@/components/common/TextField/TextFieldWithForm';
+import TextAreaWithForm from '@/components/common/TextField/TextAreaWithForm';
 
 type FormValues = {
   instagram?: string;
@@ -37,6 +40,17 @@ const schema: yup.ObjectSchema<FormValues> = yup
   })
   .required();
 
+const schema2 = yup
+  .object()
+  .shape({
+    test1: yup
+      .string()
+      .max(10, '글자 길이는 10을 넘어선 안됩니다.')
+      .required('필수 입력사항입니다.'),
+    test2: yup.string().email().required('필수 입력사항입니다.')
+  })
+  .required();
+
 export default function TextFieldExample() {
   const {
     register,
@@ -46,6 +60,12 @@ export default function TextFieldExample() {
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(schema)
+  });
+
+  const methods2 = useForm({
+    mode: 'all',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(schema2)
   });
 
   const onValid = (data: any) => {
@@ -95,6 +115,22 @@ export default function TextFieldExample() {
           {...register('notice')}
         />
       </div>
+
+      <FormProvider
+        methods={methods2}
+        onSubmit={methods2.handleSubmit(onValid, console.log)}
+      >
+        <TextFieldWithForm
+          label={Object.keys(schema2.fields)[0]}
+          name={Object.keys(schema2.fields)[0]}
+          maxLength={10}
+        />
+        <TextAreaWithForm
+          label={Object.keys(schema2.fields)[1]}
+          name={Object.keys(schema2.fields)[1]}
+        />
+        <input type="submit"></input>
+      </FormProvider>
 
       <Button onClick={handleSubmit(onValid, console.log)}>확인</Button>
     </div>
