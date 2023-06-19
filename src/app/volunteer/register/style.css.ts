@@ -10,7 +10,7 @@ export const TitleSection = style({
 });
 
 export const InputSection = style({
-  height: '120px'
+  height: '60px'
 });
 
 export const CompletePage = style({

@@ -1,7 +1,7 @@
 'use client';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel from '@/hooks/useFunnel';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import NickName from './NickName';
 import RegisterComplete from './RegisterComplete';
 import Button from '@/components/common/Button/Button';
@@ -15,9 +15,33 @@ import ContactNumber from './ContactNumber';
 
 const pathname = `/volunteer/register`;
 
+type VolunteerRegisterFormValues = {
+  nickName: string;
+  contactNumber: string;
+};
+
+const validation: Yup.ObjectSchema<Partial<VolunteerRegisterFormValues>> =
+  Yup.object().shape({
+    nickName: Yup.string()
+      .max(10)
+      .required()
+      .test(
+        'no-emoji',
+        '이모티콘은 사용할 수 없습니다',
+        (value = '') =>
+          !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
+      ),
+    contactNumber: Yup.string()
+      .required()
+      .matches(
+        /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
+        '전화번호 형식이 아닙니다'
+      )
+  });
+
 const Steps: {
   component: () => JSX.Element;
-  path: string;
+  path: keyof VolunteerRegisterFormValues;
   onClick: (() => void) | null;
 }[] = [
   {
@@ -29,19 +53,8 @@ const Steps: {
     component: ContactNumber,
     path: 'contactNumber',
     onClick: async () => {}
-  },
-  {
-    component: RegisterComplete,
-    path: 'step2',
-    onClick: async () => {}
   }
 ];
-
-const validation = Yup.object({
-  nickName: Yup.string().max(10).required(),
-  nickName2: Yup.string().max(10).required(),
-  contactNumber: Yup.string().max(10).required()
-});
 
 export default function RegisterPage() {
   const { goToNextStep, currentStepIndex } = useFunnel(Steps, pathname);
@@ -62,6 +75,7 @@ export default function RegisterPage() {
     handleSubmit,
     formState: { errors }
   } = methods;
+
   const onSubmit = (data: any) => {
     console.log(data);
   };
@@ -69,16 +83,16 @@ export default function RegisterPage() {
   const handleClick = () => {
     methods.control._updateValid();
     const stepOnclickFunction = Steps[currentStepIndex].onClick;
+
     if (stepOnclickFunction) {
       stepOnclickFunction();
     }
 
-    console.log(currentStepIndex);
-    console.log('formState', methods.getValues());
-    console.log('formState', methods.formState.errors);
+    goToNextStep();
   };
 
   const CurrentComponent = Steps[currentStepIndex].component;
+  const currentError = errors[Steps[currentStepIndex].path];
 
   return (
     <div>
@@ -87,10 +101,7 @@ export default function RegisterPage() {
           <CurrentComponent />
         </FormProvider>
       </section>
-      <Button
-        onClick={handleClick}
-        disabled={Boolean(Object.keys(errors).length)}
-      >
+      <Button onClick={handleClick} disabled={Boolean(currentError)}>
         다음
       </Button>
     </div>
