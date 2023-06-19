@@ -1,11 +1,5 @@
 'use client';
-import React, {
-  ChangeEventHandler,
-  ForwardedRef,
-  useCallback,
-  useRef,
-  useState
-} from 'react';
+import React, { ChangeEventHandler, useCallback, useRef } from 'react';
 import * as styles from './TextFieldRefactor.css';
 
 import { Caption1 } from '../Typography';

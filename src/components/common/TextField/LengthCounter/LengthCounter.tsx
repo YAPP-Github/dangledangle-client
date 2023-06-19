@@ -1,5 +1,5 @@
 import React, { ForwardedRef } from 'react';
-import * as style from './LengthCounter.css';
+import * as styles from './LengthCounter.css';
 /**
  * 글자 수 카운트하는 컴포넌트
  */
@@ -17,7 +17,7 @@ const LengthCounter = React.forwardRef(function LengthCounter(
   ref: ForwardedRef<HTMLParagraphElement>
 ) {
   return (
-    <p className={style.counter} ref={ref} {...props}>
+    <p className={styles.counter} ref={ref} {...props}>
       {initValueLength}/{max}
     </p>
   );

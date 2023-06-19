@@ -9,7 +9,7 @@ import React, {
   useMemo,
   ChangeEvent
 } from 'react';
-import * as style from './TextField.css';
+import * as styles from './TextField.css';
 import useValidation, { ValidationArgs } from './hooks/useValidation';
 import { variants } from '../Typography/Typography.css';
 import clsx from 'clsx';
@@ -173,15 +173,15 @@ const TextField = React.forwardRef(function TextField(
 
   return (
     <div
-      className={clsx([style.inputTypeRecipe({ status }), style.wrapper])}
+      className={clsx([styles.inputTypeRecipe({ status }), styles.wrapper])}
       arial-lable="text"
     >
-      <label className={clsx([variants.caption1, style.label])}>{label}</label>
-      <div className={style.inputContainer}>
+      <label className={clsx([variants.caption1, styles.label])}>{label}</label>
+      <div className={styles.inputContainer}>
         <input
           name={name}
           type={type}
-          className={style.input({ size })}
+          className={styles.input({ size })}
           placeholder={placeholder}
           onChange={handleInputChange}
           onBlur={handleBlur}
@@ -194,7 +194,7 @@ const TextField = React.forwardRef(function TextField(
           status={status}
         />
         <Count max={max} ref={lengthCountRef} />
-        <div className={style.underbar} />
+        <div className={styles.underbar} />
       </div>
       <Message status={status} message={message} />
     </div>
@@ -224,7 +224,7 @@ const RemoveButton = ({
   return (
     <button
       onClick={onClick}
-      className={clsx(style.icon({ visible: isVisible() }))}
+      className={clsx(styles.icon({ visible: isVisible() }))}
     >
       <TextFieldRemoveIcon />
     </button>
@@ -244,7 +244,7 @@ const Count = React.forwardRef(function Count(
         ref={ref}
         className={clsx({
           [variants.body3]: true,
-          [style.count]: Boolean(max)
+          [styles.count]: Boolean(max)
         })}
       >
         {max && `0/${max}`}
@@ -265,7 +265,7 @@ const Message = ({
 }) => {
   return (
     <>
-      <p className={clsx([style.message, variants.caption2])}>
+      <p className={clsx([styles.message, variants.caption2])}>
         {status === 'loading' ? 'loading' : `${message}`}
       </p>
     </>
