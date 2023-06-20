@@ -1,5 +1,5 @@
 export interface ApiErrorResponse {
-  code: string;
+  exceptionCode: string;
   message: string;
   timeStamp: string;
 }
