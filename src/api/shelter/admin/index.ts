@@ -1,6 +1,7 @@
-export interface signUpPayload {
-  email: string;
-  password: string;
+import api from '@/api/instance';
+import { ShelterAdditionalInfo } from './additional-info';
+
+export interface ShelterEssentialInfo {
   name: string;
   phoneNumber: string;
   description: string;
@@ -12,3 +13,9 @@ export interface signUpPayload {
     longitude: number;
   };
 }
+
+export type ShelterInfo = ShelterEssentialInfo & ShelterAdditionalInfo;
+
+export const get = async () => {
+  return await api.get('shelter/admin').json<ShelterInfo>();
+};
