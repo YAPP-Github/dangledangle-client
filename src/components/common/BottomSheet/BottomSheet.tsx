@@ -1,5 +1,7 @@
 import React from 'react';
-import { defaultContent, overlay, panel, panelOpen } from './BottomSheet.css';
+import * as styles from './BottomSheet.css';
+import { AnimatePresence, motion } from 'framer-motion';
+import * as m from '../CofirmDialog/utils/motion';
 
 interface BottomSheetProps {
   /** bottom sheet status */
@@ -13,18 +15,35 @@ interface BottomSheetProps {
 export default function BottomSheet({
   isOpened = false,
   onClose,
-  children = <div className={defaultContent}>약관에 동의해주세요.</div>
+  children
 }: BottomSheetProps) {
   const handleOverlayClick = () => {
     onClose && onClose();
   };
 
   return (
-    <>
-      {isOpened && <div className={overlay} onClick={handleOverlayClick} />}
-      <section className={`${panel} ${isOpened ? panelOpen : ''}`}>
-        {children}
-      </section>
-    </>
+    <AnimatePresence>
+      {isOpened && (
+        <>
+          <motion.div
+            className={styles.overlay}
+            onClick={handleOverlayClick}
+            variants={m.overlayVariants}
+            initial="initial"
+            animate="visible"
+            exit="leaving"
+          />
+          <motion.section
+            variants={m.bottomVariants}
+            initial="initial"
+            animate="visible"
+            exit="leaving"
+            className={styles.panel}
+          >
+            <div className={styles.childrenWrap}>{children}</div>
+          </motion.section>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

@@ -1,6 +1,11 @@
+import QueryProvider from '@/providers/QueryProvider';
+import RecoilRootWrapper from '@/providers/RecoilRootWrapper';
+import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
-import font from '@/styles/font';
+import { GlobalComponents } from '@/components/common/GlobalComponents/GlobalComponents';
+import Header from '@/components/common/Header/Header';
+import { AuthProvider } from '@/providers/AuthContext';
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,8 +20,18 @@ export default function RootLayout({
   return (
     <html lang="ko" className={font.className}>
       <body className={styles.container}>
-        <div id="modal-portal" />
-        <main>{children}</main>
+        <RecoilRootWrapper>
+          <QueryProvider>
+            <AuthProvider>
+              <div id="modal-portal" />
+              <GlobalComponents />
+              <main>
+                <Header />
+                {children}
+              </main>
+            </AuthProvider>
+          </QueryProvider>
+        </RecoilRootWrapper>
       </body>
     </html>
   );

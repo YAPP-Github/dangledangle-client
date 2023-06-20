@@ -1,49 +1,9 @@
 import { palette } from '@/styles/color';
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-export const modalBgShow = keyframes({
-  from: {
-    opacity: '0'
-  },
-  to: {
-    opacity: '1'
-  }
-});
-
-export const modalShow = keyframes({
-  from: {
-    opacity: '0',
-    marginTop: '-50px'
-  },
-  to: {
-    opacity: '1',
-    marginTop: '0'
-  }
-});
-
-export const modalBgHide = keyframes({
-  from: {
-    opacity: '1'
-  },
-  to: {
-    opacity: '0'
-  }
-});
-
-export const modalHide = keyframes({
-  from: {
-    opacity: '1',
-    marginTop: '0'
-  },
-  to: {
-    opacity: '0',
-    marginTop: '-50px'
-  }
-});
-
 export const container = style({
-  position: 'absolute',
+  position: 'relative',
   width: '100%',
   height: '100%',
   zIndex: 100,
@@ -66,17 +26,23 @@ export const dialogOverlay = style({
 
 export const modalConatainer = recipe({
   base: {
+    boxSizing: 'border-box',
     position: 'fixed',
-    overflow: 'auto',
     top: '50%',
     left: '50%',
-    borderRadius: '10px',
-    padding: '1.5rem',
-    background: 'white',
-    width: '25rem',
+    borderRadius: '8px',
+    padding: '20px',
+    background: palette.white,
+    width: '320px',
     maxHeight: 'calc(85vh)'
   },
   variants: {
+    variant: {
+      basic: {
+        padding: '24px 24px 20px',
+        width: '300px'
+      }
+    },
     size: {
       sm: {
         transform: 'translate(-50%, -100%)'
@@ -92,13 +58,15 @@ export const header = style({
   position: 'absolute',
   right: '0.5rem',
   top: '0.5rem',
-  padding: 10,
-  cursor: 'pointer'
+  margin: 10,
+  cursor: 'pointer',
+  zIndex: 1
 });
 
 export const childrenWarp = style({
   width: '100%',
-  height: 'auto'
+  height: 'auto',
+  padding: '10px'
 });
 
 export const contents = style({
@@ -106,24 +74,11 @@ export const contents = style({
   flexDirection: 'column',
   alignItems: 'center',
   height: '100%',
-  padding: 30
+  width: '100%',
+  paddingBottom: '12px'
 });
 
 export const buttonWrapper = style({
   display: 'flex',
   gap: 10
-});
-
-export const button = style({
-  width: '100%',
-  height: '48px',
-  cursor: 'pointer',
-  background: palette.primary300,
-  ':hover': {
-    background: palette.primary200
-  },
-  borderRadius: '8px',
-  border: '0px',
-  color: palette.white,
-  textAlign: 'center'
 });
