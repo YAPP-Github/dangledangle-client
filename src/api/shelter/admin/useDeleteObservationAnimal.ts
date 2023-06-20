@@ -3,26 +3,22 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query';
-import {
-  ObservationAnimalPayload,
-  PostResponse,
-  post
-} from './observation-animal';
-import { shelterKey } from '../queryKey';
+import { remove, DeleteResponse } from './observation-animal';
+import { shelterKey } from '../../queryKey';
 
-export type CreateObservationAnimalParams = {
-  payload: ObservationAnimalPayload;
+export type DeleteObservationAnimalParams = {
+  observationAnimalId: number;
 };
-export default function useCreateObservationAnimal(
+export default function useDeleteObservationAnimal(
   options?: UseMutationOptions<
-    PostResponse,
+    DeleteResponse,
     unknown,
-    CreateObservationAnimalParams
+    DeleteObservationAnimalParams
   >
 ) {
   const queryClient = useQueryClient();
-  return useMutation<PostResponse, unknown, CreateObservationAnimalParams>(
-    ({ payload }) => post(payload),
+  return useMutation<DeleteResponse, unknown, DeleteObservationAnimalParams>(
+    ({ observationAnimalId }) => remove(observationAnimalId),
     {
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);

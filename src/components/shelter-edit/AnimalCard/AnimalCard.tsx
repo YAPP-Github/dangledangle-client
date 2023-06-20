@@ -1,10 +1,10 @@
 import React from 'react';
 import * as styles from './Animal.css';
-import { Dog } from '@/asset/icons';
 import { Body4, Caption1 } from '@/components/common/Typography';
 import Button from '@/components/common/Button/Button';
-import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
 import { ANIMAL_GENDER_DICT } from '@/constants/animal';
+import Image from 'next/image';
 
 interface AnimalCardProps {
   data: ObservationAnimal;
@@ -17,11 +17,18 @@ export default function AnimalCard({
   onClickEdit,
   onClickDelete
 }: AnimalCardProps) {
-  const { name, breed, age, gender, specialNote } = data;
+  const { profileImageUrl, name, breed, age, gender, specialNote } = data;
   return (
     <section className={styles.container}>
       <div className={styles.aniCard}>
-        <Dog />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.image}
+          src={profileImageUrl}
+          width={48}
+          height={48}
+          alt={name}
+        />
         <div>
           <Body4>{name}</Body4>
           <Caption1 color="gray600">
@@ -29,10 +36,11 @@ export default function AnimalCard({
           </Caption1>
         </div>
       </div>
-      {/* <Divider spacing={10} style={{ width: '100%' }} /> */}
-      <div className={styles.divider} />
+      <hr className={styles.divider} />
 
-      <Caption1 className={styles.textClamp}>{specialNote}</Caption1>
+      <Caption1 element={'p'} className={styles.textClamp} color="gray600">
+        {specialNote}
+      </Caption1>
       <div className={styles.buttonWarp}>
         <Button variant="line" size="xsmall" width="61px" onClick={onClickEdit}>
           수정

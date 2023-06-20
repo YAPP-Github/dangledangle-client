@@ -10,6 +10,7 @@ export type RadioOption = {
 
 interface RadioButtonProps {
   className?: string;
+  initailValue?: string;
   style?: React.CSSProperties;
   label?: string;
   name: string;
@@ -18,8 +19,8 @@ interface RadioButtonProps {
 }
 
 const RadioButton = React.forwardRef<HTMLInputElement, RadioButtonProps>(
-  ({ className, style, label, name, options, onChange }, ref) => {
-    const [selectedValue, setSelectedValue] = useState('');
+  ({ className, style, label, name, options, onChange, initailValue }, ref) => {
+    const [selectedValue, setSelectedValue] = useState(initailValue || '');
 
     const handleLaebelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSelectedValue(e.target?.value);
