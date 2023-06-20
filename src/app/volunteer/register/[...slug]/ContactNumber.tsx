@@ -13,10 +13,7 @@ export default function ContactNumber() {
         </EmphasizedTitle>
       </div>
       <div className={style.InputSection}>
-        <TextFieldWithForm
-          name="contactNumber"
-          fixedHelper="10자 이내 국문/영문/숫자/특수문자 가능 (이모지 불가)"
-        />
+        <TextFieldWithForm name="contactNumber" />
       </div>
     </>
   );

@@ -7,11 +7,16 @@ import Button from '@/components/common/Button/Button';
 import * as style from './style.css';
 import { useSetRecoilState } from 'recoil';
 import { headerState } from '@/store/header';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContactNumber from './ContactNumber';
 import RegisterComplete from './RegisterComplete';
+import {
+  VolunteerRegisterPayload,
+  postVolunteerRegister
+} from '@/api/auth/register';
+import { NickNamePayload, fetchCheckNickname } from '@/api/user/nickname';
 
 const pathname = `/volunteer/register`;
 
@@ -25,7 +30,7 @@ const validation: Yup.ObjectSchema<Partial<VolunteerRegisterFormValues>> =
   Yup.object().shape({
     nickName: Yup.string()
       .max(10)
-      .required()
+      .required('닉네임을 한글자 이상 입력해주세요.')
       .test(
         'no-emoji',
         '이모티콘은 사용할 수 없습니다',
@@ -33,7 +38,7 @@ const validation: Yup.ObjectSchema<Partial<VolunteerRegisterFormValues>> =
           !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
       ),
     contactNumber: Yup.string()
-      .required()
+      .required('전화번호를 입력해주세요.')
       .matches(
         /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
         '전화번호 형식이 아닙니다'
@@ -44,22 +49,26 @@ const validation: Yup.ObjectSchema<Partial<VolunteerRegisterFormValues>> =
 const Steps: {
   component: () => JSX.Element;
   path: keyof VolunteerRegisterFormValues;
-  onClick: (() => void) | null;
+  asyncCheck?: Function;
+  responseResult?: any;
 }[] = [
   {
     component: NickName,
     path: 'nickName',
-    onClick: null
+    asyncCheck: async (query: NickNamePayload) => {
+      fetchCheckNickname(query);
+    }
   },
   {
     component: ContactNumber,
     path: 'contactNumber',
-    onClick: async () => {}
+    asyncCheck: async (payload: VolunteerRegisterPayload) => {
+      postVolunteerRegister(payload);
+    }
   },
   {
     component: RegisterComplete,
-    path: 'complete',
-    onClick: async () => {}
+    path: 'complete'
   }
 ];
 
@@ -81,22 +90,59 @@ export default function RegisterPage({ params }: { params: { slug: string } }) {
 
   const {
     handleSubmit,
+    getValues,
+    setError,
     formState: { errors }
   } = methods;
+
+  const stepsFunction = useMemo(
+    () => [
+      {
+        asyncCheck: async () => {
+          const query = getValues('nickName');
+          const check = await fetchCheckNickname(query || '');
+
+          if (check === true) throw new Error('이미 존재하는 닉네임입니다.');
+        }
+      },
+      {
+        asyncCheck: async () => {
+          const payload: VolunteerRegisterPayload = {
+            nickname: getValues('nickName') || '',
+            phone: getValues('contactNumber') || '',
+            email: 'sangjun@naver.com' as string
+          };
+          return await postVolunteerRegister(payload);
+        }
+      },
+      {
+        asyncCheck: async () => {
+          return true;
+        }
+      }
+    ],
+    []
+  );
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     methods.control._updateValid();
-    const stepOnclickFunction = Steps[currentStepIndex].onClick;
+    const stepOnclickFunction = stepsFunction[currentStepIndex].asyncCheck;
 
-    if (stepOnclickFunction) {
-      stepOnclickFunction();
+    try {
+      await stepOnclickFunction();
+      return goToNextStep();
+    } catch (e) {
+      const error = e as Error;
+      setError(
+        Steps[currentStepIndex].path,
+        { type: 'focus', message: error.message },
+        { shouldFocus: true }
+      );
     }
-
-    goToNextStep();
   };
 
   const CurrentComponent = Steps[currentStepIndex].component;

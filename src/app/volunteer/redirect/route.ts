@@ -30,7 +30,7 @@ export function GET(req: NextRequest) {
     return redirect('/volunteer/login', RedirectType.replace);
   }
 
-  /** next 서버에서 client에 쿠키 세팅*/
+  /** next 서버에서 client로 쿠키 세팅*/
   const res = NextResponse.redirect(`${req.nextUrl.origin}/`);
   res.cookies.set(CLIENT_ACCESS_TOKEN_KEY, receivedAccessToken);
   res.cookies.set(CLIENT_REFRESH_TOKEN_KEY, receivedRefreshToken);

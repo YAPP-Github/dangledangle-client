@@ -3,7 +3,6 @@ import EmphasizedTitle, {
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import * as style from './style.css';
 import TextFieldWithForm from '@/components/common/TextField/TextFieldWithForm';
-import { useFormContext } from 'react-hook-form';
 
 export default function NickName() {
   return (
@@ -17,7 +16,7 @@ export default function NickName() {
       <div className={style.InputSection}>
         <TextFieldWithForm
           name="nickName"
-          fixedHelper={'10자 이내 국문/영문/숫자/특수문자 가능 (이모지 불가)'}
+          helper={'10자 이내 국문/영문/숫자/특수문자 가능 (이모지 불가)'}
           maxLength={10}
         />
       </div>

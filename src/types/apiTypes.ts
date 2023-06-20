@@ -7,7 +7,7 @@ export interface ApiErrorResponse {
 }
 
 export interface AuthErrorResponse {
-  exceptionCode: AuthErrorCodeKeys;
+  exceptionCode: string; // 추후 추가되는듯함
   message: string;
   timeStamp: string;
 }

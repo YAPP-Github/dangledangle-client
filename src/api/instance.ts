@@ -1,16 +1,21 @@
 import ky from 'ky';
 import { setAuthorizationHeader } from '@/utils/ky/hooks/beforeRequest';
-import { retryRequestOnUnauthorized } from '@/utils/ky/hooks/afterResponse';
+import {
+  retryRequestOnUnauthorized,
+  returnErrorMessage
+} from '@/utils/ky/hooks/afterResponse';
+
 const api = ky.create({
-  prefixUrl: 'http://152.67.202.74:9090/v1',
+  prefixUrl: 'http://3.34.243.139:8080/v1',
   headers: {
     'Content-Type': 'application/json'
   },
   hooks: {
     beforeRequest: [setAuthorizationHeader],
-    afterResponse: [retryRequestOnUnauthorized]
+    afterResponse: [retryRequestOnUnauthorized, returnErrorMessage]
   }
 });
+
 export default api;
 
 interface Success<T> {
