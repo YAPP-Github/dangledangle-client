@@ -13,11 +13,12 @@ export const panel = style({
   transition: 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
   zIndex: 100,
   transform: 'translateY(100%)',
-  visibility: 'hidden'
+  visibility: 'hidden',
+  paddingBottom: '200px'
 });
 
 export const panelOpen = style({
-  transform: 'translateY(100px)',
+  transform: 'translateY(200px)',
   visibility: 'visible'
 });
 
