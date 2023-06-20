@@ -18,8 +18,6 @@ export function GET(req: NextRequest) {
   const receivedAccessToken = query.get('accessToken');
   const receivedRefreshToken = query.get('refreshToken');
 
-  // console.log(req.nextUrl);
-
   if (!isMember) {
     const res = redirect(`/volunteer/register`, RedirectType.push);
     return res;

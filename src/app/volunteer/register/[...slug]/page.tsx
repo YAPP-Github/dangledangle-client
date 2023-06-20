@@ -8,77 +8,65 @@ import * as style from './style.css';
 import { useSetRecoilState } from 'recoil';
 import { headerState } from '@/store/header';
 import { useEffect, useMemo } from 'react';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContactNumber from './ContactNumber';
-import RegisterComplete from './RegisterComplete';
 import {
   VolunteerRegisterPayload,
   postVolunteerRegister
 } from '@/api/auth/register';
-import { NickNamePayload, fetchCheckNickname } from '@/api/user/nickname';
+import { fetchCheckNickname } from '@/api/user/nickname';
+import { validation } from './validationSchema';
+import RegisterComplete from '@/components/volunteer/RegisterComplete/RegisterComplete';
 
-const pathname = `/volunteer/register`;
-
-type VolunteerRegisterFormValues = {
+export type RegisterFormValues = {
   nickName: string;
   contactNumber: string;
   complete: string;
 };
-
-const validation: Yup.ObjectSchema<Partial<VolunteerRegisterFormValues>> =
-  Yup.object().shape({
-    nickName: Yup.string()
-      .max(10)
-      .required('닉네임을 한글자 이상 입력해주세요.')
-      .test(
-        'no-emoji',
-        '이모티콘은 사용할 수 없습니다',
-        (value = '') =>
-          !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
-      ),
-    contactNumber: Yup.string()
-      .required('전화번호를 입력해주세요.')
-      .matches(
-        /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
-        '전화번호 형식이 아닙니다'
-      ),
-    complete: Yup.string()
-  });
-
-const Steps: {
+type RegisterSteps<T> = {
   component: () => JSX.Element;
-  path: keyof VolunteerRegisterFormValues;
-  asyncCheck?: Function;
-  responseResult?: any;
-}[] = [
-  {
-    component: NickName,
-    path: 'nickName',
-    asyncCheck: async (query: NickNamePayload) => {
-      fetchCheckNickname(query);
-    }
-  },
-  {
-    component: ContactNumber,
-    path: 'contactNumber',
-    asyncCheck: async (payload: VolunteerRegisterPayload) => {
-      postVolunteerRegister(payload);
-    }
-  },
-  {
-    component: RegisterComplete,
-    path: 'complete'
-  }
-];
+  path: keyof T;
+  asyncCheck: Function;
+};
 
 export default function RegisterPage({ params }: { params: { slug: string } }) {
+  const Steps: RegisterSteps<RegisterFormValues>[] = useMemo(
+    () => [
+      {
+        component: NickName,
+        path: 'nickName',
+        asyncCheck: async () => {
+          const query = getValues('nickName');
+          const check = await fetchCheckNickname(query || '');
+          if (check === true) throw new Error('이미 존재하는 닉네임입니다.');
+        }
+      },
+      {
+        component: ContactNumber,
+        path: 'contactNumber',
+        asyncCheck: async () => {
+          const payload: VolunteerRegisterPayload = {
+            nickname: getValues('nickName') || '',
+            phone: getValues('contactNumber') || '',
+            email: 'sangjun@naver.com' as string // 이메일을 알수가엇ㅂ어..
+          };
+          return await postVolunteerRegister(payload);
+        }
+      },
+      {
+        component: RegisterComplete,
+        path: 'complete',
+        asyncCheck: async () => {}
+      }
+    ],
+    []
+  );
+
+  const pathname = `/volunteer/register`;
+  const setHeader = useSetRecoilState(headerState);
   const { goToNextStep, currentStepIndex } = useFunnel(Steps, pathname);
 
-  const setHeader = useSetRecoilState(headerState);
-
   useEffect(() => {
-    if (params) window.history.replaceState(null, '', `${pathname}/nickName`);
     setHeader({ title: '기본 설정', thisPage: null, entirePage: null });
   });
 
@@ -89,54 +77,22 @@ export default function RegisterPage({ params }: { params: { slug: string } }) {
   });
 
   const {
-    handleSubmit,
+    control,
     getValues,
     setError,
     formState: { errors }
   } = methods;
 
-  const stepsFunction = useMemo(
-    () => [
-      {
-        asyncCheck: async () => {
-          const query = getValues('nickName');
-          const check = await fetchCheckNickname(query || '');
-
-          if (check === true) throw new Error('이미 존재하는 닉네임입니다.');
-        }
-      },
-      {
-        asyncCheck: async () => {
-          const payload: VolunteerRegisterPayload = {
-            nickname: getValues('nickName') || '',
-            phone: getValues('contactNumber') || '',
-            email: 'sangjun@naver.com' as string
-          };
-          return await postVolunteerRegister(payload);
-        }
-      },
-      {
-        asyncCheck: async () => {
-          return true;
-        }
-      }
-    ],
-    []
-  );
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
-
   const handleClick = async () => {
-    methods.control._updateValid();
-    const stepOnclickFunction = stepsFunction[currentStepIndex].asyncCheck;
+    control._updateValid();
+    const stepOnclickFunction = Steps[currentStepIndex].asyncCheck;
 
     try {
-      await stepOnclickFunction();
+      // await stepOnclickFunction();
       return goToNextStep();
     } catch (e) {
       const error = e as Error;
+      console.log(e);
       setError(
         Steps[currentStepIndex].path,
         { type: 'focus', message: error.message },
@@ -151,13 +107,15 @@ export default function RegisterPage({ params }: { params: { slug: string } }) {
   return (
     <div>
       <section className={style.wrapper}>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods}>
           <CurrentComponent />
         </FormProvider>
       </section>
-      <Button onClick={handleClick} disabled={Boolean(currentError)}>
-        다음
-      </Button>
+      {currentStepIndex !== Steps.length - 1 && (
+        <Button onClick={handleClick} disabled={Boolean(currentError)}>
+          다음
+        </Button>
+      )}
     </div>
   );
 }

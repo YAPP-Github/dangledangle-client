@@ -1,14 +1,9 @@
-import { H2 } from '@/components/common/Typography';
-import * as style from './style.css';
+import RegisterComplete from '@/components/volunteer/RegisterComplete/RegisterComplete';
 
-export default function RegisterComplete() {
+export default function Complete() {
   return (
     <>
-      <div className={style.CompletePage}>
-        <div></div>
-        <H2>가입완료!</H2>
-        <H2>같이 세상을 바꿔볼까요?</H2>
-      </div>
+      <RegisterComplete />
     </>
   );
 }
