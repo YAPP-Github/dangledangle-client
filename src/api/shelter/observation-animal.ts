@@ -1,19 +1,19 @@
 import { AnimalGender } from '@/constants/animal';
 import api from '../instance';
 
-export interface ObservationAnimal
-  extends Omit<ObservationAnimalPayload, 'images'> {
+export interface ObservationAnimal {
   id: number;
   profileImageUrl: string;
-}
-
-export interface ObservationAnimalPayload {
-  images: string[];
   name: string;
   age: number;
   gender: AnimalGender;
   breed: string;
   specialNote: string;
+}
+
+export interface ObservationAnimalPayload
+  extends Omit<ObservationAnimal, 'profileImageUrl' | 'id'> {
+  images: string[];
 }
 
 export type PostResponse = {
