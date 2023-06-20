@@ -2,8 +2,8 @@ import { atom } from 'recoil';
 
 export interface HeaderState {
   title: string;
-  thisPage: number;
-  entirePage: number;
+  thisPage: number | null;
+  entirePage: number | null;
 }
 
 export const headerState = atom<HeaderState>({
