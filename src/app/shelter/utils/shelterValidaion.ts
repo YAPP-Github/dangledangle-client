@@ -87,7 +87,22 @@ export const passWordFindValidation = yup.object().shape({
 });
 
 export const registerValidation = yup.object({
-  email: yup.string().required().email('올바른 이메일 형식이 아닙니다.'),
+  email: yup
+    .string()
+    .required()
+    .email('올바른 이메일 형식이 아닙니다.')
+    .test(
+      'verified',
+      '이미 등록된 이메일이에요. 다시 한번 확인해주세요.',
+      async (value, values) => {
+        const verified = await debounceIsExistValidation(
+          value as string,
+          values,
+          'EMAIL'
+        );
+        return !verified as boolean;
+      }
+    ),
   password: yup
     .string()
     .required()
@@ -110,6 +125,18 @@ export const registerValidation = yup.object({
       '이모티콘은 사용할 수 없습니다.',
       (value = '') =>
         !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
+    )
+    .test(
+      'verified',
+      '이미 등록된 보호소에요. 다시 한번 확인해주세요.',
+      async (value, values) => {
+        const verified = await debounceIsExistValidation(
+          value as string,
+          values,
+          'NAME'
+        );
+        return !verified as boolean;
+      }
     ),
   phoneNumber: yup
     .string()
