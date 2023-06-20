@@ -1,10 +1,11 @@
 import { palette } from '@/styles/color';
+import { BREAK_POINT } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const bottomSheet = style({
   height: '70vh',
-  left: 0,
-  width: '100%',
+  maxWidth: `${BREAK_POINT}px`,
+  width: 'calc(100% - 40px)',
   borderBottomLeftRadius: '0',
   borderBottomRightRadius: '0'
 });
