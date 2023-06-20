@@ -1,14 +1,15 @@
-import Button from '@/components/common/Button/Button';
-import React, { useState } from 'react';
-import { onNextProps } from '../page';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import { H2, H3 } from '@/components/common/Typography';
-import TextField from '@/components/common/TextField/TextField';
-import { useFormContext } from 'react-hook-form';
-import useBooleanState from '@/hooks/useBooleanState';
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
+import Button from '@/components/common/Button/Button';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
+import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import TextField from '@/components/common/TextField/TextField';
+import { H2, H3 } from '@/components/common/Typography';
+import useBooleanState from '@/hooks/useBooleanState';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { onNextProps } from '../page';
 
+const REQUIRE = '필수 입력 항목입니다.';
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
@@ -16,8 +17,31 @@ export default function Account({ onNext }: onNextProps) {
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useFormContext();
+
+  useEffect(() => {
+    setError(
+      'email',
+      {
+        type: 'focus',
+        message: REQUIRE
+      },
+      { shouldFocus: true }
+    );
+    setError('password', {
+      type: 'focus',
+      message: REQUIRE
+    });
+    setError('passwordConfirm', {
+      type: 'focus',
+      message: REQUIRE
+    });
+  }, [setError]);
+
+  const isInputError =
+    !!errors.email && !!errors.password && !!errors.passwordConfirm;
 
   const [allChecked, setAllChecked] = useState(false);
   const [singleChecked, setsingleChecked] = useState<SingleCheckedState>({
@@ -27,7 +51,7 @@ export default function Account({ onNext }: onNextProps) {
     marketing: false
   });
 
-  const handleAllChecked = () => {
+  const handleAllChecked = useCallback(() => {
     setAllChecked(!allChecked);
     setsingleChecked({
       over14: !allChecked,
@@ -35,22 +59,28 @@ export default function Account({ onNext }: onNextProps) {
       privacy: !allChecked,
       marketing: !allChecked
     });
-  };
+  }, [allChecked]);
 
-  const handleSingleChecked = (key: keyof SingleCheckedState) => {
-    setsingleChecked({
-      ...singleChecked,
-      [key]: !singleChecked[key]
-    });
-  };
+  const handleSingleChecked = useCallback(
+    (key: keyof SingleCheckedState) => {
+      setsingleChecked({
+        ...singleChecked,
+        [key]: !singleChecked[key]
+      });
+    },
+    [singleChecked]
+  );
 
   const isButtonDisabled =
     !singleChecked.over14 || !singleChecked.terms || !singleChecked.privacy;
 
-  const onClickHandler = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    isOpenSheet();
-  };
+  const handleBottomSheet = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      isOpenSheet();
+    },
+    [isOpenSheet]
+  );
 
   return (
     <>
@@ -86,7 +116,11 @@ export default function Account({ onNext }: onNextProps) {
           {...register('passwordConfirm')}
           error={errors.passwordConfirm}
         />
-        <Button onClick={onClickHandler} style={{ marginTop: '47px' }}>
+        <Button
+          disabled={isInputError}
+          onClick={handleBottomSheet}
+          style={{ marginTop: '40px' }}
+        >
           다음
         </Button>
       </div>

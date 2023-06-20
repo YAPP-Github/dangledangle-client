@@ -1,13 +1,12 @@
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
-import React, { useLayoutEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
-import { useSetRecoilState } from 'recoil';
-import { headerState } from '@/store/header';
 import TextFieldWithForm from '@/components/common/TextField/TextFieldWithForm';
+import { H2 } from '@/components/common/Typography';
+import { headerState } from '@/store/header';
+import { useLayoutEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
+import { onNextProps } from '../page';
 
 export default function Hp({ onNext }: onNextProps) {
   const {
@@ -42,7 +41,11 @@ export default function Hp({ onNext }: onNextProps) {
         error={errors.phoneNumber}
       />
 
-      <Button onClick={onNext} style={{ marginTop: '47px' }}>
+      <Button
+        disabled={!!errors.phoneNumber}
+        onClick={onNext}
+        style={{ marginTop: '40px' }}
+      >
         다음
       </Button>
     </div>

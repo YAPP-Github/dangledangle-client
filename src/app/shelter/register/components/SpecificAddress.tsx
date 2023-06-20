@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import Message from '@/components/common/TextField/Message/Message';
 import TextField from '@/components/common/TextField/TextField';
 import { H2 } from '@/components/common/Typography';
 import { useFormContext } from 'react-hook-form';
@@ -35,15 +36,22 @@ export default function SpecificAddress({ onNext }: onNextProps) {
       <TextField
         maxLength={10}
         placeholder="상세 주소를 입력하세요"
-        // error={errors.address?.addressDetail}
         {...register('address[addressDetail]')}
+      />
+      <Message
+        status="error"
+        message={(errors.address as any)?.addressDetail?.message}
       />
 
       {/* longitude x축 경도 latitude y축 위도 */}
       <input style={{ display: 'none' }} {...register('address[longitude]')} />
       <input style={{ display: 'none' }} {...register('address[latitude]')} />
 
-      <Button onClick={onNext} style={{ marginTop: '47px' }}>
+      <Button
+        disabled={!!(errors.address as any)?.addressDetail}
+        onClick={onNext}
+        style={{ marginTop: '40px' }}
+      >
         다음
       </Button>
     </div>

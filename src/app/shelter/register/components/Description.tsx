@@ -47,8 +47,9 @@ export default function Description({ onSubmit }: onNextProps) {
       />
 
       <Button
+        disabled={!!errors.description}
         onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
-        style={{ marginTop: '38px' }}
+        style={{ marginTop: '40px' }}
       >
         저장하기
       </Button>
