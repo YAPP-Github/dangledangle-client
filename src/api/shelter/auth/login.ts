@@ -22,3 +22,11 @@ export const loginShelter = async (data: LoginPayload) => {
 
   return response;
 };
+
+export const isExist = async (value: string, type: string) => {
+  const response = await api
+    .get(`auth/shelter/exist?value=${value}&type=${type}`)
+    .then(res => res.json<Promise<Record<'isExist', boolean>>>());
+
+  return response;
+};

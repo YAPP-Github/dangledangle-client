@@ -86,6 +86,7 @@ export default function Sure({ onNext }: onNextProps) {
           </div>
         </div>
       </div>
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <CheckBox
           value={checked}
