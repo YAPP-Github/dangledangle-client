@@ -11,7 +11,7 @@ export interface ShelterAdditionalInfo {
     isParkingEnabled: boolean;
     parkingNotice: string;
   } | null;
-  donation: {
+  bankAccount: {
     accountNumber: string;
     bankName: string;
   } | null;
