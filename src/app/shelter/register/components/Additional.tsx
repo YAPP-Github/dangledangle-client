@@ -120,8 +120,11 @@ export default function Additional() {
       >
         다음
       </Button>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ButtonText1 style={{ margin: '16px 0 0 auto', cursor: 'pointer' }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <ButtonText1
+          color="gray400"
+          style={{ marginTop: '16px', cursor: 'pointer' }}
+        >
           다음에 하기
         </ButtonText1>
       </div>

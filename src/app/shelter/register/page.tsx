@@ -18,6 +18,8 @@ import Hp from './components/Hp';
 import Name from './components/Name';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
+import Additional from './components/Additional';
+import Complete from './components/Complete';
 
 export interface onNextProps {
   onNext: VoidFunction;
@@ -56,6 +58,14 @@ const Steps: StepsProps<onNextProps>[] = [
   {
     component: Description,
     path: 'step6'
+  },
+  // {
+  //   component: Complete,
+  //   path: 'step7'
+  // },
+  {
+    component: Additional,
+    path: 'step8'
   }
 ];
 
@@ -84,19 +94,15 @@ export default function ShelterRegister() {
   });
 
   const { mutateAsync } = useShelterRegister();
-  const {
-    handleSubmit,
-    formState: { errors }
-  } = methods;
-  console.log(errors);
+  const { handleSubmit } = methods;
+
   const onSubmit = async (data: signUpFormValue) => {
     // delete data.passwordConfirm;
     console.log(data);
 
     try {
       await mutateAsync(data);
-      //FIXME: 가입완료 페이지로 변경
-      router.push('/event');
+      goToNextStep();
     } catch (error) {
       //FIXME: 토스트 알림으로 변경
       console.error('회원가입 실패', error);
