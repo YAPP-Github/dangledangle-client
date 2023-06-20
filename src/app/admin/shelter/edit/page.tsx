@@ -1,6 +1,6 @@
 'use client';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import EditMenu from '@/components/shelter-edit/EditMenu/EditMenu';
 import Badge from '@/components/common/Badge/Badge';
 import Divider from '@/components/common/Divider/Divider';
@@ -16,6 +16,9 @@ import useToast from '@/hooks/useToast';
 import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
 import useDeleteObservationAnimal from '@/api/shelter/admin/useDeleteObservationAnimal';
 import useObservationAnimalList from '@/api/shelter/admin/useObservationAnimalList';
+import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
+import { OUT_LINK_TYPE } from '@/constants/shelter';
+import { ShelterAdditionalInfo } from '@/api/shelter/admin/additional-info';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
@@ -25,7 +28,8 @@ export default function ShelterEditPage() {
   const toastOn = useToast();
   const [targetAnimal, setTargetAnimal] = useState<ObservationAnimal>();
 
-  const { data: animalList, isSuccess } = useObservationAnimalList();
+  const animalsQuery = useObservationAnimalList();
+  const shelterQuery = useShelterInfo();
   const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
 
   const handleChangeImage = useCallback((fileData?: File) => {
@@ -49,8 +53,8 @@ export default function ShelterEditPage() {
   };
 
   const handleClickEdit = (idx: number) => {
-    if (animalList) {
-      setTargetAnimal(animalList[idx]);
+    if (animalsQuery.data) {
+      setTargetAnimal(animalsQuery.data[idx]);
       openDialog();
     }
   };
@@ -59,6 +63,18 @@ export default function ShelterEditPage() {
     setTargetAnimal(undefined);
     openDialog();
   };
+
+  const isAddtionalInfoCompleted = (info: ShelterAdditionalInfo) => {
+    if (info.outLinks.length !== Object.keys(OUT_LINK_TYPE).length)
+      return false;
+    return !Object.values(info).includes(null);
+  };
+
+  const MenuBadge = (isCompleted: boolean) => (
+    <Badge type={isCompleted ? 'primary' : 'gray'}>
+      {isCompleted ? '입력 완료' : '미입력'}
+    </Badge>
+  );
 
   return (
     <>
@@ -74,14 +90,17 @@ export default function ShelterEditPage() {
         <EditMenu
           title="필수 정보"
           caption="보호소 이름 / 연락처 / 주소 / 소개문구"
-          titleSuffix={<Badge type="primary">입력완료</Badge>}
+          titleSuffix={MenuBadge(true)}
           onClick={() => router.push(location.pathname + '/required')}
         />
         <Divider spacing={18} />
         <EditMenu
           title="추가 정보"
           caption="SNS계정 / 후원 계좌 정보 / 주차 정보 / 사전 안내사항"
-          titleSuffix={<Badge type="gray">미입력</Badge>}
+          titleSuffix={MenuBadge(
+            shelterQuery.isSuccess &&
+              isAddtionalInfoCompleted(shelterQuery.data)
+          )}
           onClick={() => router.push(location.pathname + '/extra')}
         />
         <Divider spacing={18} />
@@ -93,10 +112,12 @@ export default function ShelterEditPage() {
           titleSuffix={
             <H4
               color={
-                animalList && animalList.length > 0 ? 'primary300' : 'gray400'
+                animalsQuery.data && animalsQuery.data.length > 0
+                  ? 'primary300'
+                  : 'gray400'
               }
             >
-              {animalList?.length || 0}
+              {animalsQuery.data?.length || 0}
             </H4>
           }
         />
@@ -108,9 +129,9 @@ export default function ShelterEditPage() {
         >
           동물 추가하기
         </Button>
-        {isSuccess && (
+        {animalsQuery.isSuccess && (
           <div className={styles.animalList}>
-            {animalList.map((animal, idx) => (
+            {animalsQuery.data.map((animal, idx) => (
               <AnimalCard
                 key={animal.id}
                 data={animal}
