@@ -23,7 +23,7 @@ export default function useUpdateAdditionalInfo(
     {
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);
-        return queryClient.invalidateQueries(shelterKey.additionalInfo());
+        return queryClient.invalidateQueries(shelterKey.info());
       },
       ...options
     }
