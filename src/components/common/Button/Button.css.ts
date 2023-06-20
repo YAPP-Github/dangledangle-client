@@ -63,7 +63,13 @@ export const ButtonWrapper = recipe({
           borderRadius: '4px'
         }
       ],
-      small: variants.h4,
+      small: [
+        variants.button1,
+        {
+          height: '40px',
+          borderRadius: '4px'
+        }
+      ],
       middle: variants.h4,
       large: variants.h4
     }

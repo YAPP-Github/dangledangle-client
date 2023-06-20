@@ -4,6 +4,7 @@ import { Color, palette } from '@/styles/color';
 import { useCallback } from 'react';
 import { Body1 } from '../Typography';
 import { CheckIcon } from '@/asset/icons';
+import clsx from 'clsx';
 
 interface CheckBoxProps {
   name?: string;
@@ -11,6 +12,7 @@ interface CheckBoxProps {
   disabled?: boolean;
   color?: Color;
   label?: string;
+  className?: string;
   onClick: (value: boolean, name?: string) => void;
 }
 
@@ -20,6 +22,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   disabled,
   color = 'primary300',
   label,
+  className,
   onClick
 }) => {
   const handleClick = useCallback(() => {
@@ -28,7 +31,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   }, [disabled, name, onClick, value]);
 
   return (
-    <div className={styles.container}>
+    <div className={clsx([styles.container, className])}>
       <button
         className={styles.checkBox({
           checked: value,

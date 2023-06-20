@@ -8,7 +8,7 @@ interface MarqueeProps {
   duration?: number;
 }
 
-export default function Marquee({ children, duration = 5 }: MarqueeProps) {
+export default function Marquee({ children, duration = 3 }: MarqueeProps) {
   return (
     <div
       aria-label="marquee"

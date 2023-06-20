@@ -7,16 +7,20 @@ import TextField from '@/components/common/TextField/TextField';
 import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
+import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
+import { isEmpty } from 'lodash';
+import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
+import { useRouter } from 'next/navigation';
 
 type FormValues = {
   instagram?: string;
   bankName?: string;
-  account?: string;
+  accountNumber?: string;
   donationUrl?: string;
   isParkingEnabled?: string | null;
   parkingNotice?: string;
@@ -41,14 +45,14 @@ const schema: yup.ObjectSchema<FormValues> = yup
   .shape({
     instagram: yup
       .string()
-      .optional()
+      .default('')
       .matches(/https:\/\/www\.instagram\.com\/[\w\.]+$/i, {
         excludeEmptyString: true,
         message: '인스타그램 주소를 다시 확인해주세요'
       })
       .url('유효한 url 형식이 아닙니다.'),
     bankName: yup.string(),
-    account: yup.string(),
+    accountNumber: yup.string(),
     donationUrl: yup.string().url(),
     isParkingEnabled: yup.string().nullable().oneOf(['true', 'false']),
     parkingNotice: yup.string().max(maxParkingNoticeLength),
@@ -60,38 +64,45 @@ export default function ShelterEditExtraPage() {
   const {
     register,
     handleSubmit,
-    getValues,
+    watch,
+    reset,
     formState: { errors }
   } = useForm<FormValues>({
     resolver: yupResolver(schema)
   });
-  const onSubmit = (data: FormValues | FieldErrors<FormValues>) =>
-    console.log(data);
+  const router = useRouter();
+  const shelterQuery = useShelterInfo();
+  const { mutateAsync: update } = useUpdateAdditionalInfo();
+
+  const isParkingEnabled = watch('isParkingEnabled');
+  const onSubmit = (data: FormValues) => {
+    console.log('🔸 → onSubmit → data:', data);
+  };
   return (
-    <form onSubmit={handleSubmit(onSubmit, onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
         <TextField
           label="인스타그램 계정"
           placeholder="https://www.instagram.com/프로필명"
-          error={errors['instagram']}
+          error={errors.instagram}
           {...register('instagram')}
         />
         <div>
           <TextField
             label="후원 계좌 정보"
             placeholder="은행명"
-            error={errors['bankName']}
+            error={errors.bankName}
             {...register('bankName')}
           />
 
           <TextField
             placeholder="계좌번호"
-            error={errors['account']}
-            {...register('account')}
+            error={errors.accountNumber}
+            {...register('accountNumber')}
           />
           <TextField
             placeholder="카카오페이 코드 송금 링크 입력"
-            error={errors['donationUrl']}
+            error={errors.donationUrl}
             {...register('donationUrl')}
           />
           <Caption2 color="gray600">
@@ -117,8 +128,8 @@ export default function ShelterEditExtraPage() {
           />
           <TextField
             placeholder="추가 주차 관련 안내 (최대 200자)"
-            disabled={!getValues('isParkingEnabled')}
-            error={errors['parkingNotice']}
+            disabled={isParkingEnabled === ''}
+            error={errors.parkingNotice}
             {...register('parkingNotice')}
           />
         </div>
@@ -127,12 +138,14 @@ export default function ShelterEditExtraPage() {
           placeholder="봉사자에게 사전에 안내해야 할 내용이 있다면 입력해주세요. (최대 1000자)"
           maxLength={maxNoticeLength}
           height="174px"
-          error={errors['notice']}
+          error={errors.notice}
           {...register('notice')}
         />
       </div>
       <FixedFooter>
-        <Button itemType="submit">저장하기</Button>
+        <Button itemType="submit" disabled={!isEmpty(errors)}>
+          저장하기
+        </Button>
       </FixedFooter>
     </form>
   );

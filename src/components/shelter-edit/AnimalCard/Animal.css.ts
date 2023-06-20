@@ -7,9 +7,12 @@ export const container = style({
   alignItems: 'center',
   padding: '16px',
   gap: '10px',
-  height: '180px',
   background: palette.white,
   borderRadius: '8px'
+});
+
+export const image = style({
+  borderRadius: 4
 });
 
 export const aniCard = style({
@@ -23,24 +26,23 @@ export const divider = style({
   boxSizing: 'border-box',
   width: '100%',
   height: '0px',
-  border: `0.5px solid ${palette.gray200}`,
-  marginTop: '10px',
-  marginBottom: '10px'
+  border: `0.5px solid ${palette.gray200}`
 });
 
 export const textClamp = style({
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
   WebkitLineClamp: 2,
-  overflow: 'hidden'
+  overflow: 'hidden',
+  width: '100%'
 });
 
 export const buttonWarp = style({
   display: 'flex',
   width: '100%',
   columnGap: '12px',
-  alignItems: 'end',
-  justifyContent: 'end',
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
   marginTop: '10px'
 });
 

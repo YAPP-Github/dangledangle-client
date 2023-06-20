@@ -1,17 +1,19 @@
 import { AnimalGender } from '@/constants/animal';
-import api from '../instance';
+import api from '../../instance';
 
-export interface ObservationAnimal extends ObservationAnimalPayload {
+export interface ObservationAnimal {
   id: number;
-}
-
-export interface ObservationAnimalPayload {
-  images: string[];
+  profileImageUrl: string;
   name: string;
   age: number;
   gender: AnimalGender;
   breed: string;
   specialNote: string;
+}
+
+export interface ObservationAnimalPayload
+  extends Omit<ObservationAnimal, 'profileImageUrl' | 'id'> {
+  images: string[];
 }
 
 export type PostResponse = {
@@ -23,7 +25,7 @@ export type DeleteResponse = PostResponse;
 export const mock: ObservationAnimal[] = [
   {
     id: 0,
-    images: [''],
+    profileImageUrl: '',
     name: '인절미',
     breed: '비글',
     age: 3,
@@ -33,7 +35,7 @@ export const mock: ObservationAnimal[] = [
   },
   {
     id: 1,
-    images: [''],
+    profileImageUrl: '',
     name: '홍시',
     breed: '비글',
     age: 3,
@@ -80,14 +82,9 @@ export const put = async (
   return response;
 };
 
-export const remove = async (
-  observationAnimalId: number,
-  data: ObservationAnimalPayload
-) => {
+export const remove = async (observationAnimalId: number) => {
   const response = await api
-    .delete(`shelter/admin/observation-animal/${observationAnimalId}`, {
-      body: JSON.stringify(data)
-    })
+    .delete(`shelter/admin/observation-animal/${observationAnimalId}`)
     .then(res => res.json<DeleteResponse>());
 
   return response;

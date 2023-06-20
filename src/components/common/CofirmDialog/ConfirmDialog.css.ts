@@ -26,6 +26,7 @@ export const dialogOverlay = style({
 
 export const modalConatainer = recipe({
   base: {
+    boxSizing: 'border-box',
     position: 'fixed',
     top: '50%',
     left: '50%',
@@ -36,6 +37,12 @@ export const modalConatainer = recipe({
     maxHeight: 'calc(85vh)'
   },
   variants: {
+    variant: {
+      basic: {
+        padding: '24px 24px 20px',
+        width: '300px'
+      }
+    },
     size: {
       sm: {
         transform: 'translate(-50%, -100%)'
@@ -68,7 +75,6 @@ export const contents = style({
   alignItems: 'center',
   height: '100%',
   width: '100%',
-  paddingTop: '32px',
   paddingBottom: '12px'
 });
 
