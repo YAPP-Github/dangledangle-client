@@ -4,12 +4,14 @@ import TextField from '@/components/common/TextField/TextField';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import { formatPhone } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import * as styles from './styles.css';
 import { Caption1 } from '@/components/common/Typography';
 import TextArea from '@/components/common/TextField/TextArea';
+import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
+import { isEmpty } from 'lodash';
 
 type FormValues = {
   name: string;
@@ -35,12 +37,27 @@ export default function ShelterEditRequiredPage() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(schema)
   });
+
+  const shelterQuery = useShelterInfo();
+
+  useEffect(() => {
+    if (shelterQuery.isSuccess) {
+      const data = shelterQuery.data;
+      reset({
+        name: data.name,
+        phone: data.phoneNumber,
+        address: data.address.addressDetail,
+        description: data.description
+      });
+    }
+  }, [reset, shelterQuery.data, shelterQuery.isSuccess]);
 
   const handlePhoneChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,29 +76,33 @@ export default function ShelterEditRequiredPage() {
         <TextField
           label="보호소 이름"
           {...register('name')}
-          error={errors['name']}
+          error={errors.name}
         />
         <TextField
           label="보호소 연락처"
           {...register('phone', { onChange: handlePhoneChange })} //onChange Register에 추가
-          error={errors['phone']}
+          error={errors.phone}
         />
         <div>
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
           <AddressSearchBar />
-          <TextField {...register('address')} error={errors['address']} />
+          <TextField {...register('address')} error={errors.address} />
         </div>
         <TextArea
           height="128px"
           maxLength={300}
           label="보호소 소개 문구"
           {...register('description')}
-          error={errors['description']}
+          error={errors.description}
         />
       </div>
-      <Button className={styles.button} itemType="submit">
+      <Button
+        className={styles.button}
+        disabled={!isEmpty(errors)}
+        itemType="submit"
+      >
         저장하기
       </Button>
     </form>
