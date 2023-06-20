@@ -3,9 +3,8 @@
 import {
   ObservationAnimal,
   ObservationAnimalPayload
-} from '@/api/shelter/observation-animal';
-import useCreateObservationAnimal from '@/api/shelter/useCreateObservationAnimal';
-import useUpdateObservationAnimal from '@/api/shelter/useUpdateObservationAnimal';
+} from '@/api/shelter/admin/observation-animal';
+import useCreateObservationAnimal from '@/api/shelter/admin/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog, {
   ConfirmDialogProps
@@ -21,6 +20,7 @@ import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import useUpdateObservationAnimal from '@/api/shelter/admin/useUpdateObservationAnimal';
 interface AnimalFormDialogProps
   extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;

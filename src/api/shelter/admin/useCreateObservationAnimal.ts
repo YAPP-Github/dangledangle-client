@@ -5,25 +5,24 @@ import {
 } from '@tanstack/react-query';
 import {
   ObservationAnimalPayload,
-  PutResponse,
-  put
+  PostResponse,
+  post
 } from './observation-animal';
-import { shelterKey } from '../queryKey';
+import { shelterKey } from '../../queryKey';
 
-export type UpdateObservationAnimalParams = {
-  observationAnimalId: number;
+export type CreateObservationAnimalParams = {
   payload: ObservationAnimalPayload;
 };
-export default function useUpdateObservationAnimal(
+export default function useCreateObservationAnimal(
   options?: UseMutationOptions<
-    PutResponse,
+    PostResponse,
     unknown,
-    UpdateObservationAnimalParams
+    CreateObservationAnimalParams
   >
 ) {
   const queryClient = useQueryClient();
-  return useMutation<PutResponse, unknown, UpdateObservationAnimalParams>(
-    ({ observationAnimalId, payload }) => put(observationAnimalId, payload),
+  return useMutation<PostResponse, unknown, CreateObservationAnimalParams>(
+    ({ payload }) => post(payload),
     {
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);

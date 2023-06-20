@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ObservationAnimal, get } from './observation-animal';
-import { shelterKey } from '../queryKey';
+import { shelterKey } from '../../queryKey';
 
 export default function useObservationAnimal(
   id: number,

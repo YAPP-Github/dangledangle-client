@@ -1,5 +1,5 @@
 import { AnimalGender } from '@/constants/animal';
-import api from '../instance';
+import api from '../../instance';
 
 export interface ObservationAnimal {
   id: number;

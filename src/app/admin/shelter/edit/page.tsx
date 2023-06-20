@@ -1,21 +1,21 @@
 'use client';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import EditMenu from '@/components/shelter-edit/EditMenu/EditMenu';
 import Badge from '@/components/common/Badge/Badge';
 import Divider from '@/components/common/Divider/Divider';
 import { H4 } from '@/components/common/Typography';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
-import useObservationAnimalList from '@/api/shelter/useObservationAnimalList';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import * as styles from './styles.css';
 import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalFormDialog';
 import useBooleanState from '@/hooks/useBooleanState';
-import useDeleteObservationAnimal from '@/api/shelter/useDeleteObservationAnimal';
 import useDialog from '@/hooks/useDialog';
 import useToast from '@/hooks/useToast';
-import { ObservationAnimal } from '@/api/shelter/observation-animal';
+import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
+import useDeleteObservationAnimal from '@/api/shelter/admin/useDeleteObservationAnimal';
+import useObservationAnimalList from '@/api/shelter/admin/useObservationAnimalList';
 
 export default function ShelterEditPage() {
   const [imagePath, setImagePath] = useState<string>('');
