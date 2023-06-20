@@ -4,7 +4,10 @@ import Button from '@/components/common/Button/Button';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
 import { H2 } from '@/components/common/Typography';
 import * as styles from './TermsOfUserAcceptModal.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { headerState } from '@/store/header';
+import { useRouter } from 'next/navigation';
 
 type InitTermsOfUserAcceptStateType = {
   age: boolean;
@@ -13,14 +16,8 @@ type InitTermsOfUserAcceptStateType = {
   marketing: boolean;
 };
 
-interface TermsOfUserAcceptModalProps {
-  isOpened: boolean;
-  onNext: () => void;
-}
-export default function TermsOfUserAcceptModal({
-  isOpened,
-  onNext
-}: React.PropsWithChildren<TermsOfUserAcceptModalProps>) {
+interface TermsOfUserAcceptModalProps {}
+export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<TermsOfUserAcceptModalProps>) {
   const InitTermsOfUserAcceptState = useCallback(
     (initValue: boolean) => ({
       age: initValue,
@@ -31,8 +28,21 @@ export default function TermsOfUserAcceptModal({
     []
   );
 
+  const router = useRouter();
+
   const [allCheck, setAllCheck] = useState<boolean>(false);
   const [checkList, setCheckList] = useState(InitTermsOfUserAcceptState(false));
+
+  const setHeader = useSetRecoilState(headerState);
+  const [isOpened, setIsOpend] = useState(false);
+  useLayoutEffect(() => {
+    setHeader({
+      title: '개인봉사자로 시작하기',
+      thisPage: null,
+      entirePage: null
+    });
+    setIsOpend(true);
+  }, []);
 
   useEffect(() => {
     if (
@@ -54,7 +64,9 @@ export default function TermsOfUserAcceptModal({
     });
   };
 
-  const isDisAbled = !(checkList.age && checkList.service && checkList.privacy);
+  /** 버튼 disabled 설정 */
+  const isDisabled = !(checkList.age && checkList.service && checkList.privacy);
+
   return (
     <BottomSheet isOpened={isOpened} className={styles.bottomSheet}>
       <div className={styles.wrapper}>
@@ -112,10 +124,9 @@ export default function TermsOfUserAcceptModal({
         </section>
         <Button
           className={styles.bottomButton}
-          disabled={isDisAbled}
+          disabled={isDisabled}
           onClick={() => {
-            onNext();
-            console.log(checkList);
+            router.push('/volunteer/register/next');
           }}
         >
           다음

@@ -12,7 +12,6 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContactNumber from './ContactNumber';
 import RegisterComplete from './RegisterComplete';
-import { NextPage } from 'next';
 
 const pathname = `/volunteer/register`;
 

@@ -1,2 +1,2 @@
-export const ACCESS_TOKEN_KEY = 'dangle_ACCESS_TOKEN_KEY';
-export const REFRESH_TOKEN_KEY = 'dangle_REFRESH_TOKEN_KEY';
+export const CLIENT_ACCESS_TOKEN_KEY = 'dangle_access_token';
+export const CLIENT_REFRESH_TOKEN_KEY = 'dangle_refresh_token';
