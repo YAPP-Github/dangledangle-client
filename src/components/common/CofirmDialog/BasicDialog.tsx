@@ -78,13 +78,9 @@ export default function BasicDialog({
                 animate="visible"
                 exit="leaving"
               >
-                <header className={styles.header}>
-                  <Close onClick={onClose} />
-                </header>
-
                 <main
                   className={styles.contents}
-                  style={{ paddingBottom: '40px' }}
+                  style={{ paddingBottom: '40px', paddingTop: '16px' }}
                 >
                   <div>
                     {message?.split('<br/>').map((value, index) => {
