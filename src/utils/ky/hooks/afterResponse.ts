@@ -6,7 +6,7 @@ import {
 } from '@/api/cookieKeys';
 import { fetchRefresh } from '@/api/auth/refresh';
 import { UNREGISTERED } from '@/api/authErrorCode';
-import { AuthErrorResponse } from '@/types/apiTypes';
+import { ApiErrorResponse } from '@/types/apiTypes';
 
 export const retryRequestOnUnauthorized: AfterResponseHook = async (
   request,
@@ -27,17 +27,15 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
   }
 };
 
-export const returnErrorMessage: AfterResponseHook = async (
+/** ky 에러가 아닌 서버에서 전달받은 에러 throw */
+export const throwServerErrorMessage: AfterResponseHook = async (
   request,
   options,
   response
 ) => {
-  if (response.status > 400) {
-    const responseData = await response.json();
-    console.log(responseData);
-    if (!responseData.exceptionCode)
-      throw new Error('에러 형식이 잘못되었습니다');
-
-    return new Response(JSON.stringify(responseData));
+  if (response.status >= 400) {
+    const responseData = (await response.json()) as ApiErrorResponse;
+    const { message } = responseData;
+    throw new Error(message);
   }
 };
