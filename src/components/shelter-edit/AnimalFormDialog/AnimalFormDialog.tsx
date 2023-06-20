@@ -158,6 +158,7 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
               style={{ marginBottom: '12px' }}
               label="성별"
               options={genderOptions}
+              initailValue={initialData?.gender}
               {...register('gender')}
             />
           </div>
