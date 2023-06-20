@@ -1,26 +1,24 @@
 import api from '@/api/instance';
 import { OutLinkType } from '@/constants/shelter';
 
+export type OutLink = {
+  outLinkType: OutLinkType;
+  url: string;
+};
 export interface ShelterAdditionalInfo {
-  id: number;
-  outLinks: [
-    {
-      outLinkType: OutLinkType;
-      url: string;
-    }
-  ];
+  outLinks: OutLink[];
   parkingInfo: {
     isParkingEnabled: boolean;
     parkingNotice: string;
-  };
+  } | null;
   donation: {
     accountNumber: string;
     bankName: string;
-  };
-  notice: string;
+  } | null;
+  notice: string | null;
 }
 
-export type ShelterAdditionalInfoPayload = Omit<ShelterAdditionalInfo, 'id'>;
+export type ShelterAdditionalInfoPayload = ShelterAdditionalInfo;
 export type PutResponse = {
   shelterId: number;
   shelterUserId: number;
@@ -28,6 +26,6 @@ export type PutResponse = {
 
 export const put = async (payload: ShelterAdditionalInfoPayload) => {
   return await api
-    .put('/v1/shelter/admin/additional-info', { body: JSON.stringify(payload) })
+    .put('shelter/admin/additional-info', { body: JSON.stringify(payload) })
     .json<PutResponse>();
 };
