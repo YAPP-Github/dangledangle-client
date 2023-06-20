@@ -1,18 +1,6 @@
 import api from '@/api/instance';
 import { ShelterAdditionalInfo } from './additional-info';
-
-export interface ShelterEssentialInfo {
-  name: string;
-  phoneNumber: string;
-  description: string;
-  address: {
-    address: string;
-    addressDetail: string;
-    postalCode: string;
-    latitude: number;
-    longitude: number;
-  };
-}
+import { ShelterEssentialInfo } from './essential-info';
 
 export type ShelterInfo = ShelterEssentialInfo & ShelterAdditionalInfo;
 
