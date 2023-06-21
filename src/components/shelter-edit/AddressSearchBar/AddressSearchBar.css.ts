@@ -5,7 +5,7 @@ export const searchBar = style({
   display: 'flex',
   justifyContent: 'space-between',
   height: '31px',
-  borderBottom: `1px solid ${palette.gray200}`,
+  borderBottom: `1px solid ${palette.gray300}`,
   cursor: 'pointer',
   marginBottom: '10px'
 });

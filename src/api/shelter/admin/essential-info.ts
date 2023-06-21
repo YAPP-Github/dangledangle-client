@@ -1,17 +1,19 @@
 import api from '@/api/instance';
 
-export type Address = {
+export type SearchedAddress = {
   address: string;
-  addressDetail: string;
   postalCode: string;
   latitude: number;
   longitude: number;
+};
+export type ShelterAddress = SearchedAddress & {
+  addressDetail: string;
 };
 export interface ShelterEssentialInfo {
   name: string;
   phoneNumber: string;
   description: string;
-  address: Address;
+  address: ShelterAddress;
 }
 
 export type ShelterEssentialInfoPayload = ShelterEssentialInfo;

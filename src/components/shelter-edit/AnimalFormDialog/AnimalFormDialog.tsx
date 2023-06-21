@@ -17,10 +17,12 @@ import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import useUpdateObservationAnimal from '@/api/shelter/admin/useUpdateObservationAnimal';
+import useImageUploader from '@/hooks/useImageUploader';
+
 interface AnimalFormDialogProps
   extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
@@ -70,32 +72,40 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   } = useForm<FormValues>({
     resolver: yupResolver(scheme)
   });
-  const [imagePath, setImagePath] = useState(
-    'https://dangledangle-image-storage.s3.ap-northeast-2.amazonaws.com/dev/images/2023-06-18-1687091178705.webp'
-  );
+  const {
+    onChangeImage,
+    isUploading,
+    src: profileImageUrl,
+    setSrc: setProfileImageUrl
+  } = useImageUploader();
 
   const { mutateAsync: create } = useCreateObservationAnimal();
   const { mutateAsync: update } = useUpdateObservationAnimal();
 
   useEffect(() => {
     reset(initialData || {});
-    setImagePath(initialData?.profileImageUrl || '');
+    setProfileImageUrl(initialData?.profileImageUrl);
 
     return () => {
       reset({});
+      setProfileImageUrl('');
     };
-  }, [initialData, reset]);
+  }, [initialData, reset, setProfileImageUrl]);
+
+  const submitable = Boolean(
+    !isUploading && isEmpty(errors) && profileImageUrl
+  );
 
   const handleClose = useCallback(() => {
     reset({});
-    setTimeout(onClose, 0);
+    setTimeout(onClose, 10);
   }, [onClose, reset]);
 
   const onSubmit = useCallback(
     (data: FormValues) => {
-      console.log('🔸 → onSubmit → data:', data);
+      if (!submitable || !profileImageUrl) return;
       const payload: ObservationAnimalPayload = {
-        images: [imagePath],
+        images: [profileImageUrl],
         name: data.name,
         age: data.age,
         gender: data.gender,
@@ -109,7 +119,7 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
         );
       else create({ payload }).then(handleClose);
     },
-    [create, imagePath, initialData, handleClose, update]
+    [submitable, profileImageUrl, initialData, update, handleClose, create]
   );
 
   return (
@@ -117,13 +127,18 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
       open={open}
       onClose={handleClose}
       actionButton={
-        <Button onClick={handleSubmit(onSubmit)} disabled={!isEmpty(errors)}>
+        <Button onClick={handleSubmit(onSubmit)} disabled={!submitable}>
           등록하기
         </Button>
       }
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ImageUploader name="image" help variant="square" />
+        <ImageUploader
+          imagePath={profileImageUrl}
+          name="image"
+          variant="square"
+          onChangeCallback={onChangeImage}
+        />
 
         <TextField
           label="이름"

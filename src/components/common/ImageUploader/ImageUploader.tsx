@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import React, { useMemo, useState } from 'react';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
 import { GrayCamera } from '@/asset/icons';
@@ -17,14 +16,10 @@ interface ImageUploaderProps {
   /** input callback */
   onChangeCallback?: (fileData?: File) => void;
   placeholder?: string;
-  formContext?: UseFormReturn<FieldValues>;
   variant?: styles.ImageVariant;
   resizingOptions?: ResizingOptions;
-  onUploaded?: (url?: string) => void;
-
-  help?: boolean;
   error?: { message?: string };
-  onChange?: (...event: any[]) => void;
+  onChange?: (event: any) => void;
 }
 
 export const ImageUploader = React.forwardRef<
@@ -34,15 +29,11 @@ export const ImageUploader = React.forwardRef<
   (
     {
       name,
-      onUploaded,
       imagePath,
       onChangeCallback,
       placeholder,
-      formContext,
       variant = 'circle',
       resizingOptions,
-
-      help,
       error,
       onChange,
       ...props
@@ -59,7 +50,7 @@ export const ImageUploader = React.forwardRef<
         !event?.currentTarget?.files ||
         event.currentTarget.files.length < 1
       ) {
-        return setFile(null);
+        return;
       }
 
       const selectedFile = event.currentTarget.files[0];
@@ -90,11 +81,12 @@ export const ImageUploader = React.forwardRef<
       </>
     );
 
-    const imageSrc = file
-      ? URL.createObjectURL(file)
-      : !file && imagePath && imagePath.length
-      ? `${process.env.HOST}${imagePath}`
-      : '';
+    const imageSrc = useMemo(() => {
+      if (file) {
+        return URL.createObjectURL(file);
+      }
+      return imagePath;
+    }, [file, imagePath]);
 
     return (
       <div className={styles.container}>
@@ -124,7 +116,6 @@ export const ImageUploader = React.forwardRef<
             className={styles.fileInput}
             type="file"
             accept=".jpg, .jpeg, .png"
-            placeholder="vmfghfgmvjf"
             {...props}
           />
         </label>
