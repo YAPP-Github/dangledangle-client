@@ -16,6 +16,11 @@ import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
+import {
+  OutLink,
+  ShelterAdditionalInfoPayload
+} from '@/api/shelter/admin/additional-info';
+import { useCallback, useEffect } from 'react';
 
 type FormValues = {
   instagram?: string;
@@ -26,7 +31,6 @@ type FormValues = {
   parkingNotice?: string;
   notice?: string;
 };
-
 const parkingOptions: RadioOption[] = [
   {
     label: '가능',
@@ -68,6 +72,8 @@ export default function ShelterEditExtraPage() {
     reset,
     formState: { errors }
   } = useForm<FormValues>({
+    mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schema)
   });
   const router = useRouter();
@@ -75,9 +81,66 @@ export default function ShelterEditExtraPage() {
   const { mutateAsync: update } = useUpdateAdditionalInfo();
 
   const isParkingEnabled = watch('isParkingEnabled');
-  const onSubmit = (data: FormValues) => {
-    console.log('🔸 → onSubmit → data:', data);
-  };
+
+  useEffect(() => {
+    if (shelterQuery.isSuccess) {
+      const data = shelterQuery.data;
+      reset({
+        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
+        parkingNotice: data.parkingInfo?.parkingNotice || '',
+        bankName: data.bankAccount?.bankName || '',
+        accountNumber: data.bankAccount?.accountNumber || '',
+        notice: data.notice || '',
+        instagram:
+          data.outLinks.find(link => link.outLinkType === 'INSTAGRAM')?.url ||
+          '',
+        donationUrl:
+          data.outLinks.find(link => link.outLinkType === 'KAKAOPAY')?.url || ''
+      });
+    }
+  }, [reset, shelterQuery.data, shelterQuery.isSuccess]);
+
+  const getPayload = useCallback((formValues: FormValues) => {
+    const bankAccount =
+      formValues.bankName && formValues.accountNumber
+        ? {
+            bankName: formValues.bankName,
+            accountNumber: formValues.accountNumber
+          }
+        : null;
+    const outLinks: OutLink[] = [];
+    formValues.instagram &&
+      outLinks.push({ outLinkType: 'INSTAGRAM', url: formValues.instagram });
+    formValues.donationUrl &&
+      outLinks.push({ outLinkType: 'KAKAOPAY', url: formValues.donationUrl });
+
+    const parkingInfo = formValues.isParkingEnabled
+      ? {
+          isParkingEnabled: formValues.isParkingEnabled === 'true',
+          parkingNotice: formValues.parkingNotice || ''
+        }
+      : null;
+
+    const payload: ShelterAdditionalInfoPayload = {
+      notice: formValues.notice || null,
+      bankAccount,
+      outLinks,
+      parkingInfo
+    };
+
+    return payload;
+  }, []);
+
+  const onSubmit = useCallback(
+    (data: FormValues) => {
+      console.log('🔸 → onSubmit → data:', data);
+
+      const payload = getPayload(data);
+      update({ payload }).then(() => router.back());
+    },
+    [getPayload, router, update]
+  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
