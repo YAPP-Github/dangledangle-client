@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import {
   ShelterEssentialInfoPayload,
-  Address
+  SearchedAddress
 } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
 
@@ -35,7 +35,7 @@ const schema: yup.ObjectSchema<Partial<FormValues>> = yup
       .required('연락처를 입력해주세요.')
       .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
     addressDetail: yup.string().required('주소를 입력해주세요'),
-    description: yup.string().max(300)
+    description: yup.string().max(300).required()
   })
   .required();
 
@@ -54,8 +54,7 @@ export default function ShelterEditRequiredPage() {
   const router = useRouter();
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateEssentialInfo();
-  const [searchedAddress, setSearchedAddress] =
-    useState<Omit<Address, 'addressDetail'>>();
+  const [searchedAddress, setSearchedAddress] = useState<SearchedAddress>();
 
   useEffect(() => {
     if (shelterQuery.isSuccess) {
@@ -77,6 +76,10 @@ export default function ShelterEditRequiredPage() {
     },
     []
   );
+
+  const handleChangeAddress = useCallback((address?: SearchedAddress) => {
+    setSearchedAddress(address);
+  }, []);
 
   const onSubmit = (data: FormValues) => {
     console.log('🔸 → onSubmit → data:', data);
@@ -108,7 +111,7 @@ export default function ShelterEditRequiredPage() {
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
-          <AddressSearchBar />
+          <AddressSearchBar onChange={handleChangeAddress} />
           <TextField
             {...register('addressDetail')}
             error={errors.addressDetail}
@@ -124,7 +127,7 @@ export default function ShelterEditRequiredPage() {
       </div>
       <Button
         className={styles.button}
-        disabled={!isEmpty(errors)}
+        disabled={!isEmpty(errors) || !searchedAddress}
         itemType="submit"
       >
         저장하기
