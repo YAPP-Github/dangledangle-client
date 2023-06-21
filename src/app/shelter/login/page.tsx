@@ -14,6 +14,7 @@ import { useCallback, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { loginValidation } from '../utils/shelterValidaion';
+import useToast from '@/hooks/useToast';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -29,6 +30,7 @@ export default function ShelterLogin() {
   } = methods;
 
   const router = useRouter();
+  const toastOn = useToast();
   const setHeader = useSetRecoilState(headerState);
 
   useLayoutEffect(() => {
@@ -46,6 +48,7 @@ export default function ShelterLogin() {
         await mutateAsync(data);
         router.push('/event');
       } catch (e) {
+        toastOn('로그인에 실패했습니다.');
         setError(
           'email',
           {
@@ -60,7 +63,7 @@ export default function ShelterLogin() {
         });
       }
     },
-    [router, mutateAsync, setError]
+    [router, mutateAsync, setError, toastOn]
   );
 
   return (

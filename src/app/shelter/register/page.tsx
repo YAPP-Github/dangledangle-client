@@ -20,6 +20,7 @@ import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
 import Additional from './components/Additional';
 import Complete from './components/Complete';
+import useToast from '@/hooks/useToast';
 
 export interface onNextProps {
   onNext: VoidFunction;
@@ -70,7 +71,7 @@ const Steps: StepsProps<onNextProps>[] = [
 ];
 
 export default function ShelterRegister() {
-  const router = useRouter();
+  const toastOn = useToast();
   const setHeader = useSetRecoilState(headerState);
 
   useLayoutEffect(() => {
@@ -97,15 +98,13 @@ export default function ShelterRegister() {
   const { handleSubmit } = methods;
 
   const onSubmit = async (data: signUpFormValue) => {
-    // delete data.passwordConfirm;
     console.log(data);
 
     try {
       await mutateAsync(data);
       goToNextStep();
     } catch (error) {
-      //FIXME: 토스트 알림으로 변경
-      console.error('회원가입 실패', error);
+      toastOn('회원가입에 실패했습니다.');
     }
   };
 
