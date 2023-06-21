@@ -4,7 +4,6 @@ import TextField from '@/components/common/TextField/TextField';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import * as styles from './styles.css';
 import { Caption1 } from '@/components/common/Typography';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -18,6 +17,7 @@ import {
   SearchedAddress
 } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
+import yup from '@/utils/yup';
 
 type FormValues = {
   name: string;
@@ -29,12 +29,12 @@ type FormValues = {
 const schema: yup.ObjectSchema<Partial<FormValues>> = yup
   .object()
   .shape({
-    name: yup.string().required('보호소 이름을 입력해주세요'),
+    name: yup.string().required(),
     phoneNumber: yup
       .string()
-      .required('연락처를 입력해주세요.')
+      .required()
       .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
-    addressDetail: yup.string().required('주소를 입력해주세요'),
+    addressDetail: yup.string().required(),
     description: yup.string().max(300).required()
   })
   .required();

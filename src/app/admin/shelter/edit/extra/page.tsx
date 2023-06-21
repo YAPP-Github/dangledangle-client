@@ -8,7 +8,6 @@ import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -21,6 +20,7 @@ import {
   ShelterAdditionalInfoPayload
 } from '@/api/shelter/admin/additional-info';
 import { useCallback, useEffect } from 'react';
+import yup from '@/utils/yup';
 
 type FormValues = {
   instagram?: string;
@@ -54,7 +54,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
         excludeEmptyString: true,
         message: '인스타그램 주소를 다시 확인해주세요'
       })
-      .url('유효한 url 형식이 아닙니다.'),
+      .url(),
     bankName: yup.string(),
     accountNumber: yup.string(),
     donationUrl: yup.string().url(),
@@ -81,6 +81,23 @@ export default function ShelterEditExtraPage() {
   const { mutateAsync: update } = useUpdateAdditionalInfo();
 
   const isParkingEnabled = watch('isParkingEnabled');
+  const bankName = watch('bankName');
+  const accountNumber = watch('accountNumber');
+
+  const isAccountCompleted = Boolean(accountNumber) !== Boolean(bankName);
+  const isNotError = isEmpty(errors);
+
+  const isSubmittable = isAccountCompleted && isNotError;
+  const accountNumberError = !!(isAccountCompleted && !accountNumber)
+    ? {
+        message: '계좌번호를 입력해주세요'
+      }
+    : undefined;
+  const bankNameError = !!(isAccountCompleted && !bankName)
+    ? {
+        message: '은행명를 입력해주세요'
+      }
+    : undefined;
 
   useEffect(() => {
     if (shelterQuery.isSuccess) {
@@ -154,13 +171,14 @@ export default function ShelterEditExtraPage() {
           <TextField
             label="후원 계좌 정보"
             placeholder="은행명"
-            error={errors.bankName}
+            error={errors.bankName || bankNameError}
             {...register('bankName')}
           />
 
           <TextField
             placeholder="계좌번호"
-            error={errors.accountNumber}
+            error={errors.accountNumber || accountNumberError}
+            disabled={!bankName}
             {...register('accountNumber')}
           />
           <TextField
@@ -191,7 +209,7 @@ export default function ShelterEditExtraPage() {
           />
           <TextField
             placeholder="추가 주차 관련 안내 (최대 200자)"
-            disabled={isParkingEnabled === ''}
+            disabled={!isParkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
           />
@@ -206,7 +224,7 @@ export default function ShelterEditExtraPage() {
         />
       </div>
       <FixedFooter>
-        <Button itemType="submit" disabled={!isEmpty(errors)}>
+        <Button itemType="submit" disabled={isSubmittable}>
           저장하기
         </Button>
       </FixedFooter>
