@@ -17,12 +17,11 @@ import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import useUpdateObservationAnimal from '@/api/shelter/admin/useUpdateObservationAnimal';
-import useBooleanState from '@/hooks/useBooleanState';
-import uploadImage from '@/utils/uploadImage';
+import useImageUploader from '@/hooks/useImageUploader';
 
 interface AnimalFormDialogProps
   extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
@@ -73,8 +72,12 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   } = useForm<FormValues>({
     resolver: yupResolver(scheme)
   });
-  const [profileImageUrl, setProfileImageUrl] = useState<string>();
-  const [isUploading, startUploading, finishUploading] = useBooleanState();
+  const {
+    onChangeImage,
+    isUploading,
+    src: profileImageUrl,
+    setSrc: setProfileImageUrl
+  } = useImageUploader();
 
   const { mutateAsync: create } = useCreateObservationAnimal();
   const { mutateAsync: update } = useUpdateObservationAnimal();
@@ -87,7 +90,7 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
       reset({});
       setProfileImageUrl('');
     };
-  }, [initialData, reset]);
+  }, [initialData, reset, setProfileImageUrl]);
 
   const submitable = Boolean(
     !isUploading && isEmpty(errors) && profileImageUrl
@@ -95,22 +98,11 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
 
   const handleClose = useCallback(() => {
     reset({});
-    setTimeout(onClose, 0);
+    setTimeout(onClose, 10);
   }, [onClose, reset]);
-
-  const handleChangeImage = useCallback(
-    (file?: File) => {
-      if (!file) return;
-
-      startUploading();
-      uploadImage(file).then(setProfileImageUrl).finally(finishUploading);
-    },
-    [finishUploading, startUploading]
-  );
 
   const onSubmit = useCallback(
     (data: FormValues) => {
-      console.log('🔸 → onSubmit → data:', data);
       if (!submitable || !profileImageUrl) return;
       const payload: ObservationAnimalPayload = {
         images: [profileImageUrl],
@@ -145,7 +137,7 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
           imagePath={profileImageUrl}
           name="image"
           variant="square"
-          onChangeCallback={handleChangeImage}
+          onChangeCallback={onChangeImage}
         />
 
         <TextField

@@ -15,7 +15,10 @@ export const defaultCircle = recipe({
   base: {
     marginTop: 10,
     marginBottom: 10,
-    margin: 'auto'
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   variants: {
     variant: {
@@ -24,13 +27,13 @@ export const defaultCircle = recipe({
         height: '96px',
         borderRadius: '96px',
         background: palette.gray50,
-        boarder: `1px solid ${palette.gray200}`
+        border: `1px solid ${palette.gray200}`
       },
       square: {
         width: '80px',
         height: '80px',
         background: palette.gray50,
-        boarder: `1px solid ${palette.gray300}`,
+        border: `1px solid ${palette.gray300}`,
         borderRadius: '8px'
       }
     }
