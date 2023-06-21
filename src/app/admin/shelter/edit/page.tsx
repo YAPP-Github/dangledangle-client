@@ -1,6 +1,6 @@
 'use client';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import EditMenu from '@/components/shelter-edit/EditMenu/EditMenu';
 import Badge from '@/components/common/Badge/Badge';
 import Divider from '@/components/common/Divider/Divider';
@@ -19,9 +19,11 @@ import useObservationAnimalList from '@/api/shelter/admin/useObservationAnimalLi
 import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { OUT_LINK_TYPE } from '@/constants/shelter';
 import { ShelterAdditionalInfo } from '@/api/shelter/admin/additional-info';
+import useImageUploader from '@/hooks/useImageUploader';
+import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 
 export default function ShelterEditPage() {
-  const [imagePath, setImagePath] = useState<string>('');
+  const { onChangeImage } = useImageUploader();
   const router = useRouter();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
   const { dialogOn, dialogOff } = useDialog();
@@ -31,10 +33,17 @@ export default function ShelterEditPage() {
   const animalsQuery = useObservationAnimalList();
   const shelterQuery = useShelterInfo();
   const { mutateAsync: deleteAnimal } = useDeleteObservationAnimal();
+  const { mutateAsync: updateImage } = useUpdateImage();
 
-  const handleChangeImage = useCallback((fileData?: File) => {
-    if (!fileData) setImagePath('');
-  }, []);
+  const handleChangeImage = (fileData?: File) => {
+    onChangeImage(fileData, async url => {
+      try {
+        url && (await updateImage(url));
+      } catch {
+        shelterQuery.refetch();
+      }
+    });
+  };
 
   const handleClickDeleteAnimal = (observationAnimalId: number) => {
     dialogOn({
@@ -80,7 +89,7 @@ export default function ShelterEditPage() {
     <>
       <section>
         <ImageUploader
-          imagePath={imagePath}
+          imagePath={shelterQuery?.data?.profileImageUrl}
           name="image"
           onChangeCallback={handleChangeImage}
           placeholder="대표 사진"
