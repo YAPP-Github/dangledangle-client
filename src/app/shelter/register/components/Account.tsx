@@ -1,14 +1,15 @@
-import Button from '@/components/common/Button/Button';
-import React, { useState } from 'react';
-import { onNextProps } from '../page';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import { H2, H3 } from '@/components/common/Typography';
-import TextField from '@/components/common/TextField/TextField';
-import { useFormContext } from 'react-hook-form';
-import useBooleanState from '@/hooks/useBooleanState';
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
+import Button from '@/components/common/Button/Button';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
+import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import TextField from '@/components/common/TextField/TextField';
+import { H2, H3 } from '@/components/common/Typography';
+import useBooleanState from '@/hooks/useBooleanState';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { onNextProps } from '../page';
 
+const REQUIRE = '필수 입력 항목입니다.';
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
@@ -16,8 +17,31 @@ export default function Account({ onNext }: onNextProps) {
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useFormContext();
+
+  useEffect(() => {
+    setError(
+      'email',
+      {
+        type: 'focus',
+        message: REQUIRE
+      },
+      { shouldFocus: true }
+    );
+    setError('password', {
+      type: 'focus',
+      message: REQUIRE
+    });
+    setError('passwordConfirm', {
+      type: 'focus',
+      message: REQUIRE
+    });
+  }, [setError]);
+
+  const isInputError =
+    !!errors.email && !!errors.password && !!errors.passwordConfirm;
 
   const [allChecked, setAllChecked] = useState(false);
   const [singleChecked, setsingleChecked] = useState<SingleCheckedState>({
@@ -27,7 +51,7 @@ export default function Account({ onNext }: onNextProps) {
     marketing: false
   });
 
-  const handleAllChecked = () => {
+  const handleAllChecked = useCallback(() => {
     setAllChecked(!allChecked);
     setsingleChecked({
       over14: !allChecked,
@@ -35,17 +59,28 @@ export default function Account({ onNext }: onNextProps) {
       privacy: !allChecked,
       marketing: !allChecked
     });
-  };
+  }, [allChecked]);
 
-  const handleSingleChecked = (key: keyof SingleCheckedState) => {
-    setsingleChecked({
-      ...singleChecked,
-      [key]: !singleChecked[key]
-    });
-  };
+  const handleSingleChecked = useCallback(
+    (key: keyof SingleCheckedState) => {
+      setsingleChecked({
+        ...singleChecked,
+        [key]: !singleChecked[key]
+      });
+    },
+    [singleChecked]
+  );
 
   const isButtonDisabled =
     !singleChecked.over14 || !singleChecked.terms || !singleChecked.privacy;
+
+  const handleBottomSheet = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      isOpenSheet();
+    },
+    [isOpenSheet]
+  );
 
   return (
     <>
@@ -65,24 +100,31 @@ export default function Account({ onNext }: onNextProps) {
           label="이메일"
           placeholder="이메일을 입력해주세요."
           {...register('email')}
-          error={errors['email']}
+          error={errors.email}
         />
         <TextField
           label="비밀번호"
           placeholder="영문, 숫자, 특수문자 2가지 조합 8~15자"
+          type="password"
           {...register('password')}
-          error={errors['password']}
+          error={errors.password}
         />
         <TextField
           label="비밀번호 확인"
           placeholder="비밀번호를 한번 더 입력해주세요."
+          type="password"
           {...register('passwordConfirm')}
-          error={errors['passwordConfirm']}
+          error={errors.passwordConfirm}
         />
-        <Button onClick={isOpenSheet} style={{ marginTop: '47px' }}>
+        <Button
+          disabled={isInputError}
+          onClick={handleBottomSheet}
+          style={{ marginTop: '40px' }}
+        >
           다음
         </Button>
       </div>
+
       <BottomSheet isOpened={isSheet} onClose={isCloseSheet}>
         <H2>약관에 동의해주세요.</H2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -97,6 +139,7 @@ export default function Account({ onNext }: onNextProps) {
             <CheckBox value={allChecked} onClick={handleAllChecked} />
             <H3>모두 동의</H3>
           </div>
+
           <CheckBox
             value={singleChecked.over14}
             onClick={() => handleSingleChecked('over14')}
@@ -119,6 +162,7 @@ export default function Account({ onNext }: onNextProps) {
             label="(선택) 마케팅 수신 동의"
           />
         </div>
+
         <Button
           disabled={isButtonDisabled}
           onClick={onNext}

@@ -1,22 +1,19 @@
 import ky from 'ky';
-import cookie from 'js-cookie';
+import { setAuthorizationHeader } from '@/utils/ky/hooks/beforeRequest';
+import {
+  retryRequestOnUnauthorized,
+  throwServerErrorMessage
+} from '@/utils/ky/hooks/afterResponse';
+
 const api = ky.create({
-  prefixUrl: 'http://152.67.202.74:9090/v1',
+  prefixUrl: 'http://3.34.243.139:8080/v1',
   headers: {
     'Content-Type': 'application/json'
   },
   hooks: {
-    beforeRequest: [
-      options => {
-        const accessToken = cookie.get('accessToken');
-
-        if (accessToken) {
-          options.headers.set('Authorization', `Bearer ${accessToken}`);
-        } else {
-          return;
-        }
-      }
-    ]
+    beforeRequest: [setAuthorizationHeader],
+    afterResponse: [retryRequestOnUnauthorized]
   }
 });
+
 export default api;

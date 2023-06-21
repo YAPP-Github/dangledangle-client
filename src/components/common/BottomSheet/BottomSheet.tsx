@@ -1,13 +1,14 @@
 import React from 'react';
-import * as styles from './BottomSheet.css';
-import { AnimatePresence, motion } from 'framer-motion';
-import * as m from '../CofirmDialog/utils/motion';
+import { defaultContent, overlay, panel, panelOpen } from './BottomSheet.css';
+import clsx from 'clsx';
 
 interface BottomSheetProps {
   /** bottom sheet status */
   isOpened: boolean;
   /** bottom sheet close func */
   onClose?: () => void;
+
+  className?: string;
   /** bottom sheet 요소 */
   children?: React.ReactNode;
 }
@@ -15,35 +16,21 @@ interface BottomSheetProps {
 export default function BottomSheet({
   isOpened = false,
   onClose,
-  children
+  className,
+  children = <div className={defaultContent}>약관에 동의해주세요.</div>
 }: BottomSheetProps) {
   const handleOverlayClick = () => {
     onClose && onClose();
   };
 
   return (
-    <AnimatePresence>
-      {isOpened && (
-        <>
-          <motion.div
-            className={styles.overlay}
-            onClick={handleOverlayClick}
-            variants={m.overlayVariants}
-            initial="initial"
-            animate="visible"
-            exit="leaving"
-          />
-          <motion.section
-            variants={m.bottomVariants}
-            initial="initial"
-            animate="visible"
-            exit="leaving"
-            className={styles.panel}
-          >
-            <div className={styles.childrenWrap}>{children}</div>
-          </motion.section>
-        </>
-      )}
-    </AnimatePresence>
+    <>
+      {isOpened && <div className={overlay} onClick={handleOverlayClick} />}
+      <section
+        className={clsx([className, `${panel} ${isOpened ? panelOpen : ''}`])}
+      >
+        {children}
+      </section>
+    </>
   );
 }

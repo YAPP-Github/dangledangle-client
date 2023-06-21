@@ -38,13 +38,17 @@ export default function Name({ onNext }: onNextProps) {
         </EmphasizedTitle>
       </div>
       <TextField
-        maxLength={20} //validation에는 적용되지 않음, yup Schema에 적용 해야함
+        maxLength={20}
         fixedHelper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
         {...register('name')}
-        error={errors['name']}
+        error={errors.name}
       />
-      <Button onClick={onNext} style={{ marginTop: '47px' }}>
+      <Button
+        disabled={!!errors.name}
+        onClick={onNext}
+        style={{ marginTop: '40px' }}
+      >
         다음
       </Button>
     </div>
