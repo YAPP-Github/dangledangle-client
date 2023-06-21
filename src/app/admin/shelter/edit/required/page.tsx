@@ -4,7 +4,6 @@ import TextField from '@/components/common/TextField/TextField';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import * as styles from './styles.css';
 import { Caption1 } from '@/components/common/Typography';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -15,9 +14,10 @@ import { useRouter } from 'next/navigation';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import {
   ShelterEssentialInfoPayload,
-  Address
+  SearchedAddress
 } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
+import yup from '@/utils/yup';
 
 type FormValues = {
   name: string;
@@ -29,13 +29,13 @@ type FormValues = {
 const schema: yup.ObjectSchema<Partial<FormValues>> = yup
   .object()
   .shape({
-    name: yup.string().required('보호소 이름을 입력해주세요'),
+    name: yup.string().required(),
     phoneNumber: yup
       .string()
-      .required('연락처를 입력해주세요.')
+      .required()
       .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
-    addressDetail: yup.string().required('주소를 입력해주세요'),
-    description: yup.string().max(300)
+    addressDetail: yup.string().required(),
+    description: yup.string().max(300).required()
   })
   .required();
 
@@ -54,8 +54,7 @@ export default function ShelterEditRequiredPage() {
   const router = useRouter();
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateEssentialInfo();
-  const [searchedAddress, setSearchedAddress] =
-    useState<Omit<Address, 'addressDetail'>>();
+  const [searchedAddress, setSearchedAddress] = useState<SearchedAddress>();
 
   useEffect(() => {
     if (shelterQuery.isSuccess) {
@@ -77,6 +76,10 @@ export default function ShelterEditRequiredPage() {
     },
     []
   );
+
+  const handleChangeAddress = useCallback((address?: SearchedAddress) => {
+    setSearchedAddress(address);
+  }, []);
 
   const onSubmit = (data: FormValues) => {
     console.log('🔸 → onSubmit → data:', data);
@@ -108,7 +111,7 @@ export default function ShelterEditRequiredPage() {
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
-          <AddressSearchBar />
+          <AddressSearchBar onChange={handleChangeAddress} />
           <TextField
             {...register('addressDetail')}
             error={errors.addressDetail}
@@ -124,7 +127,7 @@ export default function ShelterEditRequiredPage() {
       </div>
       <Button
         className={styles.button}
-        disabled={!isEmpty(errors)}
+        disabled={!isEmpty(errors) || !searchedAddress}
         itemType="submit"
       >
         저장하기

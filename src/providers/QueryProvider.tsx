@@ -21,7 +21,8 @@ export default function ReactQueryProvider({ children, queryConfig }: Props) {
           queries: {
             staleTime: Infinity,
             // suspense: true,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            retry: 0
           }
         }
       })

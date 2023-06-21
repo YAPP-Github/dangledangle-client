@@ -8,7 +8,6 @@ import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -16,6 +15,12 @@ import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
+import {
+  OutLink,
+  ShelterAdditionalInfoPayload
+} from '@/api/shelter/admin/additional-info';
+import { useCallback, useEffect } from 'react';
+import yup from '@/utils/yup';
 
 type FormValues = {
   instagram?: string;
@@ -26,7 +31,6 @@ type FormValues = {
   parkingNotice?: string;
   notice?: string;
 };
-
 const parkingOptions: RadioOption[] = [
   {
     label: '가능',
@@ -50,7 +54,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
         excludeEmptyString: true,
         message: '인스타그램 주소를 다시 확인해주세요'
       })
-      .url('유효한 url 형식이 아닙니다.'),
+      .url(),
     bankName: yup.string(),
     accountNumber: yup.string(),
     donationUrl: yup.string().url(),
@@ -68,6 +72,8 @@ export default function ShelterEditExtraPage() {
     reset,
     formState: { errors }
   } = useForm<FormValues>({
+    mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schema)
   });
   const router = useRouter();
@@ -75,9 +81,83 @@ export default function ShelterEditExtraPage() {
   const { mutateAsync: update } = useUpdateAdditionalInfo();
 
   const isParkingEnabled = watch('isParkingEnabled');
-  const onSubmit = (data: FormValues) => {
-    console.log('🔸 → onSubmit → data:', data);
-  };
+  const bankName = watch('bankName');
+  const accountNumber = watch('accountNumber');
+
+  const isAccountCompleted = Boolean(accountNumber) !== Boolean(bankName);
+  const isNotError = isEmpty(errors);
+
+  const isSubmittable = isAccountCompleted && isNotError;
+  const accountNumberError = !!(isAccountCompleted && !accountNumber)
+    ? {
+        message: '계좌번호를 입력해주세요'
+      }
+    : undefined;
+  const bankNameError = !!(isAccountCompleted && !bankName)
+    ? {
+        message: '은행명를 입력해주세요'
+      }
+    : undefined;
+
+  useEffect(() => {
+    if (shelterQuery.isSuccess) {
+      const data = shelterQuery.data;
+      reset({
+        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
+        parkingNotice: data.parkingInfo?.parkingNotice || '',
+        bankName: data.bankAccount?.bankName || '',
+        accountNumber: data.bankAccount?.accountNumber || '',
+        notice: data.notice || '',
+        instagram:
+          data.outLinks.find(link => link.outLinkType === 'INSTAGRAM')?.url ||
+          '',
+        donationUrl:
+          data.outLinks.find(link => link.outLinkType === 'KAKAOPAY')?.url || ''
+      });
+    }
+  }, [reset, shelterQuery.data, shelterQuery.isSuccess]);
+
+  const getPayload = useCallback((formValues: FormValues) => {
+    const bankAccount =
+      formValues.bankName && formValues.accountNumber
+        ? {
+            bankName: formValues.bankName,
+            accountNumber: formValues.accountNumber
+          }
+        : null;
+    const outLinks: OutLink[] = [];
+    formValues.instagram &&
+      outLinks.push({ outLinkType: 'INSTAGRAM', url: formValues.instagram });
+    formValues.donationUrl &&
+      outLinks.push({ outLinkType: 'KAKAOPAY', url: formValues.donationUrl });
+
+    const parkingInfo = formValues.isParkingEnabled
+      ? {
+          isParkingEnabled: formValues.isParkingEnabled === 'true',
+          parkingNotice: formValues.parkingNotice || ''
+        }
+      : null;
+
+    const payload: ShelterAdditionalInfoPayload = {
+      notice: formValues.notice || null,
+      bankAccount,
+      outLinks,
+      parkingInfo
+    };
+
+    return payload;
+  }, []);
+
+  const onSubmit = useCallback(
+    (data: FormValues) => {
+      console.log('🔸 → onSubmit → data:', data);
+
+      const payload = getPayload(data);
+      update({ payload }).then(() => router.back());
+    },
+    [getPayload, router, update]
+  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
@@ -91,13 +171,14 @@ export default function ShelterEditExtraPage() {
           <TextField
             label="후원 계좌 정보"
             placeholder="은행명"
-            error={errors.bankName}
+            error={errors.bankName || bankNameError}
             {...register('bankName')}
           />
 
           <TextField
             placeholder="계좌번호"
-            error={errors.accountNumber}
+            error={errors.accountNumber || accountNumberError}
+            disabled={!bankName}
             {...register('accountNumber')}
           />
           <TextField
@@ -128,7 +209,7 @@ export default function ShelterEditExtraPage() {
           />
           <TextField
             placeholder="추가 주차 관련 안내 (최대 200자)"
-            disabled={isParkingEnabled === ''}
+            disabled={!isParkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
           />
@@ -143,7 +224,7 @@ export default function ShelterEditExtraPage() {
         />
       </div>
       <FixedFooter>
-        <Button itemType="submit" disabled={!isEmpty(errors)}>
+        <Button itemType="submit" disabled={isSubmittable}>
           저장하기
         </Button>
       </FixedFooter>
