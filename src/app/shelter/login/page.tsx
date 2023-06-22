@@ -7,14 +7,13 @@ import Button from '@/components/common/Button/Button';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { Body3, ButtonText1 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
+import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { loginValidation } from '../utils/shelterValidaion';
-import useToast from '@/hooks/useToast';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -31,14 +30,7 @@ export default function ShelterLogin() {
 
   const router = useRouter();
   const toastOn = useToast();
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '보호소 파트너로 시작하기'
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
 
   const { mutateAsync } = useShelterLogin();
 

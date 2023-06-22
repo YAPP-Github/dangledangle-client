@@ -2,26 +2,20 @@ import { fetchAddress } from '@/api/shelter/auth/sign-up';
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { H2 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
 import { KakaoMapApiResponse } from '@/types';
 import { handlePostCode } from '@/utils/handlePostCode';
-import { useLayoutEffect } from 'react';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import { useFormContext } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { onNextProps } from '../page';
 
 export default function Address({ onNext }: onNextProps) {
   const { setValue } = useFormContext();
 
-  const setHeader = useSetRecoilState(headerState);
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      thisPage: 3,
-      entirePage: 4
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({
+    thisPage: 3,
+    entirePage: 4
+  });
 
   const handlePostComplete = async (data: Address) => {
     const [address, fullAddress, zoneCode] = handlePostCode(data);

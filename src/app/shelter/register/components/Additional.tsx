@@ -1,29 +1,19 @@
 import { Donation, Instagram, Notification, Specific } from '@/asset/icons';
+import Button from '@/components/common/Button/Button';
 import Carousel from '@/components/common/Carousel/Carousel';
 import EmphasizedTitle, {
   E,
   Line
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { Body3, ButtonText1, H2, H4 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
-import { useLayoutEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { onNextProps } from '../page';
 import * as styles from '../register.css';
-import Button from '@/components/common/Button/Button';
 
-export default function Additional() {
+export default function Additional({ onNext }: onNextProps) {
   const router = useRouter();
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '추가 정보',
-      thisPage: null,
-      entirePage: null
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({ title: '추가 정보' });
 
   return (
     <div style={{ padding: '20px' }}>
@@ -123,6 +113,7 @@ export default function Additional() {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <ButtonText1
           color="gray400"
+          onClick={onNext}
           style={{ marginTop: '16px', cursor: 'pointer' }}
         >
           다음에 하기
