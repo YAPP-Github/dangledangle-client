@@ -4,23 +4,24 @@ import { signUpPayload } from '@/api/shelter/auth/sign-up';
 import useShelterRegister from '@/api/shelter/auth/useShelterRegister';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
+import useToast from '@/hooks/useToast';
 import { headerState } from '@/store/header';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useLayoutEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { registerValidation } from '../utils/shelterValidaion';
 import Account from './components/Account';
+import Additional from './components/Additional';
 import Address from './components/Address';
 import Description from './components/Description';
 import Hp from './components/Hp';
 import Name from './components/Name';
+import RegisterComplete from './components/RegisterComplete';
+import RequireComplete from './components/RequireComplete';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
-import Additional from './components/Additional';
-import Complete from './components/Complete';
-import useToast from '@/hooks/useToast';
 
 export interface onNextProps {
   onNext: VoidFunction;
@@ -60,13 +61,17 @@ const Steps: StepsProps<onNextProps>[] = [
     component: Description,
     path: 'step6'
   },
-  // {
-  //   component: Complete,
-  //   path: 'step7'
-  // },
+  {
+    component: RequireComplete,
+    path: 'step7'
+  },
   {
     component: Additional,
     path: 'step8'
+  },
+  {
+    component: RegisterComplete,
+    path: 'step9'
   }
 ];
 
