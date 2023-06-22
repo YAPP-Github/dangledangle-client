@@ -8,6 +8,7 @@ import { handlePostCode } from '@/utils/handlePostCode';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Address({ onNext }: onNextProps) {
   const { setValue } = useFormContext();
@@ -39,19 +40,14 @@ export default function Address({ onNext }: onNextProps) {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '115px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '115px' }}>
         <EmphasizedTitle>
           <H2>보호소 주소를 검색해주세요.</H2>
         </EmphasizedTitle>
       </div>
 
-      <div style={{ height: '390px', overflowY: 'hidden' }}>
+      <div className={styles.post}>
         <DaumPostcodeEmbed
           onComplete={handlePostComplete}
           useBannerLink={false}
@@ -61,6 +57,6 @@ export default function Address({ onNext }: onNextProps) {
       <Button disabled={true} onClick={onNext} style={{ marginTop: '40px' }}>
         다음
       </Button>
-    </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Name({ onNext }: onNextProps) {
   const {
@@ -19,13 +20,8 @@ export default function Name({ onNext }: onNextProps) {
   });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '126px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
         <EmphasizedTitle>
           <H2>안녕하세요!</H2>
           <H2>보호소 이름을 입력해주세요.</H2>
@@ -45,6 +41,6 @@ export default function Name({ onNext }: onNextProps) {
       >
         다음
       </Button>
-    </div>
+    </>
   );
 }
