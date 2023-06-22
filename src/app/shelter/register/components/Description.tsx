@@ -2,10 +2,8 @@ import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextArea from '@/components/common/TextField/TextArea';
 import { H2 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
-import { useLayoutEffect } from 'react';
+import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { onNextProps } from '../page';
 
 export default function Description({ onSubmit }: onNextProps) {
@@ -15,14 +13,10 @@ export default function Description({ onSubmit }: onNextProps) {
     formState: { errors }
   } = useFormContext();
 
-  const setHeader = useSetRecoilState(headerState);
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      thisPage: 4,
-      entirePage: 4
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({
+    thisPage: 4,
+    entirePage: 4
+  });
 
   return (
     <div style={{ padding: '20px' }}>

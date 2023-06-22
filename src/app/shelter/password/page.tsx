@@ -4,13 +4,11 @@ import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
 import { H2 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useLayoutEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
-import { passWordFindValidation } from '../utils/shelterValidaion';
 import { isEmpty } from 'lodash';
+import { useForm } from 'react-hook-form';
+import { passWordFindValidation } from '../utils/shelterValidaion';
 
 const helperMessage = `등록한 파트너 계정의 이메일을 입력해주세요.
 비밀번호를 재설정할 수 있는 링크를 보내드립니다.`;
@@ -24,14 +22,7 @@ export default function ShelterPassword() {
     reValidateMode: 'onChange',
     resolver: yupResolver(passWordFindValidation)
   });
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '비밀번호 찾기'
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({ title: '비밀번호 찾기' });
 
   return (
     <div style={{ padding: '20px' }}>

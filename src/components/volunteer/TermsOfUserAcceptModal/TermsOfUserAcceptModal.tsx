@@ -68,7 +68,10 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
   const isDisabled = !(checkList.age && checkList.service && checkList.privacy);
 
   return (
-    <BottomSheet isOpened={isOpened} className={styles.bottomSheet}>
+    <BottomSheet
+      isOpened={isOpened}
+      // className={styles.bottomSheet}
+    >
       <div className={styles.wrapper}>
         <H2>약관에 동의해주세요</H2>
         <div className={styles.allAcceptChecBoxContainer}>
