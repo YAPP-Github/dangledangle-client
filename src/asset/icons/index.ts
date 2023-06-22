@@ -17,3 +17,4 @@ export { default as Donation } from './Donation.svg';
 export { default as Notification } from './Notification.svg';
 export { default as Specific } from './Specific.svg';
 export { default as Back } from './Back.svg';
+export { default as HomeLogo } from './HomeLogo.svg';
