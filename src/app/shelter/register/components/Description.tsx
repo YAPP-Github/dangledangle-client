@@ -2,11 +2,10 @@ import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextArea from '@/components/common/TextField/TextArea';
 import { H2 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
-import { useLayoutEffect } from 'react';
+import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Description({ onSubmit }: onNextProps) {
   const {
@@ -15,23 +14,14 @@ export default function Description({ onSubmit }: onNextProps) {
     formState: { errors }
   } = useFormContext();
 
-  const setHeader = useSetRecoilState(headerState);
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      thisPage: 4,
-      entirePage: 4
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({
+    thisPage: 4,
+    entirePage: 4
+  });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '64px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '64px' }}>
         <EmphasizedTitle>
           <H2>거의 다 됐어요!</H2>
           <H2>보호소를 소개해주세요 🙌</H2>
@@ -53,6 +43,6 @@ export default function Description({ onSubmit }: onNextProps) {
       >
         저장하기
       </Button>
-    </div>
+    </>
   );
 }

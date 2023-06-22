@@ -7,13 +7,14 @@ import Button from '@/components/common/Button/Button';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { Body3, ButtonText1 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
+import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { loginValidation } from '../utils/shelterValidaion';
+import * as styles from './styles.css';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -29,14 +30,8 @@ export default function ShelterLogin() {
   } = methods;
 
   const router = useRouter();
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '보호소 파트너로 시작하기'
-    }));
-  }, [setHeader]);
+  const toastOn = useToast();
+  const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
 
   const { mutateAsync } = useShelterLogin();
 
@@ -46,6 +41,7 @@ export default function ShelterLogin() {
         await mutateAsync(data);
         router.push('/event');
       } catch (e) {
+        toastOn('로그인에 실패했습니다.');
         setError(
           'email',
           {
@@ -60,12 +56,12 @@ export default function ShelterLogin() {
         });
       }
     },
-    [router, mutateAsync, setError]
+    [router, mutateAsync, setError, toastOn]
   );
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div style={{ margin: '80px auto' }}>
+    <>
+      <div className={styles.logoWrapper}>
         <Daenggle
           style={{
             margin: 'auto',
@@ -73,6 +69,7 @@ export default function ShelterLogin() {
           }}
         />
       </div>
+
       <FormProvider methods={methods} onSubmit={handleSubmit(handleLogin)}>
         <TextField
           label="이메일"
@@ -88,29 +85,25 @@ export default function ShelterLogin() {
           error={errors.password}
         />
       </FormProvider>
-      <Button onClick={handleSubmit(handleLogin)} style={{ marginTop: '40px' }}>
+
+      <Button
+        className={styles.buttonWrapper}
+        onClick={handleSubmit(handleLogin)}
+      >
         로그인
       </Button>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+      <div className={styles.findTextWrapper}>
         <ButtonText1
-          onClick={() => router.push('/shelter/password')}
+          className={styles.btnTextWrapper}
           color="gray400"
-          style={{
-            margin: '16px 0 0 auto',
-            cursor: 'pointer'
-          }}
+          onClick={() => router.push('/shelter/password')}
         >
           비밀번호 찾기
         </ButtonText1>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          columnGap: '10px',
-          justifyContent: 'center',
-          marginTop: '34px'
-        }}
-      >
+
+      <div className={styles.registerTextWrapper}>
         <Body3>아직 daenggle 회원이 아니신가요?</Body3>
         <ButtonText1
           style={{ cursor: 'pointer' }}
@@ -119,6 +112,6 @@ export default function ShelterLogin() {
           회원가입
         </ButtonText1>
       </div>
-    </div>
+    </>
   );
 }

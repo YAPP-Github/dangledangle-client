@@ -1,24 +1,20 @@
+import { Question, Warning } from '@/asset/icons';
 import Button from '@/components/common/Button/Button';
-import React, { useState } from 'react';
-import { onNextProps } from '../page';
+import CheckBox from '@/components/common/CheckBox/CheckBox';
 import EmphasizedTitle, {
   E,
   Line
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { Body3, Body4, H2, H4 } from '@/components/common/Typography';
-import { Question, Warning } from '@/asset/icons';
-import CheckBox from '@/components/common/CheckBox/CheckBox';
+import { useState } from 'react';
+import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Sure({ onNext }: onNextProps) {
   const [checked, setChecked] = useState(false);
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '63px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '63px' }}>
         <EmphasizedTitle>
           <Line>
             <H2>
@@ -30,21 +26,12 @@ export default function Sure({ onNext }: onNextProps) {
         </EmphasizedTitle>
       </div>
 
-      <div style={{ display: 'flex', columnGap: '10px', marginBottom: '9px' }}>
+      <div className={styles.subWrapper}>
         <Question />
         <H4>보호소 파트너란?</H4>
       </div>
 
-      <div
-        style={{
-          width: '100%',
-          background: '#F8F8F8',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center'
-        }}
-      >
+      <div className={styles.content}>
         <div style={{ padding: '16px' }}>
           <Body3>시보호소 또는 민간보호소를 운영하는</Body3>
           <div style={{ display: 'flex' }}>
@@ -54,29 +41,12 @@ export default function Sure({ onNext }: onNextProps) {
         </div>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          columnGap: '10px',
-          marginTop: '33px',
-          marginBottom: '9px'
-        }}
-      >
+      <div className={styles.subWrapper} style={{ marginTop: '33px' }}>
         <Warning />
         <H4>주의해주세요.</H4>
       </div>
 
-      <div
-        style={{
-          width: '100%',
-          background: '#F8F8F8',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginBottom: '116px'
-        }}
-      >
+      <div className={styles.content} style={{ marginBottom: '116px' }}>
         <div style={{ padding: '16px' }}>
           <Body3>OO운영자가 확인했을 때 시보호소/민간 보호소</Body3>
           <Body3>관계자가 아닌, 개인 구조자, 분양 홍보자 등일 경우</Body3>
@@ -87,7 +57,7 @@ export default function Sure({ onNext }: onNextProps) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles.check}>
         <CheckBox
           value={checked}
           onClick={setChecked}
@@ -101,6 +71,6 @@ export default function Sure({ onNext }: onNextProps) {
       >
         다음
       </Button>
-    </div>
+    </>
   );
 }
