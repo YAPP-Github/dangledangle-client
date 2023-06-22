@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as styles from './BottomSheet.css';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as m from '../CofirmDialog/utils/motion';
 import clsx from 'clsx';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { BREAK_POINT } from '@/styles/global.css';
 
 interface BottomSheetProps {
   /** bottom sheet status */
@@ -24,6 +26,25 @@ export default function BottomSheet({
     onClose && onClose();
   };
 
+  const [leftValue, setLeftValue] = useState(0);
+
+  useEffect(() => {
+    const updateLeftValue = () => {
+      const innerWidth = window.innerWidth;
+      const newLeftValue =
+        innerWidth < 600 ? 0 : (innerWidth - BREAK_POINT) / 2;
+      setLeftValue(newLeftValue);
+    };
+
+    updateLeftValue();
+
+    window.addEventListener('resize', updateLeftValue);
+
+    return () => {
+      window.removeEventListener('resize', updateLeftValue);
+    };
+  }, [leftValue]);
+
   return (
     <AnimatePresence>
       {isOpened && (
@@ -38,6 +59,9 @@ export default function BottomSheet({
           />
           <motion.section
             className={clsx(className, styles.panel)}
+            style={assignInlineVars({
+              [styles.bottomSheetLeft]: `${leftValue}px`
+            })}
             variants={m.bottomVariants}
             initial="initial"
             animate="visible"
