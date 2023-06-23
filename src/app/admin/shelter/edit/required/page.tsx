@@ -113,7 +113,10 @@ export default function ShelterEditRequiredPage() {
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
-          <AddressSearchBar onChange={handleChangeAddress} />
+          <AddressSearchBar
+            initialValue={searchedAddress}
+            onChange={handleChangeAddress}
+          />
           <TextField
             {...register('addressDetail')}
             error={errors.addressDetail}
