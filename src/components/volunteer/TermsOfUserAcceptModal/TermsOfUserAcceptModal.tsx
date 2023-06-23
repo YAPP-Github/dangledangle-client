@@ -5,9 +5,8 @@ import CheckBox from '@/components/common/CheckBox/CheckBox';
 import { H2 } from '@/components/common/Typography';
 import * as styles from './TermsOfUserAcceptModal.css';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { headerState } from '@/store/header';
 import { useRouter } from 'next/navigation';
+import useHeader from '@/hooks/useHeader';
 
 type InitTermsOfUserAcceptStateType = {
   age: boolean;
@@ -33,14 +32,10 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
   const [allCheck, setAllCheck] = useState<boolean>(false);
   const [checkList, setCheckList] = useState(InitTermsOfUserAcceptState(false));
 
-  const setHeader = useSetRecoilState(headerState);
+  const setHeader = useHeader({ title: '개인봉사자로 시작하기' });
+
   const [isOpened, setIsOpend] = useState(false);
   useLayoutEffect(() => {
-    setHeader({
-      title: '개인봉사자로 시작하기',
-      thisPage: null,
-      entirePage: null
-    });
     setIsOpend(true);
   }, []);
 
