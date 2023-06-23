@@ -10,8 +10,10 @@ import * as styles from './../styles.css';
 export default function Hp({ onNext }: onNextProps) {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const hpValue = watch('phoneNumber');
 
   const setHeader = useHeader({
     thisPage: 2,
@@ -32,7 +34,7 @@ export default function Hp({ onNext }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.phoneNumber}
+        disabled={!!errors.phoneNumber || !hpValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

@@ -11,8 +11,10 @@ export default function Description({ onSubmit }: onNextProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const descriptionValue = watch('description');
 
   const setHeader = useHeader({
     thisPage: 4,
@@ -37,7 +39,7 @@ export default function Description({ onSubmit }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.description}
+        disabled={!!errors.description || !descriptionValue?.trim()}
         onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         style={{ marginTop: '40px' }}
       >

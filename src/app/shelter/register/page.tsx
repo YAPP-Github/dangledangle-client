@@ -8,7 +8,7 @@ import useToast from '@/hooks/useToast';
 import { headerState } from '@/store/header';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePathname } from 'next/navigation';
-import { useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { registerValidation } from '../utils/shelterValidaion';
@@ -102,16 +102,19 @@ export default function ShelterRegister() {
   const { mutateAsync } = useShelterRegister();
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: signUpFormValue) => {
-    console.log(data);
+  const onSubmit = useCallback(
+    async (data: signUpFormValue) => {
+      console.log(data);
 
-    try {
-      await mutateAsync(data);
-      goToNextStep();
-    } catch (error) {
-      toastOn('회원가입에 실패했습니다.');
-    }
-  };
+      try {
+        await mutateAsync(data);
+        goToNextStep();
+      } catch (error) {
+        toastOn('회원가입에 실패했습니다.');
+      }
+    },
+    [goToNextStep, mutateAsync, toastOn]
+  );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
