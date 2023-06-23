@@ -31,13 +31,11 @@ export default function ShelterLogin() {
   } = methods;
 
   const router = useRouter();
-  const { logout } = useAuthContext();
   const toastOn = useToast();
   const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
 
-  useEffect(() => {
-    logout();
-  }, [logout]);
+  const { logout } = useAuthContext();
+  useEffect(logout, [logout]);
 
   const { mutateAsync } = useShelterLogin();
 
