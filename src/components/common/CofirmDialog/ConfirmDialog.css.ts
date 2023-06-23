@@ -55,18 +55,21 @@ export const modalConatainer = recipe({
 });
 
 export const header = style({
-  position: 'absolute',
-  right: '0.5rem',
-  top: '0.5rem',
-  margin: 10,
+  marginBottom: 8,
+  zIndex: 1,
+  position: 'relative',
+  height: 24
+});
+
+export const closeIcon = style({
   cursor: 'pointer',
-  zIndex: 1
+  position: 'absolute',
+  right: 0
 });
 
 export const childrenWarp = style({
   width: '100%',
-  height: 'auto',
-  padding: '10px'
+  height: 'auto'
 });
 
 export const contents = style({
@@ -74,8 +77,7 @@ export const contents = style({
   flexDirection: 'column',
   alignItems: 'center',
   height: '100%',
-  width: '100%',
-  paddingBottom: '12px'
+  width: '100%'
 });
 
 export const buttonWrapper = style({

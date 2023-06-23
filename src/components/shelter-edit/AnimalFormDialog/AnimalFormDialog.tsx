@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ObservationAnimal,
   ObservationAnimalPayload
@@ -19,9 +17,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import useUpdateObservationAnimal from '@/api/shelter/admin/useUpdateObservationAnimal';
 import useImageUploader from '@/hooks/useImageUploader';
+import { usePresence } from 'framer-motion';
+import yup from '@/utils/yup';
 
 interface AnimalFormDialogProps
   extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
@@ -59,19 +58,27 @@ const scheme: yup.ObjectSchema<FormValues> = yup
   })
   .required();
 
-const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
-  open,
-  onClose,
+interface AnimalFormProps {
+  initialData?: ObservationAnimal;
+  onClose: () => void;
+}
+
+export const AnimalForm: React.FC<AnimalFormProps> = ({
+  onClose = () => null,
   initialData
 }) => {
   const {
     register,
     handleSubmit,
     reset,
+    trigger,
     formState: { errors }
   } = useForm<FormValues>({
+    mode: 'all',
+    reValidateMode: 'onChange',
     resolver: yupResolver(scheme)
   });
+
   const {
     onChangeImage,
     isUploading,
@@ -81,6 +88,20 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
 
   const { mutateAsync: create } = useCreateObservationAnimal();
   const { mutateAsync: update } = useUpdateObservationAnimal();
+  const [isPresent, safeToRemove] = usePresence();
+
+  const handleClose = useCallback(() => {
+    reset({});
+    setTimeout(onClose, 10);
+  }, [onClose, reset]);
+
+  useEffect(() => {
+    if (isPresent) {
+      trigger('gender');
+    } else {
+      safeToRemove();
+    }
+  }, [isPresent, safeToRemove, trigger]);
 
   useEffect(() => {
     reset(initialData || {});
@@ -95,11 +116,6 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   const submitable = Boolean(
     !isUploading && isEmpty(errors) && profileImageUrl
   );
-
-  const handleClose = useCallback(() => {
-    reset({});
-    setTimeout(onClose, 10);
-  }, [onClose, reset]);
 
   const onSubmit = useCallback(
     (data: FormValues) => {
@@ -123,70 +139,79 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   );
 
   return (
-    <ConfirmDialog
-      open={open}
-      onClose={handleClose}
-      actionButton={
-        <Button onClick={handleSubmit(onSubmit)} disabled={!submitable}>
-          등록하기
-        </Button>
-      }
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ImageUploader
-          imagePath={profileImageUrl}
-          name="image"
-          variant="square"
-          onChangeCallback={onChangeImage}
-        />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ImageUploader
+        imagePath={profileImageUrl}
+        name="image"
+        variant="square"
+        onChangeCallback={onChangeImage}
+      />
 
-        <TextField
-          label="이름"
-          placeholder="이름을 입력해주세요"
-          {...register(`name`)}
-          error={errors.name}
-        />
-        <TextField
-          label="견종"
-          placeholder="견종을 입력해주세요"
-          {...register('breed')}
-          error={errors.breed}
-        />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div
-            style={{
-              width: '30%',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
-            <TextField
-              label="나이"
-              placeholder="나이"
-              {...register(`age`)}
-              error={errors.age}
-            />
-            <ButtonText1 style={{ marginTop: 20 }}>살</ButtonText1>
-          </div>
-          <div>
-            <RadioButton
-              style={{ marginBottom: '12px' }}
-              label="성별"
-              options={genderOptions}
-              initailValue={initialData?.gender}
-              {...register('gender')}
-            />
-          </div>
+      <TextField
+        label="이름"
+        placeholder="이름을 입력해주세요"
+        {...register(`name`)}
+        error={errors.name}
+      />
+      <TextField
+        label="견종"
+        placeholder="견종을 입력해주세요"
+        {...register('breed')}
+        error={errors.breed}
+      />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            width: '30%',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <TextField
+            label="나이"
+            placeholder="나이"
+            {...register(`age`)}
+            error={errors.age}
+          />
+          <ButtonText1 style={{ marginTop: 20 }}>살</ButtonText1>
         </div>
-        <TextArea
-          label="상세 주의 사항"
-          max={300}
-          height="150px"
-          placeholder="특이사항을 입력해주세요"
-          {...register('specialNote')}
-          error={errors.specialNote}
-        />
-      </form>
+        <div>
+          <RadioButton
+            style={{ marginBottom: '12px' }}
+            label="성별"
+            options={genderOptions}
+            initailValue={initialData?.gender}
+            {...register('gender')}
+          />
+        </div>
+      </div>
+      <TextArea
+        label="상세 주의 사항"
+        maxLength={300}
+        height="88px"
+        placeholder="특이사항을 입력해주세요"
+        {...register('specialNote')}
+        error={errors.specialNote}
+      />
+      <Button
+        style={{ marginTop: '20px' }}
+        itemType="submit"
+        disabled={!submitable}
+      >
+        등록하기
+      </Button>
+    </form>
+  );
+};
+
+const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
+  open,
+  onClose,
+  initialData
+}) => {
+  return (
+    <ConfirmDialog open={open} onClose={onClose}>
+      <AnimalForm initialData={initialData} onClose={onClose} />
     </ConfirmDialog>
   );
 };

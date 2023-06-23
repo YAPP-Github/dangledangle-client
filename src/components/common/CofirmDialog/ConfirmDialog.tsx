@@ -13,19 +13,13 @@ export interface ConfirmDialogProps {
   open: boolean;
   /** dialog close function  */
   onClose: () => void;
-  /** dialog message - @/utils/setting/settingConstEnum  */
-  message?: string;
   /** dialog 요소 */
   children?: React.ReactNode;
-  /** dialog 추가버튼  */
-  actionButton?: React.ReactNode;
 }
 
 export default function ConfirmDialog({
   open = false,
-  message,
   onClose,
-  actionButton,
   children
 }: ConfirmDialogProps) {
   const { modalSize, modalRef } = useResize(open);
@@ -53,24 +47,11 @@ export default function ConfirmDialog({
                 exit="leaving"
               >
                 <header className={styles.header}>
-                  <Close onClick={onClose} />
+                  <Close className={styles.closeIcon} onClick={onClose} />
                 </header>
-
                 <main className={styles.contents}>
-                  <div>
-                    {message?.split('<br/>').map((value, index) => {
-                      return (
-                        <H3 key={index} style={{ textAlign: 'center' }}>
-                          {value}
-                          <br />
-                        </H3>
-                      );
-                    })}
-                  </div>
                   <div className={styles.childrenWarp}>{children}</div>
                 </main>
-
-                <footer className={styles.buttonWrapper}>{actionButton}</footer>
               </motion.article>
             </>
           )}
