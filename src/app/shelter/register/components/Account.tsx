@@ -5,6 +5,7 @@ import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle
 import TextField from '@/components/common/TextField/TextField';
 import { H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
+import useDebounceValidator from '@/hooks/useDebounceValidator';
 import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
@@ -18,12 +19,35 @@ export default function Account({ onNext }: onNextProps) {
   const {
     register,
     formState: { errors },
-    watch
+    watch,
+    setError
   } = useFormContext();
 
   const emailValue = watch('email');
   const passwordValue = watch('password');
   const passwordConfirmValue = watch('passwordConfirm');
+
+  const debouncedValidator = useDebounceValidator({
+    fieldName: 'email',
+    setError: setError,
+    message: '이미 등록된 이메일입니다. 다시 한번 확인해주세요.'
+  });
+
+  const areInputsFilled =
+    !!emailValue?.trim() &&
+    !!passwordValue?.trim() &&
+    !!passwordConfirmValue?.trim();
+
+  const isInputError =
+    !!errors.email || !!errors.password || !!errors.passwordConfirm;
+
+  const handleBottomSheet = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      isOpenSheet();
+    },
+    [isOpenSheet]
+  );
 
   const [allChecked, setAllChecked] = useState(false);
   const [singleChecked, setsingleChecked] = useState<SingleCheckedState>({
@@ -53,24 +77,8 @@ export default function Account({ onNext }: onNextProps) {
     [singleChecked]
   );
 
-  const areInputsFilled =
-    !!emailValue?.trim() &&
-    !!passwordValue?.trim() &&
-    !!passwordConfirmValue?.trim();
-
-  const isInputError =
-    !!errors.email || !!errors.password || !!errors.passwordConfirm;
-
   const isButtonDisabled =
     !singleChecked.over14 || !singleChecked.terms || !singleChecked.privacy;
-
-  const handleBottomSheet = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      isOpenSheet();
-    },
-    [isOpenSheet]
-  );
 
   return (
     <>
@@ -85,6 +93,10 @@ export default function Account({ onNext }: onNextProps) {
         placeholder="이메일을 입력해주세요."
         {...register('email')}
         error={errors.email}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          register('email').onChange(e);
+          debouncedValidator?.(e.target.value, 'EMAIL');
+        }}
       />
       <TextField
         label="비밀번호"

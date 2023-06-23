@@ -12,16 +12,21 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { passWordFindValidation } from '../utils/shelterValidaion';
 import * as styles from './styles.css';
+import useDebounceValidator from '@/hooks/useDebounceValidator';
 
 const helperMessage = `등록한 파트너 계정의 이메일을 입력해주세요.
 비밀번호를 재설정할 수 있는 링크를 보내드립니다.`;
+
+interface findPassFormValue {
+  email: string;
+}
 
 export default function ShelterPassword() {
   const {
     register,
     formState: { errors },
     setError
-  } = useForm({
+  } = useForm<findPassFormValue>({
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(passWordFindValidation)
@@ -36,6 +41,13 @@ export default function ShelterPassword() {
       message: '필수항목 입니다.'
     });
   }, [setError]);
+
+  const debouncedValidator = useDebounceValidator({
+    boolVal: false,
+    fieldName: 'email',
+    setError: setError,
+    message: '입력하신 이메일 계정이 없습니다. 다시 한번 확인해주세요.'
+  });
 
   const handleSendPassLink = async () => {
     try {
@@ -59,6 +71,10 @@ export default function ShelterPassword() {
         placeholder="등록하신 이메일을 입력해주세요."
         {...register('email')}
         error={errors.email}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          register('email').onChange(e);
+          debouncedValidator?.(e.target.value, 'EMAIL');
+        }}
       />
       <Button
         style={{ marginTop: '47px' }}
