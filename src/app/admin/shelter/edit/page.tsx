@@ -21,8 +21,10 @@ import { OUT_LINK_TYPE } from '@/constants/shelter';
 import { ShelterAdditionalInfo } from '@/api/shelter/admin/additional-info';
 import useImageUploader from '@/hooks/useImageUploader';
 import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
+import useHeader from '@/hooks/useHeader';
 
 export default function ShelterEditPage() {
+  useHeader({ title: '보호소 정보' });
   const { onChangeImage } = useImageUploader();
   const router = useRouter();
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
@@ -86,7 +88,7 @@ export default function ShelterEditPage() {
   );
 
   return (
-    <>
+    <div className="page">
       <section>
         <ImageUploader
           imagePath={shelterQuery?.data?.profileImageUrl}
@@ -156,6 +158,6 @@ export default function ShelterEditPage() {
           onClose={closeDialog}
         />
       </section>
-    </>
+    </div>
   );
 }

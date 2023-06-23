@@ -21,6 +21,7 @@ import {
 } from '@/api/shelter/admin/additional-info';
 import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
+import useHeader from '@/hooks/useHeader';
 
 type FormValues = {
   instagram?: string;
@@ -65,6 +66,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
   .required();
 
 export default function ShelterEditExtraPage() {
+  useHeader({ title: '추가 정보' });
   const {
     register,
     handleSubmit,
@@ -159,7 +161,7 @@ export default function ShelterEditExtraPage() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="page" onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
         <TextField
           label="인스타그램 계정"
