@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  CLIENT_ACCESS_TOKEN_KEY,
-  CLIENT_REFRESH_TOKEN_KEY
+  COOKIE_REFRESH_TOKEN_KEY,
+  COOKIE_ACCESS_TOKEN_KEY
 } from '@/api/cookieKeys';
 import cookie from 'js-cookie';
 import { usePathname, useRouter } from 'next/navigation';
@@ -57,7 +57,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const dangle_access_token = cookie.get(CLIENT_ACCESS_TOKEN_KEY);
+    const dangle_access_token = cookie.get(COOKIE_ACCESS_TOKEN_KEY);
 
     if (dangle_access_token) {
       setAuthState(prevState => ({
@@ -71,8 +71,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [router, pathname]);
 
   const logout = useCallback(() => {
-    cookie.remove(CLIENT_ACCESS_TOKEN_KEY);
-    cookie.remove(CLIENT_REFRESH_TOKEN_KEY);
+    cookie.remove(COOKIE_ACCESS_TOKEN_KEY);
+    cookie.remove(COOKIE_REFRESH_TOKEN_KEY);
     setAuthState(initialAuthState);
   }, []);
 
