@@ -8,12 +8,17 @@ import useBooleanState from '@/hooks/useBooleanState';
 import { SearchedAddress } from '@/api/shelter/admin/essential-info';
 
 interface AddressSearchBarProps {
+  initialValue?: SearchedAddress;
   onChange: (address?: SearchedAddress) => void;
 }
 
-const AddressSearchBar: React.FC<AddressSearchBarProps> = ({ onChange }) => {
+const AddressSearchBar: React.FC<AddressSearchBarProps> = ({
+  onChange,
+  initialValue
+}) => {
   const { searchResult, onCompleteSearch } = useSearchAddress();
   const [isOpened, open, close] = useBooleanState();
+
   const handleCompleteSearch = (data: Address) => {
     onCompleteSearch(data);
     close();
@@ -26,7 +31,7 @@ const AddressSearchBar: React.FC<AddressSearchBarProps> = ({ onChange }) => {
   return (
     <div>
       <div className={styles.searchBar} onClick={isOpened ? close : open}>
-        <Body2>{searchResult?.address}</Body2>
+        <Body2>{searchResult?.address || initialValue?.address || ''}</Body2>
         <SearchIcon />
       </div>
       {isOpened && (

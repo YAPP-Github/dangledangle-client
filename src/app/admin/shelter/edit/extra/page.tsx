@@ -7,7 +7,7 @@ import TextField from '@/components/common/TextField/TextField';
 import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { SubmitErrorHandler, useForm } from 'react-hook-form';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -21,6 +21,7 @@ import {
 } from '@/api/shelter/admin/additional-info';
 import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
+import useHeader from '@/hooks/useHeader';
 
 type FormValues = {
   instagram?: string;
@@ -44,27 +45,28 @@ const parkingOptions: RadioOption[] = [
 
 const maxNoticeLength = 1000;
 const maxParkingNoticeLength = 300;
+const INSTAGRAM_BASE_URL = 'https://www.instagram.com/';
 const schema: yup.ObjectSchema<FormValues> = yup
   .object()
   .shape({
     instagram: yup
       .string()
       .default('')
-      .matches(/https:\/\/www\.instagram\.com\/[\w\.]+$/i, {
+      .matches(/[\w\.]+$/i, {
         excludeEmptyString: true,
         message: '인스타그램 주소를 다시 확인해주세요'
-      })
-      .url(),
+      }),
     bankName: yup.string(),
     accountNumber: yup.string(),
     donationUrl: yup.string().url(),
-    isParkingEnabled: yup.string().nullable().oneOf(['true', 'false']),
+    isParkingEnabled: yup.string(),
     parkingNotice: yup.string().max(maxParkingNoticeLength),
     notice: yup.string().max(maxNoticeLength)
   })
   .required();
 
 export default function ShelterEditExtraPage() {
+  useHeader({ title: '추가 정보' });
   const {
     register,
     handleSubmit,
@@ -109,8 +111,9 @@ export default function ShelterEditExtraPage() {
         accountNumber: data.bankAccount?.accountNumber || '',
         notice: data.notice || '',
         instagram:
-          data.outLinks.find(link => link.outLinkType === 'INSTAGRAM')?.url ||
-          '',
+          data.outLinks
+            .find(link => link.outLinkType === 'INSTAGRAM')
+            ?.url.replace(INSTAGRAM_BASE_URL, '') || '',
         donationUrl:
           data.outLinks.find(link => link.outLinkType === 'KAKAOPAY')?.url || ''
       });
@@ -127,7 +130,10 @@ export default function ShelterEditExtraPage() {
         : null;
     const outLinks: OutLink[] = [];
     formValues.instagram &&
-      outLinks.push({ outLinkType: 'INSTAGRAM', url: formValues.instagram });
+      outLinks.push({
+        outLinkType: 'INSTAGRAM',
+        url: INSTAGRAM_BASE_URL + formValues.instagram
+      });
     formValues.donationUrl &&
       outLinks.push({ outLinkType: 'KAKAOPAY', url: formValues.donationUrl });
 
@@ -159,11 +165,12 @@ export default function ShelterEditExtraPage() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="page" onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
         <TextField
           label="인스타그램 계정"
-          placeholder="https://www.instagram.com/프로필명"
+          placeholder="프로필명"
+          fixedValue={INSTAGRAM_BASE_URL}
           error={errors.instagram}
           {...register('instagram')}
         />

@@ -6,3 +6,7 @@ export const animalList = style({
   rowGap: '10px',
   marginTop: 12
 });
+
+export const imageSection = style({
+  marginBottom: 40
+});

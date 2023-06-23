@@ -15,6 +15,6 @@ export const wrapper = style({
   maxWidth: `${BREAK_POINT}px`,
   width: '100%',
   padding: `10px ${GLOBAL_PADDING_X}px 30px`,
-  backgroundColor: palette.white,
+  backgroundColor: palette.background,
   boxShadow: '0px -1px 5px 1px rgba(0, 0, 0, 0.1)'
 });

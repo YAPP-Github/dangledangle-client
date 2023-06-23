@@ -1,4 +1,4 @@
-import { BasicDialogProps } from '@/components/common/CofirmDialog/BasicDialog';
+import { BasicDialogProps } from '@/components/global/Dialog/BasicDialog';
 import { atom } from 'recoil';
 
 export type DialogState = Omit<BasicDialogProps, 'onClose'>;
