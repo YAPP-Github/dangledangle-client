@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { PropsWithChildren } from 'react';
 import * as styles from './DialogBase.css';
-import Portal from '../../common/Modal/Portal/Portal';
-import useResize from '../../common/Modal/hooks/useResize';
-import * as m from '../../common/Modal/utils/motion';
+import useResize from './hooks/useResize';
+import * as m from './utils/motion';
+import Portal from './Portal/Portal';
 
 export interface DialogBaseProps extends PropsWithChildren {
   /** dialog status */
