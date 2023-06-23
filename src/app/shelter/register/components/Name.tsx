@@ -10,15 +10,16 @@ import * as styles from './../styles.css';
 export default function Name({ onNext }: onNextProps) {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const nameValue = watch('name');
 
   const setHeader = useHeader({
     title: '필수정보',
     thisPage: 1,
     entirePage: 4
   });
-
   return (
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
@@ -35,7 +36,7 @@ export default function Name({ onNext }: onNextProps) {
         error={errors.name}
       />
       <Button
-        disabled={!!errors.name}
+        disabled={!!errors.name || !nameValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

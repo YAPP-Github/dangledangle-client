@@ -5,12 +5,11 @@ import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle
 import TextField from '@/components/common/TextField/TextField';
 import { H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
 import * as styles from './../styles.css';
 
-const REQUIRE = '필수 입력 항목입니다.';
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
@@ -19,27 +18,12 @@ export default function Account({ onNext }: onNextProps) {
   const {
     register,
     formState: { errors },
-    setError
+    watch
   } = useFormContext();
 
-  useEffect(() => {
-    setError(
-      'email',
-      {
-        type: 'focus',
-        message: REQUIRE
-      },
-      { shouldFocus: true }
-    );
-    setError('password', {
-      type: 'focus',
-      message: REQUIRE
-    });
-    setError('passwordConfirm', {
-      type: 'focus',
-      message: REQUIRE
-    });
-  }, [setError]);
+  const emailValue = watch('email');
+  const passwordValue = watch('password');
+  const passwordConfirmValue = watch('passwordConfirm');
 
   const [allChecked, setAllChecked] = useState(false);
   const [singleChecked, setsingleChecked] = useState<SingleCheckedState>({
@@ -68,6 +52,11 @@ export default function Account({ onNext }: onNextProps) {
     },
     [singleChecked]
   );
+
+  const areInputsFilled =
+    !!emailValue?.trim() &&
+    !!passwordValue?.trim() &&
+    !!passwordConfirmValue?.trim();
 
   const isInputError =
     !!errors.email || !!errors.password || !!errors.passwordConfirm;
@@ -112,7 +101,7 @@ export default function Account({ onNext }: onNextProps) {
         error={errors.passwordConfirm}
       />
       <Button
-        disabled={isInputError}
+        disabled={isInputError || !areInputsFilled}
         onClick={handleBottomSheet}
         style={{ marginTop: '40px' }}
       >
