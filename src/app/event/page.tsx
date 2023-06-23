@@ -1,14 +1,10 @@
 'use client';
 
 import { headerState } from '@/store/header';
-import React from 'react';
-import { useSetRecoilState } from 'recoil';
 import { useLayoutEffect } from 'react';
-import { useAuthContext } from '@/providers/AuthContext';
+import { useSetRecoilState } from 'recoil';
 
 export default function EventPage() {
-  const { accessToken } = useAuthContext();
-  console.log(accessToken);
   const setHeader = useSetRecoilState(headerState);
 
   useLayoutEffect(() => {

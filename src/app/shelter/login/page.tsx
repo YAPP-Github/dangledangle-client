@@ -11,10 +11,11 @@ import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { loginValidation } from '../utils/shelterValidaion';
 import * as styles from './styles.css';
+import { useAuthContext } from '@/providers/AuthContext';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -30,8 +31,13 @@ export default function ShelterLogin() {
   } = methods;
 
   const router = useRouter();
+  const { logout } = useAuthContext();
   const toastOn = useToast();
   const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
+
+  useEffect(() => {
+    logout();
+  }, [logout]);
 
   const { mutateAsync } = useShelterLogin();
 
