@@ -2,27 +2,26 @@
 import { H2 } from '@/components/common/Typography';
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
 import useBooleanState from '@/hooks/useBooleanState';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback } from 'react';
 import Button from '@/components/common/Button/Button';
-import { useSetRecoilState } from 'recoil';
 import * as styles from './RegisterComplete.css';
-import { headerState } from '@/store/header';
 import { container } from '@/app/layout.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import useHeader from '@/hooks/useHeader';
+import Cookies from 'js-cookie';
+import { COOKIE_REGISTER_EMAIL_KEY } from '@/api/cookieKeys';
 
 export default function RegisterComplete() {
   const [isOpened, openDialog, closeDialog] = useBooleanState(true);
   const router = useRouter();
-  const setHeader = useSetRecoilState(headerState);
-  const handleClick = useCallback(() => {
+  const setHeader = useHeader({ isHeader: 'hidden' });
+  const handleClick = useCallback(async () => {
     closeDialog();
-    router.replace('/volunteer');
+    Cookies.remove(COOKIE_REGISTER_EMAIL_KEY);
+    router.replace('/');
   }, []);
 
-  useLayoutEffect(() => {
-    setHeader({ title: '', entirePage: null, thisPage: null });
-  });
   return (
     <>
       <BottomSheet

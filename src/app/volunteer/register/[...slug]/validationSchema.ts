@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
-import { RegisterFormValues } from './page';
+import { RegisterFormValues } from './RegisterMain';
 
 export const validation: Yup.ObjectSchema<Partial<RegisterFormValues>> =
   Yup.object().shape({
-    nickName: Yup.string()
+    nickname: Yup.string()
       .max(10)
       .required('닉네임을 한글자 이상 입력해주세요.')
       .test(

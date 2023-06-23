@@ -15,7 +15,7 @@ export default function NickName() {
       </div>
       <div className={style.InputSection}>
         <TextFieldWithForm
-          name="nickName"
+          name="nickname"
           helper={'10자 이내 국문/영문/숫자/특수문자 가능 (이모지 불가)'}
           maxLength={10}
         />
