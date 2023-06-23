@@ -124,7 +124,7 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
           className={styles.bottomButton}
           disabled={isDisabled}
           onClick={() => {
-            router.push('/volunteer/register/next');
+            router.push('/volunteer/register/nickname');
           }}
         >
           다음
