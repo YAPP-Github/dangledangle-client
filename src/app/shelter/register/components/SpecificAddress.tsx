@@ -5,6 +5,7 @@ import TextField from '@/components/common/TextField/TextField';
 import { H2 } from '@/components/common/Typography';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function SpecificAddress({ onNext }: onNextProps) {
   const {
@@ -13,13 +14,8 @@ export default function SpecificAddress({ onNext }: onNextProps) {
   } = useFormContext();
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '109px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '109px' }}>
         <EmphasizedTitle>
           <H2>상세 주소를 입력해주세요.</H2>
         </EmphasizedTitle>
@@ -54,6 +50,6 @@ export default function SpecificAddress({ onNext }: onNextProps) {
       >
         다음
       </Button>
-    </div>
+    </>
   );
 }

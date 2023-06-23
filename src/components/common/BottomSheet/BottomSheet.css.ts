@@ -1,25 +1,20 @@
 import { BREAK_POINT } from '@/styles/global.css';
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
+
+export const bottomSheetLeft = createVar('bottomSheetLeft');
 
 export const panel = style({
   position: 'fixed',
-  bottom: 0,
-  height: 500,
-  borderRadius: '30px',
-  width: BREAK_POINT,
+  bottom: -5,
+  left: [bottomSheetLeft],
+  height: '560px',
+  borderRadius: '20px 20px 0px 0px',
+  width: '100%',
+  maxWidth: BREAK_POINT,
   margin: 'auto',
   backgroundColor: 'rgb(255, 255, 255)',
   boxShadow: `0px 0px 10px #888888`,
-  transition: 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-  zIndex: 100,
-  transform: 'translateY(100%)',
-  visibility: 'hidden',
-  paddingBottom: '200px'
-});
-
-export const panelOpen = style({
-  transform: 'translateY(200px)',
-  visibility: 'visible'
+  zIndex: 100
 });
 
 export const overlay = style({
@@ -32,18 +27,7 @@ export const overlay = style({
   zIndex: 100
 });
 
-export const defaultContent = style({
-  display: 'flex',
-  justifyContent: 'left',
-
-  padding: 30,
-  paddingTop: 30,
-  width: '100%',
-  height: '100%',
-
-  fontFamily: 'Pretendard',
-  fontStyle: 'normal',
-  fontWeight: 700,
-  fontSize: '24px',
-  lineHeight: '34px'
+export const childrenWrap = style({
+  marginTop: '40px',
+  padding: '22px'
 });

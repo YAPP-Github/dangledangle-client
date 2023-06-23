@@ -1,38 +1,23 @@
 import { Donation, Instagram, Notification, Specific } from '@/asset/icons';
+import Button from '@/components/common/Button/Button';
 import Carousel from '@/components/common/Carousel/Carousel';
 import EmphasizedTitle, {
   E,
   Line
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { Body3, ButtonText1, H2, H4 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
-import { useLayoutEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import * as styles from '../register.css';
-import Button from '@/components/common/Button/Button';
+import { onNextProps } from '../page';
+import * as styles from '../styles.css';
 
-export default function Additional() {
+export default function Additional({ onNext }: onNextProps) {
   const router = useRouter();
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '추가 정보',
-      thisPage: null,
-      entirePage: null
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({ title: '추가 정보' });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '54px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '54px' }}>
         <EmphasizedTitle>
           <H2>잠깐!🤚 추가 정보 입력하면 보호소 파트너로</H2>
           <Line>
@@ -47,10 +32,7 @@ export default function Additional() {
       <Carousel>
         <div className={styles.item}>
           <Instagram />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             01.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -64,10 +46,7 @@ export default function Additional() {
 
         <div className={styles.item}>
           <Donation />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             02.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -81,10 +60,7 @@ export default function Additional() {
 
         <div className={styles.item}>
           <Notification />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             03.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -98,10 +74,7 @@ export default function Additional() {
 
         <div className={styles.item}>
           <Specific />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             04.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -120,14 +93,15 @@ export default function Additional() {
       >
         다음
       </Button>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles.carouselBtnWrap}>
         <ButtonText1
           color="gray400"
-          style={{ marginTop: '16px', cursor: 'pointer' }}
+          onClick={onNext}
+          className={styles.carouselBtnText}
         >
           다음에 하기
         </ButtonText1>
       </div>
-    </div>
+    </>
   );
 }

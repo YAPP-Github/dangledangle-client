@@ -2,11 +2,10 @@ import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextFieldWithForm from '@/components/common/TextField/TextFieldWithForm';
 import { H2 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
-import { useLayoutEffect } from 'react';
+import useHeader from '@/hooks/useHeader';
 import { useFormContext } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Hp({ onNext }: onNextProps) {
   const {
@@ -14,23 +13,14 @@ export default function Hp({ onNext }: onNextProps) {
     formState: { errors }
   } = useFormContext();
 
-  const setHeader = useSetRecoilState(headerState);
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      thisPage: 2,
-      entirePage: 4
-    }));
-  }, [setHeader]);
+  const setHeader = useHeader({
+    thisPage: 2,
+    entirePage: 4
+  });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '160px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '160px' }}>
         <EmphasizedTitle>
           <H2>보호소 연락처를 입력해주세요.</H2>
         </EmphasizedTitle>
@@ -48,6 +38,6 @@ export default function Hp({ onNext }: onNextProps) {
       >
         다음
       </Button>
-    </div>
+    </>
   );
 }

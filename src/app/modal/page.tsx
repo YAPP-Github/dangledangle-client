@@ -42,7 +42,7 @@ export default function ModalPage() {
 
   return (
     <>
-      <Header title="로그인" thisPage={0} entirePage={5} />
+      <Header />
 
       <FormProvider {...{ methods }} onSubmit={handleSubmit(onSubmit)}>
         <ImageUploader name="test1" />
