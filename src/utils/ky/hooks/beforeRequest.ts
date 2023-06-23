@@ -1,14 +1,12 @@
 import { BeforeRequestHook } from 'ky';
 import Cookies from 'js-cookie';
-import { CLIENT_ACCESS_TOKEN_KEY } from '@/api/cookieKeys';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/api/cookieKeys';
 
 export const setAuthorizationHeader: BeforeRequestHook = async (
   request,
   options
 ) => {
-  console.log('setAuthorizationHeader');
-
-  const accessToken = Cookies.get(CLIENT_ACCESS_TOKEN_KEY);
-
+  const accessToken = Cookies.get(COOKIE_ACCESS_TOKEN_KEY);
+  if (!accessToken) return request;
   request.headers.set('Authorization', `Bearer ${accessToken}`);
 };

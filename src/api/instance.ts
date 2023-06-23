@@ -12,7 +12,7 @@ const api = ky.create({
   },
   hooks: {
     beforeRequest: [setAuthorizationHeader],
-    afterResponse: [retryRequestOnUnauthorized]
+    afterResponse: [retryRequestOnUnauthorized, throwServerErrorMessage]
   }
 });
 
