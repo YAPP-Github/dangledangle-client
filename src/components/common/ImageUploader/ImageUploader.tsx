@@ -91,20 +91,26 @@ export const ImageUploader = React.forwardRef<
             htmlFor={inputId}
             className={clsx(styles.defaultCircle({ variant }), styles.label)}
           >
+            {variant === 'square' && (
+              <div
+                className={styles.camera({
+                  variant: 'square'
+                })}
+              >
+                {variant === 'square' && !imageSrc && <GrayCamera />}
+              </div>
+            )}
             <Caption2 color="gray500">{placeholder}</Caption2>
           </label>
         )}
 
         <label
-          className={clsx([
-            styles.camera({
-              variant:
-                variant === 'circle' ? 'circle' : !file ? 'square' : 'none'
-            })
-          ])}
+          className={clsx({
+            [styles.camera({ variant: 'circle' })]: variant === 'circle'
+          })}
           htmlFor={inputId}
         >
-          {variant === 'circle' ? <Camera /> : <GrayCamera />}
+          {variant === 'circle' && <Camera />}
           <input
             id={inputId}
             name={name}

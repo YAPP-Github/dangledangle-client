@@ -65,7 +65,6 @@ export const camera = recipe({
         width: '80px',
         height: '80px',
         background: palette.gray50,
-        boader: `10px solid ${palette.gray500}`,
         borderRadius: '8px'
       },
       none: {
