@@ -19,7 +19,7 @@ import useUpdateObservationAnimal from '@/api/shelter/admin/useUpdateObservation
 import useImageUploader from '@/hooks/useImageUploader';
 import { usePresence } from 'framer-motion';
 import yup from '@/utils/yup';
-
+import * as styles from './AnimalFormDialog.css';
 interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
   data?: ObservationAnimal;
@@ -103,12 +103,13 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   useEffect(() => {
     reset(initialData || {});
     setProfileImageUrl(initialData?.profileImageUrl);
+    if (initialData) trigger();
 
     return () => {
       reset({});
       setProfileImageUrl('');
     };
-  }, [initialData, reset, setProfileImageUrl]);
+  }, [initialData, reset, setProfileImageUrl, trigger]);
 
   const submitable = Boolean(
     !isUploading && isEmpty(errors) && profileImageUrl
@@ -136,7 +137,7 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <ImageUploader
         imagePath={profileImageUrl}
         name="image"
