@@ -19,6 +19,7 @@ export const textFieldContainer = style({
 export const textInput = recipe({
   base: {
     width: '100%',
+    height: '100%',
     '::placeholder': {
       color: palette.gray300
     }
