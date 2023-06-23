@@ -1,14 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginPayload, LoginResponse, loginShelter } from './login';
 import Cookies from 'js-cookie';
+import {
+  CLIENT_ACCESS_TOKEN_KEY,
+  CLIENT_REFRESH_TOKEN_KEY
+} from '@/api/cookieKeys';
 
 export default function useShelterLogin() {
   const queryClient = useQueryClient();
   return useMutation<LoginResponse, Error, LoginPayload>(loginShelter, {
     onSuccess: response => {
       if ('accessToken' in response) {
-        Cookies.set('accessToken', response.accessToken);
-        Cookies.set('refreshToken', response.refreshToken);
+        Cookies.set(CLIENT_ACCESS_TOKEN_KEY, response.accessToken);
+        Cookies.set(CLIENT_REFRESH_TOKEN_KEY, response.refreshToken);
         return queryClient.invalidateQueries(['login']);
       } else {
         console.error(response);
