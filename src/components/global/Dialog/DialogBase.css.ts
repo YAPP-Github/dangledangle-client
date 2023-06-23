@@ -37,12 +37,6 @@ export const modalConatainer = recipe({
     maxHeight: 'calc(85vh)'
   },
   variants: {
-    variant: {
-      basic: {
-        padding: '24px 24px 20px',
-        width: '300px'
-      }
-    },
     size: {
       sm: {
         transform: 'translate(-50%, -100%)'
@@ -52,33 +46,4 @@ export const modalConatainer = recipe({
       }
     }
   }
-});
-
-export const header = style({
-  position: 'absolute',
-  right: '0.5rem',
-  top: '0.5rem',
-  margin: 10,
-  cursor: 'pointer',
-  zIndex: 1
-});
-
-export const childrenWarp = style({
-  width: '100%',
-  height: 'auto',
-  padding: '10px'
-});
-
-export const contents = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '100%',
-  width: '100%',
-  paddingBottom: '12px'
-});
-
-export const buttonWrapper = style({
-  display: 'flex',
-  gap: 10
 });

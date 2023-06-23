@@ -3,7 +3,7 @@ import RecoilRootWrapper from '@/providers/RecoilRootWrapper';
 import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
-import { GlobalComponents } from '@/components/common/GlobalComponents/GlobalComponents';
+import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
 import Header from '@/components/common/Header/Header';
 import { AuthProvider } from '@/providers/AuthContext';
 

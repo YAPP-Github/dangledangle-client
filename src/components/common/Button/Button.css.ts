@@ -73,7 +73,16 @@ export const ButtonWrapper = recipe({
       middle: variants.h4,
       large: variants.h4
     }
-  }
+  },
+  compoundVariants: [
+    {
+      variants: {
+        variant: 'line',
+        size: 'middle'
+      },
+      style: variants.button2
+    }
+  ]
 });
 
 export const prefixIcon = style({

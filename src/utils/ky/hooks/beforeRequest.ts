@@ -6,7 +6,11 @@ export const setAuthorizationHeader: BeforeRequestHook = async (
   request,
   options
 ) => {
+  console.log('setAuthorizationHeader');
+
   const accessToken = Cookies.get(COOKIE_ACCESS_TOKEN_KEY);
-  if (!accessToken) return request;
-  request.headers.set('Authorization', `Bearer ${accessToken}`);
+
+  if (accessToken)
+    request.headers.set('Authorization', `Bearer ${accessToken}`);
+  else request.headers.delete('Authorization');
 };

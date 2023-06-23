@@ -1,5 +1,5 @@
 'use client';
-import BasicDialog from '../CofirmDialog/BasicDialog';
+import BasicDialog from '../Dialog/BasicDialog';
 import useDialog from '@/hooks/useDialog';
 import { useRecoilState } from 'recoil';
 import { ToastStore } from '@/store';
