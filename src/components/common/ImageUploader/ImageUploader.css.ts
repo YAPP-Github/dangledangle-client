@@ -10,6 +10,10 @@ export const container = style({
   width: '100%'
 });
 
+export const label = style({
+  cursor: 'pointer'
+});
+
 export const defaultCircle = recipe({
   base: {
     marginTop: 10,
@@ -17,7 +21,8 @@ export const defaultCircle = recipe({
     margin: 'auto',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    border: `1px solid ${palette.gray300}`
   },
   variants: {
     variant: {
@@ -25,14 +30,12 @@ export const defaultCircle = recipe({
         width: '96px',
         height: '96px',
         borderRadius: '96px',
-        background: palette.gray50,
-        border: `1px solid ${palette.gray200}`
+        background: palette.gray50
       },
       square: {
         width: '80px',
         height: '80px',
-        background: palette.gray50,
-        border: `1px solid ${palette.gray300}`,
+        background: palette.white,
         borderRadius: '8px'
       }
     }
@@ -54,8 +57,8 @@ export const camera = recipe({
         width: '24px',
         height: '24px',
         borderRadius: '24px',
-        marginTop: '40px',
-        left: 'calc(50% + 30px)',
+        marginTop: '72px',
+        left: 'calc(50% + 24px)',
         background: palette.gray900
       },
       square: {

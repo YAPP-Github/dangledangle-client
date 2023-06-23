@@ -67,20 +67,6 @@ export const ImageUploader = React.forwardRef<
         .finally(setLoadingOff);
     };
 
-    const renderImage = (url: string) => (
-      <>
-        <label htmlFor={inputId}>
-          <Image
-            src={url}
-            className={clsx([styles.imageCircle({ variant })])}
-            alt={`${inputId}-preview`}
-            width={100}
-            height={100}
-          />
-        </label>
-      </>
-    );
-
     const imageSrc = useMemo(() => {
       if (file) {
         return URL.createObjectURL(file);
@@ -91,11 +77,22 @@ export const ImageUploader = React.forwardRef<
     return (
       <div className={styles.container}>
         {imageSrc ? (
-          renderImage(imageSrc)
+          <label className={styles.label} htmlFor={inputId}>
+            <Image
+              src={imageSrc}
+              className={clsx([styles.imageCircle({ variant })])}
+              alt={`${inputId}-preview`}
+              width={100}
+              height={100}
+            />
+          </label>
         ) : (
-          <div className={clsx([styles.defaultCircle({ variant })])}>
+          <label
+            htmlFor={inputId}
+            className={clsx(styles.defaultCircle({ variant }), styles.label)}
+          >
             <Caption2 color="gray500">{placeholder}</Caption2>
-          </div>
+          </label>
         )}
 
         <label
