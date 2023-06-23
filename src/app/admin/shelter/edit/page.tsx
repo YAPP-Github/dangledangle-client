@@ -89,7 +89,7 @@ export default function ShelterEditPage() {
 
   return (
     <div className="page">
-      <section>
+      <section className={styles.imageSection}>
         <ImageUploader
           imagePath={shelterQuery?.data?.profileImageUrl}
           name="image"

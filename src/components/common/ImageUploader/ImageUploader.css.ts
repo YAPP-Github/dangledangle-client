@@ -7,8 +7,7 @@ export const container = style({
   justifyContent: 'center',
   alignItems: 'center',
   position: 'relative',
-  width: '100%',
-  padding: 10
+  width: '100%'
 });
 
 export const defaultCircle = recipe({
