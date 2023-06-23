@@ -1,27 +1,23 @@
-import { Close } from '@/asset/icons';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
-import { H3 } from '../Typography';
-import * as styles from './ConfirmDialog.css';
-import Portal from './Portal/Portal';
-import useResize from './hooks/useResize';
-import * as m from './utils/motion';
+import React, { PropsWithChildren } from 'react';
+import * as styles from './DialogBase.css';
+import Portal from '../../common/Modal/Portal/Portal';
+import useResize from '../../common/Modal/hooks/useResize';
+import * as m from '../../common/Modal/utils/motion';
 
-export interface ConfirmDialogProps {
+export interface DialogBaseProps extends PropsWithChildren {
   /** dialog status */
   open: boolean;
   /** dialog close function  */
   onClose: () => void;
-  /** dialog 요소 */
-  children?: React.ReactNode;
 }
 
-export default function ConfirmDialog({
+export default function DialogBase({
   open = false,
-  onClose,
-  children
-}: ConfirmDialogProps) {
+  children,
+  onClose
+}: DialogBaseProps) {
   const { modalSize, modalRef } = useResize(open);
 
   return (
@@ -46,12 +42,7 @@ export default function ConfirmDialog({
                 animate="visible"
                 exit="leaving"
               >
-                <header className={styles.header}>
-                  <Close className={styles.closeIcon} onClick={onClose} />
-                </header>
-                <main className={styles.contents}>
-                  <div className={styles.childrenWarp}>{children}</div>
-                </main>
+                {children}
               </motion.article>
             </>
           )}

@@ -4,9 +4,7 @@ import {
 } from '@/api/shelter/admin/observation-animal';
 import useCreateObservationAnimal from '@/api/shelter/admin/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
-import ConfirmDialog, {
-  ConfirmDialogProps
-} from '@/components/common/CofirmDialog/ConfirmDialog';
+import Modal, { ModalProps } from '@/components/common/Modal/Modal';
 import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import RadioButton from '@/components/common/RadioButton/RadioButton';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -22,8 +20,7 @@ import useImageUploader from '@/hooks/useImageUploader';
 import { usePresence } from 'framer-motion';
 import yup from '@/utils/yup';
 
-interface AnimalFormDialogProps
-  extends Pick<ConfirmDialogProps, 'open' | 'onClose'> {
+interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
   data?: ObservationAnimal;
 }
@@ -92,7 +89,7 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
 
   const handleClose = useCallback(() => {
     reset({});
-    setTimeout(onClose, 10);
+    onClose();
   }, [onClose, reset]);
 
   useEffect(() => {
@@ -210,9 +207,9 @@ const AnimalFormDialog: React.FC<AnimalFormDialogProps> = ({
   initialData
 }) => {
   return (
-    <ConfirmDialog open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <AnimalForm initialData={initialData} onClose={onClose} />
-    </ConfirmDialog>
+    </Modal>
   );
 };
 
