@@ -3,7 +3,6 @@ import { style } from '@vanilla-extract/css';
 export const bottomSheet = style({
   height: '100vh',
   bottom: 0,
-  // left: '0',
   width: '100%',
   borderRadius: 0
 });

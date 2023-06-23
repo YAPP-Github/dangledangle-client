@@ -7,40 +7,61 @@ import Button from '@/components/common/Button/Button';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { Body3, ButtonText1 } from '@/components/common/Typography';
-import { headerState } from '@/store/header';
+import useHeader from '@/hooks/useHeader';
+import useToast from '@/hooks/useToast';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useLayoutEffect } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { loginValidation } from '../utils/shelterValidaion';
+import * as styles from './styles.css';
 
 export default function ShelterLogin() {
-  const methods = useForm<LoginPayload>();
-  const { register, handleSubmit } = methods;
+  const methods = useForm<LoginPayload>({
+    mode: 'all',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(loginValidation)
+  });
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = methods;
 
   const router = useRouter();
-  const setHeader = useSetRecoilState(headerState);
+  const toastOn = useToast();
+  const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
 
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '보호소 파트너로 시작하기'
-    }));
-  }, [setHeader]);
+  const { mutateAsync } = useShelterLogin();
 
-  const loginMutation = useShelterLogin();
-  const handleLogin = async (data: LoginPayload) => {
-    try {
-      await loginMutation.mutateAsync(data);
-      router.push('/event');
-    } catch (error) {
-      //FIXME: 토스트 알림으로 변경 or SetError 텍스트 알림으로 변경
-      alert('로그인 실패');
-    }
-  };
+  const handleLogin = useCallback(
+    async (data: LoginPayload) => {
+      try {
+        await mutateAsync(data);
+        router.push('/event');
+      } catch (e) {
+        toastOn('로그인에 실패했습니다.');
+        setError(
+          'email',
+          {
+            type: 'focus',
+            message: '이메일 주소 또는 비밀번호를 다시 확인해주세요.'
+          },
+          { shouldFocus: true }
+        );
+        setError('password', {
+          type: 'focus',
+          message: '이메일 주소 또는 비밀번호를 다시 확인해주세요.'
+        });
+      }
+    },
+    [router, mutateAsync, setError, toastOn]
+  );
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div style={{ margin: '80px auto' }}>
+    <>
+      <div className={styles.logoWrapper}>
         <Daenggle
           style={{
             margin: 'auto',
@@ -48,42 +69,41 @@ export default function ShelterLogin() {
           }}
         />
       </div>
+
       <FormProvider methods={methods} onSubmit={handleSubmit(handleLogin)}>
         <TextField
           label="이메일"
           placeholder="이메일을 입력해주세요."
           {...register('email')}
+          error={errors.email}
         />
         <TextField
           label="비밀번호"
           placeholder="비밀번호를 입력해주세요."
           type="password"
           {...register('password')}
+          error={errors.password}
         />
       </FormProvider>
-      <Button onClick={handleSubmit(handleLogin)} style={{ marginTop: '47px' }}>
+
+      <Button
+        className={styles.buttonWrapper}
+        onClick={handleSubmit(handleLogin)}
+      >
         로그인
       </Button>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+      <div className={styles.findTextWrapper}>
         <ButtonText1
-          onClick={() => router.push('/shelter/password')}
+          className={styles.btnTextWrapper}
           color="gray400"
-          style={{
-            margin: '16px 0 0 auto',
-            cursor: 'pointer'
-          }}
+          onClick={() => router.push('/shelter/password')}
         >
           비밀번호 찾기
         </ButtonText1>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          columnGap: '10px',
-          justifyContent: 'center',
-          marginTop: '34px'
-        }}
-      >
+
+      <div className={styles.registerTextWrapper}>
         <Body3>아직 daenggle 회원이 아니신가요?</Body3>
         <ButtonText1
           style={{ cursor: 'pointer' }}
@@ -92,6 +112,6 @@ export default function ShelterLogin() {
           회원가입
         </ButtonText1>
       </div>
-    </div>
+    </>
   );
 }

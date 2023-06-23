@@ -1,28 +1,55 @@
-import React from 'react';
-import { onNextProps } from '../page';
 import Button from '@/components/common/Button/Button';
-import { useFormContext } from 'react-hook-form';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import { H2 } from '@/components/common/Typography';
+import Message from '@/components/common/TextField/Message/Message';
 import TextField from '@/components/common/TextField/TextField';
+import { H2 } from '@/components/common/Typography';
+import { useFormContext } from 'react-hook-form';
+import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function SpecificAddress({ onNext }: onNextProps) {
   const {
     register,
     formState: { errors }
   } = useFormContext();
+
   return (
-    <div>
-      <EmphasizedTitle>
-        <H2>상세 주소를 입력해주세요.</H2>
-      </EmphasizedTitle>
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '109px' }}>
+        <EmphasizedTitle>
+          <H2>상세 주소를 입력해주세요.</H2>
+        </EmphasizedTitle>
+      </div>
+
+      <TextField
+        placeholder="우편번호를 입력해주세요."
+        {...register('address[postalCode]')}
+      />
+      <TextField
+        placeholder="보호소 주소을 입력해주세요."
+        {...register('address[address]')}
+      />
       <TextField
         maxLength={10}
         placeholder="상세 주소를 입력하세요"
-        error={errors['address[0].addressDetail']}
-        {...register('address[0].addressDetail')}
+        {...register('address[addressDetail]')}
       />
-      <Button onClick={onNext}>다음</Button>
-    </div>
+      <Message
+        status="error"
+        message={(errors.address as any)?.addressDetail?.message}
+      />
+
+      {/* longitude x축 경도 latitude y축 위도 */}
+      <input style={{ display: 'none' }} {...register('address[longitude]')} />
+      <input style={{ display: 'none' }} {...register('address[latitude]')} />
+
+      <Button
+        disabled={!!(errors.address as any)?.addressDetail}
+        onClick={onNext}
+        style={{ marginTop: '40px' }}
+      >
+        다음
+      </Button>
+    </>
   );
 }

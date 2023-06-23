@@ -67,6 +67,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       e.stopPropagation();
       e.preventDefault();
 
+      inputRef.current && (inputRef.current.value = '');
       onChange({
         target: inputRef.current
       } as React.ChangeEvent<HTMLInputElement>);
