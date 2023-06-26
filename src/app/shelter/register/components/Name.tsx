@@ -39,7 +39,7 @@ export default function Name({ onNext }: onNextProps) {
       </div>
       <TextField
         maxLength={20}
-        fixedHelper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
+        helper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
         {...register('name')}
         error={errors.name}

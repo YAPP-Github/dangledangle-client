@@ -53,3 +53,25 @@ export const item = style({
   justifyContent: 'flex-start',
   fontSize: '30px'
 });
+
+export const bottomContent = style({
+  padding: '20px'
+});
+
+export const divider = style({
+  width: '100%',
+  height: '1px',
+  backgroundColor: palette.gray300,
+  marginTop: '32px',
+  marginBottom: '32px'
+});
+export const allCheck = style({
+  display: 'flex',
+  marginTop: '32px',
+  columnGap: '8px'
+});
+export const checkBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px'
+});

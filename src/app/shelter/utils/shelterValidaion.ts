@@ -76,13 +76,15 @@ export const registerValidation = yup.object({
       '이모티콘은 사용할 수 없습니다.',
       (value = '') =>
         !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
+    )
+    .test(
+      'no-caret',
+      '특수문자가 포함되어있는지 확인해주세요.',
+      (value = '') => !/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/gu.test(value)
     ),
   phoneNumber: yup
     .string()
-    .matches(
-      /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
-      '전화번호 형식이 아닙니다.'
-    ),
+    .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
   address: yup.object().shape({
     address: yup.string().required(),
     addressDetail: yup.string(),

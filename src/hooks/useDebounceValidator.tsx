@@ -16,7 +16,7 @@ function useDebounceValidator<TFieldValues extends FieldValues>({
   boolVal = true,
   fieldName,
   setError,
-  debounceTime = 300,
+  debounceTime = 800,
   messageType = 'duplicate',
   message = '이미 등록된 값입니다. 다시 한번 확인해주세요.'
 }: DebounceValidatorProps<TFieldValues>) {

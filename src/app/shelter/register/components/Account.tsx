@@ -121,50 +121,48 @@ export default function Account({ onNext }: onNextProps) {
       </Button>
 
       <BottomSheet isOpened={isSheet} onClose={isCloseSheet}>
-        <H2>약관에 동의해주세요.</H2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div
-            style={{
-              display: 'flex',
-              columnGap: '10px',
-              marginTop: '32px',
-              marginBottom: '41px'
-            }}
-          >
-            <CheckBox value={allChecked} onClick={handleAllChecked} />
-            <H3>모두 동의</H3>
+        <div className={styles.bottomContent}>
+          <H2>약관에 동의해주세요.</H2>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className={styles.allCheck}>
+              <CheckBox value={allChecked} onClick={handleAllChecked} />
+              <H3>모두 동의</H3>
+            </div>
+
+            <div className={styles.divider}></div>
+
+            <div className={styles.checkBox}>
+              <CheckBox
+                value={singleChecked.over14}
+                onClick={() => handleSingleChecked('over14')}
+                label="(필수) 만 14세 이상 이용입니다."
+              />
+
+              <CheckBox
+                value={singleChecked.terms}
+                onClick={() => handleSingleChecked('terms')}
+                label="(필수) 서비스 이용약관에 동의"
+              />
+              <CheckBox
+                value={singleChecked.privacy}
+                onClick={() => handleSingleChecked('privacy')}
+                label="(필수) 개인정보 처리방침 동의"
+              />
+              <CheckBox
+                value={singleChecked.marketing}
+                onClick={() => handleSingleChecked('marketing')}
+                label="(선택) 마케팅 수신 동의"
+              />
+            </div>
           </div>
-
-          <CheckBox
-            value={singleChecked.over14}
-            onClick={() => handleSingleChecked('over14')}
-            label="(필수) 만 14세 이상 이용입니다."
-          />
-
-          <CheckBox
-            value={singleChecked.terms}
-            onClick={() => handleSingleChecked('terms')}
-            label="(필수) 서비스 이용약관에 동의"
-          />
-          <CheckBox
-            value={singleChecked.privacy}
-            onClick={() => handleSingleChecked('privacy')}
-            label="(필수) 개인정보 처리방침 동의"
-          />
-          <CheckBox
-            value={singleChecked.marketing}
-            onClick={() => handleSingleChecked('marketing')}
-            label="(선택) 마케팅 수신 동의"
-          />
+          <Button
+            disabled={isButtonDisabled}
+            onClick={onNext}
+            style={{ marginTop: '101px' }}
+          >
+            회원가입
+          </Button>
         </div>
-
-        <Button
-          disabled={isButtonDisabled}
-          onClick={onNext}
-          style={{ marginTop: '101px' }}
-        >
-          회원가입
-        </Button>
       </BottomSheet>
     </>
   );

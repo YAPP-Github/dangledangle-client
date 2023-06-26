@@ -32,7 +32,6 @@ export default function SpecificAddress({ onNext }: onNextProps) {
         {...register('address[address]')}
       />
       <TextField
-        maxLength={10}
         placeholder="상세 주소를 입력하세요"
         {...register('address[addressDetail]')}
       />
