@@ -9,20 +9,15 @@ import { Body3, ButtonText1, H2, H4 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
 import { onNextProps } from '../page';
-import * as styles from '../register.css';
+import * as styles from '../styles.css';
 
 export default function Additional({ onNext }: onNextProps) {
   const router = useRouter();
   const setHeader = useHeader({ title: '추가 정보' });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '54px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '54px' }}>
         <EmphasizedTitle>
           <H2>잠깐!🤚 추가 정보 입력하면 보호소 파트너로</H2>
           <Line>
@@ -37,10 +32,7 @@ export default function Additional({ onNext }: onNextProps) {
       <Carousel>
         <div className={styles.item}>
           <Instagram />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             01.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -54,10 +46,7 @@ export default function Additional({ onNext }: onNextProps) {
 
         <div className={styles.item}>
           <Donation />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             02.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -71,10 +60,7 @@ export default function Additional({ onNext }: onNextProps) {
 
         <div className={styles.item}>
           <Notification />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             03.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -88,10 +74,7 @@ export default function Additional({ onNext }: onNextProps) {
 
         <div className={styles.item}>
           <Specific />
-          <Body3
-            color="gray600"
-            style={{ marginTop: '24px', marginBottom: '4px' }}
-          >
+          <Body3 color="gray600" className={styles.carouselText}>
             04.
           </Body3>
           <H4 color="gray900" style={{ marginBottom: '12px' }}>
@@ -110,15 +93,15 @@ export default function Additional({ onNext }: onNextProps) {
       >
         다음
       </Button>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles.carouselBtnWrap}>
         <ButtonText1
           color="gray400"
           onClick={onNext}
-          style={{ marginTop: '16px', cursor: 'pointer' }}
+          className={styles.carouselBtnText}
         >
           다음에 하기
         </ButtonText1>
       </div>
-    </div>
+    </>
   );
 }

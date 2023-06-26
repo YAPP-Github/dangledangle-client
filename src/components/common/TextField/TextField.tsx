@@ -27,6 +27,7 @@ export interface TextFieldProps
   maxLength?: number;
   defaultValue?: string | number;
   fixedHelper?: string;
+  fixedValue?: string;
 }
 
 /**
@@ -44,6 +45,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       maxLength,
       defaultValue,
       fixedHelper,
+      fixedValue,
       ...inputProps
     },
     ref
@@ -98,6 +100,11 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           </Caption1>
         )}
         <div className={styles.textFieldContainer}>
+          {fixedValue && (
+            <p className={styles.textInput({ size })} style={{ width: 'auto' }}>
+              {fixedValue}
+            </p>
+          )}
           <input
             ref={inputRef}
             className={styles.textInput({

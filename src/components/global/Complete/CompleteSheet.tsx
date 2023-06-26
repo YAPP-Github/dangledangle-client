@@ -4,10 +4,9 @@ import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
 import Button from '@/components/common/Button/Button';
 import { H2 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
-import useHeader from '@/hooks/useHeader';
 import Image from 'next/image';
-import * as styles from './CompleteSheet.css';
 import { MouseEventHandler } from 'react';
+import * as styles from './CompleteSheet.css';
 
 interface CompleteSheetPops {
   message: string;
@@ -20,7 +19,6 @@ export default function CompleteSheet({
   buttonTitle
 }: CompleteSheetPops) {
   const [isOpened, openDialog, closeDialog] = useBooleanState(true);
-  const setHeader = useHeader({ isHeader: 'hidden' });
 
   return (
     <>

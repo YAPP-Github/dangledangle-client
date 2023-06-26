@@ -9,11 +9,9 @@ export interface VolunteerRegisterPayload {
 
 export type RegisterResponse = boolean | ApiErrorResponse;
 
-export const postVolunteerRegister = async (
-  payload: VolunteerRegisterPayload
-) => {
+export const volunteerRegister = async (payload: VolunteerRegisterPayload) => {
   const response = await api
-    .post(`auth/register`, {
+    .post(`auth/volunteer/register`, {
       json: payload
     })
     .then(res => res.json<RegisterResponse>());

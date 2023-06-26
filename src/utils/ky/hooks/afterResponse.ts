@@ -1,10 +1,10 @@
 import ky, { AfterResponseHook } from 'ky';
 import Cookies from 'js-cookie';
 import {
-  CLIENT_ACCESS_TOKEN_KEY,
-  CLIENT_REFRESH_TOKEN_KEY
+  COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_REFRESH_TOKEN_KEY
 } from '@/api/cookieKeys';
-import { fetchRefresh } from '@/api/auth/refresh';
+import { fetchRefresh } from '@/api/auth/volunteer/refresh';
 import { UNREGISTERED } from '@/api/authErrorCode';
 import { ApiErrorResponse } from '@/types/apiTypes';
 
@@ -20,14 +20,16 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
     const newAccessToken = data.accessToken;
     const newRefreshToken = data.refreshToken;
 
-    Cookies.set(CLIENT_ACCESS_TOKEN_KEY, newAccessToken);
-    Cookies.set(CLIENT_REFRESH_TOKEN_KEY, newRefreshToken);
+    Cookies.set(COOKIE_ACCESS_TOKEN_KEY, newAccessToken);
+    Cookies.set(COOKIE_REFRESH_TOKEN_KEY, newRefreshToken);
 
     return ky(request, options);
   }
 };
 
-/** ky 에러가 아닌 서버에서 전달받은 에러 throw */
+/** api 요청 과정에서 에러 발생시
+ *  ky 에러가 아닌 서버에서 전달받은 에러 throw
+ */
 export const throwServerErrorMessage: AfterResponseHook = async (
   request,
   options,
@@ -36,6 +38,7 @@ export const throwServerErrorMessage: AfterResponseHook = async (
   if (response.status >= 400) {
     const responseData = (await response.json()) as ApiErrorResponse;
     const { message } = responseData;
+
     throw new Error(message);
   }
 };

@@ -5,5 +5,8 @@ export const kakaoLoginButton = style({
   borderRadius: '4px',
   height: '48px',
   width: '100%',
-  textAlign: 'center'
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  columnGap: '8px'
 });

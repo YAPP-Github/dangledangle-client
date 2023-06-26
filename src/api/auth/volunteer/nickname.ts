@@ -3,11 +3,13 @@ import { ApiErrorResponse } from '@/types/apiTypes';
 
 export type NickNamePayload = string;
 
-export type NickNameResponse = boolean | ApiErrorResponse;
+export type NickNameResponse = {
+  isExist: boolean;
+};
 
-export const fetchCheckNickname = async (query: NickNamePayload) => {
+export const checkNickname = async (query: NickNamePayload) => {
   const response = await api
-    .get(`user/nickname?nickname=${query}`)
+    .get(`auth/volunteer/nickname/exist?nickname=${query}`)
     .then(res => res.json<NickNameResponse>());
 
   return response;

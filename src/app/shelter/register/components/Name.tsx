@@ -5,12 +5,17 @@ import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
+import useDebounceValidator from '@/hooks/useDebounceValidator';
 
 export default function Name({ onNext }: onNextProps) {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    watch,
+    setError
   } = useFormContext();
+  const nameValue = watch('name');
 
   const setHeader = useHeader({
     title: '필수정보',
@@ -18,14 +23,15 @@ export default function Name({ onNext }: onNextProps) {
     entirePage: 4
   });
 
+  const debouncedValidator = useDebounceValidator({
+    fieldName: 'name',
+    setError: setError,
+    message: '이미 등록된 이름입니다. 다시 한번 확인해주세요.'
+  });
+
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '126px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
         <EmphasizedTitle>
           <H2>안녕하세요!</H2>
           <H2>보호소 이름을 입력해주세요.</H2>
@@ -37,14 +43,18 @@ export default function Name({ onNext }: onNextProps) {
         placeholder="보호소 이름을 입력해주세요."
         {...register('name')}
         error={errors.name}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          register('name').onChange(e);
+          debouncedValidator?.(e.target.value, 'NAME');
+        }}
       />
       <Button
-        disabled={!!errors.name}
+        disabled={!!errors.name || !nameValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >
         다음
       </Button>
-    </div>
+    </>
   );
 }

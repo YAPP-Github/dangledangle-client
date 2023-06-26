@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as styles from './BottomSheet.css';
 import { AnimatePresence, motion } from 'framer-motion';
-import * as m from '../CofirmDialog/utils/motion';
+import * as m from '@/components/global/Dialog/utils/motion';
 import clsx from 'clsx';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { BREAK_POINT } from '@/styles/global.css';

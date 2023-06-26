@@ -5,13 +5,16 @@ import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import { onNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function Description({ onSubmit }: onNextProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const descriptionValue = watch('description');
 
   const setHeader = useHeader({
     thisPage: 4,
@@ -19,13 +22,8 @@ export default function Description({ onSubmit }: onNextProps) {
   });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <div
-        style={{
-          marginTop: '40px',
-          marginBottom: '64px'
-        }}
-      >
+    <>
+      <div className={styles.titleWrapper} style={{ marginBottom: '64px' }}>
         <EmphasizedTitle>
           <H2>거의 다 됐어요!</H2>
           <H2>보호소를 소개해주세요 🙌</H2>
@@ -41,12 +39,12 @@ export default function Description({ onSubmit }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.description}
+        disabled={!!errors.description || !descriptionValue?.trim()}
         onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         style={{ marginTop: '40px' }}
       >
         저장하기
       </Button>
-    </div>
+    </>
   );
 }

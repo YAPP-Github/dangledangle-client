@@ -1,13 +1,17 @@
 'use client';
-import ConfirmDialog from '@/components/common/CofirmDialog/ConfirmDialog';
-import useBooleanState from '@/hooks/useBooleanState';
+import useDialog from '@/hooks/useDialog';
+import { useEffect } from 'react';
 
 export default function ErrorModal({ error }: { error: boolean }) {
-  const [open, openDialog, closeDialog] = useBooleanState(error);
+  const { dialogOn } = useDialog();
 
-  return (
-    <ConfirmDialog open={open} onClose={closeDialog}>
-      <div>로그인 에러, 다시 로그인해주세요</div>
-    </ConfirmDialog>
-  );
+  useEffect(() => {
+    if (error)
+      dialogOn({
+        message: '다시 로그인해주세요',
+        close: {}
+      });
+  }, []);
+
+  return <></>;
 }

@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useMemo } from 'react';
+import React, { HTMLAttributes, forwardRef, useMemo } from 'react';
 import * as styles from './Button.css';
 import clsx from 'clsx';
 import { PlusIcon } from '@/asset/icons';
@@ -13,40 +13,49 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   width?: string;
 }
 
-function Button({
-  size = 'middle',
-  disabled = false,
-  variant = 'filled',
-  children,
-  className,
-  prefixIcon,
-  width = '100%',
-  style,
-  ...rest
-}: ButtonProps) {
-  const renderedIcon = useMemo(() => {
-    switch (prefixIcon) {
-      case 'plus':
-        return <PlusIcon />;
-      default:
-        return undefined;
-    }
-  }, [prefixIcon]);
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      size = 'middle',
+      disabled = false,
+      variant = 'filled',
+      children,
+      className,
+      prefixIcon,
+      width = '100%',
+      style,
+      ...rest
+    },
+    ref
+  ) => {
+    const renderedIcon = useMemo(() => {
+      switch (prefixIcon) {
+        case 'plus':
+          return <PlusIcon />;
+        default:
+          return undefined;
+      }
+    }, [prefixIcon]);
 
-  return (
-    <button
-      {...rest}
-      className={clsx([
-        styles.ButtonWrapper({ variant, disabled, size }),
-        className
-      ])}
-      style={{ ...assignInlineVars({ width }), ...style }}
-      disabled={disabled}
-    >
-      {renderedIcon && <div className={styles.prefixIcon}>{renderedIcon}</div>}
-      {children}
-    </button>
-  );
-}
+    return (
+      <button
+        {...rest}
+        ref={ref}
+        className={clsx([
+          styles.ButtonWrapper({ variant, disabled, size }),
+          className
+        ])}
+        style={{ ...assignInlineVars({ width }), ...style }}
+        disabled={disabled}
+      >
+        {renderedIcon && (
+          <div className={styles.prefixIcon}>{renderedIcon}</div>
+        )}
+        {children}
+      </button>
+    );
+  }
+);
 
+Button.displayName = 'Button';
 export default Button;

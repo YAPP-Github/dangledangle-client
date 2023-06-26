@@ -18,6 +18,7 @@ import {
 } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
 import yup from '@/utils/yup';
+import useHeader from '@/hooks/useHeader';
 
 type FormValues = {
   name: string;
@@ -40,6 +41,7 @@ const schema: yup.ObjectSchema<Partial<FormValues>> = yup
   .required();
 
 export default function ShelterEditRequiredPage() {
+  useHeader({ title: '필수 정보' });
   const {
     register,
     handleSubmit,
@@ -95,7 +97,7 @@ export default function ShelterEditRequiredPage() {
     update({ payload }).then(() => router.back());
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="page" onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
         <TextField
           label="보호소 이름"
@@ -111,7 +113,10 @@ export default function ShelterEditRequiredPage() {
           <Caption1 element={'label'} color="gray600">
             보호소 주소
           </Caption1>
-          <AddressSearchBar onChange={handleChangeAddress} />
+          <AddressSearchBar
+            initialValue={searchedAddress}
+            onChange={handleChangeAddress}
+          />
           <TextField
             {...register('addressDetail')}
             error={errors.addressDetail}
