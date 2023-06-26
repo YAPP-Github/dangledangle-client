@@ -1,20 +1,15 @@
 'use client';
 
+import { HomeLogo } from '@/asset/icons';
 import useHeader from '@/hooks/useHeader';
+import { useRouter } from 'next/navigation';
+import Button from '../common/Button/Button';
 import Carousel from '../common/Carousel/Carousel';
 import * as styles from './HomePage.css';
-import { HomeLogo } from '@/asset/icons';
-import Button from '../common/Button/Button';
-import { useRouter } from 'next/navigation';
-import { useAuthContext } from '@/providers/AuthContext';
-import { useEffect } from 'react';
 
 export default function HomePage() {
   const router = useRouter();
   const setHeader = useHeader({ title: '로그인 또는 회원가입' });
-
-  const { logout } = useAuthContext();
-  useEffect(logout, [logout]);
 
   return (
     <div style={{ position: 'relative' }}>
