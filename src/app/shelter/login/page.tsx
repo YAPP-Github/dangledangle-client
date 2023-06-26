@@ -76,13 +76,11 @@ export default function ShelterLogin() {
 
       <FormProvider methods={methods} onSubmit={handleSubmit(handleLogin)}>
         <TextField
-          label="이메일"
           placeholder="이메일을 입력해주세요."
           {...register('email')}
           error={errors.email}
         />
         <TextField
-          label="비밀번호"
           placeholder="비밀번호를 입력해주세요."
           type="password"
           {...register('password')}

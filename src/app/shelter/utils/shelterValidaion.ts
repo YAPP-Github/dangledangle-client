@@ -76,6 +76,11 @@ export const registerValidation = yup.object({
       '이모티콘은 사용할 수 없습니다.',
       (value = '') =>
         !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
+    )
+    .test(
+      'no-caret',
+      '특수문자가 포함되어있는지 확인해주세요.',
+      (value = '') => !/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/gu.test(value)
     ),
   phoneNumber: yup
     .string()
