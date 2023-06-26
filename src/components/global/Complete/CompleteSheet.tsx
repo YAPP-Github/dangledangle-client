@@ -5,12 +5,12 @@ import Button from '@/components/common/Button/Button';
 import { H2 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
 import Image from 'next/image';
-import { MouseEventHandler } from 'react';
+import { useCallback } from 'react';
 import * as styles from './CompleteSheet.css';
 
 interface CompleteSheetPops {
   message: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: Function;
   buttonTitle: string;
 }
 export default function CompleteSheet({
@@ -19,6 +19,15 @@ export default function CompleteSheet({
   buttonTitle
 }: CompleteSheetPops) {
   const [isOpened, openDialog, closeDialog] = useBooleanState(true);
+
+  const handleBottomSheet = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      onClick();
+    },
+    [onClick]
+  );
 
   return (
     <>
@@ -47,7 +56,7 @@ export default function CompleteSheet({
                 );
               })}
             </div>
-            <Button onClick={onClick} className={styles.button}>
+            <Button onClick={handleBottomSheet} className={styles.button}>
               {buttonTitle}
             </Button>
           </div>
