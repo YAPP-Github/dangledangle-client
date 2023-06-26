@@ -6,6 +6,7 @@ import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
 import useToast from '@/hooks/useToast';
 import { headerState } from '@/store/header';
+import { removeDash } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePathname } from 'next/navigation';
 import { useCallback, useLayoutEffect } from 'react';
@@ -104,16 +105,22 @@ export default function ShelterRegister() {
 
   const onSubmit = useCallback(
     async (data: signUpFormValue) => {
-      console.log(data);
+      const newData: signUpPayload = {
+        ...data,
+        name: data.name.trim(),
+        phoneNumber: removeDash(data.phoneNumber)
+      };
+      console.log(newData);
 
       try {
-        await mutateAsync(data);
+        await mutateAsync(newData);
         goToNextStep();
+        toastOn('회원가입에 성공했습니다.');
       } catch (error) {
         toastOn('회원가입에 실패했습니다.');
       }
     },
-    [goToNextStep, mutateAsync, toastOn]
+    [goToNextStep, toastOn, mutateAsync]
   );
 
   return (

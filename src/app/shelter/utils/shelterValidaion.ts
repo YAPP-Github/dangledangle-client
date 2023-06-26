@@ -79,10 +79,7 @@ export const registerValidation = yup.object({
     ),
   phoneNumber: yup
     .string()
-    .matches(
-      /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
-      '전화번호 형식이 아닙니다.'
-    ),
+    .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
   address: yup.object().shape({
     address: yup.string().required(),
     addressDetail: yup.string(),
