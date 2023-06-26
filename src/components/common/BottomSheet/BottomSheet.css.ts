@@ -1,3 +1,4 @@
+import { palette } from '@/styles/color';
 import { BREAK_POINT } from '@/styles/global.css';
 import { createVar, style } from '@vanilla-extract/css';
 
@@ -12,7 +13,7 @@ export const panel = style({
   width: '100%',
   maxWidth: BREAK_POINT,
   margin: 'auto',
-  backgroundColor: 'rgb(255, 255, 255)',
+  backgroundColor: palette.background,
   boxShadow: `0px 0px 10px #888888`,
   zIndex: 100
 });
@@ -28,6 +29,5 @@ export const overlay = style({
 });
 
 export const childrenWrap = style({
-  marginTop: '40px',
-  padding: '22px'
+  marginTop: '40px'
 });
