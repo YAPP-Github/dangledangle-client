@@ -1,4 +1,4 @@
-import TextFieldExample from '@/components/common/TextField/Example';
+import TextFieldExample from './Example';
 export default function Home() {
   return (
     <>

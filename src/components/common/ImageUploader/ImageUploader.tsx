@@ -4,6 +4,8 @@ import { useFormContext } from 'react-hook-form';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
 import { Body3 } from '../Typography';
+import uploadImage, { ResizingOptions } from '@/utils/uploadImage';
+import useBooleanState from '@/hooks/useBooleanState';
 
 interface ImageUploaderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -15,13 +17,17 @@ interface ImageUploaderProps
   onChangeCallback?: (fileData?: File) => void;
   /** 에러 메세지 표출 여부 */
   help?: boolean;
+  resizingOptions?: ResizingOptions;
+  onUploaded?: (url?: string) => void;
 }
 
 export default function ImageUploader({
   name,
   onChangeCallback,
+  onUploaded,
   imagePath,
   help = false,
+  resizingOptions,
   ...props
 }: ImageUploaderProps) {
   const inputId = `${name}-fileInput`;
@@ -31,6 +37,7 @@ export default function ImageUploader({
   } = useFormContext();
 
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoadingOn, setLoadingOff] = useBooleanState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.currentTarget?.files || event.currentTarget.files.length < 1) {
@@ -40,8 +47,13 @@ export default function ImageUploader({
     const selectedFile = event.currentTarget.files[0];
     setFile(selectedFile);
 
-    /** FIXME: url 업로드 함수로 변경 필요 */
     onChangeCallback?.(selectedFile);
+    if (onUploaded) upload(selectedFile);
+  };
+
+  const upload = (file: File) => {
+    setLoadingOn();
+    uploadImage(file, resizingOptions).then(onUploaded).finally(setLoadingOff);
   };
 
   const renderImage = (url: string) => (

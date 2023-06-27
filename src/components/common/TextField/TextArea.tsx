@@ -1,24 +1,17 @@
 'use client';
-import React, {
-  ChangeEventHandler,
-  MouseEventHandler,
-  useCallback,
-  useMemo,
-  useRef
-} from 'react';
-import * as styles from './TextField.css';
+import React, { ChangeEventHandler, useCallback, useMemo, useRef } from 'react';
 import { Caption1 } from '../Typography';
 import useForwardRef from '@/utils/useForwardRef';
 import useHandleInputValues from './hooks/useHandleInputs';
-import RemoveButton from './RemoveButton/RemoveButton';
 import LengthCounter from './LengthCounter/LengthCounter';
 import Message from './Message/Message';
+import * as styles from './TextField.css';
 
 /**
  * props 타입, status 타입 정의
  */
-export interface TextFieldProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'size'> {
+export interface TextAreaProps
+  extends Omit<React.HTMLProps<HTMLTextAreaElement>, 'size'> {
   name: string;
   error?: { message?: string };
   size?: styles.InputSize;
@@ -26,14 +19,15 @@ export interface TextFieldProps
   label?: string;
   maxLength?: number;
   defaultValue?: string | number;
+  height?: string;
   fixedHelper?: string;
 }
 
 /**
- * TextField 컴포넌트
+ * TextArea 컴포넌트
  */
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField(
+const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  function TextArea(
     {
       name,
       size = 'small',
@@ -42,6 +36,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       label,
       onChange = () => {},
       maxLength,
+      height,
       defaultValue,
       fixedHelper,
       ...inputProps
@@ -49,13 +44,13 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     ref
   ) {
     if (!ref) throw Error(`${name}에 ref를 추가해주세요`);
-    const inputRef = useForwardRef<HTMLInputElement>(ref);
+    const textAreaRef = useForwardRef<HTMLTextAreaElement>(ref);
     const lengthCountRef = useRef<HTMLDivElement>(null);
     const fixedHelperMessage = useMemo(() => fixedHelper, []);
 
-    const { clearable, clearInput, updateInputValue } = useHandleInputValues({
+    const { updateInputValue } = useHandleInputValues({
       input: {
-        ref: inputRef
+        ref: textAreaRef
       },
       lengthCount: {
         ref: lengthCountRef,
@@ -63,17 +58,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       }
     });
 
-    const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(e => {
-      e.stopPropagation();
-      e.preventDefault();
-
-      onChange({
-        target: inputRef.current
-      } as React.ChangeEvent<HTMLInputElement>);
-      clearInput();
-    }, []);
-
-    const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
       e => {
         onChange(e);
         updateInputValue(e);
@@ -83,22 +68,25 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     const status = error
       ? 'error'
-      : Boolean(inputRef?.current?.value.length)
+      : Boolean(textAreaRef?.current?.value.length)
       ? 'active'
       : 'default';
 
     const message = fixedHelperMessage || error?.message || helper || '';
 
     return (
-      <div arial-lable={`${name}-text-field`}>
+      <div arial-lable={`${name}-text-area`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
             {label}
           </Caption1>
         )}
-        <div className={styles.textFieldContainer}>
-          <input
-            ref={inputRef}
+        <div
+          className={styles.textAreaContainer({ status })}
+          style={{ height: height }}
+        >
+          <textarea
+            ref={textAreaRef}
             className={styles.textInput({
               size
             })}
@@ -107,22 +95,20 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             defaultValue={defaultValue}
             {...inputProps}
           />
-
-          <div className={styles.textFieldSuffix({ status })}>
-            <RemoveButton visible={clearable} onClick={handleClick} />
-            {maxLength && (
-              <LengthCounter
-                ref={lengthCountRef}
-                initValueLength={String(defaultValue || '').length}
-                max={maxLength}
-              />
-            )}
-          </div>
-          <div className={styles.textFieldUnderbar({ status })} />
         </div>
-        <Message status={status} message={message} />
+        <div className={styles.textAreaSuffix({ status })}>
+          <Message style={{ marginTop: 0 }} status={status} message={message} />
+          {maxLength && (
+            <LengthCounter
+              style={{ fontSize: '12px' }}
+              ref={lengthCountRef}
+              initValueLength={String(defaultValue || '').length}
+              max={maxLength}
+            />
+          )}
+        </div>
       </div>
     );
   }
 );
-export default TextField;
+export default TextArea;
