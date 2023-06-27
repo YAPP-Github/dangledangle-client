@@ -20,7 +20,7 @@ export default function ReactQueryProvider({ children, queryConfig }: Props) {
           ...queryConfig?.defaultOptions?.queries,
           queries: {
             staleTime: 5000,
-            suspense: true
+            suspense: false
           }
         }
       })
