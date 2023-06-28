@@ -3,7 +3,7 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY,
   COOKIE_REGISTER_EMAIL_KEY
-} from '@/api/cookieKeys';
+} from '@/constants/cookieKeys';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
    * register 이후, /oauth2/authorization/kakao 로 접근했을 경우 다음과 같이 리다이렉트
    * /redirect?authCode=<인증코드>
    */
+
   if (!authCode) return NextResponse.redirect(originUrl);
 
   try {

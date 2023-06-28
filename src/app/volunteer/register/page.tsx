@@ -1,5 +1,5 @@
-import { COOKIE_REGISTER_EMAIL_KEY } from '@/api/cookieKeys';
 import TermsOfUserAcceptModal from '@/components/volunteer/TermsOfUserAcceptModal/TermsOfUserAcceptModal';
+import { COOKIE_REGISTER_EMAIL_KEY } from '@/constants/cookieKeys';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 export default function Register({}) {

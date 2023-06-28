@@ -3,8 +3,9 @@ import EmphasizedTitle, {
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextFieldWithForm from '@/components/common/TextField/TextFieldWithForm';
 import * as style from './style.css';
+import { CurrentComponentProps } from './CurrentComponentTypes';
 
-export default function ContactNumber() {
+export default function ContactNumber({ formName }: CurrentComponentProps) {
   return (
     <>
       <div className={style.TitleSection}>
@@ -13,7 +14,7 @@ export default function ContactNumber() {
         </EmphasizedTitle>
       </div>
       <div className={style.InputSection}>
-        <TextFieldWithForm name="contactNumber" />
+        <TextFieldWithForm name={formName} />
       </div>
     </>
   );

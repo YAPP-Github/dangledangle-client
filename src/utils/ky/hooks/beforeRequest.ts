@@ -1,6 +1,6 @@
 import { BeforeRequestHook } from 'ky';
 import Cookies from 'js-cookie';
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/api/cookieKeys';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 
 export const setAuthorizationHeader: BeforeRequestHook = async (
   request,
