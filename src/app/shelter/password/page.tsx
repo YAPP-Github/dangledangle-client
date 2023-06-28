@@ -69,12 +69,12 @@ export default function ShelterPassword() {
         maxLength={10}
         helper={helperMessage}
         placeholder="등록하신 이메일을 입력해주세요."
-        {...register('email')}
+        {...register('email', {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            debouncedValidator?.(e.target.value, 'EMAIL');
+          }
+        })}
         error={errors.email}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          register('email').onChange(e);
-          debouncedValidator?.(e.target.value, 'EMAIL');
-        }}
       />
       <Button
         style={{ marginTop: '47px' }}

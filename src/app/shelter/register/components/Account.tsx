@@ -91,12 +91,12 @@ export default function Account({ onNext }: onNextProps) {
       <TextField
         label="이메일"
         placeholder="이메일을 입력해주세요."
-        {...register('email')}
+        {...register('email', {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            debouncedValidator?.(e.target.value, 'EMAIL');
+          }
+        })}
         error={errors.email}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          register('email').onChange(e);
-          debouncedValidator?.(e.target.value, 'EMAIL');
-        }}
       />
       <TextField
         label="비밀번호"

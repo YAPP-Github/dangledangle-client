@@ -41,12 +41,12 @@ export default function Name({ onNext }: onNextProps) {
         maxLength={20}
         helper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
-        {...register('name')}
+        {...register('name', {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            debouncedValidator?.(e.target.value, 'NAME');
+          }
+        })}
         error={errors.name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          register('name').onChange(e);
-          debouncedValidator?.(e.target.value, 'NAME');
-        }}
       />
       <Button
         disabled={!!errors.name || !nameValue?.trim()}
