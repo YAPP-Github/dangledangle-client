@@ -8,8 +8,7 @@ import { KakaoLogo } from '@/asset/icons';
 
 interface KakaoLoginButtonProps {}
 export default function KakaoLoginButton({}: React.PropsWithChildren<KakaoLoginButtonProps>) {
-  const setHeader = useHeader({ title: '개인봉사자로 시작하기' });
-
+  useHeader({ title: '개인봉사자로 시작하기' });
   return (
     <>
       <Link href={process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL!}>

@@ -1,5 +1,4 @@
 import api from '@/api/instance';
-import { ApiErrorResponse } from '@/types/apiTypes';
 
 export type NickNamePayload = string;
 

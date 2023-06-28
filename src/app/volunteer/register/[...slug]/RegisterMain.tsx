@@ -34,7 +34,7 @@ import {
 } from './CurrentComponentTypes';
 
 export default function RegisterMain() {
-  const setHeader = useHeader({ title: '기본 정보' });
+  useHeader({ title: '기본 정보' });
   const redirect = useRedirectAtCatchBlock();
 
   const methods = useForm({

@@ -33,7 +33,7 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
   const [allCheck, setAllCheck] = useState<boolean>(false);
   const [checkList, setCheckList] = useState(initTermsOfUserAcceptState(false));
 
-  const setHeader = useHeader({ title: '개인봉사자로 시작하기' });
+  useHeader({ title: '개인봉사자로 시작하기' });
 
   const [isOpened, setIsOpend] = useState(false);
   useLayoutEffect(() => {

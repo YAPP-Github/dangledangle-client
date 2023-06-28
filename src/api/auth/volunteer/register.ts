@@ -7,7 +7,11 @@ export interface VolunteerRegisterPayload {
   phone: string;
 }
 
-export type RegisterResponse = boolean | ApiErrorResponse;
+export type RegisterResponse =
+  | {
+      userId: number;
+    }
+  | ApiErrorResponse;
 
 export const volunteerRegister = async (payload: VolunteerRegisterPayload) => {
   const response = await api
