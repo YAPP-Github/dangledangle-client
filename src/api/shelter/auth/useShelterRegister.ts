@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import {
   registerShelter,
   ShelterRegisterPayload,
@@ -8,7 +8,6 @@ import { useAuthContext } from '@/providers/AuthContext';
 
 export default function useShelterRegister() {
   const { setAuthState } = useAuthContext();
-  const queryClient = useQueryClient();
 
   return useMutation<ShelterRegisterResponse, Error, ShelterRegisterPayload>(
     registerShelter,
@@ -23,7 +22,6 @@ export default function useShelterRegister() {
               shelterUserId: response.shelterUserId
             }
           }));
-          return queryClient.invalidateQueries(['register']);
         } else {
           console.error(response);
         }
