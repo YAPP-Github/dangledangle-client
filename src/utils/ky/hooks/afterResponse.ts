@@ -5,7 +5,7 @@ import {
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
 import { fetchRefresh } from '@/api/auth/volunteer/refresh';
-import { UNREGISTERED } from '@/api/authErrorCode';
+import { UNREGISTERED } from '@/constants/exceptionCode';
 import { ApiErrorResponse } from '@/types/apiTypes';
 
 export const retryRequestOnUnauthorized: AfterResponseHook = async (
@@ -14,7 +14,8 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
   response
 ) => {
   const data = await response.json();
-  if (data?.errorCodes === UNREGISTERED) {
+
+  if (data.exceptionCode === UNREGISTERED) {
     const data = await fetchRefresh();
 
     const newAccessToken = data.accessToken;
