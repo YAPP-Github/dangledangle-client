@@ -39,7 +39,7 @@ export default function Description({ onSubmit }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.description || !descriptionValue?.trim()}
+        disabled={Boolean(errors.description) || !descriptionValue?.trim()}
         onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         style={{ marginTop: '40px' }}
       >

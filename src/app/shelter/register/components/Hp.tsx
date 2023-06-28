@@ -44,7 +44,7 @@ export default function Hp({ onNext }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.phoneNumber || !hpValue?.trim()}
+        disabled={Boolean(errors.phoneNumber) || !hpValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

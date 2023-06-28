@@ -49,7 +49,7 @@ export default function Name({ onNext }: onNextProps) {
         error={errors.name}
       />
       <Button
-        disabled={!!errors.name || !nameValue?.trim()}
+        disabled={Boolean(errors.name) || !nameValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

@@ -34,12 +34,14 @@ export default function Account({ onNext }: onNextProps) {
   });
 
   const areInputsFilled =
-    !!emailValue?.trim() &&
-    !!passwordValue?.trim() &&
-    !!passwordConfirmValue?.trim();
+    Boolean(emailValue?.trim()) &&
+    Boolean(passwordValue?.trim()) &&
+    Boolean(passwordConfirmValue?.trim());
 
   const isInputError =
-    !!errors.email || !!errors.password || !!errors.passwordConfirm;
+    Boolean(errors.email) ||
+    Boolean(errors.password) ||
+    Boolean(errors.passwordConfirm);
 
   const handleBottomSheet = useCallback(
     (e: React.MouseEvent) => {

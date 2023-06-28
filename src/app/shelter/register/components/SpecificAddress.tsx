@@ -46,7 +46,8 @@ export default function SpecificAddress({ onNext }: onNextProps) {
 
       <Button
         disabled={
-          !!(errors.address as any)?.addressDetail || !addressValue?.trim()
+          Boolean((errors.address as any)?.addressDetail) ||
+          !addressValue?.trim()
         }
         onClick={onNext}
         style={{ marginTop: '40px' }}
