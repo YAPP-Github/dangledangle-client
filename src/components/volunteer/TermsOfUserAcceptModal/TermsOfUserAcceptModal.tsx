@@ -7,6 +7,7 @@ import * as styles from './TermsOfUserAcceptModal.css';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useHeader from '@/hooks/useHeader';
+import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '@/app/volunteer/register/[...slug]/CurrentComponentTypes';
 
 type InitTermsOfUserAcceptStateType = {
   age: boolean;
@@ -17,7 +18,7 @@ type InitTermsOfUserAcceptStateType = {
 
 interface TermsOfUserAcceptModalProps {}
 export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<TermsOfUserAcceptModalProps>) {
-  const InitTermsOfUserAcceptState = useCallback(
+  const initTermsOfUserAcceptState = useCallback(
     (initValue: boolean) => ({
       age: initValue,
       service: initValue,
@@ -30,7 +31,7 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
   const router = useRouter();
 
   const [allCheck, setAllCheck] = useState<boolean>(false);
-  const [checkList, setCheckList] = useState(InitTermsOfUserAcceptState(false));
+  const [checkList, setCheckList] = useState(initTermsOfUserAcceptState(false));
 
   const setHeader = useHeader({ title: '개인봉사자로 시작하기' });
 
@@ -76,7 +77,7 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
             label="모두 동의"
             onClick={() => {
               setAllCheck(prev => !prev);
-              setCheckList(InitTermsOfUserAcceptState(!allCheck));
+              setCheckList(initTermsOfUserAcceptState(!allCheck));
             }}
           />
         </div>
@@ -124,7 +125,7 @@ export default function TermsOfUserAcceptModal({}: React.PropsWithChildren<Terms
           className={styles.bottomButton}
           disabled={isDisabled}
           onClick={() => {
-            router.push('/volunteer/register/nickname');
+            router.push(`${VOLUNTEER_REDIRECT_PATH_REGISTER}/nickname`);
           }}
         >
           다음

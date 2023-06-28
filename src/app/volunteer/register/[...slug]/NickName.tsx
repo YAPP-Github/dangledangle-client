@@ -8,7 +8,7 @@ import { CurrentComponentProps } from './CurrentComponentTypes';
 export default function NickName({ formName }: CurrentComponentProps) {
   return (
     <>
-      <div className={style.TitleSection}>
+      <div className={style.titleSection}>
         <EmphasizedTitle>
           <Line>안녕하세요!</Line>
           <Line>어떻게 불러드리면 될까요?</Line>

@@ -22,8 +22,8 @@ import useRedirectAtCatchBlock from '@/hooks/useRedirectAtCatchBlock';
 import {
   FORM_CONTACT_NUMBER,
   FORM_NICKNAME,
-  REDIRECT_PATH_LOGIN,
-  REDIRECT_PATH_REGISTER,
+  VOLUNTEER_REDIRECT_PATH_LOGIN,
+  VOLUNTEER_REDIRECT_PATH_REGISTER,
   RegisterFormValues,
   RegisterPathValues,
   RegisterStepError,
@@ -72,10 +72,10 @@ export default function RegisterMain() {
               const email = Cookies.get(COOKIE_REGISTER_EMAIL_KEY);
 
               if (!email) {
-                return redirect(REDIRECT_PATH_LOGIN);
+                return redirect(VOLUNTEER_REDIRECT_PATH_LOGIN);
               }
               if (!(nickname && phone)) {
-                return redirect(REDIRECT_PATH_REGISTER);
+                return redirect(VOLUNTEER_REDIRECT_PATH_REGISTER);
               }
 
               const payload: VolunteerRegisterPayload = {
@@ -97,12 +97,12 @@ export default function RegisterMain() {
           path: STEP_PATH_3
         }
       ],
-      []
+      [methods, redirect]
     );
 
   const { goToNextStep, currentStepIndex } = useFunnel(
     Steps,
-    REDIRECT_PATH_REGISTER
+    VOLUNTEER_REDIRECT_PATH_REGISTER
   );
 
   /**

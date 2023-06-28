@@ -8,7 +8,7 @@ import { CurrentComponentProps } from './CurrentComponentTypes';
 export default function ContactNumber({ formName }: CurrentComponentProps) {
   return (
     <>
-      <div className={style.TitleSection}>
+      <div className={style.titleSection}>
         <EmphasizedTitle>
           <Line>연락처를 입력해주세요.</Line>
         </EmphasizedTitle>

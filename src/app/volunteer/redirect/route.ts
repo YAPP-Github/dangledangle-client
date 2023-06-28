@@ -5,6 +5,7 @@ import {
   COOKIE_REGISTER_EMAIL_KEY
 } from '@/constants/cookieKeys';
 import { NextRequest, NextResponse } from 'next/server';
+import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '../register/[...slug]/CurrentComponentTypes';
 
 export async function GET(req: NextRequest) {
   const query = new URL(req.url).searchParams;
@@ -23,7 +24,7 @@ export async function GET(req: NextRequest) {
    */
   if (isMember === false && email) {
     const res = NextResponse.redirect(
-      `${req.nextUrl.origin}/volunteer/register`
+      `${req.nextUrl.origin}${VOLUNTEER_REDIRECT_PATH_REGISTER}`
     );
 
     /* 현재시간보다 5분 뒤에 expires (5m * 60s * 1000ms */
