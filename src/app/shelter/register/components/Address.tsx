@@ -4,7 +4,7 @@ import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle
 import { H2 } from '@/components/common/Typography';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import useHeader from '@/hooks/useHeader';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
@@ -16,15 +16,17 @@ export default function Address({ onNext }: OnNextProps) {
     entirePage: 4
   });
 
+  const [searchedAddress, setSearchedAddress] = useState<SearchedAddress>();
   const handleChangeAddress = useCallback(
     (address?: SearchedAddress) => {
+      setSearchedAddress(address);
+
       setValue('address[address]', address?.address);
       setValue('address[postalCode]', address?.postalCode);
       setValue('address[longitude]', address?.longitude);
       setValue('address[latitude]', address?.latitude);
-      onNext();
     },
-    [setValue, onNext]
+    [setValue]
   );
 
   return (
@@ -35,9 +37,16 @@ export default function Address({ onNext }: OnNextProps) {
         </EmphasizedTitle>
       </div>
 
-      <AddressSearchBar onChange={handleChangeAddress} />
+      <AddressSearchBar
+        initialValue={searchedAddress}
+        onChange={handleChangeAddress}
+      />
 
-      <Button disabled={true} onClick={onNext} style={{ marginTop: '40px' }}>
+      <Button
+        disabled={!searchedAddress?.address.trim()}
+        onClick={onNext}
+        style={{ marginTop: '40px' }}
+      >
         다음
       </Button>
     </>
