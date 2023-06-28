@@ -1,43 +1,31 @@
-import { fetchAddress } from '@/api/shelter/auth/sign-up';
+import { SearchedAddress } from '@/api/shelter/admin/essential-info';
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { H2 } from '@/components/common/Typography';
+import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import useHeader from '@/hooks/useHeader';
-import { KakaoMapApiResponse } from '@/types';
-import { handlePostCode } from '@/utils/handlePostCode';
-import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
+import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
 export default function Address({ onNext }: OnNextProps) {
   const { setValue } = useFormContext();
-
   const setHeader = useHeader({
     thisPage: 3,
     entirePage: 4
   });
 
-  const handlePostComplete = async (data: Address) => {
-    const [address, fullAddress, zoneCode] = handlePostCode(data);
-
-    setValue('address[address]', fullAddress);
-    setValue('address[postalCode]', zoneCode);
-
-    try {
-      const result: KakaoMapApiResponse = await fetchAddress(address);
-      if (result !== undefined || result !== null) {
-        const { x, y } = result.documents[0];
-        if (x && y) {
-          setValue('address[longitude]', Number(x));
-          setValue('address[latitude]', Number(y));
-        }
-      }
+  const handleChangeAddress = useCallback(
+    (address?: SearchedAddress) => {
+      setValue('address[address]', address?.address);
+      setValue('address[postalCode]', address?.postalCode);
+      setValue('address[longitude]', address?.longitude);
+      setValue('address[latitude]', address?.latitude);
       onNext();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [setValue, onNext]
+  );
 
   return (
     <>
@@ -47,12 +35,7 @@ export default function Address({ onNext }: OnNextProps) {
         </EmphasizedTitle>
       </div>
 
-      <div className={styles.post}>
-        <DaumPostcodeEmbed
-          onComplete={handlePostComplete}
-          useBannerLink={false}
-        />
-      </div>
+      <AddressSearchBar onChange={handleChangeAddress} />
 
       <Button disabled={true} onClick={onNext} style={{ marginTop: '40px' }}>
         다음
