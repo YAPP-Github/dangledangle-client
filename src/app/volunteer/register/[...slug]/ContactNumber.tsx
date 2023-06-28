@@ -14,7 +14,7 @@ export default function ContactNumber({ formName }: CurrentComponentProps) {
         </EmphasizedTitle>
       </div>
       <div className={style.InputSection}>
-        <TextFieldWithForm name={formName} />
+        {formName && <TextFieldWithForm name={formName} />}
       </div>
     </>
   );
