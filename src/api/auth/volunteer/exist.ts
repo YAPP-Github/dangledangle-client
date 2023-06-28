@@ -7,9 +7,9 @@ export type NickNameResponse = {
   isExist: boolean;
 };
 
-export const checkNickname = async (query: NickNamePayload) => {
+export const checkNicknameExist = async (query: NickNamePayload) => {
   const response = await api
-    .get(`auth/volunteer/nickname/exist?nickname=${query}`)
+    .get(`auth/volunteer/exist?type=NICKNAME&value=${query}`)
     .then(res => res.json<NickNameResponse>());
 
   return response;

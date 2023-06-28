@@ -15,6 +15,5 @@ export const volunteerRegister = async (payload: VolunteerRegisterPayload) => {
       json: payload
     })
     .then(res => res.json<RegisterResponse>());
-
   return response;
 };

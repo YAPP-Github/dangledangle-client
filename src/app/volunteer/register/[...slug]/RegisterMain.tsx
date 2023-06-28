@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ContactNumber from './ContactNumber';
 import { validation } from './validationSchema';
 import RegisterComplete from '@/components/volunteer/RegisterComplete/RegisterComplete';
-import { checkNickname } from '@/api/auth/volunteer/nickname';
+import { checkNicknameExist } from '@/api/auth/volunteer/exist';
 import {
   VolunteerRegisterPayload,
   volunteerRegister
@@ -53,7 +53,7 @@ export default function RegisterMain() {
           asyncCheck: async () => {
             try {
               const query = methods.getValues(FORM_NICKNAME);
-              const { isExist } = await checkNickname(query || '');
+              const { isExist } = await checkNicknameExist(query || '');
               if (isExist === true)
                 throw new Error('이미 존재하는 닉네임입니다.');
             } catch (e) {
@@ -85,7 +85,10 @@ export default function RegisterMain() {
               };
               return await volunteerRegister(payload);
             } catch (e) {
-              throw { error: e, formName: FORM_NICKNAME } as RegisterStepError; // formName 추가해서 throw
+              throw {
+                error: e,
+                formName: FORM_CONTACT_NUMBER
+              } as RegisterStepError; // formName 추가해서 throw
             }
           }
         },
@@ -114,6 +117,7 @@ export default function RegisterMain() {
       return goToNextStep();
     } catch (e) {
       const { error, formName } = e as RegisterStepError;
+
       methods.setError(
         formName,
         { type: 'focus', message: error.message },
