@@ -7,10 +7,10 @@ import { KakaoMapApiResponse } from '@/types';
 import { handlePostCode } from '@/utils/handlePostCode';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Address({ onNext }: onNextProps) {
+export default function Address({ onNext }: OnNextProps) {
   const { setValue } = useFormContext();
 
   const setHeader = useHeader({

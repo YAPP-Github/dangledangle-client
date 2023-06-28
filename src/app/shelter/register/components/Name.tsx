@@ -4,11 +4,11 @@ import TextField from '@/components/common/TextField/TextField';
 import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
 
-export default function Name({ onNext }: onNextProps) {
+export default function Name({ onNext }: OnNextProps) {
   const {
     register,
     formState: { errors },

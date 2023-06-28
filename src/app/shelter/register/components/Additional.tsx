@@ -8,10 +8,10 @@ import EmphasizedTitle, {
 import { Body3, ButtonText1, H2, H4 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from '../styles.css';
 
-export default function Additional({ onNext }: onNextProps) {
+export default function Additional({ onNext }: OnNextProps) {
   const router = useRouter();
   const setHeader = useHeader({ title: '추가 정보' });
 

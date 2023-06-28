@@ -8,13 +8,13 @@ import useBooleanState from '@/hooks/useBooleanState';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
 import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
-export default function Account({ onNext }: onNextProps) {
+export default function Account({ onNext }: OnNextProps) {
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
   const {
     register,

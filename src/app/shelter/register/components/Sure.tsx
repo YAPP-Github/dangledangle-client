@@ -7,10 +7,10 @@ import EmphasizedTitle, {
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import { Body3, Body4, H2, H4 } from '@/components/common/Typography';
 import { useState } from 'react';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Sure({ onNext }: onNextProps) {
+export default function Sure({ onNext }: OnNextProps) {
   const [checked, setChecked] = useState(false);
   return (
     <>

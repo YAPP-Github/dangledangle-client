@@ -4,10 +4,10 @@ import Message from '@/components/common/TextField/Message/Message';
 import TextField from '@/components/common/TextField/TextField';
 import { H2 } from '@/components/common/Typography';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function SpecificAddress({ onNext }: onNextProps) {
+export default function SpecificAddress({ onNext }: OnNextProps) {
   const {
     register,
     formState: { errors },

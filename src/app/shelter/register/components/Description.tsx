@@ -4,10 +4,10 @@ import TextArea from '@/components/common/TextField/TextArea';
 import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Description({ onSubmit }: onNextProps) {
+export default function Description({ onSubmit }: OnNextProps) {
   const {
     handleSubmit,
     register,
