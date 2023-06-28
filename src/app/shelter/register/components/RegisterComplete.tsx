@@ -1,4 +1,4 @@
-import CompleteSheet from '@/components/global/Complete/CompleteSheet';
+import CompleteSheet from '@/components/shelter/Complete/CompleteSheet';
 import { useRouter } from 'next/navigation';
 
 export default function RegisterComplete() {
