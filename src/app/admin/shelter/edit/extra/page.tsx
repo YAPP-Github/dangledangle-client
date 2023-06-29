@@ -214,8 +214,10 @@ export default function ShelterEditExtraPage() {
             options={parkingOptions}
             {...register('parkingEnabled')}
           />
-          <TextField
+          <TextArea
             placeholder="추가 주차 관련 안내 (최대 200자)"
+            maxLength={200}
+            height="128px"
             disabled={!parkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
