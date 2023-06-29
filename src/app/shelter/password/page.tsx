@@ -25,7 +25,8 @@ export default function ShelterPassword() {
   const {
     register,
     formState: { errors },
-    setError
+    setError,
+    watch
   } = useForm<FindPassFormValue>({
     mode: 'all',
     reValidateMode: 'onChange',
@@ -49,6 +50,13 @@ export default function ShelterPassword() {
     message: '입력하신 이메일 계정이 없습니다. 다시 한번 확인해주세요.'
   });
 
+  const emailValue = watch('email');
+  useEffect(() => {
+    if (emailValue?.length > 0) {
+      debouncedValidator(emailValue, 'EMAIL');
+    }
+  }, [emailValue, debouncedValidator]);
+
   const handleSendPassLink = async () => {
     try {
       toastOn('비밀번호 재설정 링크가 전송되었습니다.');
@@ -69,11 +77,12 @@ export default function ShelterPassword() {
         maxLength={10}
         helper={helperMessage}
         placeholder="등록하신 이메일을 입력해주세요."
-        {...register('email', {
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            debouncedValidator?.(e.target.value, 'EMAIL');
+        {...register('email')}
+        onBlur={() => {
+          if (emailValue?.length > 0) {
+            debouncedValidator(emailValue, 'EMAIL');
           }
-        })}
+        }}
         error={errors.email}
       />
       <Button

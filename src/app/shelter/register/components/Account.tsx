@@ -6,7 +6,7 @@ import TextField from '@/components/common/TextField/TextField';
 import { H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
@@ -32,6 +32,12 @@ export default function Account({ onNext }: OnNextProps) {
     setError: setError,
     message: '이미 등록된 이메일입니다. 다시 한번 확인해주세요.'
   });
+
+  useEffect(() => {
+    if (emailValue?.length > 0) {
+      debouncedValidator(emailValue, 'EMAIL');
+    }
+  }, [emailValue, debouncedValidator]);
 
   const areInputsFilled =
     Boolean(emailValue?.trim()) &&
@@ -93,11 +99,12 @@ export default function Account({ onNext }: OnNextProps) {
       <TextField
         label="이메일"
         placeholder="이메일을 입력해주세요."
-        {...register('email', {
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            debouncedValidator?.(e.target.value, 'EMAIL');
+        {...register('email')}
+        onBlur={() => {
+          if (emailValue?.length > 0) {
+            debouncedValidator(emailValue, 'EMAIL');
           }
-        })}
+        }}
         error={errors.email}
       />
       <TextField

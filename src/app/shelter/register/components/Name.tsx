@@ -7,6 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
+import { useEffect } from 'react';
 
 export default function Name({ onNext }: OnNextProps) {
   const {
@@ -29,6 +30,12 @@ export default function Name({ onNext }: OnNextProps) {
     message: '이미 등록된 이름입니다. 다시 한번 확인해주세요.'
   });
 
+  useEffect(() => {
+    if (nameValue?.length > 0) {
+      debouncedValidator(nameValue, 'NAME');
+    }
+  }, [nameValue, debouncedValidator]);
+
   return (
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
@@ -41,11 +48,12 @@ export default function Name({ onNext }: OnNextProps) {
         maxLength={20}
         helper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
-        {...register('name', {
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            debouncedValidator?.(e.target.value, 'NAME');
+        {...register('name')}
+        onBlur={() => {
+          if (nameValue?.length > 0) {
+            debouncedValidator(nameValue, 'NAME');
           }
-        })}
+        }}
         error={errors.name}
       />
       <Button
