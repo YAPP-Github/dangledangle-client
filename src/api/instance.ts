@@ -6,7 +6,7 @@ import {
 } from '@/utils/ky/hooks/afterResponse';
 
 const api = ky.create({
-  prefixUrl: 'http://3.34.243.139:8080/v1',
+  prefixUrl: 'https://yapp-dangledangle.com/v1',
   headers: {
     'Content-Type': 'application/json'
   },
