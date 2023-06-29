@@ -52,7 +52,7 @@ export const getAll = async () => {
 export const post = async (data: ObservationAnimalPayload) => {
   const response = await api
     .post(`shelter/admin/observation-animal`, {
-      body: JSON.stringify(data)
+      json: data
     })
     .then(res => res.json<PostResponse>());
 
@@ -65,7 +65,7 @@ export const put = async (
 ) => {
   const response = await api
     .put(`shelter/admin/observation-animal/${observationAnimalId}`, {
-      body: JSON.stringify(data)
+      json: data
     })
     .then(res => res.json<PutResponse>());
 

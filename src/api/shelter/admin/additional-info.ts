@@ -9,6 +9,6 @@ export type PutResponse = {
 
 export const put = async (payload: ShelterAdditionalInfoPayload) => {
   return await api
-    .put('shelter/admin/additional-info', { body: JSON.stringify(payload) })
+    .put('shelter/admin/additional-info', { json: payload })
     .json<PutResponse>();
 };
