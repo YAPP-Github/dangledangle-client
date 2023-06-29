@@ -20,7 +20,7 @@ export type ShelterAddress = SearchedAddress & {
 export interface ShelterAdditionalInfo {
   outLinks: OutLink[];
   parkingInfo: {
-    isParkingEnabled: boolean;
+    parkingEnabled: boolean;
     parkingNotice: string;
   } | null;
   bankAccount: {

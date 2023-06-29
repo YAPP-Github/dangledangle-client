@@ -26,7 +26,7 @@ type FormValues = {
   bankName?: string;
   accountNumber?: string;
   donationUrl?: string;
-  isParkingEnabled?: string | null;
+  parkingEnabled?: string | null;
   parkingNotice?: string;
   notice?: string;
 };
@@ -57,7 +57,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
     bankName: yup.string(),
     accountNumber: yup.string(),
     donationUrl: yup.string().url(),
-    isParkingEnabled: yup.string(),
+    parkingEnabled: yup.string(),
     parkingNotice: yup.string().max(maxParkingNoticeLength),
     notice: yup.string().max(maxNoticeLength)
   })
@@ -80,7 +80,7 @@ export default function ShelterEditExtraPage() {
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateAdditionalInfo();
 
-  const isParkingEnabled = watch('isParkingEnabled');
+  const parkingEnabled = watch('parkingEnabled');
   const bankName = watch('bankName');
   const accountNumber = watch('accountNumber');
 
@@ -103,7 +103,7 @@ export default function ShelterEditExtraPage() {
     if (shelterQuery.isSuccess) {
       const data = shelterQuery.data;
       reset({
-        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
+        parkingEnabled: data.parkingInfo?.parkingEnabled.toString() || '',
         parkingNotice: data.parkingInfo?.parkingNotice || '',
         bankName: data.bankAccount?.bankName || '',
         accountNumber: data.bankAccount?.accountNumber || '',
@@ -135,9 +135,9 @@ export default function ShelterEditExtraPage() {
     formValues.donationUrl &&
       outLinks.push({ outLinkType: 'KAKAOPAY', url: formValues.donationUrl });
 
-    const parkingInfo = formValues.isParkingEnabled
+    const parkingInfo = formValues.parkingEnabled
       ? {
-          isParkingEnabled: formValues.isParkingEnabled === 'true',
+          parkingEnabled: formValues.parkingEnabled === 'true',
           parkingNotice: formValues.parkingNotice || ''
         }
       : null;
@@ -153,11 +153,12 @@ export default function ShelterEditExtraPage() {
   }, []);
 
   const onSubmit = useCallback(
-    (data: FormValues) => {
+    async (data: FormValues) => {
       console.log('🔸 → onSubmit → data:', data);
 
       const payload = getPayload(data);
-      update({ payload }).then(() => router.back());
+      console.log('🔸 → ShelterEditExtraPage → payload:', payload);
+      await update({ payload });
     },
     [getPayload, router, update]
   );
@@ -210,11 +211,11 @@ export default function ShelterEditExtraPage() {
             style={{ marginBottom: '12px' }}
             label="주차 가능 여부"
             options={parkingOptions}
-            {...register('isParkingEnabled')}
+            {...register('parkingEnabled')}
           />
           <TextField
             placeholder="추가 주차 관련 안내 (최대 200자)"
-            disabled={!isParkingEnabled}
+            disabled={!parkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
           />
