@@ -37,7 +37,7 @@ export const ButtonWrapper = recipe({
         color: palette.gray600,
 
         selectors: {
-          '&:hover, &:active': {
+          '&:active': {
             border: `solid 1px ${palette.primary300}`,
             color: palette.primary300
           },
@@ -96,7 +96,7 @@ export const prefixIcon = style({
   backgroundColor: palette.gray500,
 
   selectors: {
-    [`button:hover &`]: {
+    [`button:active &`]: {
       backgroundColor: palette.primary300
     }
   }
