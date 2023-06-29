@@ -10,8 +10,10 @@ import * as styles from './../styles.css';
 export default function SpecificAddress({ onNext }: onNextProps) {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const addressValue = watch('address[addressDetail]');
 
   return (
     <>
@@ -30,7 +32,6 @@ export default function SpecificAddress({ onNext }: onNextProps) {
         {...register('address[address]')}
       />
       <TextField
-        maxLength={10}
         placeholder="상세 주소를 입력하세요"
         {...register('address[addressDetail]')}
       />
@@ -44,7 +45,9 @@ export default function SpecificAddress({ onNext }: onNextProps) {
       <input style={{ display: 'none' }} {...register('address[latitude]')} />
 
       <Button
-        disabled={!!(errors.address as any)?.addressDetail}
+        disabled={
+          !!(errors.address as any)?.addressDetail || !addressValue?.trim()
+        }
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

@@ -33,7 +33,7 @@ const config = {
 
 export const registerShelter = async (data: signUpPayload) => {
   const response = await api
-    .post(`auth/shelter/sign-up`, {
+    .post(`auth/shelter/register`, {
       json: data
     })
     .then(res => res.json<signUpResponse>());

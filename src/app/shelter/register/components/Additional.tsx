@@ -88,7 +88,11 @@ export default function Additional({ onNext }: onNextProps) {
       </Carousel>
 
       <Button
-        onClick={() => router.push('/admin/shelter/edit/extra')}
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+          e.preventDefault();
+          router.push('/admin/shelter/edit/extra');
+        }}
         style={{ marginTop: '40px' }}
       >
         다음

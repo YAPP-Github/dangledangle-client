@@ -6,9 +6,10 @@ import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
 import useToast from '@/hooks/useToast';
 import { headerState } from '@/store/header';
+import { removeDash } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePathname } from 'next/navigation';
-import { useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { registerValidation } from '../utils/shelterValidaion';
@@ -102,16 +103,25 @@ export default function ShelterRegister() {
   const { mutateAsync } = useShelterRegister();
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: signUpFormValue) => {
-    console.log(data);
+  const onSubmit = useCallback(
+    async (data: signUpFormValue) => {
+      const newData: signUpPayload = {
+        ...data,
+        name: data.name.trim(),
+        phoneNumber: removeDash(data.phoneNumber)
+      };
+      console.log(newData);
 
-    try {
-      await mutateAsync(data);
-      goToNextStep();
-    } catch (error) {
-      toastOn('회원가입에 실패했습니다.');
-    }
-  };
+      try {
+        await mutateAsync(newData);
+        goToNextStep();
+        toastOn('회원가입에 성공했습니다.');
+      } catch (error) {
+        toastOn('회원가입에 실패했습니다.');
+      }
+    },
+    [goToNextStep, toastOn, mutateAsync]
+  );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

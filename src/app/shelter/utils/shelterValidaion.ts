@@ -1,24 +1,4 @@
-import { isExist } from '@/api/shelter/auth/login';
-import { debounce } from 'lodash';
 import * as yup from 'yup';
-
-const isExistValidation = async (
-  value: string,
-  values: yup.TestContext<any>,
-  type: 'NAME' | 'EMAIL'
-) => {
-  try {
-    const res: Record<'isExist', boolean> = await isExist(value, type);
-    if ('isExist' in res) {
-      return res.isExist as boolean;
-    }
-  } catch (e) {
-    values.createError({ path: 'email' });
-    return false;
-  }
-};
-
-const debounceIsExistValidation = debounce(isExistValidation, 300);
 
 yup.setLocale({
   mixed: {
@@ -72,40 +52,12 @@ export const passWordFindValidation = yup.object().shape({
     .string()
     .required('필수항목 입니다.')
     .email('올바른 이메일 형식이 아닙니다.')
-    .test(
-      'verified',
-      '입력하신 이메일 계정이 없습니다. 다시 한번 확인해주세요.',
-      async (value, values) => {
-        const verified = await debounceIsExistValidation(
-          value as string,
-          values,
-          'EMAIL'
-        );
-        return verified as boolean;
-      }
-    )
 });
 
 export const registerValidation = yup.object({
-  email: yup
-    .string()
-    .required()
-    .email('올바른 이메일 형식이 아닙니다.')
-    .test(
-      'verified',
-      '이미 등록된 이메일이에요. 다시 한번 확인해주세요.',
-      async (value, values) => {
-        const verified = await debounceIsExistValidation(
-          value as string,
-          values,
-          'EMAIL'
-        );
-        return !verified as boolean;
-      }
-    ),
+  email: yup.string().email('올바른 이메일 형식이 아닙니다.'),
   password: yup
     .string()
-    .required()
     .min(8, '비밀번호가 너무 짧습니다. 8~15자로 입력해주세요.')
     .matches(
       /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])/,
@@ -119,7 +71,6 @@ export const registerValidation = yup.object({
   name: yup
     .string()
     .max(20)
-    .required()
     .test(
       'no-emoji',
       '이모티콘은 사용할 수 없습니다.',
@@ -127,33 +78,19 @@ export const registerValidation = yup.object({
         !/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu.test(value)
     )
     .test(
-      'verified',
-      '이미 등록된 보호소에요. 다시 한번 확인해주세요.',
-      async (value, values) => {
-        const verified = await debounceIsExistValidation(
-          value as string,
-          values,
-          'NAME'
-        );
-        return !verified as boolean;
-      }
+      'no-caret',
+      '특수문자가 포함되어있는지 확인해주세요.',
+      (value = '') => !/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/gu.test(value)
     ),
   phoneNumber: yup
     .string()
-    .required()
-    .matches(
-      /^(01[0-9]{1}|(02|0[3-9]{2}))[0-9]{3,4}[0-9]{4}$/,
-      '전화번호 형식이 아닙니다.'
-    ),
+    .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
   address: yup.object().shape({
     address: yup.string().required(),
-    addressDetail: yup.string().required('필수항목 입니다.'),
+    addressDetail: yup.string(),
     postalCode: yup.string().required(),
     latitude: yup.number().required(),
     longitude: yup.number().required()
   }),
-  description: yup
-    .string()
-    .required()
-    .max(300, '입력 가능 글자수를 초과했어요.')
+  description: yup.string().max(300, '입력 가능 글자수를 초과했어요.')
 });
