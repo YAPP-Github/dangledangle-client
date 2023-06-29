@@ -81,7 +81,7 @@ export default function ShelterEditRequiredPage() {
     setSearchedAddress(address);
   }, []);
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log('🔸 → onSubmit → data:', data);
     if (!shelterQuery.isSuccess || !searchedAddress) return;
     const payload: ShelterEssentialInfoPayload = {
@@ -92,7 +92,8 @@ export default function ShelterEditRequiredPage() {
         addressDetail: data.addressDetail
       }
     };
-    update({ payload }).then(() => router.back());
+    await update({ payload });
+    router.replace('/admin/shelter/edit');
   };
   return (
     <form className="page" onSubmit={handleSubmit(onSubmit)}>

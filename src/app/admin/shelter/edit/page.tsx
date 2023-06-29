@@ -21,15 +21,19 @@ import useImageUploader from '@/hooks/useImageUploader';
 import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 import useHeader from '@/hooks/useHeader';
 import { ObservationAnimal, ShelterAdditionalInfo } from '@/types/shelter';
+import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
+import RegisterComplete from '@/app/shelter/register/components/RegisterComplete';
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });
   const { onChangeImage } = useImageUploader();
   const router = useRouter();
+
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
   const { dialogOn, dialogOff } = useDialog();
   const toastOn = useToast();
   const [targetAnimal, setTargetAnimal] = useState<ObservationAnimal>();
+  const [registerCompleted, setRegisterCompleted] = useState<Boolean>(false);
 
   const animalsQuery = useObservationAnimalList();
   const shelterQuery = useShelterInfo();
@@ -80,11 +84,19 @@ export default function ShelterEditPage() {
     return !Object.values(info).includes(null);
   };
 
+  const handleClickCompleteRegister = () => {
+    setRegisterCompleted(true);
+  };
+
   const MenuBadge = (isCompleted: boolean) => (
     <Badge type={isCompleted ? 'primary' : 'gray'}>
       {isCompleted ? '입력 완료' : '미입력'}
     </Badge>
   );
+
+  if (registerCompleted) {
+    return <RegisterComplete />;
+  }
 
   return (
     <div className="page">
@@ -150,6 +162,11 @@ export default function ShelterEditPage() {
               />
             ))}
           </div>
+        )}
+        {window.location.hash === '#register' && (
+          <FixedFooter>
+            <Button onClick={handleClickCompleteRegister}>가입 완료하기</Button>
+          </FixedFooter>
         )}
         <AnimalFormDialog
           initialData={targetAnimal}

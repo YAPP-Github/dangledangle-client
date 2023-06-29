@@ -159,6 +159,7 @@ export default function ShelterEditExtraPage() {
       const payload = getPayload(data);
       console.log('🔸 → ShelterEditExtraPage → payload:', payload);
       await update({ payload });
+      router.replace('/admin/shelter/edit' + window.location.hash);
     },
     [getPayload, router, update]
   );
