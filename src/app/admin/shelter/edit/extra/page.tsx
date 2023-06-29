@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
 import { ShelterAdditionalInfoPayload } from '@/api/shelter/admin/additional-info';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
 import { OutLink } from '@/types/shelter';
