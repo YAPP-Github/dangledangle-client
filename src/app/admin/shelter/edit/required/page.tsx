@@ -12,13 +12,11 @@ import { isEmpty } from 'lodash';
 import useUpdateEssentialInfo from '@/api/shelter/admin/useUpdateEssentialInfo';
 import { useRouter } from 'next/navigation';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
-import {
-  ShelterEssentialInfoPayload,
-  SearchedAddress
-} from '@/api/shelter/admin/essential-info';
+import { ShelterEssentialInfoPayload } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
+import { SearchedAddress } from '@/types/shelter';
 
 type FormValues = {
   name: string;

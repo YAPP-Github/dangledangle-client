@@ -1,7 +1,4 @@
-import {
-  ObservationAnimal,
-  ObservationAnimalPayload
-} from '@/api/shelter/admin/observation-animal';
+import { ObservationAnimalPayload } from '@/api/shelter/admin/observation-animal';
 import useCreateObservationAnimal from '@/api/shelter/admin/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import Modal, { ModalProps } from '@/components/common/Modal/Modal';
@@ -20,6 +17,7 @@ import useImageUploader from '@/hooks/useImageUploader';
 import { usePresence } from 'framer-motion';
 import yup from '@/utils/yup';
 import * as styles from './AnimalFormDialog.css';
+import { ObservationAnimal } from '@/types/shelter';
 interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
   data?: ObservationAnimal;

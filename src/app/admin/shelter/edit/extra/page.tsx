@@ -7,7 +7,7 @@ import TextField from '@/components/common/TextField/TextField';
 import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SubmitErrorHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -15,13 +15,11 @@ import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
-import {
-  OutLink,
-  ShelterAdditionalInfoPayload
-} from '@/api/shelter/admin/additional-info';
+import { ShelterAdditionalInfoPayload } from '@/api/shelter/admin/additional-info';
 import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
+import { OutLink } from '@/types/shelter';
 
 type FormValues = {
   instagram?: string;

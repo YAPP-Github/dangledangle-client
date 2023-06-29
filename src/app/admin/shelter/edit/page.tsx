@@ -13,15 +13,14 @@ import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalF
 import useBooleanState from '@/hooks/useBooleanState';
 import useDialog from '@/hooks/useDialog';
 import useToast from '@/hooks/useToast';
-import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
 import useDeleteObservationAnimal from '@/api/shelter/admin/useDeleteObservationAnimal';
 import useObservationAnimalList from '@/api/shelter/admin/useObservationAnimalList';
 import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { OUT_LINK_TYPE } from '@/constants/shelter';
-import { ShelterAdditionalInfo } from '@/api/shelter/admin/additional-info';
 import useImageUploader from '@/hooks/useImageUploader';
 import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 import useHeader from '@/hooks/useHeader';
+import { ObservationAnimal, ShelterAdditionalInfo } from '@/types/shelter';
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });

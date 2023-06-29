@@ -1,22 +1,5 @@
 import api from '@/api/instance';
-import { OutLinkType } from '@/constants/shelter';
-
-export type OutLink = {
-  outLinkType: OutLinkType;
-  url: string;
-};
-export interface ShelterAdditionalInfo {
-  outLinks: OutLink[];
-  parkingInfo: {
-    isParkingEnabled: boolean;
-    parkingNotice: string;
-  } | null;
-  bankAccount: {
-    accountNumber: string;
-    bankName: string;
-  } | null;
-  notice: string | null;
-}
+import { ShelterAdditionalInfo } from '@/types/shelter';
 
 export type ShelterAdditionalInfoPayload = ShelterAdditionalInfo;
 export type PutResponse = {
