@@ -1,7 +1,8 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { formatPhone } from '@/utils/formatInputs';
 import { useCallback } from 'react';
@@ -34,7 +35,7 @@ export default function Hp({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '160px' }}>
         <EmphasizedTitle>
-          <H2>보호소 연락처를 입력해주세요.</H2>
+          <Line>보호소 연락처를 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField

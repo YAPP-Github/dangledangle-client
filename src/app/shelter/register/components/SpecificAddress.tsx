@@ -1,8 +1,9 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import Message from '@/components/common/TextField/Message/Message';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
@@ -19,7 +20,7 @@ export default function SpecificAddress({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '109px' }}>
         <EmphasizedTitle>
-          <H2>상세 주소를 입력해주세요.</H2>
+          <Line>상세 주소를 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
 

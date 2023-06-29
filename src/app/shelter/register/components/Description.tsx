@@ -1,7 +1,8 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextArea from '@/components/common/TextField/TextArea';
-import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
@@ -25,8 +26,8 @@ export default function Description({ onSubmit }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '64px' }}>
         <EmphasizedTitle>
-          <H2>거의 다 됐어요!</H2>
-          <H2>보호소를 소개해주세요 🙌</H2>
+          <Line>거의 다 됐어요!</Line>
+          <Line>보호소를 소개해주세요 🙌</Line>
         </EmphasizedTitle>
       </div>
 

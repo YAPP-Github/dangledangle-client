@@ -1,7 +1,9 @@
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
 import Button from '@/components/common/Button/Button';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
 import { H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
@@ -92,8 +94,8 @@ export default function Account({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '124px' }}>
         <EmphasizedTitle>
-          <H2>파트너 활동을 위한</H2>
-          <H2>계정을 생성해주세요.</H2>
+          <Line>파트너 활동을 위한</Line>
+          <Line>계정을 생성해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField

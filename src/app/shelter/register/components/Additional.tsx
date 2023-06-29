@@ -20,13 +20,11 @@ export default function Additional({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '54px' }}>
         <EmphasizedTitle>
-          <H2>잠깐!🤚 추가 정보 입력하면 보호소 파트너로</H2>
+          <Line>잠깐!🤚 추가 정보 입력하면 보호소 파트너로</Line>
           <Line>
-            <H2>
-              다음과 같은 <E>추가 기능</E>들을
-            </H2>
+            다음과 같은 <E>추가 기능</E>들을
           </Line>
-          <H2>무료로 이용하실 수 있어요</H2>
+          <Line>무료로 이용하실 수 있어요</Line>
         </EmphasizedTitle>
       </div>
 

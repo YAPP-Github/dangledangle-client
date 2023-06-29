@@ -1,13 +1,14 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
+import useDebounceValidator from '@/hooks/useDebounceValidator';
 import useHeader from '@/hooks/useHeader';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
-import useDebounceValidator from '@/hooks/useDebounceValidator';
-import { useEffect } from 'react';
 
 export default function Name({ onNext }: OnNextProps) {
   const {
@@ -40,8 +41,8 @@ export default function Name({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
         <EmphasizedTitle>
-          <H2>안녕하세요!</H2>
-          <H2>보호소 이름을 입력해주세요.</H2>
+          <Line>안녕하세요!</Line>
+          <Line>보호소 이름을 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField

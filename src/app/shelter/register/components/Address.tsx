@@ -1,7 +1,8 @@
 import { SearchedAddress } from '@/api/shelter/admin/essential-info';
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import { H2 } from '@/components/common/Typography';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import useHeader from '@/hooks/useHeader';
 import { useCallback, useState } from 'react';
@@ -33,7 +34,7 @@ export default function Address({ onNext }: OnNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '115px' }}>
         <EmphasizedTitle>
-          <H2>보호소 주소를 검색해주세요.</H2>
+          <Line>보호소 주소를 검색해주세요.</Line>
         </EmphasizedTitle>
       </div>
 
