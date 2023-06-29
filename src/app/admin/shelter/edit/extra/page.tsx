@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
 import { ShelterAdditionalInfoPayload } from '@/api/shelter/admin/additional-info';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
 import { OutLink } from '@/types/shelter';
@@ -65,39 +65,20 @@ const schema: yup.ObjectSchema<FormValues> = yup
 
 export default function ShelterEditExtraPage() {
   useHeader({ title: '추가 정보' });
-  const shelterQuery = useShelterInfo();
-  const { mutateAsync: update } = useUpdateAdditionalInfo();
-  const defaultValues = useMemo(() => {
-    if (shelterQuery.isSuccess) {
-      const data = shelterQuery.data;
-      return {
-        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
-        parkingNotice: data.parkingInfo?.parkingNotice || '',
-        bankName: data.bankAccount?.bankName || '',
-        accountNumber: data.bankAccount?.accountNumber || '',
-        notice: data.notice || '',
-        instagram:
-          data.outLinks
-            .find(link => link.outLinkType === 'INSTAGRAM')
-            ?.url.replace(INSTAGRAM_BASE_URL, '') || '',
-        donationUrl:
-          data.outLinks.find(link => link.outLinkType === 'KAKAOPAY')?.url || ''
-      };
-    }
-  }, [shelterQuery.data, shelterQuery.isSuccess]);
-
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
     reValidateMode: 'onChange',
-    resolver: yupResolver(schema),
-    defaultValues
+    resolver: yupResolver(schema)
   });
   const router = useRouter();
+  const shelterQuery = useShelterInfo();
+  const { mutateAsync: update } = useUpdateAdditionalInfo();
 
   const isParkingEnabled = watch('isParkingEnabled');
   const bankName = watch('bankName');
@@ -117,6 +98,25 @@ export default function ShelterEditExtraPage() {
         message: '은행명를 입력해주세요'
       }
     : undefined;
+
+  useEffect(() => {
+    if (shelterQuery.isSuccess) {
+      const data = shelterQuery.data;
+      reset({
+        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
+        parkingNotice: data.parkingInfo?.parkingNotice || '',
+        bankName: data.bankAccount?.bankName || '',
+        accountNumber: data.bankAccount?.accountNumber || '',
+        notice: data.notice || '',
+        instagram:
+          data.outLinks
+            .find(link => link.outLinkType === 'INSTAGRAM')
+            ?.url.replace(INSTAGRAM_BASE_URL, '') || '',
+        donationUrl:
+          data.outLinks.find(link => link.outLinkType === 'KAKAOPAY')?.url || ''
+      });
+    }
+  }, [reset, shelterQuery.data, shelterQuery.isSuccess]);
 
   const getPayload = useCallback((formValues: FormValues) => {
     const bankAccount =
