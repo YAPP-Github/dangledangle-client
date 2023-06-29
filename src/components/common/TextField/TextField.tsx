@@ -102,7 +102,10 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
         <div className={styles.textFieldContainer}>
           {fixedValue && (
-            <p className={styles.textInput({ size })} style={{ width: 'auto' }}>
+            <p
+              className={styles.textInput({ size })}
+              style={{ width: 'auto', transform: 'translateY(3px)' }}
+            >
               {fixedValue}
             </p>
           )}
