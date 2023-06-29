@@ -17,5 +17,12 @@ export default function useDialog() {
     }, 0);
   };
 
-  return { dialog, dialogOn, dialogOff };
+  const setDialogLoading = (value: boolean) => {
+    setDialog(prev => ({
+      ...prev,
+      loading: value
+    }));
+  };
+
+  return { dialog, dialogOn, dialogOff, setDialogLoading };
 }

@@ -3,6 +3,7 @@ import * as styles from './Button.css';
 import clsx from 'clsx';
 import { PlusIcon } from '@/asset/icons';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
+import LoadingIndicator from './LoadingIndicator';
 
 type PrefixIcon = 'plus';
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -11,6 +12,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   variant?: styles.ButtonVariant;
   prefixIcon?: PrefixIcon;
   width?: string;
+  loading?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -24,6 +26,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       prefixIcon,
       width = '100%',
       style,
+      loading,
       ...rest
     },
     ref
@@ -48,10 +51,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         style={{ ...assignInlineVars({ width }), ...style }}
         disabled={disabled}
       >
-        {renderedIcon && (
-          <div className={styles.prefixIcon}>{renderedIcon}</div>
+        {loading ? (
+          <LoadingIndicator />
+        ) : (
+          <>
+            {renderedIcon && (
+              <div className={styles.prefixIcon}>{renderedIcon}</div>
+            )}
+            {children}
+          </>
         )}
-        {children}
       </button>
     );
   }

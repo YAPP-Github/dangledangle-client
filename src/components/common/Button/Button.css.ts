@@ -25,7 +25,7 @@ export const ButtonWrapper = recipe({
         transitionDuration: '0.2s',
 
         '&:hover, &:active': {
-          backgroundColor: palette.primary200 //추후 논의후 색깔 수정예정
+          backgroundColor: palette.primary400
         },
         '&:disabled': {
           backgroundColor: palette.primary100
