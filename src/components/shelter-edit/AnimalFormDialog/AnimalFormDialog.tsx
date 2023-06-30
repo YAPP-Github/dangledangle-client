@@ -17,6 +17,7 @@ import { usePresence } from 'framer-motion';
 import yup from '@/utils/yup';
 import * as styles from './AnimalFormDialog.css';
 import { ObservationAnimal } from '@/types/shelter';
+import useBooleanState from '@/hooks/useBooleanState';
 interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
   data?: ObservationAnimal;
@@ -84,6 +85,7 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   const { mutateAsync: create } = useCreateObservationAnimal();
   const { mutateAsync: update } = useUpdateObservationAnimal();
   const [isPresent, safeToRemove] = usePresence();
+  const [isSubmitting, startSubmit] = useBooleanState(false);
 
   const handleClose = useCallback(() => {
     reset({});
@@ -117,11 +119,12 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   }, [reset, setProfileImageUrl]);
 
   const specialNote = watch('specialNote');
-  const submitable = Boolean(!isUploading && isEmpty(errors) && specialNote);
+  const submittable = Boolean(!isUploading && isEmpty(errors) && specialNote);
 
   const onSubmit = useCallback(
-    (data: FormValues) => {
-      if (!submitable) return;
+    async (data: FormValues) => {
+      if (!submittable) return;
+      startSubmit();
       const payload: ObservationAnimalPayload = {
         images: profileImageUrl ? [profileImageUrl] : [],
         name: data.name,
@@ -131,13 +134,22 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
         specialNote: data.specialNote
       };
 
-      if (initialData)
-        update({ observationAnimalId: initialData.id, payload }).then(
-          handleClose
-        );
-      else create({ payload }).then(handleClose);
+      if (initialData) {
+        await update({ observationAnimalId: initialData.id, payload });
+      } else {
+        await create({ payload });
+      }
+      handleClose();
     },
-    [submitable, profileImageUrl, initialData, update, handleClose, create]
+    [
+      submittable,
+      startSubmit,
+      profileImageUrl,
+      initialData,
+      handleClose,
+      update,
+      create
+    ]
   );
 
   return (
@@ -199,7 +211,8 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
       <Button
         style={{ marginTop: '20px' }}
         itemType="submit"
-        disabled={!submitable}
+        disabled={!submittable}
+        loading={isSubmitting}
       >
         등록하기
       </Button>

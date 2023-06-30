@@ -30,7 +30,7 @@ export default function ShelterEditPage() {
   const router = useRouter();
 
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
-  const { dialogOn, dialogOff } = useDialog();
+  const { dialogOn, dialogOff, setDialogLoading } = useDialog();
   const toastOn = useToast();
   const [targetAnimal, setTargetAnimal] = useState<ObservationAnimal>();
   const [registerCompleted, setRegisterCompleted] = useState<Boolean>(false);
@@ -57,6 +57,7 @@ export default function ShelterEditPage() {
       confirm: {
         text: '삭제',
         onClick: () => {
+          setDialogLoading(true);
           deleteAnimal({ observationAnimalId }).then(() => {
             dialogOff();
             toastOn('동물 정보가 삭제되었습니다.');

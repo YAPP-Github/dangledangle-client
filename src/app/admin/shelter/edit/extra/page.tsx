@@ -20,6 +20,7 @@ import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
 import { OutLink } from '@/types/shelter';
+import useBooleanState from '@/hooks/useBooleanState';
 
 type FormValues = {
   instagram?: string;
@@ -79,6 +80,7 @@ export default function ShelterEditExtraPage() {
   const router = useRouter();
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateAdditionalInfo();
+  const [loading, loadingOn] = useBooleanState(false);
 
   const parkingEnabled = watch('parkingEnabled');
   const bankName = watch('bankName');
@@ -155,13 +157,13 @@ export default function ShelterEditExtraPage() {
   const onSubmit = useCallback(
     async (data: FormValues) => {
       console.log('🔸 → onSubmit → data:', data);
-
+      loadingOn();
       const payload = getPayload(data);
       console.log('🔸 → ShelterEditExtraPage → payload:', payload);
       await update({ payload });
       router.replace('/admin/shelter/edit' + window.location.hash);
     },
-    [getPayload, router, update]
+    [getPayload, loadingOn, router, update]
   );
 
   return (
@@ -233,7 +235,7 @@ export default function ShelterEditExtraPage() {
         />
       </div>
       <FixedFooter>
-        <Button itemType="submit" disabled={isSubmittable}>
+        <Button loading={loading} itemType="submit" disabled={isSubmittable}>
           저장하기
         </Button>
       </FixedFooter>

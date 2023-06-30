@@ -49,7 +49,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className
         ])}
         style={{ ...assignInlineVars({ width }), ...style }}
-        disabled={disabled}
+        disabled={loading || disabled}
       >
         {loading ? (
           <LoadingIndicator />
