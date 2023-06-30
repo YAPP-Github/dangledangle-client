@@ -15,10 +15,10 @@ import { COOKIE_REGISTER_EMAIL_KEY } from '@/constants/cookieKeys';
 export default function RegisterComplete() {
   const [isOpened, openDialog, closeDialog] = useBooleanState(true);
   const router = useRouter();
-  const setHeader = useHeader({ isHeader: 'hidden' });
+  useHeader({ isHeader: 'hidden' });
   const handleClick = useCallback(async () => {
-    closeDialog();
     Cookies.remove(COOKIE_REGISTER_EMAIL_KEY);
+    closeDialog();
     router.replace('/');
   }, []);
 

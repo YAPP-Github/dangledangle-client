@@ -1,16 +1,7 @@
-import {
-  TOKEN_EXPIRED,
-  UNAUTORIZED,
-  UNREGISTERED
-} from '@/constants/exceptionCode';
-
-export type AuthErrorCodeKeys =
-  | typeof UNREGISTERED
-  | typeof TOKEN_EXPIRED
-  | typeof UNAUTORIZED;
+import { ExceptionCode } from '@/constants/exceptionCode';
 
 export interface ApiErrorResponse {
-  exceptionCode: AuthErrorCodeKeys;
+  exceptionCode: ExceptionCode;
   message: string;
   timeStamp: string;
 }

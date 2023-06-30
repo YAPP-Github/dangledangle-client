@@ -32,6 +32,7 @@ import {
   STEP_PATH_2,
   STEP_PATH_3
 } from './CurrentComponentTypes';
+import { ExceptionCode } from '@/constants/exceptionCode';
 
 export default function RegisterMain() {
   useHeader({ title: '기본 정보' });
@@ -55,7 +56,7 @@ export default function RegisterMain() {
               const query = methods.getValues(FORM_NICKNAME);
               const { isExist } = await checkNicknameExist(query || '');
               if (isExist === true)
-                throw new Error('이미 존재하는 닉네임입니다.');
+                throw { message: '이미 존재하는 닉네임입니다' };
             } catch (e) {
               throw { error: e, formName: FORM_NICKNAME } as RegisterStepError; // formName 추가해서 throw
             }
@@ -68,19 +69,25 @@ export default function RegisterMain() {
           asyncCheck: async () => {
             try {
               const nickname = methods.getValues(FORM_NICKNAME);
-              const phone = methods.getValues(FORM_CONTACT_NUMBER);
+              const phoneNumber = methods.getValues(FORM_CONTACT_NUMBER);
               const email = Cookies.get(COOKIE_REGISTER_EMAIL_KEY);
 
               if (!email) {
-                return redirect(VOLUNTEER_REDIRECT_PATH_LOGIN);
+                return redirect(
+                  VOLUNTEER_REDIRECT_PATH_LOGIN,
+                  'email 정보가 누락되었습니다. 다시 로그인해주세요.'
+                );
               }
-              if (!(nickname && phone)) {
-                return redirect(VOLUNTEER_REDIRECT_PATH_REGISTER);
+              if (!(nickname && phoneNumber)) {
+                return redirect(
+                  VOLUNTEER_REDIRECT_PATH_REGISTER,
+                  '닉네임 또는 연락처 정보가 누락되었습니다. 다시 회원가입을 진행해주세요.'
+                );
               }
 
               const payload: VolunteerRegisterPayload = {
                 nickname,
-                phone,
+                phoneNumber,
                 email
               };
               return await volunteerRegister(payload);
@@ -118,11 +125,19 @@ export default function RegisterMain() {
     } catch (e) {
       const { error, formName } = e as RegisterStepError;
 
-      methods.setError(
-        formName,
-        { type: 'focus', message: error.message },
-        { shouldFocus: true }
-      );
+      // 이메일중복, 닉네임중복의 경우 exception코드 API-001로 전달받음, 이 경우 로그인 페이지로 이동
+      if (error?.exceptionCode === ExceptionCode.UNHANDLED_ERROR) {
+        return redirect(
+          VOLUNTEER_REDIRECT_PATH_LOGIN,
+          '회원가입 과정에서 오류가 발생했습니다.'
+        );
+      }
+      if (error)
+        methods.setError(
+          formName,
+          { type: 'focus', message: error.message },
+          { shouldFocus: true }
+        );
     }
   };
 

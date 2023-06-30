@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
+import useToast from './useToast';
 
 type RedirctErrorState = {
   state: boolean;
@@ -14,15 +15,16 @@ const initState: RedirctErrorState = {
 export default function useRedirectAtCatchBlock() {
   const [redirectError, setRedirectError] =
     useState<RedirctErrorState>(initState);
-
+  const toastOn = useToast();
   const redirectTo = useCallback(
-    (path: string) => {
+    (path: string, error?: string) => {
+      error && toastOn(error);
       setRedirectError({
         state: true,
         path
       });
     },
-    [setRedirectError]
+    [setRedirectError, toastOn]
   );
 
   useEffect(() => {

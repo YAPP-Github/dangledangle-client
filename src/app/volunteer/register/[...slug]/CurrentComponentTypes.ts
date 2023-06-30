@@ -1,3 +1,5 @@
+import { ApiErrorResponse } from '@/types/apiTypes';
+
 export const STEP_PATH_1 = 'nickname';
 export const STEP_PATH_2 = 'contactNumber';
 export const STEP_PATH_3 = 'complete';
@@ -29,6 +31,6 @@ export type RegisterSteps<FormPathsTypes, FormNamesTypes> = {
 };
 
 export type RegisterStepError = {
-  error: Error;
+  error: ApiErrorResponse;
   formName: RegisterFormValues;
 };
