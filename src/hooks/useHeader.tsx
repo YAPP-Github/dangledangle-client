@@ -2,7 +2,7 @@ import { headerState } from '@/store/header';
 import { useLayoutEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-interface HeaderProps {
+export interface HeaderProps {
   isHeader?: 'hidden' | 'visible';
   isBackArrow?: 'hidden' | 'visible';
   title?: string;
