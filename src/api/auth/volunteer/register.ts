@@ -4,7 +4,7 @@ import { ApiErrorResponse } from '@/types/apiTypes';
 export interface VolunteerRegisterPayload {
   nickname: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
 }
 
 export type RegisterResponse =
