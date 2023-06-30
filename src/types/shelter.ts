@@ -44,11 +44,11 @@ export type ShelterInfo = ShelterEssentialInfo &
   };
 export interface ObservationAnimal {
   id: number;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
   name: string;
-  age: number;
-  gender: AnimalGender;
-  breed: string;
+  age: string | null;
+  gender: AnimalGender | null;
+  breed: string | null;
   specialNote: string;
 }
 
@@ -58,7 +58,7 @@ export const animalsMock: ObservationAnimal[] = [
     profileImageUrl: '',
     name: '인절미',
     breed: '비글',
-    age: 3,
+    age: '3살',
     gender: 'FEMALE',
     specialNote:
       '성인 남성을 무서워하는 아이입니다. !#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생!#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생'
@@ -68,7 +68,7 @@ export const animalsMock: ObservationAnimal[] = [
     profileImageUrl: '',
     name: '홍시',
     breed: '비글',
-    age: 3,
+    age: '3개월',
     gender: 'MALE',
     specialNote:
       '성인 남성을 무서워하는 아이입니다. !#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생!#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생'
