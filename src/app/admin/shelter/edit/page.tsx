@@ -26,7 +26,8 @@ import RegisterComplete from '@/app/shelter/register/components/RegisterComplete
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });
-  const { onChangeImage } = useImageUploader();
+  const { onChangeImage, isUploading } = useImageUploader();
+  const [uploadError, setUploadError] = useState<boolean>(false);
   const router = useRouter();
 
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
@@ -43,8 +44,10 @@ export default function ShelterEditPage() {
   const handleChangeImage = (fileData?: File) => {
     onChangeImage(fileData, async url => {
       try {
-        url && (await updateImage(url));
+        if (!url) throw Error();
+        await updateImage(url);
       } catch {
+        setUploadError(true);
         shelterQuery.refetch();
       }
     });
@@ -107,6 +110,8 @@ export default function ShelterEditPage() {
           name="image"
           onChangeCallback={handleChangeImage}
           placeholder="대표 사진"
+          loading={isUploading}
+          error={uploadError}
         />
       </section>
       <section>
