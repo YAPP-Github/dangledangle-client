@@ -23,7 +23,7 @@ export default function AnimalCard({
       <div className={styles.aniCard}>
         <Image
           className={styles.image}
-          src={profileImageUrl || ''}
+          src={profileImageUrl || '/images/DefaultAnimal.png'}
           width={48}
           height={48}
           alt={name}
@@ -34,6 +34,7 @@ export default function AnimalCard({
             {breed && breed + ', '}
             {age && age + ', '}
             {gender && ANIMAL_GENDER_DICT[gender]}
+            &nbsp;
           </Caption1>
         </div>
       </div>
