@@ -6,8 +6,7 @@ import { H4 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { KakaoLogo } from '@/asset/icons';
 
-interface KakaoLoginButtonProps {}
-export default function KakaoLoginButton({}: React.PropsWithChildren<KakaoLoginButtonProps>) {
+export default function KakaoLoginButton() {
   useHeader({ title: '개인봉사자로 시작하기' });
   return (
     <>
