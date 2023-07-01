@@ -6,6 +6,7 @@ import * as styles from './layout.css';
 import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
 import Header from '@/components/common/Header/Header';
 import { AuthProvider } from '@/providers/AuthContext';
+import Footer from '@/components/common/Footer/Footer';
 
 export const metadata = {
   title: 'Create Next App',
@@ -25,10 +26,11 @@ export default function RootLayout({
             <AuthProvider>
               <div id="modal-portal" />
               <GlobalComponents />
-              <main>
+              <main className={styles.main}>
                 <Header />
                 {children}
               </main>
+              <Footer />
             </AuthProvider>
           </QueryProvider>
         </RecoilRootWrapper>
