@@ -30,10 +30,19 @@ export default function ShelterProfile({
           <H3>{shelterName}</H3>
 
           <div className={styles.buttons}>
-            <Button size="small" color={palette.gray800}>
+            <Button
+              buttonColor="secondary"
+              size="small"
+              color={palette.gray800}
+            >
               즐겨찾기
             </Button>
-            <Button size="small" variant="line" color="white">
+            <Button
+              buttonColor="secondary"
+              size="small"
+              variant="line"
+              color="white"
+            >
               간편후원
             </Button>
           </div>

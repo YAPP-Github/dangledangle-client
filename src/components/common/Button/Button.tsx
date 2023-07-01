@@ -8,7 +8,8 @@ type PrefixIcon = 'plus';
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   size?: styles.ButtonSizeType;
-  variant?: styles.ButtonVariant;
+  variant?: styles.ButtonVariantType;
+  buttonColor?: styles.ButtonColorType;
   prefixIcon?: PrefixIcon;
   width?: string;
 }
@@ -19,6 +20,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'middle',
       disabled = false,
       variant = 'filled',
+      buttonColor = 'primary',
       children,
       className,
       prefixIcon,
@@ -42,7 +44,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         ref={ref}
         className={clsx([
-          styles.ButtonWrapper({ variant, disabled, size }),
+          styles.ButtonWrapper({ variant, size, buttonColor }),
           className
         ])}
         style={{ ...assignInlineVars({ width }), ...style }}

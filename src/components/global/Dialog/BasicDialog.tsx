@@ -3,13 +3,13 @@ import { H3 } from '../../common/Typography';
 import * as styles from './BasicDialog.css';
 import { Color } from '@/styles/color';
 import Button from '../../common/Button/Button';
-import { ButtonVariant } from '../../common/Button/Button.css';
+import { ButtonVariantType } from '../../common/Button/Button.css';
 import DialogBase, { DialogBaseProps } from './DialogBase';
 
 interface ActionButtonProps {
   color?: Color;
   text?: string;
-  variant?: ButtonVariant;
+  variant?: ButtonVariantType;
   onClick?: () => void;
 }
 export interface BasicDialogProps extends DialogBaseProps {
