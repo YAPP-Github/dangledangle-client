@@ -27,14 +27,35 @@ export default function Header({ href }: HeaderProps) {
           <a className={styles.arrowLeft} onClick={navigate}>
             {headerValue?.isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
-          <H4>{headerValue?.title}</H4>
-          <Body2>
-            {headerValue?.thisPage}
-            {headerValue?.entirePage ? '/' : null}
-            {headerValue?.entirePage}
-          </Body2>
+          <H4 className={styles.title}>{headerValue?.title}</H4>
+          <div className={styles.rightSide}>
+            {headerValue?.RightSideButton ? (
+              <headerValue.RightSideButton />
+            ) : (
+              <PageNumbering
+                thisPage={headerValue?.thisPage}
+                entirePage={headerValue?.entirePage}
+              />
+            )}
+          </div>
         </nav>
       ) : null}
     </>
   );
 }
+
+const PageNumbering = ({
+  thisPage,
+  entirePage
+}: {
+  thisPage?: number | null;
+  entirePage?: number | null;
+}) => {
+  return (
+    <Body2 style={{ paddingRight: 4 }}>
+      {thisPage}
+      {entirePage ? '/' : null}
+      {entirePage}
+    </Body2>
+  );
+};

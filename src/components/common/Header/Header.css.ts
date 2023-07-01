@@ -5,6 +5,7 @@ export const container = style({
   width: '100%',
   height: '20px',
   display: 'flex',
+  position: 'relative',
   padding: '16px 0',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -12,5 +13,16 @@ export const container = style({
 });
 
 export const arrowLeft = style({
-  cursor: 'pointer'
+  cursor: 'pointer',
+  position: 'absolute'
+});
+
+export const title = style({
+  flex: 1,
+  textAlign: 'center'
+});
+
+export const rightSide = style({
+  position: 'absolute',
+  right: 0
 });
