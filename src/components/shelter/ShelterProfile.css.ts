@@ -18,8 +18,3 @@ export const contents = style({
   flexDirection: 'column',
   rowGap: 10
 });
-
-export const buttons = style({
-  display: 'flex',
-  columnGap: 6
-});

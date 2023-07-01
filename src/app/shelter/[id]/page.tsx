@@ -1,4 +1,3 @@
-import Accordion from '@/components/common/Accordion/Accordion';
 import ContainerWithStickyHeader from '@/components/common/ContainerWithStickyHeader/ContainerWithStickyHeader';
 import Description from '@/components/shelter/Description';
 import ShelterProfile from '@/components/shelter/ShelterProfile';
@@ -16,6 +15,7 @@ export default async function ShelterMainPage({
 }: {
   params: { id: string };
 }) {
+  //TODO : 보호소 정보 가져오기
   const { shelterName, imageSrc, donation, description } =
     await (async params => {
       return new Promise<typeof mockData>(resolve =>

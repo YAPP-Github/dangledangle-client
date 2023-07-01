@@ -6,6 +6,13 @@ import * as styles from './ContainerWithStickyHeader.css';
 import useHeader, { UseHeaderProps } from '@/hooks/useHeader';
 import { variants } from '../Typography/Typography.css';
 import { UploadIcon } from '@/asset/icons';
+import useToast from '@/hooks/useToast';
+
+//TOOD : uploadIcon 구현
+const ShareButton = () => {
+  const toast = useToast();
+  return <UploadIcon onClick={() => toast('공유하기버튼 클릭됨')} />;
+};
 
 interface StickyTitleProps {
   headerProps: UseHeaderProps;
@@ -69,7 +76,3 @@ export default function ContainerWithStickyHeader({
   }, [setHeader]);
   return <div className={styles.container}>{children}</div>;
 }
-
-const ShareButton = () => {
-  return <UploadIcon onClick={() => console.log(123)} />;
-};
