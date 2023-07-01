@@ -12,7 +12,7 @@ const useHeader = ({
   title,
   thisPage,
   entirePage,
-  RightSideButton
+  RightSideComponent
 }: UseHeaderProps) => {
   const setHeader = useSetRecoilState(headerState);
 
@@ -24,7 +24,7 @@ const useHeader = ({
       title: title || prev.title,
       thisPage: thisPage || null,
       entirePage: entirePage || null,
-      RightSideButton: RightSideButton || null
+      RightSideComponent: RightSideComponent || null
     }));
   }, [
     setHeader,
@@ -33,7 +33,7 @@ const useHeader = ({
     title,
     thisPage,
     entirePage,
-    RightSideButton
+    RightSideComponent
   ]);
 
   return setHeader;

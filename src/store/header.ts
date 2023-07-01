@@ -6,11 +6,18 @@ export interface HeaderState {
   isBackArrow?: 'hidden' | 'visible';
   thisPage?: number | null;
   entirePage?: number | null;
-  RightSideButton?: (() => JSX.Element) | null;
+  RightSideComponent?: (() => JSX.Element) | null;
 }
 
 export const headerState = atom<HeaderState>({
   key: 'header',
-  default: { isHeader: 'visible', isBackArrow: 'visible' } as HeaderState
+  default: {
+    title: '',
+    isHeader: 'visible',
+    isBackArrow: 'visible',
+    thisPage: null,
+    entirePage: null,
+    RightSideComponent: null
+  } as HeaderState
   // effects: [localStorageEffect('header')]
 });

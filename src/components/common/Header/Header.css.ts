@@ -14,7 +14,8 @@ export const container = style({
 
 export const arrowLeft = style({
   cursor: 'pointer',
-  position: 'absolute'
+  position: 'absolute',
+  zIndex: 1
 });
 
 export const title = style({
@@ -24,5 +25,7 @@ export const title = style({
 
 export const rightSide = style({
   position: 'absolute',
-  right: 0
+  right: 0,
+  display: 'flex',
+  columnGap: 4
 });
