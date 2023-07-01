@@ -1,5 +1,6 @@
 import Accordion from '@/components/common/Accordion/Accordion';
 import ContainerWithStickyHeader from '@/components/common/ContainerWithStickyHeader/ContainerWithStickyHeader';
+import Description from '@/components/shelter/Description';
 import ShelterProfile from '@/components/shelter/ShelterProfile';
 
 const mockData = {
@@ -31,9 +32,7 @@ export default async function ShelterMainPage({
             imageSrc={imageSrc}
             donation={donation}
           />
-          <Accordion title="1231">
-            <div>{description}</div>
-          </Accordion>
+          <Description description={description} />
         </ContainerWithStickyHeader>
       </div>
       <div style={{ height: '100vh', backgroundColor: 'beige' }}></div>
