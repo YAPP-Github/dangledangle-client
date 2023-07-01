@@ -25,12 +25,12 @@ export default function Footer() {
         <Daenggle height={16} width={140} viewBox="0 0 279 30" />
         <div className={styles.linkWrapper}>
           {footerLinks.map(({ href, title }, index) => (
-            <>
+            <div key={`footer_${index}`}>
               <a href={href}>
                 <Caption1>{title}</Caption1>
               </a>
               {index < footerLinks.length - 1 && <Caption1>•</Caption1>}
-            </>
+            </div>
           ))}
         </div>
       </footer>
