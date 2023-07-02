@@ -46,7 +46,11 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <>
       <H3 style={{ margin: '16px 0px 12px 0px' }}>{formatDate(date)}</H3>
-      <div className={styles.wrapper}>
+      <div
+        className={styles.wrapper({
+          status: isDatePast(date) ? 'done' : 'process'
+        })}
+      >
         <Link href={`${pathname}/${eventId}`}>
           <div className={styles.container}>
             <div className={styles.badgeWrapper}>

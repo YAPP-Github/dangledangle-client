@@ -1,12 +1,25 @@
 import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
-export const wrapper = style({
-  padding: '16px',
-  background: palette.white,
-  borderRadius: '8px',
-  border: `1px solid ${palette.gray200}`,
-  cursor: 'pointer'
+export const wrapper = recipe({
+  base: {
+    padding: '16px',
+    background: palette.white,
+    borderRadius: '8px',
+    border: `1px solid ${palette.gray200}`,
+    cursor: 'pointer'
+  },
+  variants: {
+    status: {
+      done: {
+        opacity: 0.7
+      },
+      process: {
+        opacity: 1
+      }
+    }
+  }
 });
 
 export const container = style({
