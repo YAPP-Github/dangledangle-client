@@ -31,7 +31,7 @@ export default function Calendar() {
         value={value}
         onChange={handleChange}
         mark={datMark}
-        changeMonthCallback={handleChangeMonth}
+        onChangeMonth={handleChangeMonth}
       />
 
       {eventMock?.map(event => (

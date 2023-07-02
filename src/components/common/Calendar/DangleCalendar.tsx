@@ -11,14 +11,14 @@ interface DangleCalendarProps
   value?: LooseValue;
   onChange?: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void;
   mark?: (string | Date)[];
-  changeMonthCallback?: (nextYear: number, nextMonth: number) => void;
+  onChangeMonth?: (nextYear: number, nextMonth: number) => void;
 }
 
 export default function DangleCalendar({
   value,
   onChange,
   mark,
-  changeMonthCallback,
+  onChangeMonth,
   ...rest
 }: DangleCalendarProps) {
   return (
@@ -37,7 +37,7 @@ export default function DangleCalendar({
         onActiveStartDateChange={({ activeStartDate, value, view }) => {
           const nextYear = activeStartDate!.getFullYear();
           const nextMonth = activeStartDate!.getMonth() + 1;
-          changeMonthCallback?.(nextYear, nextMonth);
+          onChangeMonth?.(nextYear, nextMonth);
         }}
         tileContent={({ date, view }) => {
           const html = [];
