@@ -10,7 +10,7 @@ interface DangleCalendarProps
   extends Omit<CalendarProps, 'value' | 'onChange'> {
   value?: LooseValue;
   onChange?: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void;
-  mark?: string[];
+  mark?: (string | Date)[];
   changeMonthCallback?: (nextYear: number, nextMonth: number) => void;
 }
 
