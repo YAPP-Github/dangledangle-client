@@ -1,7 +1,4 @@
-import {
-  ObservationAnimal,
-  ObservationAnimalPayload
-} from '@/api/shelter/admin/observation-animal';
+import { ObservationAnimalPayload } from '@/api/shelter/admin/observation-animal';
 import useCreateObservationAnimal from '@/api/shelter/admin/useCreateObservationAnimal';
 import Button from '@/components/common/Button/Button';
 import Modal, { ModalProps } from '@/components/common/Modal/Modal';
@@ -9,7 +6,6 @@ import ImageUploader from '@/components/common/ImageUploader/ImageUploader';
 import RadioButton from '@/components/common/RadioButton/RadioButton';
 import TextArea from '@/components/common/TextField/TextArea';
 import TextField from '@/components/common/TextField/TextField';
-import { ButtonText1 } from '@/components/common/Typography';
 import { AnimalGender } from '@/constants/animal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
@@ -20,6 +16,8 @@ import useImageUploader from '@/hooks/useImageUploader';
 import { usePresence } from 'framer-motion';
 import yup from '@/utils/yup';
 import * as styles from './AnimalFormDialog.css';
+import { ObservationAnimal } from '@/types/shelter';
+import useBooleanState from '@/hooks/useBooleanState';
 interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
   initialData?: ObservationAnimal;
   data?: ObservationAnimal;
@@ -27,9 +25,9 @@ interface AnimalFormDialogProps extends Pick<ModalProps, 'open' | 'onClose'> {
 
 type FormValues = {
   name: string;
-  breed: string;
-  age: number;
-  gender: AnimalGender;
+  breed?: string | null;
+  age?: string | null;
+  gender?: string | null;
   specialNote: string;
 };
 
@@ -44,13 +42,13 @@ export const genderOptions: Array<{ value: AnimalGender; label: string }> = [
   }
 ];
 
-const scheme: yup.ObjectSchema<FormValues> = yup
+const schema: yup.ObjectSchema<FormValues> = yup
   .object()
   .shape({
     name: yup.string().required(),
-    breed: yup.string().required(),
-    age: yup.number().integer().min(0).required(),
-    gender: yup.string().oneOf(['FEMALE', 'MALE']).required(),
+    breed: yup.string().nullable(),
+    age: yup.string().nullable(),
+    gender: yup.string().nullable(),
     specialNote: yup.string().max(300).required()
   })
   .required();
@@ -68,12 +66,13 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
     register,
     handleSubmit,
     reset,
-    trigger,
+    watch,
+    setFocus,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
     reValidateMode: 'onChange',
-    resolver: yupResolver(scheme)
+    resolver: yupResolver(schema)
   });
 
   const {
@@ -86,6 +85,7 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   const { mutateAsync: create } = useCreateObservationAnimal();
   const { mutateAsync: update } = useUpdateObservationAnimal();
   const [isPresent, safeToRemove] = usePresence();
+  const [isSubmitting, startSubmit] = useBooleanState(false);
 
   const handleClose = useCallback(() => {
     reset({});
@@ -94,46 +94,62 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
 
   useEffect(() => {
     if (isPresent) {
-      trigger('gender');
+      setFocus('name');
+      if (initialData) {
+        reset(initialData);
+        setProfileImageUrl(initialData.profileImageUrl || undefined);
+      }
     } else {
       safeToRemove();
     }
-  }, [isPresent, safeToRemove, trigger]);
+  }, [
+    initialData,
+    isPresent,
+    reset,
+    safeToRemove,
+    setFocus,
+    setProfileImageUrl
+  ]);
 
   useEffect(() => {
-    reset(initialData || {});
-    setProfileImageUrl(initialData?.profileImageUrl);
-    if (initialData) trigger();
-
     return () => {
       reset({});
-      setProfileImageUrl('');
+      setProfileImageUrl(undefined);
     };
-  }, [initialData, reset, setProfileImageUrl, trigger]);
+  }, [reset, setProfileImageUrl]);
 
-  const submitable = Boolean(
-    !isUploading && isEmpty(errors) && profileImageUrl
-  );
+  const specialNote = watch('specialNote');
+  const submittable = Boolean(!isUploading && isEmpty(errors) && specialNote);
 
   const onSubmit = useCallback(
-    (data: FormValues) => {
-      if (!submitable || !profileImageUrl) return;
+    async (data: FormValues) => {
+      if (!submittable) return;
+      startSubmit();
       const payload: ObservationAnimalPayload = {
-        images: [profileImageUrl],
+        images: profileImageUrl ? [profileImageUrl] : [],
         name: data.name,
-        age: data.age,
-        gender: data.gender,
-        breed: data.breed,
+        age: data.age || null,
+        gender: (data.gender as AnimalGender) || null,
+        breed: data.breed || null,
         specialNote: data.specialNote
       };
 
-      if (initialData)
-        update({ observationAnimalId: initialData.id, payload }).then(
-          handleClose
-        );
-      else create({ payload }).then(handleClose);
+      if (initialData) {
+        await update({ observationAnimalId: initialData.id, payload });
+      } else {
+        await create({ payload });
+      }
+      handleClose();
     },
-    [submitable, profileImageUrl, initialData, update, handleClose, create]
+    [
+      submittable,
+      startSubmit,
+      profileImageUrl,
+      initialData,
+      handleClose,
+      update,
+      create
+    ]
   );
 
   return (
@@ -148,6 +164,7 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
       <TextField
         label="이름"
         placeholder="이름을 입력해주세요"
+        required
         {...register(`name`)}
         error={errors.name}
       />
@@ -171,20 +188,20 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
             {...register(`age`)}
             error={errors.age}
           />
-          <ButtonText1 style={{ marginTop: 20 }}>살</ButtonText1>
         </div>
         <div>
           <RadioButton
             style={{ marginBottom: '12px' }}
             label="성별"
             options={genderOptions}
-            initailValue={initialData?.gender}
+            initailValue={initialData?.gender || undefined}
             {...register('gender')}
           />
         </div>
       </div>
       <TextArea
-        label="상세 주의 사항"
+        label="특이사항"
+        required
         maxLength={300}
         height="88px"
         placeholder="특이사항을 입력해주세요"
@@ -194,7 +211,8 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
       <Button
         style={{ marginTop: '20px' }}
         itemType="submit"
-        disabled={!submitable}
+        disabled={!submittable}
+        loading={isSubmitting}
       >
         등록하기
       </Button>

@@ -5,8 +5,7 @@ import React, { useEffect } from 'react';
 import useSearchAddress from '@/hooks/useSearchAddress';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import useBooleanState from '@/hooks/useBooleanState';
-import { SearchedAddress } from '@/api/shelter/admin/essential-info';
-
+import { SearchedAddress } from '@/types/shelter';
 interface AddressSearchBarProps {
   initialValue?: SearchedAddress;
   onChange: (address?: SearchedAddress) => void;
