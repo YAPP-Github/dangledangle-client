@@ -13,24 +13,28 @@ import AnimalFormDialog from '@/components/shelter-edit/AnimalFormDialog/AnimalF
 import useBooleanState from '@/hooks/useBooleanState';
 import useDialog from '@/hooks/useDialog';
 import useToast from '@/hooks/useToast';
-import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
 import useDeleteObservationAnimal from '@/api/shelter/admin/useDeleteObservationAnimal';
 import useObservationAnimalList from '@/api/shelter/admin/useObservationAnimalList';
 import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { OUT_LINK_TYPE } from '@/constants/shelter';
-import { ShelterAdditionalInfo } from '@/api/shelter/admin/additional-info';
 import useImageUploader from '@/hooks/useImageUploader';
 import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 import useHeader from '@/hooks/useHeader';
+import { ObservationAnimal, ShelterAdditionalInfo } from '@/types/shelter';
+import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
+import RegisterComplete from '@/app/shelter/register/components/RegisterComplete';
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });
-  const { onChangeImage } = useImageUploader();
+  const { onChangeImage, isUploading } = useImageUploader();
+  const [uploadError, setUploadError] = useState<boolean>(false);
   const router = useRouter();
+
   const [isOpened, openDialog, closeDialog] = useBooleanState(false);
-  const { dialogOn, dialogOff } = useDialog();
+  const { dialogOn, dialogOff, setDialogLoading } = useDialog();
   const toastOn = useToast();
   const [targetAnimal, setTargetAnimal] = useState<ObservationAnimal>();
+  const [registerCompleted, setRegisterCompleted] = useState<Boolean>(false);
 
   const animalsQuery = useObservationAnimalList();
   const shelterQuery = useShelterInfo();
@@ -40,8 +44,10 @@ export default function ShelterEditPage() {
   const handleChangeImage = (fileData?: File) => {
     onChangeImage(fileData, async url => {
       try {
-        url && (await updateImage(url));
+        if (!url) throw Error();
+        await updateImage(url);
       } catch {
+        setUploadError(true);
         shelterQuery.refetch();
       }
     });
@@ -54,6 +60,7 @@ export default function ShelterEditPage() {
       confirm: {
         text: '삭제',
         onClick: () => {
+          setDialogLoading(true);
           deleteAnimal({ observationAnimalId }).then(() => {
             dialogOff();
             toastOn('동물 정보가 삭제되었습니다.');
@@ -81,11 +88,19 @@ export default function ShelterEditPage() {
     return !Object.values(info).includes(null);
   };
 
+  const handleClickCompleteRegister = () => {
+    setRegisterCompleted(true);
+  };
+
   const MenuBadge = (isCompleted: boolean) => (
     <Badge type={isCompleted ? 'primary' : 'gray'}>
       {isCompleted ? '입력 완료' : '미입력'}
     </Badge>
   );
+
+  if (registerCompleted) {
+    return <RegisterComplete />;
+  }
 
   return (
     <div className="page">
@@ -95,6 +110,8 @@ export default function ShelterEditPage() {
           name="image"
           onChangeCallback={handleChangeImage}
           placeholder="대표 사진"
+          loading={isUploading}
+          error={uploadError}
         />
       </section>
       <section>
@@ -151,6 +168,11 @@ export default function ShelterEditPage() {
               />
             ))}
           </div>
+        )}
+        {window.location.hash === '#register' && (
+          <FixedFooter>
+            <Button onClick={handleClickCompleteRegister}>가입 완료하기</Button>
+          </FixedFooter>
         )}
         <AnimalFormDialog
           initialData={targetAnimal}

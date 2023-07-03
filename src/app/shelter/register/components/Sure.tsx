@@ -5,24 +5,22 @@ import EmphasizedTitle, {
   E,
   Line
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
-import { Body3, Body4, H2, H4 } from '@/components/common/Typography';
+import { Body3, Body4, H4 } from '@/components/common/Typography';
 import { useState } from 'react';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Sure({ onNext }: onNextProps) {
+export default function Sure({ onNext }: OnNextProps) {
   const [checked, setChecked] = useState(false);
   return (
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '63px' }}>
         <EmphasizedTitle>
           <Line>
-            <H2>
-              <E>보호소 파트너</E>로
-            </H2>
+            <E>보호소 파트너</E>로
           </Line>
-          <H2>가입하시는 것이 맞는지</H2>
-          <H2>꼭 확인해주세요.</H2>
+          <Line>가입하시는 것이 맞는지</Line>
+          <Line>꼭 확인해주세요.</Line>
         </EmphasizedTitle>
       </div>
 

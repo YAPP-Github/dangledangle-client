@@ -1,18 +1,21 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextArea from '@/components/common/TextField/TextArea';
-import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Description({ onSubmit }: onNextProps) {
+export default function Description({ onSubmit }: OnNextProps) {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const descriptionValue = watch('description');
 
   const setHeader = useHeader({
     thisPage: 4,
@@ -23,8 +26,8 @@ export default function Description({ onSubmit }: onNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '64px' }}>
         <EmphasizedTitle>
-          <H2>거의 다 됐어요!</H2>
-          <H2>보호소를 소개해주세요 🙌</H2>
+          <Line>거의 다 됐어요!</Line>
+          <Line>보호소를 소개해주세요 🙌</Line>
         </EmphasizedTitle>
       </div>
 
@@ -37,7 +40,7 @@ export default function Description({ onSubmit }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.description}
+        disabled={Boolean(errors.description) || !descriptionValue?.trim()}
         onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         style={{ marginTop: '40px' }}
       >

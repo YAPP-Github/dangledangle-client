@@ -39,6 +39,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       height,
       defaultValue,
       fixedHelper,
+      required,
       ...inputProps
     },
     ref
@@ -78,7 +79,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       <div arial-lable={`${name}-text-area`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
-            {label}
+            {label} {required && <Caption1 color="primary300">*</Caption1>}
           </Caption1>
         )}
         <div

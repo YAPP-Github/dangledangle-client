@@ -1,23 +1,26 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import Message from '@/components/common/TextField/Message/Message';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function SpecificAddress({ onNext }: onNextProps) {
+export default function SpecificAddress({ onNext }: OnNextProps) {
   const {
     register,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useFormContext();
+  const addressValue = watch('address[addressDetail]');
 
   return (
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '109px' }}>
         <EmphasizedTitle>
-          <H2>상세 주소를 입력해주세요.</H2>
+          <Line>상세 주소를 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
 
@@ -30,7 +33,6 @@ export default function SpecificAddress({ onNext }: onNextProps) {
         {...register('address[address]')}
       />
       <TextField
-        maxLength={10}
         placeholder="상세 주소를 입력하세요"
         {...register('address[addressDetail]')}
       />
@@ -44,7 +46,10 @@ export default function SpecificAddress({ onNext }: onNextProps) {
       <input style={{ display: 'none' }} {...register('address[latitude]')} />
 
       <Button
-        disabled={!!(errors.address as any)?.addressDetail}
+        disabled={
+          Boolean((errors.address as any)?.addressDetail) ||
+          !addressValue?.trim()
+        }
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

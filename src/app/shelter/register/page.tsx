@@ -1,14 +1,15 @@
 'use client';
 
-import { signUpPayload } from '@/api/shelter/auth/sign-up';
+import { ShelterRegisterPayload } from '@/api/shelter/auth/sign-up';
 import useShelterRegister from '@/api/shelter/auth/useShelterRegister';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
 import useToast from '@/hooks/useToast';
 import { headerState } from '@/store/header';
+import { removeDash } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePathname } from 'next/navigation';
-import { useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { registerValidation } from '../utils/shelterValidaion';
@@ -23,16 +24,16 @@ import RequireComplete from './components/RequireComplete';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
 
-export interface onNextProps {
+export interface OnNextProps {
   onNext: VoidFunction;
-  onSubmit: SubmitHandler<signUpFormValue>;
+  onSubmit: SubmitHandler<SignUpFormValue>;
 }
 
-export interface signUpFormValue extends signUpPayload {
+export interface SignUpFormValue extends ShelterRegisterPayload {
   passwordConfirm: string;
 }
 
-const Steps: StepsProps<onNextProps>[] = [
+const Steps: StepsProps<OnNextProps>[] = [
   {
     component: Sure,
     path: 'step0'
@@ -87,13 +88,13 @@ export default function ShelterRegister() {
   }, [setHeader]);
 
   const pathname = usePathname();
-  const { goToNextStep, currentStepIndex } = useFunnel<onNextProps>(
+  const { goToNextStep, currentStepIndex } = useFunnel<OnNextProps>(
     Steps,
     pathname
   );
   const CurrentComponent = Steps[currentStepIndex].component;
 
-  const methods = useForm<signUpFormValue>({
+  const methods = useForm<SignUpFormValue>({
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(registerValidation)
@@ -102,16 +103,25 @@ export default function ShelterRegister() {
   const { mutateAsync } = useShelterRegister();
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: signUpFormValue) => {
-    console.log(data);
+  const onSubmit = useCallback(
+    async (data: SignUpFormValue) => {
+      const newData: ShelterRegisterPayload = {
+        ...data,
+        name: data.name.trim(),
+        phoneNumber: removeDash(data.phoneNumber)
+      };
+      console.log(newData);
 
-    try {
-      await mutateAsync(data);
-      goToNextStep();
-    } catch (error) {
-      toastOn('회원가입에 실패했습니다.');
-    }
-  };
+      try {
+        await mutateAsync(newData);
+        goToNextStep();
+        toastOn('회원가입에 성공했습니다.');
+      } catch (error) {
+        toastOn('회원가입에 실패했습니다.');
+      }
+    },
+    [goToNextStep, toastOn, mutateAsync]
+  );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

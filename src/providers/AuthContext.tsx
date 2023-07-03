@@ -1,14 +1,21 @@
 'use client';
 
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  PropsWithChildren,
-  useContext
-} from 'react';
+import {
+  COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_REFRESH_TOKEN_KEY
+} from '@/constants/cookieKeys';
 import cookie from 'js-cookie';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import React, {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
+
+const protectedRoutes = ['/volunteer', '/shelter', '/admin'];
 
 type User = {
   shelterId: string;
@@ -17,7 +24,7 @@ type User = {
 
 type AuthState = {
   user: User;
-  accessToken: string | null;
+  dangle_access_token: string | null;
   logout: () => void;
 };
 
@@ -26,20 +33,20 @@ const initialAuthState: AuthState = {
     shelterId: '',
     shelterUserId: ''
   },
-  accessToken: null,
+  dangle_access_token: null,
   logout: () => {}
 };
 
 type AuthContextProps = {
   user: User;
-  accessToken: string | null;
+  dangle_access_token: string | null;
   setAuthState: React.Dispatch<React.SetStateAction<AuthState>>;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextProps>({
   user: initialAuthState.user,
-  accessToken: initialAuthState.accessToken,
+  dangle_access_token: initialAuthState.dangle_access_token,
   setAuthState: () => {},
   logout: () => {}
 });
@@ -47,31 +54,34 @@ const AuthContext = createContext<AuthContextProps>({
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [authState, setAuthState] = useState(initialAuthState);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const accessToken = cookie.get('accessToken');
+    const dangle_access_token = cookie.get(COOKIE_ACCESS_TOKEN_KEY);
 
-    if (accessToken) {
+    if (dangle_access_token) {
       setAuthState(prevState => ({
         ...prevState,
-        accessToken
+        dangle_access_token
       }));
     } else {
-      // FIXME: accessToken 없을 시 push할 페이지 논의 필요
-      // router.push('/shelter/login');
+      if (!protectedRoutes.some(route => pathname.includes(route)))
+        router.push('/');
     }
-  }, [router]);
+  }, [router, pathname]);
 
-  const logout = () => {
-    cookie.remove('accessToken');
-    cookie.remove('refreshToken');
+  const logout = useCallback(() => {
+    cookie.remove(COOKIE_ACCESS_TOKEN_KEY);
+    cookie.remove(COOKIE_REFRESH_TOKEN_KEY);
     setAuthState(initialAuthState);
-  };
+  }, []);
 
-  const { user, accessToken } = authState;
+  const { user, dangle_access_token } = authState;
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, setAuthState, logout }}>
+    <AuthContext.Provider
+      value={{ user, dangle_access_token, setAuthState, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -20,7 +20,10 @@ export const radioWrapper = style({
 });
 
 export const label = recipe({
-  base: {},
+  base: {
+    zIndex: 1,
+    border: `1px solid transparent`
+  },
   variants: {
     check: {
       false: {
@@ -42,11 +45,12 @@ export const radio = style({
   height: '100%',
   margin: 0,
   cursor: 'pointer',
+
+  zIndex: -1,
   selectors: {
     [`${radioWrapper} &:checked`]: {
       background: palette.primary300,
-      border: `1px solid ${palette.primary300}`,
-      transitionDuration: '0.4s'
+      border: `1px solid ${palette.primary300}`
     }
   }
 });

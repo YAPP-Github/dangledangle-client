@@ -2,9 +2,9 @@ import React from 'react';
 import * as styles from './Animal.css';
 import { Body4, Caption1 } from '@/components/common/Typography';
 import Button from '@/components/common/Button/Button';
-import { ObservationAnimal } from '@/api/shelter/admin/observation-animal';
-import { ANIMAL_GENDER_DICT } from '@/constants/animal';
 import Image from 'next/image';
+import { ANIMAL_GENDER_DICT } from '@/constants/animal';
+import { ObservationAnimal } from '@/types/shelter';
 
 interface AnimalCardProps {
   data: ObservationAnimal;
@@ -21,10 +21,9 @@ export default function AnimalCard({
   return (
     <section className={styles.container}>
       <div className={styles.aniCard}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           className={styles.image}
-          src={profileImageUrl}
+          src={profileImageUrl || '/images/DefaultAnimal.png'}
           width={48}
           height={48}
           alt={name}
@@ -32,7 +31,10 @@ export default function AnimalCard({
         <div>
           <Body4>{name}</Body4>
           <Caption1 color="gray600">
-            {breed}, {age}세, {ANIMAL_GENDER_DICT[gender]}
+            {breed && breed + ', '}
+            {age && age + ', '}
+            {gender && ANIMAL_GENDER_DICT[gender]}
+            &nbsp;
           </Caption1>
         </div>
       </div>
