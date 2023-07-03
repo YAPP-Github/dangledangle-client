@@ -3,7 +3,7 @@ import { KakaoMapApiResponse } from '@/types';
 import { ApiErrorResponse } from '@/types/apiTypes';
 import ky from 'ky';
 
-export interface signUpPayload {
+export interface ShelterRegisterPayload {
   email: string;
   password: string;
   name: string;
@@ -18,7 +18,7 @@ export interface signUpPayload {
   };
 }
 
-export type signUpResponse =
+export type ShelterRegisterResponse =
   | {
       shelterId: string;
       shelterUserId: string;
@@ -31,12 +31,12 @@ const config = {
   }
 };
 
-export const registerShelter = async (data: signUpPayload) => {
+export const registerShelter = async (data: ShelterRegisterPayload) => {
   const response = await api
     .post(`auth/shelter/register`, {
       json: data
     })
-    .then(res => res.json<signUpResponse>());
+    .then(res => res.json<ShelterRegisterResponse>());
 
   return response;
 };

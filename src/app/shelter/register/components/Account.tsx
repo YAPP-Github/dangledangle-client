@@ -1,20 +1,22 @@
 import BottomSheet from '@/components/common/BottomSheet/BottomSheet';
 import Button from '@/components/common/Button/Button';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
 import { H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
-export default function Account({ onNext }: onNextProps) {
+export default function Account({ onNext }: OnNextProps) {
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
   const {
     register,
@@ -33,13 +35,21 @@ export default function Account({ onNext }: onNextProps) {
     message: '이미 등록된 이메일입니다. 다시 한번 확인해주세요.'
   });
 
+  useEffect(() => {
+    if (emailValue?.length > 0) {
+      debouncedValidator(emailValue, 'EMAIL');
+    }
+  }, [emailValue, debouncedValidator]);
+
   const areInputsFilled =
-    !!emailValue?.trim() &&
-    !!passwordValue?.trim() &&
-    !!passwordConfirmValue?.trim();
+    Boolean(emailValue?.trim()) &&
+    Boolean(passwordValue?.trim()) &&
+    Boolean(passwordConfirmValue?.trim());
 
   const isInputError =
-    !!errors.email || !!errors.password || !!errors.passwordConfirm;
+    Boolean(errors.email) ||
+    Boolean(errors.password) ||
+    Boolean(errors.passwordConfirm);
 
   const handleBottomSheet = useCallback(
     (e: React.MouseEvent) => {
@@ -84,19 +94,20 @@ export default function Account({ onNext }: onNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '124px' }}>
         <EmphasizedTitle>
-          <H2>파트너 활동을 위한</H2>
-          <H2>계정을 생성해주세요.</H2>
+          <Line>파트너 활동을 위한</Line>
+          <Line>계정을 생성해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField
         label="이메일"
         placeholder="이메일을 입력해주세요."
         {...register('email')}
-        error={errors.email}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          register('email').onChange(e);
-          debouncedValidator?.(e.target.value, 'EMAIL');
+        onBlur={() => {
+          if (emailValue?.length > 0) {
+            debouncedValidator(emailValue, 'EMAIL');
+          }
         }}
+        error={errors.email}
       />
       <TextField
         label="비밀번호"

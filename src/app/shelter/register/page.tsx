@@ -1,6 +1,6 @@
 'use client';
 
-import { signUpPayload } from '@/api/shelter/auth/sign-up';
+import { ShelterRegisterPayload } from '@/api/shelter/auth/sign-up';
 import useShelterRegister from '@/api/shelter/auth/useShelterRegister';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
@@ -24,16 +24,16 @@ import RequireComplete from './components/RequireComplete';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
 
-export interface onNextProps {
+export interface OnNextProps {
   onNext: VoidFunction;
-  onSubmit: SubmitHandler<signUpFormValue>;
+  onSubmit: SubmitHandler<SignUpFormValue>;
 }
 
-export interface signUpFormValue extends signUpPayload {
+export interface SignUpFormValue extends ShelterRegisterPayload {
   passwordConfirm: string;
 }
 
-const Steps: StepsProps<onNextProps>[] = [
+const Steps: StepsProps<OnNextProps>[] = [
   {
     component: Sure,
     path: 'step0'
@@ -88,13 +88,13 @@ export default function ShelterRegister() {
   }, [setHeader]);
 
   const pathname = usePathname();
-  const { goToNextStep, currentStepIndex } = useFunnel<onNextProps>(
+  const { goToNextStep, currentStepIndex } = useFunnel<OnNextProps>(
     Steps,
     pathname
   );
   const CurrentComponent = Steps[currentStepIndex].component;
 
-  const methods = useForm<signUpFormValue>({
+  const methods = useForm<SignUpFormValue>({
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(registerValidation)
@@ -104,8 +104,8 @@ export default function ShelterRegister() {
   const { handleSubmit } = methods;
 
   const onSubmit = useCallback(
-    async (data: signUpFormValue) => {
-      const newData: signUpPayload = {
+    async (data: SignUpFormValue) => {
+      const newData: ShelterRegisterPayload = {
         ...data,
         name: data.name.trim(),
         phoneNumber: removeDash(data.phoneNumber)

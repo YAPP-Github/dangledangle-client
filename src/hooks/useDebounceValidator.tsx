@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
 import debounce from 'lodash/debounce';
 import { isExist } from '@/api/shelter/auth/login';
@@ -20,23 +20,25 @@ function useDebounceValidator<TFieldValues extends FieldValues>({
   messageType = 'duplicate',
   message = '이미 등록된 값입니다. 다시 한번 확인해주세요.'
 }: DebounceValidatorProps<TFieldValues>) {
+  const debouncedValidatorFunc = useRef(
+    debounce(async (value: string, type: 'EMAIL' | 'NAME') => {
+      try {
+        const isInvalid = await isExist(value, type);
+        if (isInvalid.isExist === boolVal) {
+          setError(fieldName, {
+            type: messageType,
+            message: message
+          });
+        }
+      } catch (error) {}
+    }, debounceTime)
+  ).current;
+
   const debouncedValidator = useCallback(
     (value: string, type: 'EMAIL' | 'NAME') => {
-      debounce(async () => {
-        try {
-          const isInvalid = await isExist(value, type);
-          if (isInvalid.isExist === boolVal) {
-            setError(fieldName, {
-              type: messageType,
-              message: message
-            });
-          }
-        } catch (error) {
-          console.error('Error in useDebounceValidator:', error);
-        }
-      }, debounceTime)();
+      debouncedValidatorFunc(value, type);
     },
-    [boolVal, fieldName, debounceTime, setError, messageType, message]
+    [debouncedValidatorFunc]
   );
 
   return debouncedValidator;
