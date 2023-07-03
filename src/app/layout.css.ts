@@ -6,7 +6,7 @@ export const container = style({
   maxWidth: BREAK_POINT,
   marginRight: 'auto',
   marginLeft: 'auto',
-  padding: `0 ${GLOBAL_PADDING_X}px 30px`,
+  padding: `0 ${GLOBAL_PADDING_X}px`,
   height: '100%'
 });
 
