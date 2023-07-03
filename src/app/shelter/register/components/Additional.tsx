@@ -44,7 +44,7 @@ export default function Additional({ onNext }: OnNextProps) {
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           e.preventDefault();
-          router.push('/admin/shelter/edit/extra');
+          router.push('/admin/shelter/edit/extra#register');
         }}
         style={{ marginTop: '40px' }}
       >

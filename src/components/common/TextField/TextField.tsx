@@ -46,6 +46,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       defaultValue,
       fixedHelper,
       fixedValue,
+      required,
       ...inputProps
     },
     ref
@@ -96,12 +97,15 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       <div arial-lable={`${name}-text-field`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
-            {label}
+            {label} {required && <Caption1 color="primary300">*</Caption1>}
           </Caption1>
         )}
         <div className={styles.textFieldContainer}>
           {fixedValue && (
-            <p className={styles.textInput({ size })} style={{ width: 'auto' }}>
+            <p
+              className={styles.textInput({ size })}
+              style={{ width: 'auto', transform: 'translateY(3px)' }}
+            >
               {fixedValue}
             </p>
           )}

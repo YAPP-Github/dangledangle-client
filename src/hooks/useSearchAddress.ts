@@ -1,9 +1,9 @@
 import { fetchAddress } from '@/api/shelter/auth/sign-up';
 import { KakaoMapApiResponse } from '@/types';
+import { SearchedAddress } from '@/types/shelter';
 import { handlePostCode } from '@/utils/handlePostCode';
 import { useState } from 'react';
 import { Address } from 'react-daum-postcode';
-import { SearchedAddress } from '@/api/shelter/admin/essential-info';
 
 export default function useSearchAddress() {
   const [searchResult, setSearchResult] = useState<SearchedAddress>();
