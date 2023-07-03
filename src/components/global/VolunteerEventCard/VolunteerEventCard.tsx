@@ -20,7 +20,7 @@ export interface VolunteerEvent {
   date: string | Date;
   startTime: string | Date;
   endTime: string | Date;
-  status?: 'APPLY' | 'WATING' | 'NONE';
+  status?: 'APPLY' | 'WAITING' | 'NONE';
 }
 
 interface VolunteerEventCardProps {
@@ -90,7 +90,7 @@ export default function VolunteerEventCard({ event }: VolunteerEventCardProps) {
               <div className={styles.status}>
                 {status === 'APPLY' ? (
                   <Caption2 color="error">신청 완료</Caption2>
-                ) : status === 'WATING' ? (
+                ) : status === 'WAITING' ? (
                   <Caption2 color="gray600">신청 대기중</Caption2>
                 ) : null}
               </div>

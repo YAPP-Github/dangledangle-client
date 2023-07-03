@@ -24,14 +24,14 @@ export default function Calendar() {
   };
 
   // datMark array를 넘겨 캘린더에 닷 아이콘을 렌더링 할 수 있습니다.
-  const datMark = eventMock?.map(item => item.date);
+  const dotMark = eventMock?.map(item => item.date);
 
   return (
     <div>
       <DangleCalendar
         value={value}
         onChange={handleChange}
-        mark={datMark}
+        mark={dotMark}
         onChangeMonth={handleChangeMonth}
       />
 
@@ -74,7 +74,7 @@ const eventMock: VolunteerEvent[] = [
     date: '2023-07-22',
     startTime: '17:00',
     endTime: '18:30',
-    status: 'WATING'
+    status: 'WAITING'
   },
   {
     category: '홍보물 제작',
