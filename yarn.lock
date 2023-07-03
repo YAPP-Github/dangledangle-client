@@ -2561,7 +2561,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.195":
+"@types/lodash.memoize@npm:^4.1.7":
+  version: 4.1.7
+  resolution: "@types/lodash.memoize@npm:4.1.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 85f128b6606ab0545c11194208cf844536f981859221dff0032b1043dd4e02ee5aa1b96020d1e02a24db31be7493f2e9ff45836d2e3c35cf973fc6488f129eed
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.195":
   version: 4.14.195
   resolution: "@types/lodash@npm:4.14.195"
   checksum: 39b75ca635b3fa943d17d3d3aabc750babe4c8212485a4df166fe0516e39288e14b0c60afc6e21913cc0e5a84734633c71e617e2bd14eaa1cf51b8d7799c432e
@@ -2789,6 +2798,13 @@ __metadata:
   peerDependencies:
     webpack: ^4.30.0 || ^5.20.2
   checksum: 3e1741062eb849192558718e85c99d2e1aeefab01f17863d2381d493ec337a1a5137b8aef7bb60687ad754facda184d15ba763231f7bdad307170761755abf67
+  languageName: node
+  linkType: hard
+
+"@wojtekmaj/date-utils@npm:^1.1.3":
+  version: 1.4.1
+  resolution: "@wojtekmaj/date-utils@npm:1.4.1"
+  checksum: e1def2f26e2b2e781152b9f2b847f849abfb4ad90d2fddb77dc418ec4c8753dc29775d52205bc47952a71e47abf53bcb6df6306707486b3aa3b69ef9c359d8d6
   languageName: node
   linkType: hard
 
@@ -5182,6 +5198,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-user-locale@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "get-user-locale@npm:2.2.1"
+  dependencies:
+    "@types/lodash.memoize": ^4.1.7
+    lodash.memoize: ^4.1.1
+  checksum: 929e368d120795295a9fb98724b1f236ea42fe570fa710a8c6d5ecf03f32d11a57966ab7cef38f416523fdf57178d888e835919bc52321696236d74092d06dbc
+  languageName: node
+  linkType: hard
+
 "git-raw-commits@npm:^2.0.11":
   version: 2.0.11
   resolution: "git-raw-commits@npm:2.0.11"
@@ -6305,6 +6331,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.memoize@npm:^4.1.1":
+  version: 4.1.2
+  resolution: "lodash.memoize@npm:4.1.2"
+  checksum: 9ff3942feeccffa4f1fafa88d32f0d24fdc62fd15ded5a74a5f950ff5f0c6f61916157246744c620173dddf38d37095a92327d5fd3861e2063e736a5c207d089
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -6736,6 +6769,13 @@ __metadata:
     pkg-types: ^1.0.3
     ufo: ^1.1.2
   checksum: aea2a99131b1a1f02a733219317b6466156e150473e0a2f490802eaf2dc66940a21bb68e0ddd5c003360263e674e7dd0bd02da6520c740e6d16fa0edf5efa46e
+  languageName: node
+  linkType: hard
+
+"moment@npm:^2.29.4":
+  version: 2.29.4
+  resolution: "moment@npm:2.29.4"
+  checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
   languageName: node
   linkType: hard
 
@@ -7376,7 +7416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.0, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -7419,6 +7459,22 @@ __metadata:
   version: 4.0.1
   resolution: "quick-lru@npm:4.0.1"
   checksum: bea46e1abfaa07023e047d3cf1716a06172c4947886c053ede5c50321893711577cb6119360f810cc3ffcd70c4d7db4069c3cee876b358ceff8596e062bd1154
+  languageName: node
+  linkType: hard
+
+"react-calendar@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "react-calendar@npm:4.3.0"
+  dependencies:
+    "@types/react": "*"
+    "@wojtekmaj/date-utils": ^1.1.3
+    clsx: ^1.2.1
+    get-user-locale: ^2.2.1
+    prop-types: ^15.6.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 0abfb0e6c6c8ea6d5d10a9073db1861b9d6c746905573a1ba576d77e260c4cf4d90cc45a7eccb3166e8ccdad71df787cd629ae2d0b2839409db7e25c76f8cd32
   languageName: node
   linkType: hard
 
@@ -9043,9 +9099,11 @@ __metadata:
     ky: ^0.33.3
     lint-staged: ^13.2.2
     lodash: ^4.17.21
+    moment: ^2.29.4
     next: 13.4.2
     prettier: ^2.8.8
     react: 18.2.0
+    react-calendar: ^4.3.0
     react-daum-postcode: ^3.1.3
     react-dom: 18.2.0
     react-hook-form: ^7.44.1
