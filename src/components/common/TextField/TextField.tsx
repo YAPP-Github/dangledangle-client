@@ -27,6 +27,7 @@ export interface TextFieldProps
   maxLength?: number;
   defaultValue?: string | number;
   fixedHelper?: string;
+  fixedValue?: string;
 }
 
 /**
@@ -44,6 +45,8 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       maxLength,
       defaultValue,
       fixedHelper,
+      fixedValue,
+      required,
       ...inputProps
     },
     ref
@@ -67,6 +70,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       e.stopPropagation();
       e.preventDefault();
 
+      inputRef.current && (inputRef.current.value = '');
       onChange({
         target: inputRef.current
       } as React.ChangeEvent<HTMLInputElement>);
@@ -93,10 +97,18 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       <div arial-lable={`${name}-text-field`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
-            {label}
+            {label} {required && <Caption1 color="primary300">*</Caption1>}
           </Caption1>
         )}
         <div className={styles.textFieldContainer}>
+          {fixedValue && (
+            <p
+              className={styles.textInput({ size })}
+              style={{ width: 'auto', transform: 'translateY(3px)' }}
+            >
+              {fixedValue}
+            </p>
+          )}
           <input
             ref={inputRef}
             className={styles.textInput({

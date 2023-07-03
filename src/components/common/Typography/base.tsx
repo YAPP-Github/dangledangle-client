@@ -5,9 +5,12 @@ import React, { ElementType } from 'react';
 
 export interface TypographyProps
   extends React.PropsWithChildren,
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLParagraphElement>,
-      HTMLParagraphElement
+    React.HTMLProps<
+      HTMLAnchorElement &
+        HTMLParagraphElement &
+        HTMLLabelElement &
+        HTMLHeadingElement &
+        HTMLSpanElement
     > {
   color?: Color;
   element?: ElementType;

@@ -10,10 +10,12 @@ export const palette = {
   gray700: '#464646',
   gray800: '#333333',
   gray900: '#222222',
-  primary100: '#D3F0EF',
-  primary200: '#9DF5F3',
-  primary300: '#00D9D4',
-  error: '#FF2121'
+  primary100: '#F9D7D7',
+  primary200: '#C22D2D',
+  primary300: '#FE5555',
+  primary400: '#EA3E3E',
+  error: '#FF2121',
+  background: '#F2F1ED'
 } as const;
 
 export type Color = keyof typeof palette;

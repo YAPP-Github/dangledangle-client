@@ -3,6 +3,12 @@ import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { palette } from '@/styles/color';
 import { variants } from '../Typography/Typography.css';
 
+export const wrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative'
+});
+
 export const label = style({
   display: 'block',
   marginBottom: '6px'
@@ -19,6 +25,7 @@ export const textFieldContainer = style({
 export const textInput = recipe({
   base: {
     width: '100%',
+    height: '100%',
     '::placeholder': {
       color: palette.gray300
     }

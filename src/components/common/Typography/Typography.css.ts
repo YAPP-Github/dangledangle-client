@@ -5,6 +5,12 @@ export const base = style({
   color: palette.gray900
 });
 
+export const textButton = style({
+  color: palette.primary300,
+  cursor: 'pointer',
+  textDecoration: 'underline'
+});
+
 export const variants = {
   h1: style([
     base,

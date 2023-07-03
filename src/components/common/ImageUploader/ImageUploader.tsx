@@ -1,103 +1,142 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import React, { useMemo, useState } from 'react';
 import * as styles from './ImageUploader.css';
 import { Camera } from '@/asset/icons';
-import { Body3 } from '../Typography';
+import { GrayCamera } from '@/asset/icons';
+import { Body3, Caption2 } from '../Typography';
+import clsx from 'clsx';
 import uploadImage, { ResizingOptions } from '@/utils/uploadImage';
 import useBooleanState from '@/hooks/useBooleanState';
 
-interface ImageUploaderProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface ImageUploaderProps {
   /** input name */
   name: string;
   /** 수정 시 기존 imagePath */
   imagePath?: string;
   /** input callback */
   onChangeCallback?: (fileData?: File) => void;
-  /** 에러 메세지 표출 여부 */
-  help?: boolean;
+  placeholder?: string;
+  variant?: styles.ImageVariant;
   resizingOptions?: ResizingOptions;
-  onUploaded?: (url?: string) => void;
+  error?: boolean;
+  loading?: boolean;
+  onChange?: (event: any) => void;
 }
 
-export default function ImageUploader({
-  name,
-  onChangeCallback,
-  onUploaded,
-  imagePath,
-  help = false,
-  resizingOptions,
-  ...props
-}: ImageUploaderProps) {
-  const inputId = `${name}-fileInput`;
-  const {
-    register,
-    formState: { errors }
-  } = useFormContext();
+export const ImageUploader = React.forwardRef<
+  HTMLInputElement,
+  ImageUploaderProps
+>(
+  (
+    {
+      name,
+      imagePath,
+      onChangeCallback,
+      placeholder,
+      variant = 'circle',
+      resizingOptions,
+      error,
+      loading,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
+    const inputId = `${name}-fileInput`;
 
-  const [file, setFile] = useState<File | null>(null);
-  const [loading, setLoadingOn, setLoadingOff] = useBooleanState(false);
+    const [file, setFile] = useState<File | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event?.currentTarget?.files || event.currentTarget.files.length < 1) {
-      return setFile(null);
-    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (
+        !event?.currentTarget?.files ||
+        event.currentTarget.files.length < 1
+      ) {
+        return;
+      }
 
-    const selectedFile = event.currentTarget.files[0];
-    setFile(selectedFile);
+      const selectedFile = event.currentTarget.files[0];
+      setFile(selectedFile);
 
-    onChangeCallback?.(selectedFile);
-    if (onUploaded) upload(selectedFile);
-  };
+      onChangeCallback?.(selectedFile);
+      if (onChange) upload(selectedFile);
+    };
 
-  const upload = (file: File) => {
-    setLoadingOn();
-    uploadImage(file, resizingOptions).then(onUploaded).finally(setLoadingOff);
-  };
+    const upload = (file: File) => {
+      uploadImage(file, resizingOptions).then(url =>
+        onChange?.({ target: { name, value: url } })
+      );
+    };
 
-  const renderImage = (url: string) => (
-    <Image
-      src={url}
-      className={styles.imageCircle}
-      alt={`${inputId}-preview`}
-      width={100}
-      height={100}
-    />
-  );
+    const imageSrc = useMemo(() => {
+      if (file) {
+        return URL.createObjectURL(file);
+      }
+      return imagePath;
+    }, [file, imagePath]);
 
-  const imageSrc = file
-    ? URL.createObjectURL(file)
-    : !file && imagePath && imagePath.length
-    ? `${process.env.HOST}${imagePath}`
-    : '';
+    return (
+      <div className={styles.container}>
+        {imageSrc ? (
+          <label className={styles.label} htmlFor={inputId}>
+            <Image
+              src={imageSrc}
+              className={clsx([styles.imageCircle({ variant })])}
+              alt={`${inputId}-preview`}
+              width={100}
+              height={100}
+            />
+            {(loading || error) && (
+              <div
+                className={clsx(
+                  styles.imageCircle({ variant }),
+                  styles.loadingMask
+                )}
+              >
+                {loading && <Caption2>Uploading...</Caption2>}
+                {error && <Caption2 color="error">Error!</Caption2>}
+              </div>
+            )}
+          </label>
+        ) : (
+          <label
+            htmlFor={inputId}
+            className={clsx(styles.defaultCircle({ variant }), styles.label)}
+          >
+            {variant === 'square' && (
+              <div
+                className={styles.camera({
+                  variant: 'square'
+                })}
+              >
+                {variant === 'square' && !imageSrc && <GrayCamera />}
+              </div>
+            )}
+            <Caption2 color="gray500">{placeholder}</Caption2>
+          </label>
+        )}
 
-  return (
-    <div>
-      {imageSrc ? (
-        renderImage(imageSrc)
-      ) : (
-        <div className={styles.defaultCircle} />
-      )}
+        <label
+          className={clsx({
+            [styles.camera({ variant: 'circle' })]: variant === 'circle'
+          })}
+          htmlFor={inputId}
+        >
+          {variant === 'circle' && <Camera />}
+          <input
+            id={inputId}
+            name={name}
+            ref={ref}
+            onChange={handleChange}
+            className={styles.fileInput}
+            type="file"
+            accept=".jpg, .jpeg, .png"
+            {...props}
+          />
+        </label>
+      </div>
+    );
+  }
+);
 
-      <label className={styles.camera} htmlFor={inputId}>
-        <Camera />
-        <input
-          {...register(name)}
-          className={styles.fileInput}
-          id={inputId}
-          onChange={handleChange}
-          type="file"
-          accept=".jpg, .jpeg, .png"
-          {...props}
-        />
-      </label>
-
-      {help && errors[name] && (
-        <Body3 color="error" style={{ textAlign: 'center' }}>
-          {errors[name]?.message as never}
-        </Body3>
-      )}
-    </div>
-  );
-}
+ImageUploader.displayName = 'ImageUploader';
+export default ImageUploader;
