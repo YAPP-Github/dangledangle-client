@@ -2,7 +2,6 @@ import { NextIcon, PrevIcon } from '@/asset/icons/index.ts';
 import clsx from 'clsx';
 import moment from 'moment';
 import Calendar, { CalendarProps } from 'react-calendar';
-import './DangleCalendar.css';
 import * as styles from './DangleCalendar.css.ts';
 import { LooseValue, Value } from 'react-calendar/dist/cjs/shared/types';
 import { useCallback } from 'react';

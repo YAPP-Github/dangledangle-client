@@ -40,6 +40,24 @@ export const dot = recipe({
   }
 });
 
+globalStyle(`${calendar} *`, {
+  MozBoxSizing: 'border-box',
+  WebkitBoxSizing: 'border-box',
+  boxSizing: 'border-box'
+});
+
+globalStyle(`${calendar} &::after`, {
+  MozBoxSizing: 'border-box',
+  WebkitBoxSizing: 'border-box',
+  boxSizing: 'border-box'
+});
+
+globalStyle(`${calendar} &::before`, {
+  MozBoxSizing: 'border-box',
+  WebkitBoxSizing: 'border-box',
+  boxSizing: 'border-box'
+});
+
 globalStyle(`${calendar} button`, {
   width: '32px',
   height: '32px',
