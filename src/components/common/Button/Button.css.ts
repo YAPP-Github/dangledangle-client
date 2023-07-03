@@ -117,7 +117,7 @@ export const prefixIcon = style({
   transitionTimingFunction: 'ease-out',
   transitionDuration: '0.2s',
   selectors: {
-    [`button:hover &`]: {
+    [`button:active &`]: {
       backgroundColor: palette.primary300
     }
   }

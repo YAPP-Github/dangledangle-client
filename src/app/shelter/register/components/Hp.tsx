@@ -1,15 +1,16 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
 import useHeader from '@/hooks/useHeader';
 import { formatPhone } from '@/utils/formatInputs';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
+import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 
-export default function Hp({ onNext }: onNextProps) {
+export default function Hp({ onNext }: OnNextProps) {
   const {
     register,
     formState: { errors },
@@ -34,7 +35,7 @@ export default function Hp({ onNext }: onNextProps) {
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '160px' }}>
         <EmphasizedTitle>
-          <H2>보호소 연락처를 입력해주세요.</H2>
+          <Line>보호소 연락처를 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField
@@ -44,7 +45,7 @@ export default function Hp({ onNext }: onNextProps) {
       />
 
       <Button
-        disabled={!!errors.phoneNumber || !hpValue?.trim()}
+        disabled={Boolean(errors.phoneNumber) || !hpValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

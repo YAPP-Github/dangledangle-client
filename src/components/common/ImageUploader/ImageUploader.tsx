@@ -18,7 +18,8 @@ interface ImageUploaderProps {
   placeholder?: string;
   variant?: styles.ImageVariant;
   resizingOptions?: ResizingOptions;
-  error?: { message?: string };
+  error?: boolean;
+  loading?: boolean;
   onChange?: (event: any) => void;
 }
 
@@ -35,6 +36,7 @@ export const ImageUploader = React.forwardRef<
       variant = 'circle',
       resizingOptions,
       error,
+      loading,
       onChange,
       ...props
     },
@@ -43,7 +45,6 @@ export const ImageUploader = React.forwardRef<
     const inputId = `${name}-fileInput`;
 
     const [file, setFile] = useState<File | null>(null);
-    const [loading, setLoadingOn, setLoadingOff] = useBooleanState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (
@@ -61,10 +62,9 @@ export const ImageUploader = React.forwardRef<
     };
 
     const upload = (file: File) => {
-      setLoadingOn();
-      uploadImage(file, resizingOptions)
-        .then(url => onChange?.({ target: { name, value: url } }))
-        .finally(setLoadingOff);
+      uploadImage(file, resizingOptions).then(url =>
+        onChange?.({ target: { name, value: url } })
+      );
     };
 
     const imageSrc = useMemo(() => {
@@ -85,6 +85,17 @@ export const ImageUploader = React.forwardRef<
               width={100}
               height={100}
             />
+            {(loading || error) && (
+              <div
+                className={clsx(
+                  styles.imageCircle({ variant }),
+                  styles.loadingMask
+                )}
+              >
+                {loading && <Caption2>Uploading...</Caption2>}
+                {error && <Caption2 color="error">Error!</Caption2>}
+              </div>
+            )}
           </label>
         ) : (
           <label
@@ -122,12 +133,6 @@ export const ImageUploader = React.forwardRef<
             {...props}
           />
         </label>
-
-        {error && (
-          <Body3 color="error" style={{ textAlign: 'center' }}>
-            {error?.message as never}
-          </Body3>
-        )}
       </div>
     );
   }

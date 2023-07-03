@@ -7,9 +7,7 @@ export interface PutResponse {
 export const put = async (url: string) => {
   return await api
     .put('shelter/admin/image', {
-      body: JSON.stringify({
-        url
-      })
+      json: { url }
     })
     .json<PutResponse>();
 };

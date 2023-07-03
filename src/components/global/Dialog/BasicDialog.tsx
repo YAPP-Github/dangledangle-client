@@ -10,6 +10,7 @@ interface ActionButtonProps {
   color?: Color;
   text?: string;
   variant?: ButtonVariantType;
+  loading?: boolean;
   onClick?: () => void;
 }
 export interface BasicDialogProps extends DialogBaseProps {
@@ -17,16 +18,24 @@ export interface BasicDialogProps extends DialogBaseProps {
   /** dialog 버튼  */
   confirm?: ActionButtonProps;
   close?: ActionButtonProps;
+  loading?: boolean;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   variant,
   color,
   text,
+  loading,
   onClick
 }) => {
   return (
-    <Button variant={variant} color={color} onClick={onClick} size="small">
+    <Button
+      loading={loading}
+      variant={variant}
+      color={color}
+      onClick={onClick}
+      size="small"
+    >
       {text}
     </Button>
   );
@@ -37,6 +46,7 @@ export default function BasicDialog({
   message,
   confirm,
   close,
+  loading,
   onClose
 }: BasicDialogProps) {
   const defaultClose: ActionButtonProps = {
@@ -62,8 +72,10 @@ export default function BasicDialog({
         </div>
       </main>
       <footer className={styles.buttonWrapper}>
-        {close && <ActionButton {...defaultClose} {...close} />}
-        {confirm && <ActionButton {...confirm} />}
+        {close && (
+          <ActionButton {...defaultClose} {...close} loading={loading} />
+        )}
+        {confirm && <ActionButton {...confirm} loading={loading} />}
       </footer>
     </DialogBase>
   );

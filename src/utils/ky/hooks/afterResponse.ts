@@ -3,10 +3,10 @@ import Cookies from 'js-cookie';
 import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
-} from '@/api/cookieKeys';
+} from '@/constants/cookieKeys';
 import { fetchRefresh } from '@/api/auth/volunteer/refresh';
-import { UNREGISTERED } from '@/api/authErrorCode';
 import { ApiErrorResponse } from '@/types/apiTypes';
+import { ExceptionCode } from '@/constants/exceptionCode';
 
 export const retryRequestOnUnauthorized: AfterResponseHook = async (
   request,
@@ -14,7 +14,8 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
   response
 ) => {
   const data = await response.json();
-  if (data?.errorCodes === UNREGISTERED) {
+
+  if (data.exceptionCode === ExceptionCode.UNAUTHORIZED) {
     const data = await fetchRefresh();
 
     const newAccessToken = data.accessToken;
@@ -37,8 +38,7 @@ export const throwServerErrorMessage: AfterResponseHook = async (
 ) => {
   if (response.status >= 400) {
     const responseData = (await response.json()) as ApiErrorResponse;
-    const { message } = responseData;
 
-    throw new Error(message);
+    throw responseData;
   }
 };

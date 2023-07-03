@@ -1,5 +1,7 @@
+import { ExceptionCode } from '@/constants/exceptionCode';
+
 export interface ApiErrorResponse {
-  exceptionCode: string;
+  exceptionCode: ExceptionCode;
   message: string;
   timeStamp: string;
 }

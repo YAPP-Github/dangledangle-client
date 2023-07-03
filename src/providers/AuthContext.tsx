@@ -1,9 +1,9 @@
 'use client';
 
 import {
-  COOKIE_REFRESH_TOKEN_KEY,
-  COOKIE_ACCESS_TOKEN_KEY
-} from '@/api/cookieKeys';
+  COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_REFRESH_TOKEN_KEY
+} from '@/constants/cookieKeys';
 import cookie from 'js-cookie';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
