@@ -1,4 +1,3 @@
-import { SearchedAddress } from '@/api/shelter/admin/essential-info';
 import Button from '@/components/common/Button/Button';
 import EmphasizedTitle, {
   Line
@@ -9,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
+import { SearchedAddress } from '@/types/shelter';
 
 export default function Address({ onNext }: OnNextProps) {
   const { setValue } = useFormContext();

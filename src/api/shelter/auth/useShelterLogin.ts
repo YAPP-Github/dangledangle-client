@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
-} from '@/api/cookieKeys';
+} from '@/constants/cookieKeys';
 
 export const shelterAuthKey = {
   all: ['shelterAuth'] as const

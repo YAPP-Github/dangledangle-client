@@ -6,7 +6,7 @@ import {
 } from '@/utils/ky/hooks/afterResponse';
 
 const api = ky.create({
-  prefixUrl: 'https://yapp-dangledangle.com/v1',
+  prefixUrl: process.env.NEXT_PUBLIC_API_ENDPOINT,
   headers: {
     'Content-Type': 'application/json'
   },

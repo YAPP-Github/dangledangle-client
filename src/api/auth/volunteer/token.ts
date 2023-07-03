@@ -1,7 +1,7 @@
 import api from '@/api/instance';
 
 export interface RegisterPayload {
-  authCode: string;
+  authToken: string;
 }
 
 export type RegisterResponse = {
