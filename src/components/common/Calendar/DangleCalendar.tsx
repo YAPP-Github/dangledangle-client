@@ -5,6 +5,7 @@ import Calendar, { CalendarProps } from 'react-calendar';
 import './DangleCalendar.css';
 import * as styles from './DangleCalendar.css.ts';
 import { LooseValue, Value } from 'react-calendar/dist/cjs/shared/types';
+import { useCallback } from 'react';
 
 interface DangleCalendarProps
   extends Omit<CalendarProps, 'value' | 'onChange'> {
@@ -21,6 +22,32 @@ export default function DangleCalendar({
   onChangeMonth,
   ...rest
 }: DangleCalendarProps) {
+  const handleDotIcon = useCallback(
+    ({ date }: { date: Date }) => {
+      const html = [];
+      const today = moment().startOf('day');
+      const isToday = today.isSame(date, 'day');
+      const isMarked = mark?.find(x => x === moment(date).format('YYYY-MM-DD'));
+
+      if (isMarked) {
+        html.push(
+          <div
+            key={Date.now()}
+            className={clsx([
+              styles.dot({ date: isToday ? 'today' : 'other' })
+            ])}
+          ></div>
+        );
+      }
+      return (
+        <>
+          <div className={styles.dotWrapper}>{html}</div>
+        </>
+      );
+    },
+    [mark]
+  );
+
   return (
     <>
       <Calendar
@@ -39,27 +66,7 @@ export default function DangleCalendar({
           const nextMonth = activeStartDate!.getMonth() + 1;
           onChangeMonth?.(nextYear, nextMonth);
         }}
-        tileContent={({ date, view }) => {
-          const html = [];
-          const today = moment().startOf('day');
-          const isToday = today.isSame(date, 'day');
-
-          if (mark?.find(x => x === moment(date).format('YYYY-MM-DD'))) {
-            html.push(
-              <div
-                key={Date.now()}
-                className={clsx([
-                  styles.dot({ date: isToday ? 'today' : 'other' })
-                ])}
-              ></div>
-            );
-          }
-          return (
-            <>
-              <div className={styles.dotWrapper}>{html}</div>
-            </>
-          );
-        }}
+        tileContent={handleDotIcon}
       />
     </>
   );
