@@ -1,9 +1,10 @@
 'use client';
 
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
-import EventCard, {
-  EventPayload
-} from '@/components/global/EventCard/EventCard';
+import VolunteerEventCard, {
+  VolunteerEvent
+} from '@/components/global/VolunteerEventCard/VolunteerEventCard';
+
 import { useState } from 'react';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 
@@ -35,13 +36,13 @@ export default function Calendar() {
       />
 
       {eventMock?.map(event => (
-        <EventCard key={event.eventId} event={event} />
+        <VolunteerEventCard key={event.eventId} event={event} />
       ))}
     </div>
   );
 }
 
-const eventMock: EventPayload[] = [
+const eventMock: VolunteerEvent[] = [
   {
     category: '산책 봉사',
     eventId: 11,

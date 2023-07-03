@@ -9,9 +9,9 @@ import {
 } from '@/utils/timeConvert';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import * as styles from './EventCard.css';
+import * as styles from './VolunteerEventCard.css';
 
-export interface EventPayload {
+export interface VolunteerEvent {
   category: string;
   eventId: number;
   eventName: string;
@@ -23,11 +23,11 @@ export interface EventPayload {
   status?: 'APPLY' | 'WATING' | 'NONE';
 }
 
-interface EventCardProps {
-  event?: EventPayload;
+interface VolunteerEventCardProps {
+  event?: VolunteerEvent;
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function VolunteerEventCard({ event }: VolunteerEventCardProps) {
   const pathname = usePathname();
   if (!event) return null;
 
