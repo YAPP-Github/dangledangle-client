@@ -8,6 +8,7 @@ import Divider from '../../common/Divider/Divider';
 import useObserver from '@/hooks/useObserver';
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
+  focusedDate?: string;
 }
 
 const DateHeader = ({
@@ -17,24 +18,37 @@ const DateHeader = ({
   date: string;
   divider?: boolean;
 }) => (
-  <div>
+  <div id={date}>
     {divider && <Divider spacing={16} />}
     <H3 style={{ marginBottom: '10px' }}>{formatDate(date)}</H3>
   </div>
 );
-const VolunteerEventList: React.FC<VolunteerEventListProps> = ({ events }) => {
+const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
+  events,
+  focusedDate
+}) => {
   const { attatchObserver, observe } = useObserver();
   const handleIntersect = useCallback(() => {
     console.log('데이터 받아오는 중');
     setTimeout(() => {
       console.log('데이터 패치 완료');
-      observe();
+      // observe();
     }, 1000);
   }, [observe]);
 
   useEffect(() => {
     attatchObserver('observer-target', handleIntersect);
   }, [attatchObserver, handleIntersect]);
+
+  useEffect(() => {
+    if (focusedDate) {
+      console.log(focusedDate);
+      const targetEl = document.getElementById(focusedDate);
+      if (!targetEl) return;
+
+      targetEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [focusedDate]);
 
   return (
     <div>
