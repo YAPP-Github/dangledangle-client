@@ -12,13 +12,12 @@ import { isEmpty } from 'lodash';
 import useUpdateEssentialInfo from '@/api/shelter/admin/useUpdateEssentialInfo';
 import { useRouter } from 'next/navigation';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
-import {
-  ShelterEssentialInfoPayload,
-  SearchedAddress
-} from '@/api/shelter/admin/essential-info';
+import { ShelterEssentialInfoPayload } from '@/api/shelter/admin/essential-info';
 import { formatPhone, removeDash } from '@/utils/formatInputs';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
+import { SearchedAddress } from '@/types/shelter';
+import useBooleanState from '@/hooks/useBooleanState';
 
 type FormValues = {
   name: string;
@@ -57,6 +56,7 @@ export default function ShelterEditRequiredPage() {
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateEssentialInfo();
   const [searchedAddress, setSearchedAddress] = useState<SearchedAddress>();
+  const [loading, loadingOn] = useBooleanState(false);
 
   useEffect(() => {
     if (shelterQuery.isSuccess) {
@@ -83,19 +83,25 @@ export default function ShelterEditRequiredPage() {
     setSearchedAddress(address);
   }, []);
 
-  const onSubmit = (data: FormValues) => {
-    console.log('🔸 → onSubmit → data:', data);
-    if (!shelterQuery.isSuccess || !searchedAddress) return;
-    const payload: ShelterEssentialInfoPayload = {
-      ...data,
-      phoneNumber: removeDash(data.phoneNumber),
-      address: {
-        ...searchedAddress,
-        addressDetail: data.addressDetail
-      }
-    };
-    update({ payload }).then(() => router.back());
-  };
+  const onSubmit = useCallback(
+    async (data: FormValues) => {
+      console.log('🔸 → onSubmit → data:', data);
+      if (!shelterQuery.isSuccess || !searchedAddress) return;
+      loadingOn();
+      const payload: ShelterEssentialInfoPayload = {
+        ...data,
+        phoneNumber: removeDash(data.phoneNumber),
+        address: {
+          ...searchedAddress,
+          addressDetail: data.addressDetail
+        }
+      };
+      await update({ payload });
+      router.replace('/admin/shelter/edit');
+    },
+    [loadingOn, router, searchedAddress, shelterQuery.isSuccess, update]
+  );
+
   return (
     <form className="page" onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.container}>
@@ -134,6 +140,7 @@ export default function ShelterEditRequiredPage() {
         className={styles.button}
         disabled={!isEmpty(errors) || !searchedAddress}
         itemType="submit"
+        loading={loading}
       >
         저장하기
       </Button>

@@ -7,7 +7,7 @@ import TextField from '@/components/common/TextField/TextField';
 import { Caption2 } from '@/components/common/Typography';
 import { textButton } from '@/components/common/Typography/Typography.css';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SubmitErrorHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as styles from './styles.css';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import TextArea from '@/components/common/TextField/TextArea';
@@ -15,20 +15,19 @@ import useShelterInfo from '@/api/shelter/admin/useShelterInfo';
 import { isEmpty } from 'lodash';
 import useUpdateAdditionalInfo from '@/api/shelter/admin/useUpdateAdditionalInfo';
 import { useRouter } from 'next/navigation';
-import {
-  OutLink,
-  ShelterAdditionalInfoPayload
-} from '@/api/shelter/admin/additional-info';
+import { ShelterAdditionalInfoPayload } from '@/api/shelter/admin/additional-info';
 import { useCallback, useEffect } from 'react';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
+import { OutLink } from '@/types/shelter';
+import useBooleanState from '@/hooks/useBooleanState';
 
 type FormValues = {
   instagram?: string;
   bankName?: string;
   accountNumber?: string;
   donationUrl?: string;
-  isParkingEnabled?: string | null;
+  parkingEnabled?: string | null;
   parkingNotice?: string;
   notice?: string;
 };
@@ -59,7 +58,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
     bankName: yup.string(),
     accountNumber: yup.string(),
     donationUrl: yup.string().url(),
-    isParkingEnabled: yup.string(),
+    parkingEnabled: yup.string(),
     parkingNotice: yup.string().max(maxParkingNoticeLength),
     notice: yup.string().max(maxNoticeLength)
   })
@@ -81,8 +80,9 @@ export default function ShelterEditExtraPage() {
   const router = useRouter();
   const shelterQuery = useShelterInfo();
   const { mutateAsync: update } = useUpdateAdditionalInfo();
+  const [loading, loadingOn] = useBooleanState(false);
 
-  const isParkingEnabled = watch('isParkingEnabled');
+  const parkingEnabled = watch('parkingEnabled');
   const bankName = watch('bankName');
   const accountNumber = watch('accountNumber');
 
@@ -105,7 +105,7 @@ export default function ShelterEditExtraPage() {
     if (shelterQuery.isSuccess) {
       const data = shelterQuery.data;
       reset({
-        isParkingEnabled: data.parkingInfo?.isParkingEnabled.toString() || '',
+        parkingEnabled: data.parkingInfo?.parkingEnabled.toString() || '',
         parkingNotice: data.parkingInfo?.parkingNotice || '',
         bankName: data.bankAccount?.bankName || '',
         accountNumber: data.bankAccount?.accountNumber || '',
@@ -137,9 +137,9 @@ export default function ShelterEditExtraPage() {
     formValues.donationUrl &&
       outLinks.push({ outLinkType: 'KAKAOPAY', url: formValues.donationUrl });
 
-    const parkingInfo = formValues.isParkingEnabled
+    const parkingInfo = formValues.parkingEnabled
       ? {
-          isParkingEnabled: formValues.isParkingEnabled === 'true',
+          parkingEnabled: formValues.parkingEnabled === 'true',
           parkingNotice: formValues.parkingNotice || ''
         }
       : null;
@@ -155,13 +155,15 @@ export default function ShelterEditExtraPage() {
   }, []);
 
   const onSubmit = useCallback(
-    (data: FormValues) => {
+    async (data: FormValues) => {
       console.log('🔸 → onSubmit → data:', data);
-
+      loadingOn();
       const payload = getPayload(data);
-      update({ payload }).then(() => router.back());
+      console.log('🔸 → ShelterEditExtraPage → payload:', payload);
+      await update({ payload });
+      router.replace('/admin/shelter/edit' + window.location.hash);
     },
-    [getPayload, router, update]
+    [getPayload, loadingOn, router, update]
   );
 
   return (
@@ -212,11 +214,13 @@ export default function ShelterEditExtraPage() {
             style={{ marginBottom: '12px' }}
             label="주차 가능 여부"
             options={parkingOptions}
-            {...register('isParkingEnabled')}
+            {...register('parkingEnabled')}
           />
-          <TextField
+          <TextArea
             placeholder="추가 주차 관련 안내 (최대 200자)"
-            disabled={!isParkingEnabled}
+            maxLength={200}
+            height="128px"
+            disabled={!parkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
           />
@@ -231,7 +235,7 @@ export default function ShelterEditExtraPage() {
         />
       </div>
       <FixedFooter>
-        <Button itemType="submit" disabled={isSubmittable}>
+        <Button loading={loading} itemType="submit" disabled={isSubmittable}>
           저장하기
         </Button>
       </FixedFooter>

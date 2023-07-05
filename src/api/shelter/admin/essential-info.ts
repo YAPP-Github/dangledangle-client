@@ -1,20 +1,5 @@
 import api from '@/api/instance';
-
-export type SearchedAddress = {
-  address: string;
-  postalCode: string;
-  latitude: number;
-  longitude: number;
-};
-export type ShelterAddress = SearchedAddress & {
-  addressDetail: string;
-};
-export interface ShelterEssentialInfo {
-  name: string;
-  phoneNumber: string;
-  description: string;
-  address: ShelterAddress;
-}
+import { ShelterEssentialInfo } from '@/types/shelter';
 
 export type ShelterEssentialInfoPayload = ShelterEssentialInfo;
 export type PutResponse = {
@@ -24,6 +9,6 @@ export type PutResponse = {
 
 export const put = async (payload: ShelterEssentialInfoPayload) => {
   return await api
-    .put('shelter/admin/essential-info', { body: JSON.stringify(payload) })
+    .put('shelter/admin/essential-info', { json: payload })
     .json<PutResponse>();
 };

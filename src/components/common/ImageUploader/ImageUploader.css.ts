@@ -11,6 +11,7 @@ export const container = style({
 });
 
 export const label = style({
+  position: 'relative',
   cursor: 'pointer'
 });
 
@@ -103,6 +104,17 @@ export const imageCircle = recipe({
       }
     }
   }
+});
+
+export const loadingMask = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  backgroundColor: palette.gray200,
+  opacity: 0.7,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
 });
 
 type ButtonVariants = RecipeVariants<typeof defaultCircle>;

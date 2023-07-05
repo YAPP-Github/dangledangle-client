@@ -1,14 +1,16 @@
 import Button from '@/components/common/Button/Button';
-import EmphasizedTitle from '@/components/common/EmphasizedTitle/EmphasizedTitle';
+import EmphasizedTitle, {
+  Line
+} from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
-import { H2 } from '@/components/common/Typography';
-import useHeader from '@/hooks/useHeader';
-import { useFormContext } from 'react-hook-form';
-import { onNextProps } from '../page';
-import * as styles from './../styles.css';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
+import useHeader from '@/hooks/useHeader';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { OnNextProps } from '../page';
+import * as styles from './../styles.css';
 
-export default function Name({ onNext }: onNextProps) {
+export default function Name({ onNext }: OnNextProps) {
   const {
     register,
     formState: { errors },
@@ -29,12 +31,18 @@ export default function Name({ onNext }: onNextProps) {
     message: '이미 등록된 이름입니다. 다시 한번 확인해주세요.'
   });
 
+  useEffect(() => {
+    if (nameValue?.length > 0) {
+      debouncedValidator(nameValue, 'NAME');
+    }
+  }, [nameValue, debouncedValidator]);
+
   return (
     <>
       <div className={styles.titleWrapper} style={{ marginBottom: '126px' }}>
         <EmphasizedTitle>
-          <H2>안녕하세요!</H2>
-          <H2>보호소 이름을 입력해주세요.</H2>
+          <Line>안녕하세요!</Line>
+          <Line>보호소 이름을 입력해주세요.</Line>
         </EmphasizedTitle>
       </div>
       <TextField
@@ -42,14 +50,15 @@ export default function Name({ onNext }: onNextProps) {
         helper={'국문/영문/숫자/띄어쓰기 조합 20자 이내 (특수문자 불가)'}
         placeholder="보호소 이름을 입력해주세요."
         {...register('name')}
-        error={errors.name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          register('name').onChange(e);
-          debouncedValidator?.(e.target.value, 'NAME');
+        onBlur={() => {
+          if (nameValue?.length > 0) {
+            debouncedValidator(nameValue, 'NAME');
+          }
         }}
+        error={errors.name}
       />
       <Button
-        disabled={!!errors.name || !nameValue?.trim()}
+        disabled={Boolean(errors.name) || !nameValue?.trim()}
         onClick={onNext}
         style={{ marginTop: '40px' }}
       >

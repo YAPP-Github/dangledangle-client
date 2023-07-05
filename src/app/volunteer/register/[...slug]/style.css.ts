@@ -5,7 +5,7 @@ export const wrapper = style({
   padding: '40px 0px'
 });
 
-export const TitleSection = style({
+export const titleSection = style({
   height: '194px'
 });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import TextField from '../../components/common/TextField/TextField';
+import TextField from './TextField';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

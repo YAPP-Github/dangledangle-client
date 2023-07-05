@@ -19,3 +19,7 @@ export { default as Specific } from './Specific.svg';
 export { default as Back } from './Back.svg';
 export { default as HomeLogo } from './HomeLogo.svg';
 export { default as KakaoLogo } from './KakaoLogo.svg';
+export { default as NextIcon } from './NextIcon.svg';
+export { default as PrevIcon } from './PrevIcon.svg';
+export { default as Clock } from './Clock.svg';
+export { default as Profile } from './Profile.svg';
