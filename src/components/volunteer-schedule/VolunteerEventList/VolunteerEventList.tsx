@@ -3,8 +3,9 @@ import VolunteerEventCard, {
 } from '@/components/volunteer-schedule/VolunteerEventCard/VolunteerEventCard';
 import { H3 } from '../../common/Typography';
 import { formatDate, isDateSame } from '@/utils/timeConvert';
-import { useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import Divider from '../../common/Divider/Divider';
+import useObserver from '@/hooks/useObserver';
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
 }
@@ -22,7 +23,19 @@ const DateHeader = ({
   </div>
 );
 const VolunteerEventList: React.FC<VolunteerEventListProps> = ({ events }) => {
-  const groupedEvents = useMemo(() => {}, []);
+  const { attatchObserver, observe } = useObserver();
+  const handleIntersect = useCallback(() => {
+    console.log('데이터 받아오는 중');
+    setTimeout(() => {
+      console.log('데이터 패치 완료');
+      observe();
+    }, 1000);
+  }, [observe]);
+
+  useEffect(() => {
+    attatchObserver('observer-target', handleIntersect);
+  }, [attatchObserver, handleIntersect]);
+
   return (
     <div>
       {events?.map((event, idx) => (
@@ -34,6 +47,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({ events }) => {
           <VolunteerEventCard style={{ marginBottom: '12px' }} event={event} />
         </div>
       ))}
+      <div id="observer-target" style={{ height: 1, width: '100%' }} />
     </div>
   );
 };
