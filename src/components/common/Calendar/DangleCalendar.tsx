@@ -53,7 +53,7 @@ export default function DangleCalendar({
         {...rest}
         value={value}
         onChange={onChange}
-        className={styles.calendar}
+        className={clsx(styles.calendar, rest.className)}
         locale="ko-KO"
         formatDay={(locale, date) => moment(date).format('DD')}
         next2Label={null}
