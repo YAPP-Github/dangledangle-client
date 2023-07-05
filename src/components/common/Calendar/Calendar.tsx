@@ -1,7 +1,7 @@
 'use client';
 
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
-import { volunteerEventsMock } from '@/components/volunteer-events/mock';
+import { volunteerEventsMock } from '@/components/volunteer-schedule/mock';
 
 import { useState } from 'react';
 import { Value } from 'react-calendar/dist/cjs/shared/types';

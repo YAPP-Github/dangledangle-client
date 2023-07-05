@@ -1,4 +1,4 @@
-import { VolunteerEvent } from '../global/VolunteerEventCard/VolunteerEventCard';
+import { VolunteerEvent } from './VolunteerEventCard/VolunteerEventCard';
 
 export const volunteerEventsMock: VolunteerEvent[] = [
   {
@@ -49,6 +49,32 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     participantNum: 6,
     waitingNum: 3,
     date: '2023-07-22',
+    startTime: '17:00',
+    endTime: '19:30',
+    myParticipationStatus: 'NONE'
+  },
+  {
+    eventStatus: 'IN_PROGRESS',
+    category: '홍보물 제작',
+    volunteerEventId: 15,
+    title: '홍보물 제작 봉사자 모집합니다.',
+    recruitNum: 6,
+    participantNum: 6,
+    waitingNum: 3,
+    date: '2023-07-23',
+    startTime: '17:00',
+    endTime: '19:30',
+    myParticipationStatus: 'NONE'
+  },
+  {
+    eventStatus: 'IN_PROGRESS',
+    category: '홍보물 제작',
+    volunteerEventId: 16,
+    title: '홍보물 제작 봉사자 모집합니다.',
+    recruitNum: 6,
+    participantNum: 6,
+    waitingNum: 3,
+    date: '2023-07-30',
     startTime: '17:00',
     endTime: '19:30',
     myParticipationStatus: 'NONE'
