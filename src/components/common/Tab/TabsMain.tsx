@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 interface TabContextProps {
   selectedTab: number;
@@ -12,12 +12,12 @@ interface TabsProps {
 
 const TabContext = createContext<TabContextProps | null>(null);
 
-const Tabs = ({ defaultValue, children }: TabsProps) => {
+const TabsMain = ({ defaultValue, children }: TabsProps) => {
   const [selectedTab, setSelectedTab] = useState(defaultValue);
 
-  const handleTabSelect = (index: number) => {
+  const handleTabSelect = useCallback((index: number) => {
     setSelectedTab(index);
-  };
+  }, []);
 
   const providerValue = { selectedTab, handleTabSelect };
 
@@ -27,7 +27,11 @@ const Tabs = ({ defaultValue, children }: TabsProps) => {
 };
 
 export const useTabContext = () => {
-  return useContext(TabContext);
+  const ctx = useContext(TabContext);
+  if (ctx === undefined) {
+    throw new Error('useTabContext must be used within a <Tabs />');
+  }
+  return ctx;
 };
 
-export default Tabs;
+export default TabsMain;

@@ -1,15 +1,13 @@
-'use client';
-
-import Tabs from './Tabs';
+import TabsMain from './TabsMain';
 import Tab from './Tab';
 import TabList from './TabList';
 import TabPanel from './TabPanel';
 
-const TabsRoot = Object.assign(Tabs, {
-  Tab,
+const Tabs = Object.assign(TabsMain, {
   TabList,
-  TabPanel: TabPanel
+  Tab,
+  TabPanel
 });
 
-export default TabsRoot;
-export { Tabs, Tab, TabList, TabPanel };
+export default Tabs;
+export { TabsMain, TabList, Tab, TabPanel };

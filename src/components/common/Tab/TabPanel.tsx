@@ -1,4 +1,6 @@
-import { useTabContext } from './Tabs';
+import clsx from 'clsx';
+import * as styles from './Tab.css';
+import { useTabContext } from './TabsMain';
 
 interface PanelProps {
   value: number | string;
@@ -10,7 +12,9 @@ const TabPanel = ({ value, children }: PanelProps) => {
 
   return (
     <main
-      style={{ display: `${ctx?.selectedTab === value ? 'block' : 'none'}` }}
+      className={clsx([
+        styles.panel({ visible: ctx?.selectedTab === value ? true : false })
+      ])}
     >
       {children}
     </main>
