@@ -1,6 +1,7 @@
 'use client';
 import Tabs from '@/components/common/Tab';
 import Calendar from '../Calendar/Calendar';
+import MapExample from '@/components/global/Map/MapExample';
 
 interface Props {}
 
@@ -17,7 +18,7 @@ export default function TabExamplePage({}: Props) {
         <Calendar />
       </Tabs.TabPanel>
       <Tabs.TabPanel value={1}>
-        <div>안내 및 상세 정보</div>
+        <MapExample />
       </Tabs.TabPanel>
       <Tabs.TabPanel value={2}>
         <div>특별 케어 동물</div>
