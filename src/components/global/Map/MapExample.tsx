@@ -3,7 +3,7 @@ import LoadingIndicator from '@/components/common/Button/LoadingIndicator';
 import { H4 } from '@/components/common/Typography';
 import { palette } from '@/styles/color';
 import dynamic from 'next/dynamic';
-const Map = dynamic(() => import('./Map'), {
+const DangleMap = dynamic(() => import('./DangleMap'), {
   loading: () => <LoadingIndicator color="primary" />
 });
 
@@ -30,7 +30,7 @@ export default function MapExample() {
         >
           <H4>주소</H4>
 
-          <Map latitude={33.450701} longitude={126.570667} />
+          <DangleMap latitude={33.450701} longitude={126.570667} />
         </div>
       </div>
     </>

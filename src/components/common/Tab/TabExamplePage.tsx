@@ -5,9 +5,7 @@ import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import { animalsMock } from '@/types/shelter';
 import Calendar from '../Calendar/Calendar';
 
-interface Props {}
-
-export default function TabExamplePage({}: Props) {
+export default function TabExamplePage() {
   return (
     <Tabs defaultValue={0}>
       <Tabs.TabList>

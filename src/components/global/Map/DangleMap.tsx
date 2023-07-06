@@ -1,16 +1,20 @@
 'use client';
 
 import { Body2 } from '@/components/common/Typography';
-import * as styles from './Map.css';
+import * as styles from './DangleMap.css';
 import useMap from './hooks/useMap';
 
-interface MapProps {
+interface DangleMapProps {
   latitude: number;
   longitude: number;
   address?: string;
 }
 
-export default function Map({ latitude, longitude, address }: MapProps) {
+export default function DangleMap({
+  latitude,
+  longitude,
+  address
+}: DangleMapProps) {
   const { districtName } = useMap(longitude, latitude);
   return (
     <>
