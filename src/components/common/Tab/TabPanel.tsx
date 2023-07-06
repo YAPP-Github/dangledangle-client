@@ -16,7 +16,7 @@ const TabPanel = ({ value, children }: PanelProps) => {
         styles.panel({ visible: ctx?.selectedTab === value ? true : false })
       ])}
     >
-      {children}
+      {ctx?.selectedTab === value ? children : null}
     </main>
   );
 };
