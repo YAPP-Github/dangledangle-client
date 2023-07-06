@@ -4,7 +4,7 @@ import { H4 } from '@/components/common/Typography';
 import { palette } from '@/styles/color';
 import dynamic from 'next/dynamic';
 const Map = dynamic(() => import('./Map'), {
-  loading: () => <LoadingIndicator />
+  loading: () => <LoadingIndicator color="primary" />
 });
 
 export default function MapExample() {
