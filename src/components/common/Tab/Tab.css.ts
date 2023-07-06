@@ -30,13 +30,19 @@ export const tabText = style({
 });
 
 export const panel = recipe({
-  base: {
-    width: '100%'
-  },
+  base: {},
   variants: {
     visible: {
       true: { display: 'block' },
       false: { display: 'none' }
+    },
+    size: {
+      fullWidth: {
+        width: 'calc(100% + 40px)',
+        maxWidth: BREAK_POINT,
+        transform: `translateX(-${GLOBAL_PADDING_X}px)`
+      },
+      nomal: { width: '100%' }
     }
   }
 });
