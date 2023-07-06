@@ -5,7 +5,7 @@ import ShelterProfile from '@/components/shelter/ShelterProfile';
 const mockData = {
   shelterName: '보호소이름',
   imageSrc: '/sparkle.png',
-  donation: '1000000',
+  donation: '10000023230',
   description:
     '보호소 설명,보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명,보호소 설명,보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명,보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명,보호소 설명보호소 설명보호소 설명보호소 설명보호소 설명'
 };

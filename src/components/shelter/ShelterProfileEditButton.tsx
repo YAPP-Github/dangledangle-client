@@ -1,8 +1,8 @@
 import Button from '../common/Button/Button';
-import * as styles from './AddFavoriteButtons.css';
+import * as styles from './VolunteerFavoriteButtons.css';
 
-interface EditShelterProfileButtonProps {}
-export default function EditShelterProfileButton({}: EditShelterProfileButtonProps) {
+interface ShelterProfileEditButtonProps {}
+export default function ShelterProfileEditButton({}: ShelterProfileEditButtonProps) {
   return (
     <div className={styles.buttons}>
       <Button buttonColor="secondary" variant="line" size="small">

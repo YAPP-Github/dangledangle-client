@@ -8,6 +8,7 @@ export interface ToastProps {
   message?: string;
 }
 const Toast: React.FC<ToastProps> = ({ visible, message }) => {
+  console.log(visible);
   return (
     <div
       className={clsx(
