@@ -169,8 +169,7 @@ export default function ShelterEditPage() {
             ))}
           </div>
         )}
-
-        {typeof window !== 'undefined' && // 서버측 프리패칭 방지
+        {typeof window !== 'undefined' &&
           window.location.hash === '#register' && (
             <FixedFooter>
               <Button onClick={handleClickCompleteRegister}>
