@@ -1,5 +1,9 @@
 import { style } from '@vanilla-extract/css';
-import { BREAK_POINT, GLOBAL_PADDING_X } from '@/styles/global.css';
+import {
+  BREAK_POINT,
+  FOOTER_HEIGHT,
+  GLOBAL_PADDING_X
+} from '@/styles/global.css';
 
 export const container = style({
   boxSizing: 'border-box',
@@ -11,5 +15,5 @@ export const container = style({
 });
 
 export const main = style({
-  minHeight: 'calc(100vh - 144px)'
+  minHeight: `calc(100vh - ${FOOTER_HEIGHT}px)`
 });

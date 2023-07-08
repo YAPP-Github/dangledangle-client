@@ -1,3 +1,4 @@
+import { FOOTER_HEIGHT } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const footerWrapper = style({
@@ -6,7 +7,8 @@ export const footerWrapper = style({
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
-  rowGap: 12
+  rowGap: 12,
+  height: FOOTER_HEIGHT
 });
 
 export const linkWrapper = style({
