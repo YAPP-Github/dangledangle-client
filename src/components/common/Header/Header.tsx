@@ -7,13 +7,20 @@ import { useRecoilValue } from 'recoil';
 import { Body2, H4 } from '../Typography';
 import * as styles from './Header.css';
 
-interface HeaderProps {
+interface HeaderComponentProps {
   /** 이동 URL */
   href?: string;
 }
 
-export default function Header({ href }: HeaderProps) {
-  const headerValue = useRecoilValue(headerState);
+export default function Header({ href }: HeaderComponentProps) {
+  const {
+    isHeader,
+    isBackArrow,
+    title,
+    RightSideComponent,
+    thisPage,
+    entirePage
+  } = useRecoilValue(headerState);
 
   const router = useRouter();
   const navigate = () => {
@@ -22,19 +29,34 @@ export default function Header({ href }: HeaderProps) {
 
   return (
     <>
-      {headerValue?.isHeader === 'visible' ? (
+      {isHeader === 'visible' ? (
         <nav className={styles.container}>
           <a className={styles.arrowLeft} onClick={navigate}>
-            {headerValue?.isBackArrow === 'visible' ? <ArrowLeft /> : null}
+            {isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
-          <H4>{headerValue?.title}</H4>
-          <Body2>
-            {headerValue?.thisPage}
-            {headerValue?.entirePage ? '/' : null}
-            {headerValue?.entirePage}
-          </Body2>
+          <H4 className={styles.title}>{title}</H4>
+          <div className={styles.rightSide}>
+            {<PageNumbering thisPage={thisPage} entirePage={entirePage} />}
+            {RightSideComponent && <RightSideComponent />}
+          </div>
         </nav>
       ) : null}
     </>
   );
 }
+
+const PageNumbering = ({
+  thisPage,
+  entirePage
+}: {
+  thisPage?: number | null;
+  entirePage?: number | null;
+}) => {
+  return (
+    <Body2>
+      {thisPage}
+      {entirePage ? '/' : null}
+      {entirePage}
+    </Body2>
+  );
+};
