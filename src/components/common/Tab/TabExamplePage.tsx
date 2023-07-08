@@ -1,6 +1,6 @@
 'use client';
 import Tabs from '@/components/common/Tab';
-import MapExample from '@/components/global/Map/MapExample';
+import MapExample from '@/components/common/Map/MapExample';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import { animalsMock } from '@/types/shelter';
 import Calendar from '../Calendar/Calendar';
