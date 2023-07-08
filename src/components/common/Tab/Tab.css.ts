@@ -7,12 +7,12 @@ export const tabColor = createVar('tabColor');
 export const tabX = createVar('tabX');
 
 export const tabList = style({
-  width: `calc(100% + 40px)`,
+  width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
   maxWidth: BREAK_POINT,
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
   display: 'flex',
   justifyContent: 'space-between',
-  background: [tabColor],
+  background: tabColor,
   cursor: 'pointer',
   borderBottom: `1px solid ${palette.gray100}`
 });
@@ -38,7 +38,7 @@ export const panel = recipe({
     },
     size: {
       fullWidth: {
-        width: 'calc(100% + 40px)',
+        width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
         maxWidth: BREAK_POINT,
         transform: `translateX(-${GLOBAL_PADDING_X}px)`
       },
@@ -57,5 +57,5 @@ export const selectedLine = style({
   zIndex: 1,
   transition: 'transform 0.3s ease',
   willChange: 'transform',
-  transform: `translateX(${[tabX]})`
+  transform: `translateX(${tabX}) translateY(1px)`
 });
