@@ -11,13 +11,13 @@ interface ChipInputProps {
   name: string;
   value: string;
   options: ChipOption[] | string[];
-  onInput: (name: string, value: string) => void;
+  onChange: (name: string, value: string) => void;
   style?: CSSProperties;
 }
 
 const ChipInput: React.FC<ChipInputProps> = ({
   options,
-  onInput,
+  onChange,
   name,
   value,
   style
@@ -32,9 +32,9 @@ const ChipInput: React.FC<ChipInputProps> = ({
 
   const handleClickChip = useCallback(
     (option: string | ChipOption) => {
-      onInput(name, getOptionValue(option));
+      onChange(name, getOptionValue(option));
     },
-    [getOptionValue, name, onInput]
+    [getOptionValue, name, onChange]
   );
 
   return (

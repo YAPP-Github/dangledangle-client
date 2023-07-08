@@ -51,13 +51,13 @@ export default function ChipInputExample() {
         name="category"
         value={chipInput.category}
         options={CATEGORY_OPTIONS}
-        onInput={handleChipInput}
+        onChange={handleChipInput}
       />
       <ChipInput
         name="cycle"
         value={chipInput.cycle}
         options={CYCLE_OPTIONS}
-        onInput={handleChipInput}
+        onChange={handleChipInput}
       />
     </div>
   );
