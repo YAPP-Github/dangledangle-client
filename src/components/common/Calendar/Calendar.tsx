@@ -3,7 +3,7 @@
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
 import VolunteerEventCard, {
   VolunteerEvent
-} from '@/components/global/VolunteerEventCard/VolunteerEventCard';
+} from '@/components/VolunteerEventCard/VolunteerEventCard';
 
 import { useState } from 'react';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
