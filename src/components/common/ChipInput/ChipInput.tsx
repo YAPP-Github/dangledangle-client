@@ -31,7 +31,7 @@ const ChipInput: React.FC<ChipInputProps> = ({
   }, []);
 
   const handleClickChip = useCallback(
-    (option: string | ChipOption) => {
+    (option: string | ChipOption) => () => {
       onChange(name, getOptionValue(option));
     },
     [getOptionValue, name, onChange]
@@ -42,12 +42,11 @@ const ChipInput: React.FC<ChipInputProps> = ({
       {options.map(option => {
         return (
           <Chip
+            label={getOptionLabel(option)}
             key={getOptionValue(option)}
             checked={value === getOptionValue(option)}
-            onClick={() => handleClickChip(option)}
-          >
-            {getOptionLabel(option)}
-          </Chip>
+            onClick={handleClickChip(option)}
+          />
         );
       })}
     </ul>

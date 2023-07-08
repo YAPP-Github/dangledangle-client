@@ -2,17 +2,17 @@ import { Caption1 } from '../Typography';
 import * as styles from './Chip.css';
 interface ChipProps {
   checked: boolean;
-  children: string;
+  label: string;
   onClick: (label: string) => void;
 }
 
-const Chip: React.FC<ChipProps> = ({ checked, children, onClick }) => {
+const Chip: React.FC<ChipProps> = ({ checked, label, onClick }) => {
   return (
     <li
       className={checked ? styles.checked : styles.base}
-      onClick={() => onClick(children)}
+      onClick={() => onClick(label)}
     >
-      <Caption1 color={checked ? 'white' : 'gray600'}>{children}</Caption1>
+      <Caption1 color={checked ? 'white' : 'gray600'}>{label}</Caption1>
     </li>
   );
 };
