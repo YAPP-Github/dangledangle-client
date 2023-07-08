@@ -1,11 +1,11 @@
 'use client';
 import Tabs from '@/components/common/Tab';
-import Calendar from '../Calendar/Calendar';
 import MapExample from '@/components/global/Map/MapExample';
+import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
+import { animalsMock } from '@/types/shelter';
+import Calendar from '../Calendar/Calendar';
 
-interface Props {}
-
-export default function TabExamplePage({}: Props) {
+export default function TabExamplePage() {
   return (
     <Tabs defaultValue={0}>
       <Tabs.TabList>
@@ -17,11 +17,19 @@ export default function TabExamplePage({}: Props) {
       <Tabs.TabPanel value={0}>
         <Calendar />
       </Tabs.TabPanel>
-      <Tabs.TabPanel value={1}>
+      <Tabs.TabPanel value={1} size="fullWidth">
         <MapExample />
       </Tabs.TabPanel>
-      <Tabs.TabPanel value={2}>
-        <div>특별 케어 동물</div>
+      <Tabs.TabPanel value={2} size="fullWidth">
+        {animalsMock.map(animal => (
+          <div style={{ padding: 10 }} key={animal.id}>
+            <AnimalCard
+              data={animal}
+              onClickEdit={() => null}
+              onClickDelete={() => null}
+            />
+          </div>
+        ))}
       </Tabs.TabPanel>
     </Tabs>
   );
