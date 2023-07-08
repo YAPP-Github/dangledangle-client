@@ -1,16 +1,24 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import * as styles from './Description.css';
 import { Body3 } from '../common/Typography';
+import useBooleanState from '@/hooks/useBooleanState';
+
 interface DescriptionProps {
   description: string;
+  summaryLength?: number;
 }
-export default function Description({ description }: DescriptionProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
 
-  const isLongDescription = description.length > 50;
+const SUMMARY_LENGTH_DEFAULT = 50;
+
+export default function Description({
+  description,
+  summaryLength = SUMMARY_LENGTH_DEFAULT
+}: DescriptionProps) {
+  const [isExpanded, , , toggleExpaneded] = useBooleanState(true);
+  const isLongDescription = description.length > summaryLength;
   const handleClick = () => {
-    setIsExpanded(!isExpanded);
+    toggleExpaneded();
   };
 
   return (
