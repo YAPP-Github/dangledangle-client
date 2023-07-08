@@ -1,11 +1,21 @@
+import { useRouter } from 'next/navigation';
 import Button from '../common/Button/Button';
 import * as styles from './VolunteerFavoriteButtons.css';
 
-interface ShelterProfileEditButtonProps {}
-export default function ShelterProfileEditButton({}: ShelterProfileEditButtonProps) {
+export default function ShelterProfileEditButton() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('admin/shelter/edit');
+  };
   return (
     <div className={styles.buttons}>
-      <Button buttonColor="secondary" variant="line" size="small">
+      <Button
+        buttonColor="secondary"
+        variant="line"
+        size="small"
+        onClick={handleClick}
+      >
         프로필 수정하기
       </Button>
     </div>
