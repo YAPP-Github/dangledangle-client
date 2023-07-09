@@ -9,6 +9,7 @@ export const tabX = createVar('tabX');
 export const TAB_HEIGHT = 40;
 
 export const tabList = style({
+  boxSizing: 'border-box',
   width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
   maxWidth: BREAK_POINT,
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
@@ -16,7 +17,8 @@ export const tabList = style({
   justifyContent: 'space-between',
   background: tabColor,
   cursor: 'pointer',
-  borderBottom: `1px solid ${palette.gray100}`
+  borderBottom: `1px solid ${palette.gray100}`,
+  height: TAB_HEIGHT
 });
 
 export const sticky = style({
@@ -27,7 +29,6 @@ export const sticky = style({
 
 export const tabBox = style({
   flex: 1,
-  height: TAB_HEIGHT,
   textAlign: 'center',
   position: 'relative'
 });
@@ -65,5 +66,5 @@ export const selectedLine = style({
   zIndex: 1,
   transition: 'transform 0.3s ease',
   willChange: 'transform',
-  transform: `translateX(${tabX}) translateY(1px)`
+  transform: `translateX(${tabX})`
 });
