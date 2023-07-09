@@ -42,6 +42,12 @@ export type ShelterInfo = ShelterEssentialInfo &
     id: number;
     profileImageUrl: string;
   };
+
+export type ShelterHomeTabRenderInfo = {
+  title: string;
+  PanelComp: () => JSX.Element;
+};
+
 export interface ObservationAnimal {
   id: number;
   profileImageUrl: string | null;

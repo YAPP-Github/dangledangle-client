@@ -6,7 +6,6 @@ import * as styles from './ShelterProfile.css';
 import VolunteerFavoriteButtons from './VolunteerFavoriteButtons';
 import ShelterProfileEditButton from './ShelterProfileEditButton';
 import { useAuthContext } from '@/providers/AuthContext';
-import { Suspense } from 'react';
 
 interface ProfileProps {
   imageSrc: string;
