@@ -2,9 +2,11 @@ import { palette } from '@/styles/color';
 import { BREAK_POINT, GLOBAL_PADDING_X } from '@/styles/global.css';
 import { createVar, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { HEADER_HEIGHT } from '../Header/Header.css';
 
 export const tabColor = createVar('tabColor');
 export const tabX = createVar('tabX');
+export const TAB_HEIGHT = 40;
 
 export const tabList = style({
   width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
@@ -17,9 +19,15 @@ export const tabList = style({
   borderBottom: `1px solid ${palette.gray100}`
 });
 
+export const sticky = style({
+  position: 'sticky',
+  top: HEADER_HEIGHT,
+  zIndex: 1
+});
+
 export const tabBox = style({
   flex: 1,
-  height: '40px',
+  height: TAB_HEIGHT,
   textAlign: 'center',
   position: 'relative'
 });
