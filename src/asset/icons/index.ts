@@ -25,3 +25,6 @@ export { default as PrevIcon } from './PrevIcon.svg';
 export { default as Clock } from './Clock.svg';
 export { default as Profile } from './Profile.svg';
 export { default as BaseIcon } from './BaseIcon.svg';
+export { default as PhoneIcon } from './PhoneIcon.svg';
+export { default as ParkingIcon } from './ParkingIcon.svg';
+export { default as LoudSpeakerIcon } from './LoudSpeakerIcon.svg';

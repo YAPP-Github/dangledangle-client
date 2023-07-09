@@ -3,9 +3,7 @@ import Description from '@/components/shelter/Description';
 import ShelterProfile from '@/components/shelter/ShelterProfile';
 import ShelterHomeTabs from '@/components/shelter/ShelterHomeTabs/ShelterHomeTabs';
 import Calendar from '@/components/common/Calendar/Calendar';
-import MapExample from '@/components/common/Map/MapExample';
-import { ShelterHomeTabRenderInfo, animalsMock } from '@/types/shelter';
-import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
+import { ShelterHomeTabRenderInfo } from '@/types/shelter';
 import GuideAndDeatil from '@/components/shelter/GuideAndDetailPanel/GuideAndDetailPanel';
 import SpecialCareAnimalPanel from '@/components/shelter/SpecialCareAnimalPanel/SpecialCareAnimalPanel';
 
