@@ -17,13 +17,17 @@ import React, {
 
 const protectedRoutes = ['/volunteer', '/shelter', '/admin'];
 
-type User = {
+type VolunteerUser = {
+  id: string;
+};
+
+type ShelterUser = {
   shelterId: string;
   shelterUserId: string;
 };
 
 type AuthState = {
-  user: User;
+  user: ShelterUser;
   dangle_access_token: string | null;
   logout: () => void;
 };
@@ -38,7 +42,7 @@ const initialAuthState: AuthState = {
 };
 
 type AuthContextProps = {
-  user: User;
+  user: ShelterUser | VolunteerUser;
   dangle_access_token: string | null;
   setAuthState: React.Dispatch<React.SetStateAction<AuthState>>;
   logout: () => void;
