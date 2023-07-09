@@ -163,6 +163,7 @@ export default function ShelterEditPage() {
               <AnimalCard
                 key={animal.id}
                 data={animal}
+                mode="edit"
                 onClickEdit={() => handleClickEdit(idx)}
                 onClickDelete={() => handleClickDeleteAnimal(animal.id)}
               />

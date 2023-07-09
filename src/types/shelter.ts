@@ -109,5 +109,23 @@ export const animalsMock: ObservationAnimal[] = [
     gender: 'MALE',
     specialNote:
       '성인 남성을 무서워하는 아이입니다. !#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생!#$%에 주의해주세요. 상세 주의사항은 여기서는 최대 두줄까지 보입니다. 길어지면 생'
+  },
+  {
+    id: 2,
+    profileImageUrl: '',
+    name: '인절미',
+    breed: '비글',
+    age: '3개월',
+    gender: 'MALE',
+    specialNote: '스킨십은 안돼요, 물릴 수 있어요.'
+  },
+  {
+    id: 3,
+    profileImageUrl: '',
+    name: '홍시',
+    breed: '비글',
+    age: '3개월',
+    gender: 'MALE',
+    specialNote: '탈출은 내 운명. 견사 문을 꼭꼭 닫아주세요'
   }
 ];
