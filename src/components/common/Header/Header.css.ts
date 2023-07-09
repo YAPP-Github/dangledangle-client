@@ -3,10 +3,10 @@ import { style } from '@vanilla-extract/css';
 
 export const container = style({
   width: '100%',
-  height: '20px',
   display: 'flex',
   position: 'relative',
-  padding: '16px 0',
+  padding: '16px 20px',
+  boxSizing: 'border-box',
   justifyContent: 'space-between',
   alignItems: 'center',
   background: palette.background
@@ -24,7 +24,6 @@ export const title = style({
 });
 
 export const rightSide = style({
-  position: 'absolute',
   right: 0,
   display: 'flex',
   columnGap: 4
