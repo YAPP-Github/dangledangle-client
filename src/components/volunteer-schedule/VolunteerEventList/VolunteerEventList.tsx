@@ -54,9 +54,9 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
     <div>
       {events?.map((event, idx) => (
         <div key={idx}>
-          {idx === 0 && <DateHeader date={event.date} divider={false} />}
-          {idx > 0 && !isDateSame(events[idx - 1].date, event.date) && (
-            <DateHeader date={event.date} />
+          {idx === 0 && <DateHeader date={event.startAt} divider={false} />}
+          {idx > 0 && !isDateSame(events[idx - 1].startAt, event.startAt) && (
+            <DateHeader date={event.startAt} />
           )}
           <VolunteerEventCard style={{ marginBottom: '12px' }} event={event} />
         </div>

@@ -8,16 +8,15 @@ import * as styles from './VolunteerEventCard.css';
 import { CSSProperties } from 'react';
 
 export interface VolunteerEvent {
+  volunteerEventId: number;
   eventStatus: 'IN_PROGRESS' | 'DONE' | 'CANCELED';
   category: string;
-  volunteerEventId: number;
   title: string;
   recruitNum: number;
   participantNum: number;
   waitingNum: number;
-  date: string;
-  startTime: string;
-  endTime: string;
+  startAt: string;
+  endAt: string;
   myParticipationStatus?: 'PARTICIPATING' | 'WAITING' | 'NONE';
 }
 
@@ -41,9 +40,8 @@ export default function VolunteerEventCard({
     recruitNum,
     participantNum,
     waitingNum,
-    date,
-    startTime,
-    endTime,
+    startAt,
+    endAt,
     myParticipationStatus
   } = event;
 
@@ -58,7 +56,7 @@ export default function VolunteerEventCard({
         <Link href={`${pathname}/${volunteerEventId}`}>
           <div className={styles.container}>
             <div className={styles.badgeWrapper}>
-              {isDatePast(date) ? (
+              {isDatePast(startAt) ? (
                 <Badge type="gray">모집완료</Badge>
               ) : (
                 <Badge type="primary">모집중</Badge>
@@ -73,11 +71,11 @@ export default function VolunteerEventCard({
               <div className={styles.infoWrapper}>
                 <Clock />
                 <Caption1 color="gray700">
-                  {pmamConvert(startTime)}
+                  {pmamConvert(startAt)}
                   &nbsp;-&nbsp;
-                  {pmamConvert(endTime)}
+                  {pmamConvert(endAt)}
                   &nbsp;(
-                  {getDuration(startTime, endTime)})
+                  {getDuration(startAt, endAt)})
                 </Caption1>
               </div>
 

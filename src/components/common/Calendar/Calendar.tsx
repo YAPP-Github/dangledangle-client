@@ -19,7 +19,7 @@ export default function Calendar() {
   };
 
   // datMark array를 넘겨 캘린더에 닷 아이콘을 렌더링 할 수 있습니다.
-  const dotMark = volunteerEventsMock?.map(item => item.date);
+  const dotMark = volunteerEventsMock?.map(item => item.startAt);
 
   return (
     <div>

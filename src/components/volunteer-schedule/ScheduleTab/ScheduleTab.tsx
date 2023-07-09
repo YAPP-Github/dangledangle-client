@@ -11,7 +11,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({}) => {
   const [focusedDate, setFocusedDate] = useState<string>();
 
   const eventDates = useMemo(
-    () => volunteerEvents.map(e => e.date),
+    () => volunteerEvents.map(e => e.startAt),
     [volunteerEvents]
   );
 

@@ -9,9 +9,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     recruitNum: 5,
     participantNum: 5,
     waitingNum: 2,
-    date: '2023-07-01',
-    startTime: '17:00',
-    endTime: '19:00',
+    startAt: '2023-07-01T12:30:55.162Z',
+    endAt: '2023-07-01T13:30:55.162Z',
     myParticipationStatus: 'NONE'
   },
   {
@@ -22,9 +21,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     recruitNum: 5,
     participantNum: 5,
     waitingNum: 5,
-    date: '2023-07-01',
-    startTime: '17:00',
-    endTime: '18:00',
+    startAt: '2023-07-01T19:00:55.162Z',
+    endAt: '2023-07-01T20:00:55.162Z',
     myParticipationStatus: 'PARTICIPATING'
   },
   {
@@ -35,9 +33,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     participantNum: 4,
     recruitNum: 5,
     waitingNum: 0,
-    date: '2023-07-22',
-    startTime: '17:00',
-    endTime: '18:30',
+    startAt: '2023-07-09T12:30:55.162Z',
+    endAt: '2023-07-09T14:30:55.162Z',
     myParticipationStatus: 'WAITING'
   },
   {
@@ -48,9 +45,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     recruitNum: 6,
     participantNum: 6,
     waitingNum: 3,
-    date: '2023-07-22',
-    startTime: '17:00',
-    endTime: '19:30',
+    startAt: '2023-07-09T10:00:55.162Z',
+    endAt: '2023-07-09T12:00:55.162Z',
     myParticipationStatus: 'NONE'
   },
   {
@@ -61,9 +57,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     recruitNum: 6,
     participantNum: 6,
     waitingNum: 3,
-    date: '2023-07-23',
-    startTime: '17:00',
-    endTime: '19:30',
+    startAt: '2023-07-20T12:00:55.162Z',
+    endAt: '2023-07-20T13:00:55.162Z',
     myParticipationStatus: 'NONE'
   },
   {
@@ -74,9 +69,8 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     recruitNum: 6,
     participantNum: 6,
     waitingNum: 3,
-    date: '2023-07-30',
-    startTime: '17:00',
-    endTime: '19:30',
+    startAt: '2023-07-29T12:00:55.162Z',
+    endAt: '2023-07-29T16:00:55.162Z',
     myParticipationStatus: 'NONE'
   }
 ];
