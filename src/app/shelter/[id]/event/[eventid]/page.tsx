@@ -32,6 +32,8 @@ export default function VolunteerEventPage({}: VolunteerEventProps) {
 }
 
 const mock: VolunteerEventDetail = {
+  shelterName: 'YAPP 보호소',
+  imageSrc: '/sparkle.png',
   volunteerEventId: 11,
   title: '한강 인근 댕댕이 산책 봉사자 모집합니다.',
   recruitNum: 5,
@@ -43,7 +45,7 @@ const mock: VolunteerEventDetail = {
     longitude: 126.570667
   },
   description:
-    "유기견과 함께 산책 등 - 입양 대기중인 유기견과 인근 공원 등 야외 산책\n - 입양 대기중인 유기견의 놀이방 청소 등 관리 보조\n* '모집완료'라고 표시되어 있으면, 현재 자원봉사자가 다 차있는 것입니다.\n* '모집중'이라고 표시되어 있으면, 현재 빈자리가 있는 것입니다.\n* 신청 후 별도의 연락이 가지 않습니다. 당일에 서울동물복지지원센터(마포)로 오시면 됩니다. \n(시청으로 가시면 안됩니다.)",
+    "유기견과 함께 산책 등 \n- 입양 대기중인 유기견과 인근 공원 등 야외 산책\n - 입양 대기중인 유기견의 놀이방 청소 등 관리 보조\n\n* '모집완료'라고 표시되어 있으면, 현재 자원봉사자가 다 차있는 것입니다.\n* '모집중'이라고 표시되어 있으면, 현재 빈자리가 있는 것입니다.\n* 신청 후 별도의 연락이 가지 않습니다. 당일에 서울동물복지지원센터(마포)로 오시면 됩니다.(시청으로 가시면 안됩니다.)",
   ageLimit: '성인만',
   category: 'WALKING',
   eventStatus: 'DONE',
