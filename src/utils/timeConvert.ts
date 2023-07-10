@@ -2,6 +2,10 @@ import moment from 'moment';
 import 'moment/locale/ko';
 moment.locale('ko');
 
+export function formatKoDate(dateStr: string | Date) {
+  return moment(dateStr).format('YYYY년 M월 D일');
+}
+
 export function formatDate(dateStr: string | Date) {
   const date = moment(dateStr, 'YYYY-MM-DD');
   return date.format('D일 dddd');

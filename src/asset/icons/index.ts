@@ -25,3 +25,6 @@ export { default as PrevIcon } from './PrevIcon.svg';
 export { default as Clock } from './Clock.svg';
 export { default as Profile } from './Profile.svg';
 export { default as BaseIcon } from './BaseIcon.svg';
+export { default as Delete } from './Delete.svg';
+export { default as Calendar } from './Calendar.svg';
+export { default as Clockmd } from './Clockmd.svg';
