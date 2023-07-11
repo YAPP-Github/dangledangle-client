@@ -5,7 +5,7 @@ import { ButtonText1, Caption1 } from '@/components/common/Typography';
 import {
   AGE_LIMIT_OPTIONS,
   CATEGORY_OPTIONS,
-  CYCLE_OPTIONS
+  ITERATION_CYCLE_OPTIONS
 } from '@/constants/volunteerEvent';
 import { useState } from 'react';
 import * as styles from './styles.css';
@@ -45,6 +45,7 @@ const schema: yup.ObjectSchema<FormValues> = yup
 export default function ShelterEventEditPage() {
   const {
     register,
+    handleSubmit,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
@@ -53,7 +54,7 @@ export default function ShelterEventEditPage() {
   });
   const [chipInput, setChipInput] = useState<ChipValues>({
     category: CATEGORY_OPTIONS[0].value,
-    cycle: CYCLE_OPTIONS[0].value,
+    cycle: ITERATION_CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
 
@@ -61,8 +62,12 @@ export default function ShelterEventEditPage() {
     setChipInput({ ...chipInput, [name]: value });
   };
 
+  const onSubmit = (value: FormValues) => {
+    console.log('🔸 → onSubmit → value:', value);
+  };
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div>
         <Caption1
           className={styles.label}
@@ -114,7 +119,7 @@ export default function ShelterEventEditPage() {
         <ChipInput
           name="cycle"
           value={chipInput.cycle}
-          options={CYCLE_OPTIONS}
+          options={ITERATION_CYCLE_OPTIONS}
           onChange={handleChipInput}
         />
       </div>
