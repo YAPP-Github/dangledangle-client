@@ -1,10 +1,10 @@
 'use client';
-import useShelterHomeInfo from '@/api/shelter/useShelterHomeInfo';
 import Calendar from '@/components/common/Calendar/Calendar';
 import Tabs from '@/components/common/Tab';
 import { useMemo } from 'react';
 import SpecialCareAnimalPanel from '../SpecialCareAnimalPanel/SpecialCareAnimalPanel';
 import GuideAndDeatilPanel from '../GuideAndDetailPanel/GuideAndDetailPanel';
+import useShelterHomeInfo from '@/api/shelter/{shelterId}/useShelterHomeInfo';
 
 interface ShelterTabsProps {
   shelterId: number;
@@ -17,7 +17,7 @@ export default function ShelterHomeTabs({ shelterId }: ShelterTabsProps) {
 
   const tabList: {
     title: string;
-    PanelComp: () => JSX.Element;
+    PanelComp: (props: any) => JSX.Element;
   }[] = useMemo(
     () => [
       { title: '봉사 모집 일정', PanelComp: Calendar },
@@ -29,10 +29,10 @@ export default function ShelterHomeTabs({ shelterId }: ShelterTabsProps) {
       },
       {
         title: '특별 케어 동물',
-        PanelComp: SpecialCareAnimalPanel
+        PanelComp: () => <SpecialCareAnimalPanel shelterId={shelterId} />
       }
     ],
-    [shelterHomeInfo]
+    [shelterId, shelterHomeInfo]
   );
 
   return (
