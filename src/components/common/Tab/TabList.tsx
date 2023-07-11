@@ -2,6 +2,7 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import * as styles from './Tab.css';
 import { palette } from '@/styles/color';
 import { useTabContext } from './TabsMain';
+import clsx from 'clsx';
 interface TabListProps {
   color?: string;
   children?: React.ReactNode;
@@ -13,7 +14,7 @@ const TabList = ({ color = palette.white, children }: TabListProps) => {
   return (
     <>
       <ul
-        className={styles.tabList}
+        className={clsx(styles.tabList, styles.sticky)}
         style={assignInlineVars({
           [styles.tabColor]: color
         })}
