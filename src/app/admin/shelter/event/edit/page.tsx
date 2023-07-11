@@ -1,13 +1,18 @@
 'use client';
 
 import ChipInput from '@/components/common/ChipInput/ChipInput';
-import { ButtonText1, Caption1 } from '@/components/common/Typography';
+import {
+  ButtonText1,
+  Caption1,
+  Caption2
+} from '@/components/common/Typography';
 import {
   AGE_LIMIT_OPTIONS,
   CATEGORY_OPTIONS,
-  ITERATION_CYCLE_OPTIONS
+  ITERATION_CYCLE_OPTIONS,
+  IterationCycle
 } from '@/constants/volunteerEvent';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import * as styles from './styles.css';
 import { useForm } from 'react-hook-form';
 import yup from '@/utils/yup';
@@ -16,10 +21,13 @@ import TextField from '@/components/common/TextField/TextField';
 import TextArea from '@/components/common/TextField/TextArea';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import Button from '@/components/common/Button/Button';
+import moment from 'moment';
+import getMaxOfIterationEndAt from './utils/getMaxOfIterationEndAt';
+import getIterationNotice from './utils/getIterationNotice';
 
 type ChipValues = {
   category: string;
-  cycle: string;
+  iterationCycle: string;
   ageLimit: string;
 };
 
@@ -46,6 +54,7 @@ export default function ShelterEventEditPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
@@ -54,13 +63,23 @@ export default function ShelterEventEditPage() {
   });
   const [chipInput, setChipInput] = useState<ChipValues>({
     category: CATEGORY_OPTIONS[0].value,
-    cycle: ITERATION_CYCLE_OPTIONS[0].value,
+    iterationCycle: ITERATION_CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
+  const iterationEndAtRef = useRef<HTMLInputElement>(null);
 
   const handleChipInput = (name: string, value: string) => {
     setChipInput({ ...chipInput, [name]: value });
   };
+
+  const startAt = watch('startAt');
+  const iterationNotice = useMemo(() => {
+    if (!startAt) return '';
+    return getIterationNotice(
+      startAt,
+      chipInput.iterationCycle as IterationCycle
+    );
+  }, [startAt, chipInput.iterationCycle]);
 
   const onSubmit = (value: FormValues) => {
     console.log('🔸 → onSubmit → value:', value);
@@ -100,29 +119,51 @@ export default function ShelterEventEditPage() {
         maxLength={300}
       />
       <TextField
-        label="날짜와 시간"
+        label="시작 날짜와 시간"
         type="datetime-local"
-        placeholder="일정 제목을 입력해주세요"
         required
         {...register('startAt')}
         error={errors.startAt}
+      />
+      <TextField
+        label="종료 날짜와 시간"
+        type="datetime-local"
+        required
+        {...register('endAt')}
+        error={errors.endAt}
       />
       <div>
         <Caption1
           className={styles.label}
           element={'label'}
-          htmlFor="cycle"
+          htmlFor="iterationCycle"
           color="gray600"
         >
           반복주기
         </Caption1>
+        {iterationNotice && (
+          <Caption2 className={styles.iterationNotice} color="primary300">
+            {iterationNotice}
+          </Caption2>
+        )}
         <ChipInput
-          name="cycle"
-          value={chipInput.cycle}
+          name="iterationCycle"
+          value={chipInput.iterationCycle}
           options={ITERATION_CYCLE_OPTIONS}
           onChange={handleChipInput}
         />
       </div>
+      {chipInput.iterationCycle && (
+        <TextField
+          ref={iterationEndAtRef}
+          name="iterationEndAt"
+          label="반복 주기 종료일"
+          type="date"
+          min={moment().format('YYYY-MM-DD')}
+          max={getMaxOfIterationEndAt()}
+          defaultValue={getMaxOfIterationEndAt()}
+        />
+      )}
       <div
         style={{
           display: 'flex',

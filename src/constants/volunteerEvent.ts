@@ -20,8 +20,14 @@ export const ITERATION_CYCLE = {
   MONTHLY: '매월'
 };
 export type IterationCycle = keyof typeof ITERATION_CYCLE;
-export const ITERATION_CYCLE_OPTIONS: ChipOption[] =
-  createInputOptions(ITERATION_CYCLE);
+export const ITERATION_CYCLE_OPTIONS: ChipOption[] = [
+  {
+    label: '반복 안함',
+    value: ''
+  },
+  ...createInputOptions(ITERATION_CYCLE)
+];
+export const NUM_OF_MAX_ITERATION_MONTHS = 6;
 
 export const AGE_LIMIT = {
   ADULT: '성인만',
