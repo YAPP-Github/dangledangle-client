@@ -1,45 +1,54 @@
 import { ChipOption } from '@/components/common/ChipInput/ChipInput';
 
 export const CATEGORY_OPTIONS = [
-  '산책 봉사',
-  '견사 청소',
-  '이동 봉사',
-  '홍보물 제장'
+  { label: '산책 봉사', value: 'WALKING' },
+  { label: '견사 청소', value: 'SHELTER_CLEANING' },
+  { label: '이동 봉사', value: 'MOVING' },
+  { label: '홍보물 제작', value: 'PROMOTION' },
+  { label: '기타', value: 'ETC' }
 ];
 export const CYCLE_OPTIONS: ChipOption[] = [
   {
     label: '반복 안함',
-    value: 'none'
+    value: ''
   },
   {
     label: '매일',
-    value: 'everyday'
+    value: 'EVERYDAY'
   },
   {
     label: '매주',
-    value: 'everyweek'
+    value: 'WEEKLY'
+  },
+  {
+    label: '격주',
+    value: 'BIWEEKLY'
+  },
+  {
+    label: '매월',
+    value: 'MONTHLY'
   }
 ];
 
 export const AGE_LIMIT_OPTIONS: ChipOption[] = [
   {
     label: '성인만',
-    value: 'adult'
+    value: 'ADULT'
   },
   {
     label: '고등 이상',
-    value: 'high'
+    value: 'HIGH'
   },
   {
     label: '중등 이상',
-    value: 'middle'
+    value: 'MIDDLE'
   },
   {
     label: '초등 이상',
-    value: 'elementary'
+    value: 'ELEMENTARY'
   },
   {
     label: '제한 없음',
-    value: 'none'
+    value: 'NONE'
   }
 ];

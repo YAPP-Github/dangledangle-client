@@ -52,7 +52,7 @@ export default function ShelterEventEditPage() {
     resolver: yupResolver(schema)
   });
   const [chipInput, setChipInput] = useState<ChipValues>({
-    category: CATEGORY_OPTIONS[0],
+    category: CATEGORY_OPTIONS[0].value,
     cycle: CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
