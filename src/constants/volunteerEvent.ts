@@ -36,7 +36,5 @@ export const AGE_LIMIT = {
   ELEMENTARY: '초등 이상',
   NONE: '제한 없음'
 };
-export type AgeLimit = keyof typeof VOLUNTEER_EVENT_CATEGORY;
-export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(
-  VOLUNTEER_EVENT_CATEGORY
-);
+export type AgeLimit = keyof typeof AGE_LIMIT;
+export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
