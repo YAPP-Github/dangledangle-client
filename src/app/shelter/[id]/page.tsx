@@ -41,7 +41,7 @@ export default async function ShelterMainPage({
           <Description description={description} />
         </ContainerWithStickyHeader>
         <Tabs defaultValue={0}>
-          <Tabs.TabList sticky>
+          <Tabs.TabList>
             <Tabs.Tab value={0} title="봉사 모집 일정"></Tabs.Tab>
             <Tabs.Tab value={1} title="안내 및 상세 정보"></Tabs.Tab>
             <Tabs.Tab value={2} title="특별 케어 동물"></Tabs.Tab>

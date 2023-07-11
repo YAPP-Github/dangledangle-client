@@ -6,16 +6,15 @@ import clsx from 'clsx';
 interface TabListProps {
   color?: string;
   children?: React.ReactNode;
-  sticky?: boolean;
 }
 
-const TabList = ({ color = palette.white, children, sticky }: TabListProps) => {
+const TabList = ({ color = palette.white, children }: TabListProps) => {
   const ctx = useTabContext();
 
   return (
     <>
       <ul
-        className={clsx(styles.tabList, { [styles.sticky]: sticky })}
+        className={clsx(styles.tabList, styles.sticky)}
         style={assignInlineVars({
           [styles.tabColor]: color
         })}
