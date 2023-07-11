@@ -6,6 +6,7 @@ import ShelterEvent, {
 } from '@/components/shelter/shelter-event/ShelterEvent';
 import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
+import { palette } from '@/styles/color';
 
 interface VolunteerEventProps {}
 
@@ -21,6 +22,7 @@ const ShareButton = () => {
 
 export default function VolunteerEventPage({}: VolunteerEventProps) {
   const setHeader = useHeader({
+    color: palette.white,
     RightSideComponent: ShareButton
   });
 
@@ -52,6 +54,6 @@ const mock: VolunteerEventDetail = {
   myParticipationStatus: 'PARTICIPATING',
   startAt: '2023-07-10T04:29:42.639Z',
   endAt: '2023-07-10T04:29:42.639Z',
-  joiningVolunteers: ['홍시맘', '댕댕이'],
+  joiningVolunteers: ['홍시맘', '댕댕이', '댕글댕글이', '말랭이'],
   waitingVolunteers: ['홍시맘', '댕댕이']
 };

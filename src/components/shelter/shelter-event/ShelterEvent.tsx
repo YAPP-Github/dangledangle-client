@@ -15,6 +15,7 @@ import Button from '@/components/common/Button/Button';
 import { palette } from '@/styles/color';
 import { Fragment } from 'react';
 import Image from 'next/image';
+import Profile from '@/components/common/Profile/Profile';
 
 const NOTICE = '*세부 주소는 봉사 참가자에게 별도로 안내드립니다.';
 interface address {
@@ -132,15 +133,19 @@ export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
               [styles.dividerHeghit]: '8px'
             })}
           />
+          <div className={styles.textWrapper}>
+            <H4>
+              참여중인 인원{' '}
+              <span style={{ color: palette.error }}>
+                {joiningVolunteers?.length}
+              </span>
+              /{recruitNum}
+            </H4>
 
-          <H4>
-            참여중인 인원{' '}
-            <span style={{ color: palette.error }}>
-              {joiningVolunteers?.length}
-            </span>
-            /{recruitNum}
-          </H4>
-
+            {joiningVolunteers?.map((people: string, index) => (
+              <Profile key={index} name={people} />
+            ))}
+          </div>
           <div
             className={styles.divider}
             style={assignInlineVars({
@@ -194,7 +199,7 @@ export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
           <p className={styles.underline}>1:1 문의하기</p>
         </div>
       </div>
-      <FixedFooter>
+      <FixedFooter color={palette.white}>
         <Button>봉사 신청하기</Button>
       </FixedFooter>
     </>
