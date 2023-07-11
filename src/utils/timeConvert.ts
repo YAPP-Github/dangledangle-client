@@ -23,6 +23,12 @@ export function formatDate(dateStr: string | Date) {
   return date.format('D일 dddd');
 }
 
+export function isDateSame(date1: string | Date, date2: string | Date) {
+  const moment1 = moment(date1, 'YYYY-MM-DD');
+  const moment2 = moment(date2, 'YYYY-MM-DD');
+  return moment1.isSame(moment2, 'day');
+}
+
 export function isDatePast(dateStr: string | Date) {
   const now = moment();
   const eventDate = moment(dateStr, 'YYYY-MM-DD');

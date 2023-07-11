@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 interface DangleCalendarProps
   extends Omit<CalendarProps, 'value' | 'onChange'> {
   value?: LooseValue;
-  onChange?: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void;
+  onChange?: (value: Date, event: React.MouseEvent<HTMLButtonElement>) => void;
   mark?: (string | Date)[];
   onChangeMonth?: (nextYear: number, nextMonth: number) => void;
 }
@@ -52,8 +52,8 @@ export default function DangleCalendar({
       <Calendar
         {...rest}
         value={value}
-        onChange={onChange}
-        className={styles.calendar}
+        onChange={(value, e) => onChange && onChange(value as Date, e)}
+        className={clsx(styles.calendar, rest.className)}
         locale="ko-KO"
         formatDay={(locale, date) => moment(date).format('DD')}
         next2Label={null}

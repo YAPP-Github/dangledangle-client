@@ -1,35 +1,34 @@
 import { Clock, Profile } from '@/asset/icons';
 import Badge from '@/components/common/Badge/Badge';
-import { Caption2, H3, H4 } from '@/components/common/Typography';
-import {
-  formatDate,
-  getDuration,
-  isDatePast,
-  pmamConvert
-} from '@/utils/timeConvert';
+import { Caption1, H4 } from '@/components/common/Typography';
+import { getDuration, isDatePast, pmamConvert } from '@/utils/timeConvert';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as styles from './VolunteerEventCard.css';
+import { CSSProperties } from 'react';
 
 export interface VolunteerEvent {
+  volunteerEventId: number;
   eventStatus: 'IN_PROGRESS' | 'DONE' | 'CANCELED';
   category: string;
-  volunteerEventId: number;
   title: string;
   recruitNum: number;
   participantNum: number;
   waitingNum: number;
-  date: string | Date;
-  startTime: string | Date;
-  endTime: string | Date;
+  startAt: string;
+  endAt: string;
   myParticipationStatus?: 'PARTICIPATING' | 'WAITING' | 'NONE';
 }
 
 interface VolunteerEventCardProps {
   event?: VolunteerEvent;
+  style?: CSSProperties;
 }
 
-export default function VolunteerEventCard({ event }: VolunteerEventCardProps) {
+export default function VolunteerEventCard({
+  event,
+  style
+}: VolunteerEventCardProps) {
   const pathname = usePathname();
   if (!event) return null;
 
@@ -41,24 +40,23 @@ export default function VolunteerEventCard({ event }: VolunteerEventCardProps) {
     recruitNum,
     participantNum,
     waitingNum,
-    date,
-    startTime,
-    endTime,
+    startAt,
+    endAt,
     myParticipationStatus
   } = event;
 
   return (
     <>
-      <H3 style={{ margin: '16px 0px 12px 0px' }}>{formatDate(date)}</H3>
       <div
         className={styles.wrapper({
           status: eventStatus === 'IN_PROGRESS' ? 'process' : 'done'
         })}
+        style={style}
       >
         <Link href={`${pathname}/${volunteerEventId}`}>
           <div className={styles.container}>
             <div className={styles.badgeWrapper}>
-              {isDatePast(date) ? (
+              {isDatePast(startAt) ? (
                 <Badge type="gray">모집완료</Badge>
               ) : (
                 <Badge type="primary">모집중</Badge>
@@ -72,28 +70,28 @@ export default function VolunteerEventCard({ event }: VolunteerEventCardProps) {
             <div className={styles.infoContainer}>
               <div className={styles.infoWrapper}>
                 <Clock />
-                <Caption2 color="gray700">
-                  {pmamConvert(startTime)}
+                <Caption1 color="gray700">
+                  {pmamConvert(startAt)}
                   &nbsp;-&nbsp;
-                  {pmamConvert(endTime)}
+                  {pmamConvert(endAt)}
                   &nbsp;(
-                  {getDuration(startTime, endTime)})
-                </Caption2>
+                  {getDuration(startAt, endAt)})
+                </Caption1>
               </div>
 
               <div className={styles.infoWrapper}>
                 <Profile />
-                <Caption2 color="gray700">
+                <Caption1 color="gray700">
                   {participantNum}/{recruitNum}명
                   {waitingNum > 0 && `(대기 ${waitingNum}명)`}
-                </Caption2>
+                </Caption1>
               </div>
 
               <div className={styles.status}>
                 {myParticipationStatus === 'PARTICIPATING' ? (
-                  <Caption2 color="error">신청 완료</Caption2>
+                  <Caption1 color="error">신청 완료</Caption1>
                 ) : myParticipationStatus === 'WAITING' ? (
-                  <Caption2 color="gray600">신청 대기중</Caption2>
+                  <Caption1 color="gray600">신청 대기중</Caption1>
                 ) : null}
               </div>
             </div>
