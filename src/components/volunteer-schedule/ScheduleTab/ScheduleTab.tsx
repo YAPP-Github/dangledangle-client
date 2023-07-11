@@ -4,14 +4,13 @@ import * as styles from './ScheduleTab.css';
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
 import { useCallback, useMemo, useState } from 'react';
 import moment, { Moment } from 'moment';
-interface ScheduleTabProps {}
 
-const ScheduleTab: React.FC<ScheduleTabProps> = ({}) => {
+const ScheduleTab: React.FC = () => {
   const [volunteerEvents, setVolunteerEvents] = useState(volunteerEventsMock);
   const [focusedDate, setFocusedDate] = useState<string>();
 
   const eventDates = useMemo(
-    () => volunteerEvents.map(e => e.startAt),
+    () => volunteerEvents.map(e => moment(e.startAt).format('YYYY-MM-DD')),
     [volunteerEvents]
   );
 
