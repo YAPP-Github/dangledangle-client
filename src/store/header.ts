@@ -1,6 +1,8 @@
+import { palette } from '@/styles/color';
 import { atom } from 'recoil';
 
 export interface HeaderState {
+  color?: string;
   title: string;
   isHeader?: 'hidden' | 'visible';
   isBackArrow?: 'hidden' | 'visible';
@@ -12,6 +14,7 @@ export interface HeaderState {
 export const headerState = atom<HeaderState>({
   key: 'header',
   default: {
+    color: palette.background,
     title: '',
     isHeader: 'visible',
     isBackArrow: 'visible',
