@@ -8,11 +8,13 @@ import {
 } from '@/components/common/Typography';
 import {
   AGE_LIMIT_OPTIONS,
+  AgeLimit,
   CATEGORY_OPTIONS,
   ITERATION_CYCLE_OPTIONS,
-  IterationCycle
+  IterationCycle,
+  VolunteerEventCategory
 } from '@/constants/volunteerEvent';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as styles from './styles.css';
 import { useForm } from 'react-hook-form';
 import yup from '@/utils/yup';
@@ -26,6 +28,10 @@ import getMaxOfIterationEndAt from './utils/getMaxOfIterationEndAt';
 import getIterationNotice from './utils/getIterationNotice';
 import { isEmpty } from 'lodash';
 import { formatDatetimeForServer } from '@/utils/timeConvert';
+import {
+  VolunteerEventPayload,
+  post
+} from '@/api/shelter/admin/volunteer-event';
 
 type ChipValues = {
   category: string;
@@ -83,7 +89,7 @@ export default function ShelterEventEditPage() {
     iterationCycle: ITERATION_CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
-  const [submittable, setSubmittable] = useState(false);
+
   const minStartAt = useMemo(
     () =>
       formatDatetimeForServer(
@@ -91,6 +97,14 @@ export default function ShelterEventEditPage() {
         'DATETIME'
       ),
     []
+  );
+  const minEndAt = useMemo(
+    () =>
+      formatDatetimeForServer(
+        moment(startAt).set({ minutes: 0, second: 0 }),
+        'DATETIME'
+      ),
+    [startAt]
   );
   const minIterationEndAt = useMemo(
     () => formatDatetimeForServer(moment(endAt).add(1, 'day'), 'DATE'),
@@ -121,16 +135,33 @@ export default function ShelterEventEditPage() {
     }
   }, [chipInput.iterationCycle, resetField, trigger]);
 
-  useEffect(() => {
-    if (!isDirty || !isEmpty(errors)) {
-      setSubmittable(false);
-    } else {
-      setSubmittable(true);
-    }
-  }, [errors, isDirty]);
+  const getPayload = (values: FormValues) => {
+    const iteration =
+      chipInput.iterationCycle && values.iterationEndAt
+        ? {
+            iterationEndAt: formatDatetimeForServer(
+              values.iterationEndAt,
+              'DATE'
+            ),
+            iterationCycle: chipInput.iterationCycle as IterationCycle
+          }
+        : null;
+    const payload: VolunteerEventPayload = {
+      title: values.title,
+      description: values.description || '',
+      category: chipInput.category as VolunteerEventCategory,
+      startAt: formatDatetimeForServer(values.startAt, 'DATETIME'),
+      endAt: formatDatetimeForServer(values.endAt, 'DATETIME'),
+      iteration,
+      recruitNum: values.recruitNum,
+      ageLimit: chipInput.ageLimit as AgeLimit
+    };
+    return payload;
+  };
 
-  const onSubmit = (value: FormValues) => {
-    console.log('🔸 → onSubmit → value:', value);
+  const onSubmit = (values: FormValues) => {
+    const payload = getPayload(values);
+    post(payload).then(console.log);
   };
 
   return (
@@ -178,6 +209,7 @@ export default function ShelterEventEditPage() {
         label="종료 날짜와 시간"
         type="datetime-local"
         required
+        min={minEndAt}
         {...register('endAt', { onChange: handleChangeDate })}
         error={errors.endAt}
       />
@@ -234,7 +266,7 @@ export default function ShelterEventEditPage() {
           })}
           error={errors.recruitNum}
         />
-        <ButtonText1 style={{ marginTop: 20 }}>살</ButtonText1>
+        <ButtonText1 style={{ marginTop: 20 }}>명</ButtonText1>
       </div>
 
       <div>
@@ -255,7 +287,7 @@ export default function ShelterEventEditPage() {
       </div>
 
       <FixedFooter>
-        <Button disabled={!submittable} itemType="submit">
+        <Button disabled={!isDirty || !isEmpty(errors)} itemType="submit">
           일정 만들기
         </Button>
       </FixedFooter>

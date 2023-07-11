@@ -16,7 +16,7 @@ export type VolunteerEventPayload = {
   iteration: {
     iterationCycle: IterationCycle;
     iterationEndAt: string; //yyyy-MM-dd
-  };
+  } | null;
 };
 
 export type PostResponse = {
@@ -24,7 +24,7 @@ export type PostResponse = {
 };
 export const post = async (payload: VolunteerEventPayload) => {
   return await api
-    .post('/shelter/admin/volunteer-event', {
+    .post('shelter/admin/volunteer-event', {
       json: payload
     })
     .json<PostResponse>();
@@ -35,7 +35,7 @@ export type PutResponse = {
 };
 export const put = async (id: number, payload: VolunteerEventPayload) => {
   return await api
-    .put(`/shelter/admin/volunteer-event/${id}`, {
+    .put(`shelter/admin/volunteer-event/${id}`, {
       json: payload
     })
     .json<PutResponse>();
@@ -46,6 +46,6 @@ export type DeleteResponse = {
 };
 export const remove = async (id: number) => {
   return await api
-    .delete(`/shelter/admin/volunteer-event/${id}`)
+    .delete(`shelter/admin/volunteer-event/${id}`)
     .json<DeleteResponse>();
 };
