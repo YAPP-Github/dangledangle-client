@@ -8,9 +8,12 @@ import ShelterProfileEditButton from './ShelterProfileEditButton';
 import { useAuthContext } from '@/providers/AuthContext';
 
 interface ProfileProps {
-  imageSrc: string;
+  imageSrc: string | null;
+  donation: {
+    accountNumber: string;
+    bankName: string;
+  } | null;
   shelterName: string;
-  donation: string;
 }
 export default async function ShelterProfile({
   imageSrc,
@@ -28,7 +31,7 @@ export default async function ShelterProfile({
           width={80}
           height={80}
           className={styles.profileImage}
-          src={imageSrc}
+          src={imageSrc || '/sparkle.png'}
           alt={`${shelterName}-profile-image`}
         />
         <div className={styles.contents}>

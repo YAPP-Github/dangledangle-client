@@ -43,10 +43,7 @@ export type ShelterInfo = ShelterEssentialInfo &
     profileImageUrl: string;
   };
 
-export type ShelterHomeTabRenderInfo = {
-  title: string;
-  PanelComp: () => JSX.Element;
-};
+export type ShelterHomeInfo = ShelterInfo & { email: string };
 
 export interface ObservationAnimal {
   id: number;
