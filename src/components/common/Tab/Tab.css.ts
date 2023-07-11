@@ -66,5 +66,5 @@ export const selectedLine = style({
   zIndex: 1,
   transition: 'transform 0.3s ease',
   willChange: 'transform',
-  transform: `translateX(${tabX})`
+  transform: `translate(${tabX}, 1px)`
 });
