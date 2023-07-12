@@ -2,6 +2,9 @@ import moment, { Moment, MomentInput } from 'moment';
 import 'moment/locale/ko';
 moment.locale('ko');
 
+export const seconds = (seconds: number) => 1000 * seconds;
+export const minutes = (minutes: number) => minutes * seconds(60);
+
 const DATETIME_FORMAT = {
   DATE: 'YYYY-MM-DD',
   DATETIME: 'YYYY-MM-DD HH:mm:ss'
@@ -57,3 +60,7 @@ export function getDuration(
     minutes !== 0 ? `${hours}시간 ${minutes}분` : `${hours}시간`;
   return formattedDuration;
 }
+
+export const getStartOfMonth = (date: MomentInput) =>
+  moment(date).startOf('month');
+export const getEndOfMonth = (date: MomentInput) => moment(date).endOf('month');
