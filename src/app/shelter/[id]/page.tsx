@@ -1,18 +1,16 @@
 'use client';
 import ContainerWithStickyHeader from '@/components/common/ContainerWithStickyHeader/ContainerWithStickyHeader';
-import Description from '@/components/shelter/Description';
-import ShelterProfile from '@/components/shelter/ShelterProfile';
-import ShelterHomeTabs from '@/components/shelter/ShelterHomeTabs/ShelterHomeTabs';
 import { get } from '@/api/shelter/{shelterId}';
+import ShelterProfile from '@/components/shelter/ShelterProfile/ShelterProfile';
+import Description from '@/components/shelter/ShelterProfile/Description/Description';
+import ShelterHomeTabs from '@/components/shelter/tab/ShelterHomeTabs/ShelterHomeTabs';
 
 export default async function ShelterMainPage({
   params
 }: {
   params: { id: string };
 }) {
-  // 파라미터에서 보호소 아이디 파싱,
   const shelterId = Number(params.id);
-
   if (typeof shelterId !== 'number') {
     throw Error('잘못된 접근, 에러페이지로 이동');
   }

@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { H3 } from '../common/Typography';
+import { H3 } from '@/components/common/Typography';
 import * as styles from './ShelterProfile.css';
-import VolunteerFavoriteButtons from './VolunteerFavoriteButtons';
-import ShelterProfileEditButton from './ShelterProfileEditButton';
+import ShelterProfileEditButton from './ShelterProfileButton/ShelterProfileEditButton';
 import { useAuthContext } from '@/providers/AuthContext';
+import VolunteerFavoriteButtons from './VolunteerFavoriteButtons/VolunteerFavoriteButtons';
 
 interface ProfileProps {
   profileImageUrl: string | null;

@@ -1,20 +1,20 @@
 import useToast from '@/hooks/useToast';
 import * as styles from './VolunteerFavoriteButtons.css';
-import Button from '../common/Button/Button';
+import Button from '@/components/common/Button/Button';
 
 const fetchedData = {
   isFavorited: false
 };
 
-interface ShelterProfileButtonsProps {
+interface VolunteerFavoriteButtonsProps {
   bankAccount?: {
     accountNumber: string;
     bankName: string;
   } | null;
 }
-export default async function AddFavoriteButtons({
+export default async function VolunteerFavoriteButtons({
   bankAccount
-}: ShelterProfileButtonsProps) {
+}: VolunteerFavoriteButtonsProps) {
   const toastOn = useToast();
 
   // TODO: 보호소 즐겨찾기 정보 가져오기

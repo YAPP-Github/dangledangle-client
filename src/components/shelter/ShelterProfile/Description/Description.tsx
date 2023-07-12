@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import * as styles from './Description.css';
-import { Body3 } from '../common/Typography';
+import { Body3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
 
 interface DescriptionProps {
