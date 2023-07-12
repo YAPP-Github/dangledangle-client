@@ -1,9 +1,9 @@
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
-  width: '100%',
-  top: 0
+  width: '100%'
 });
+
 export const sticky = style({
   position: 'sticky',
   top: 0,

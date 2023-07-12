@@ -1,3 +1,4 @@
+'use client';
 import ContainerWithStickyHeader from '@/components/common/ContainerWithStickyHeader/ContainerWithStickyHeader';
 import Description from '@/components/shelter/Description';
 import ShelterProfile from '@/components/shelter/ShelterProfile';
