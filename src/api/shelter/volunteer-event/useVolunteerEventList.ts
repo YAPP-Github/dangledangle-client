@@ -48,17 +48,17 @@ export type UseVolunteerEventListPageParam = {
 export const monthlyInfiniteOption: UseInfiniteQueryOptions<VolunteerEvent[]> =
   {
     getPreviousPageParam: (lastPage): UseVolunteerEventListPageParam => {
-      const prevDate = moment(lastPage[0].startAt).add(1, 'month');
+      const prevDate = moment(lastPage[0].startAt).subtract(1, 'month');
       return {
-        to: getStartOfMonth(prevDate),
-        from: getEndOfMonth(prevDate)
+        from: getStartOfMonth(prevDate),
+        to: getEndOfMonth(prevDate)
       };
     },
     getNextPageParam: (lastPage): UseVolunteerEventListPageParam => {
       const nextDate = moment(lastPage[0].startAt).add(1, 'month');
       return {
-        to: getStartOfMonth(nextDate),
-        from: getEndOfMonth(nextDate)
+        from: getStartOfMonth(nextDate),
+        to: getEndOfMonth(nextDate)
       };
     }
   };
