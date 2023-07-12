@@ -1,6 +1,5 @@
-import VolunteerEventCard, {
-  VolunteerEvent
-} from '@/components/volunteer-schedule/VolunteerEventCard/VolunteerEventCard';
+import VolunteerEventCard from '@/components/volunteer-schedule/VolunteerEventCard/VolunteerEventCard';
+import { VolunteerEvent } from '../../../types/volunteerEvent';
 import { H3 } from '../../common/Typography';
 import { formatDate, isDateSame } from '@/utils/timeConvert';
 import { useCallback, useEffect } from 'react';

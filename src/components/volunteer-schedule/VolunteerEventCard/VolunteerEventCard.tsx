@@ -6,19 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as styles from './VolunteerEventCard.css';
 import { CSSProperties } from 'react';
-
-export interface VolunteerEvent {
-  volunteerEventId: number;
-  eventStatus: 'IN_PROGRESS' | 'DONE' | 'CANCELED';
-  category: string;
-  title: string;
-  recruitNum: number;
-  participantNum: number;
-  waitingNum: number;
-  startAt: string;
-  endAt: string;
-  myParticipationStatus?: 'PARTICIPATING' | 'WAITING' | 'NONE';
-}
+import { VolunteerEvent } from '../../../types/volunteerEvent';
 
 interface VolunteerEventCardProps {
   event?: VolunteerEvent;
@@ -38,7 +26,7 @@ export default function VolunteerEventCard({
     volunteerEventId,
     title,
     recruitNum,
-    participantNum,
+    joinNum,
     waitingNum,
     startAt,
     endAt,
@@ -82,7 +70,7 @@ export default function VolunteerEventCard({
               <div className={styles.infoWrapper}>
                 <Profile />
                 <Caption1 color="gray700">
-                  {participantNum}/{recruitNum}명
+                  {joinNum}/{recruitNum}명
                   {waitingNum > 0 && `(대기 ${waitingNum}명)`}
                 </Caption1>
               </div>
