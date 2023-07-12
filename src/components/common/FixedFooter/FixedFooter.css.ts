@@ -8,7 +8,8 @@ export const fixedFooter = style({
   right: 0,
   left: 0,
   display: 'flex',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  zIndex: 100
 });
 
 export const wrapper = style({
