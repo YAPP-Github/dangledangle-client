@@ -8,7 +8,7 @@ import {
 import LoadingIndicator from '@/components/common/Button/LoadingIndicator';
 import { Body2, Body3, H4 } from '@/components/common/Typography';
 import dynamic from 'next/dynamic';
-import * as styles from './GuideAndDetailPanel.css';
+import * as styles from './GuideAndDetailTab.css';
 import { ShelterHomeInfo } from '@/types/shelter';
 
 const DangleMap = dynamic(() => import('@/components/common/Map/DangleMap'), {

@@ -10,22 +10,28 @@ export default async function ShelterMainPage({
 }: {
   params: { id: string };
 }) {
-  if (!Number(params.id)) throw Error('잘못된 접근');
+  // 파라미터에서 보호소 아이디 파싱,
+  const shelterId = Number(params.id);
 
-  const shelterHomeInfo = await get(Number(params.id));
+  if (typeof shelterId !== 'number') {
+    throw Error('잘못된 접근, 에러페이지로 이동');
+  }
+
+  //보호소 정보 서버컴포넌트에서 fetch
+  const shelterHomeInfo = await get(shelterId);
 
   return (
     <>
       <ContainerWithStickyHeader headerProps={{ title: shelterHomeInfo.name }}>
         <ShelterProfile
           shelterName={shelterHomeInfo.name}
-          imageSrc={shelterHomeInfo.profileImageUrl}
-          donation={shelterHomeInfo.bankAccount}
+          profileImageUrl={shelterHomeInfo.profileImageUrl}
+          bankAccount={shelterHomeInfo.bankAccount}
         />
         <Description description={shelterHomeInfo.description} />
       </ContainerWithStickyHeader>
 
-      <ShelterHomeTabs shelterId={Number(params.id)} />
+      <ShelterHomeTabs shelterId={shelterId} />
     </>
   );
 }

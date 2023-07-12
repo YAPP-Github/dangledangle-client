@@ -7,13 +7,13 @@ const fetchedData = {
 };
 
 interface ShelterProfileButtonsProps {
-  donation?: {
+  bankAccount?: {
     accountNumber: string;
     bankName: string;
   } | null;
 }
 export default async function AddFavoriteButtons({
-  donation
+  bankAccount
 }: ShelterProfileButtonsProps) {
   const toastOn = useToast();
 
@@ -30,9 +30,9 @@ export default async function AddFavoriteButtons({
   };
 
   const handleDonationClick = () => {
-    if (donation) {
+    if (bankAccount) {
       navigator.clipboard.writeText(
-        `${donation.bankName} ${donation.accountNumber}`
+        `${bankAccount.bankName} ${bankAccount.accountNumber}`
       );
       toastOn('후원 계좌번호가 복사되었습니다.');
     } else {

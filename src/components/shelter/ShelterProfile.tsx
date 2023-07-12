@@ -8,17 +8,17 @@ import ShelterProfileEditButton from './ShelterProfileEditButton';
 import { useAuthContext } from '@/providers/AuthContext';
 
 interface ProfileProps {
-  imageSrc: string | null;
-  donation: {
+  profileImageUrl: string | null;
+  bankAccount: {
     accountNumber: string;
     bankName: string;
   } | null;
   shelterName: string;
 }
 export default async function ShelterProfile({
-  imageSrc,
+  profileImageUrl,
   shelterName,
-  donation
+  bankAccount
 }: ProfileProps) {
   //TODO auth 상태 관리
   const auth = useAuthContext();
@@ -31,7 +31,7 @@ export default async function ShelterProfile({
           width={80}
           height={80}
           className={styles.profileImage}
-          src={imageSrc || '/sparkle.png'}
+          src={profileImageUrl || '/sparkle.png'}
           alt={`${shelterName}-profile-image`}
         />
         <div className={styles.contents}>
@@ -39,7 +39,7 @@ export default async function ShelterProfile({
           {isShelterUser ? (
             <ShelterProfileEditButton />
           ) : (
-            <VolunteerFavoriteButtons donation={donation} />
+            <VolunteerFavoriteButtons bankAccount={bankAccount} />
           )}
         </div>
       </div>

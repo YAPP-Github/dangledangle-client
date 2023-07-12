@@ -1,35 +1,39 @@
 'use client';
-import Calendar from '@/components/common/Calendar/Calendar';
 import Tabs from '@/components/common/Tab';
 import { useMemo } from 'react';
-import SpecialCareAnimalPanel from '../SpecialCareAnimalPanel/SpecialCareAnimalPanel';
-import GuideAndDeatilPanel from '../GuideAndDetailPanel/GuideAndDetailPanel';
+import SpecialCareAnimalTab from '../SpecialCareAnimalTab/SpecialCareAnimalTab';
+import GuideAndDeatailPanel from '../GuideAndDetailTab/GuideAndDetailTab';
 import useShelterHomeInfo from '@/api/shelter/{shelterId}/useShelterHomeInfo';
+import ScheduleTab from '@/components/volunteer-schedule/ScheduleTab/ScheduleTab';
 
 interface ShelterTabsProps {
   shelterId: number;
 }
 
+type ShelterTabRenderModel = {
+  title: string;
+  PanelComp: () => JSX.Element;
+};
+
 export default function ShelterHomeTabs({ shelterId }: ShelterTabsProps) {
   const { data: shelterHomeInfo } = useShelterHomeInfo(shelterId);
 
-  console.log('shelterhomeTab', shelterHomeInfo);
-
-  const tabList: {
-    title: string;
-    PanelComp: (props: any) => JSX.Element;
-  }[] = useMemo(
+  //@prettier-ignore
+  const tabList: ShelterTabRenderModel[] = useMemo(
     () => [
-      { title: '봉사 모집 일정', PanelComp: Calendar },
+      {
+        title: '봉사 모집 일정',
+        PanelComp: () => <ScheduleTab />
+      },
       {
         title: '안내 및 상세 정보',
         PanelComp: () => (
-          <GuideAndDeatilPanel shelterHomeInfo={shelterHomeInfo!} />
+          <GuideAndDeatailPanel shelterHomeInfo={shelterHomeInfo!} />
         )
       },
       {
         title: '특별 케어 동물',
-        PanelComp: () => <SpecialCareAnimalPanel shelterId={shelterId} />
+        PanelComp: () => <SpecialCareAnimalTab shelterId={shelterId} />
       }
     ],
     [shelterId, shelterHomeInfo]
