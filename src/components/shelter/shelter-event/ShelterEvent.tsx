@@ -9,51 +9,41 @@ import {
 } from '@/utils/timeConvert';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import * as styles from './ShelterEvent.css';
-import DangleMap from '@/components/common/Map/DangleMap';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import Button from '@/components/common/Button/Button';
 import { palette } from '@/styles/color';
 import { Fragment } from 'react';
 import Image from 'next/image';
 import Profile from '@/components/common/Profile/Profile';
+import { usePathname, useRouter } from 'next/navigation';
+import useVolunteerEvent from '@/api/shelter/event/useVolunteerEvent';
+import dynamic from 'next/dynamic';
+import LoadingIndicator from '@/components/common/Button/LoadingIndicator';
+import useWithdrawVolEvent from '@/api/shelter/event/useWithdrawVolEvent';
+import useParticipateVolEvent from '@/api/shelter/event/useParticipateVolEvent';
+import Link from 'next/link';
 
 const NOTICE = '*세부 주소는 봉사 참가자에게 별도로 안내드립니다.';
-interface address {
-  address: string;
-  addressDetail: string;
-  postalCode: string;
-  latitude: number;
-  longitude: number;
-}
+const DangleMap = dynamic(() => import('@/components/common/Map/DangleMap'), {
+  loading: () => <LoadingIndicator color="primary" />
+});
 
-export interface VolunteerEventDetail {
-  shelterName: string;
-  imageSrc: string;
-  volunteerEventId: number;
-  title: string;
-  recruitNum: number;
-  address: address;
-  description: string;
-  ageLimit: any;
-  category: any;
-  eventStatus: 'IN_PROGRESS' | 'DONE' | 'CANCELED';
-  myParticipationStatus?: 'PARTICIPATING' | 'WAITING' | 'NONE';
-  startAt: string;
-  endAt: string;
-  joiningVolunteers: string[];
-  waitingVolunteers: string[];
-}
+export default function ShelterEvent() {
+  const route = useRouter();
+  const pathname = usePathname();
+  const splittedPath = pathname.split('/');
+  const shelterId = Number(splittedPath[2]);
+  const volunteerEventId = Number(splittedPath[4]);
 
-interface ShelterEventProps {
-  eventDetail: VolunteerEventDetail;
-}
+  const { data: eventDetail } = useVolunteerEvent(shelterId, volunteerEventId);
+  const { mutateAsync: participateEvt } = useParticipateVolEvent();
+  const { mutateAsync: withdrawEvt } = useWithdrawVolEvent();
 
-export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
-  if (!eventDetail) return null;
+  if (!eventDetail) return <LoadingIndicator color="primary" />;
 
   const {
     shelterName,
-    imageSrc,
+    shelterProfileImageUrl,
     title,
     recruitNum,
     address,
@@ -81,6 +71,13 @@ export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
         ))}
       </>
     );
+  };
+
+  const handleParticipate = () => {
+    participateEvt({ shelterId, volunteerEventId });
+  };
+  const handleWithdraw = () => {
+    withdrawEvt({ shelterId, volunteerEventId });
   };
 
   return (
@@ -121,7 +118,7 @@ export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
               width={32}
               height={32}
               className={styles.profileImage}
-              src={imageSrc}
+              src={shelterProfileImageUrl || '/images/DefaultAnimal.png'}
               alt={`${shelterName}-profile-image`}
             />
             <Body3>{shelterName}</Body3>
@@ -199,8 +196,21 @@ export default function ShelterEvent({ eventDetail }: ShelterEventProps) {
           <p className={styles.underline}>1:1 문의하기</p>
         </div>
       </div>
+
       <FixedFooter color={palette.white}>
-        <Button>봉사 신청하기</Button>
+        {/* {myParticipationStatus === 'NONE' && (
+          <Button onClick={handleParticipate}>봉사 신청하기</Button>
+        )}
+        {myParticipationStatus === ('JOINING' || 'WATING') && (
+          <Button onClick={handleWithdraw}>봉사 신청 취소하기</Button>
+        )} */}
+
+        <Button
+          style={{ marginTop: 1 }}
+          onClick={() => route.push(`${pathname}/edit`)}
+        >
+          일정 수정하기
+        </Button>
       </FixedFooter>
     </>
   );
