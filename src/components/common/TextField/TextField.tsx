@@ -28,6 +28,7 @@ export interface TextFieldProps
   defaultValue?: string | number;
   fixedHelper?: string;
   fixedValue?: string;
+  useClearButton?: boolean;
 }
 
 /**
@@ -47,6 +48,8 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       fixedHelper,
       fixedValue,
       required,
+      useClearButton = true,
+      width,
       ...inputProps
     },
     ref
@@ -114,6 +117,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             className={styles.textInput({
               size
             })}
+            style={{ width }}
             name={name}
             onChange={handleChange}
             defaultValue={defaultValue}
@@ -121,7 +125,9 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           />
 
           <div className={styles.textFieldSuffix({ status })}>
-            <RemoveButton visible={clearable} onClick={handleClick} />
+            {useClearButton && (
+              <RemoveButton visible={clearable} onClick={handleClick} />
+            )}
             {maxLength && (
               <LengthCounter
                 ref={lengthCountRef}
@@ -132,7 +138,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           </div>
           <div className={styles.textFieldUnderbar({ status })} />
         </div>
-        <Message status={status} message={message} />
+        {message && <Message status={status} message={message} />}
       </div>
     );
   }
