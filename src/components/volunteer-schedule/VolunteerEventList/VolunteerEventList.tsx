@@ -26,7 +26,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   events,
   focusedDate
 }) => {
-  const { attatchObserver, observe } = useObserver();
+  const { attatchObserver, observe } = useObserver('observer-target');
   const handleIntersect = useCallback(() => {
     console.log('데이터 받아오는 중');
     setTimeout(() => {
@@ -36,7 +36,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   }, [observe]);
 
   useEffect(() => {
-    attatchObserver('observer-target', handleIntersect);
+    attatchObserver(handleIntersect);
   }, [attatchObserver, handleIntersect]);
 
   useEffect(() => {
