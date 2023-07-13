@@ -7,11 +7,13 @@ import useVolunteerEventList, {
   monthlyInfiniteOption
 } from '@/api/shelter/volunteer-event/useVolunteerEventList';
 import { getStartOfMonth, getEndOfMonth } from '@/utils/timeConvert';
+import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 
 interface ScheduleTabProps {
   shelterId: number;
 }
 
+export const CALENDAR_ID = 'schedule-tab-calendar';
 const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const query = useVolunteerEventList(
@@ -31,9 +33,33 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
     [volunteerEvents]
   );
 
-  const handleClickDate = useCallback((value: Date) => {
+  const handleClickDate = (value: Date) => {
+    scrollToEventList();
     setSelectedDate(value);
-  }, []);
+  };
+
+  const scrollToEventList = () => {
+    const calendarEl = document.getElementById(CALENDAR_ID);
+    if (!calendarEl) return;
+
+    const calendarTop = calendarEl?.getBoundingClientRect().top;
+    const eventListTop = calendarTop - HEADER_HEIGHT - 32;
+
+    if (eventListTop > window.scrollY) {
+      window.scrollTo({ top: eventListTop, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToTarget = (eventCardEl: HTMLElement) => {
+    const calendarEl = document.getElementById(CALENDAR_ID);
+    if (!calendarEl) return;
+
+    const calendarBottom = calendarEl.getBoundingClientRect().bottom;
+    const eventCardTop = eventCardEl.getBoundingClientRect().top;
+    const scrollTo = window.scrollY + eventCardTop - calendarBottom;
+
+    window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+  };
 
   const handleChangeMonth = useCallback(
     // month 변경 시 해당 월에 해당하는 데이터 패치
@@ -55,6 +81,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
   return (
     <div>
       <DangleCalendar
+        id={CALENDAR_ID}
         className={styles.calendar}
         mark={eventDates}
         onChange={handleClickDate}
@@ -66,6 +93,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
             selectedDate={selectedDate}
             events={volunteerEvents}
             shelterId={shelterId}
+            scrollTo={scrollToTarget}
           />
         )}
       </div>

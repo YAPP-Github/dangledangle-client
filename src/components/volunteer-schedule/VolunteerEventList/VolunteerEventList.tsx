@@ -8,10 +8,12 @@ import useObserver from '@/hooks/useObserver';
 import { useIsFetching } from '@tanstack/react-query';
 import { queryKey } from '@/api/shelter/volunteer-event';
 import moment from 'moment';
+import { palette } from '@/styles/color';
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
   selectedDate: Date;
   shelterId: number;
+  scrollTo: (eventCardEl: HTMLElement) => void;
 }
 
 const getDateHeaderElementId = (date: Date) =>
@@ -24,14 +26,18 @@ const DateHeader = ({
   divider?: boolean;
 }) => (
   <div id={getDateHeaderElementId(date)}>
-    {divider && <Divider spacing={16} />}
+    <Divider
+      style={!divider ? { backgroundColor: palette.background } : undefined}
+      spacing={16}
+    />
     <H3 style={{ marginBottom: '10px' }}>{formatDate(date)}</H3>
   </div>
 );
 const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   events,
   selectedDate,
-  shelterId
+  shelterId,
+  scrollTo
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
   const { attatchObserver, observe } = useObserver('observer-target');
@@ -69,16 +75,22 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   useEffect(() => {
     if (prevSelectedDate !== selectedDate && !isFetchingEvents) {
       const nearestDate = findNearestDate(selectedDate);
-      const targetEl = document.getElementById(
+      const dateHeaderEl = document.getElementById(
         getDateHeaderElementId(nearestDate)
       );
       setPrevSelectedDate(selectedDate);
-      console.log('🔸 → useEffect → targetEl:', targetEl);
+      console.log('🔸 → useEffect → targetEl:', dateHeaderEl);
 
-      if (!targetEl) return;
-      // TODO: 스크롤을 targetEl까지 내린다
+      if (!dateHeaderEl || !dateHeaderEl.parentElement) return;
+      scrollTo(dateHeaderEl.parentElement);
     }
-  }, [findNearestDate, isFetchingEvents, prevSelectedDate, selectedDate]);
+  }, [
+    findNearestDate,
+    isFetchingEvents,
+    prevSelectedDate,
+    scrollTo,
+    selectedDate
+  ]);
 
   return (
     <div>

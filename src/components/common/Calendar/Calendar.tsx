@@ -24,6 +24,7 @@ export default function Calendar() {
   return (
     <div>
       <DangleCalendar
+        id={'calendar-example'}
         value={value}
         onChange={handleChange}
         mark={dotMark}
