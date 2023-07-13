@@ -4,6 +4,12 @@ import {
   IterationCycle,
   VolunteerEventCategory
 } from '@/constants/volunteerEvent';
+import { VolunteerEventDetail } from '@/types/volunteerEvent';
+
+export const queryKey = {
+  all: ['admin-volunteer-event'] as const,
+  detail: (eventId: number) => [...queryKey.all, eventId]
+};
 
 export type VolunteerEventPayload = {
   title: string;
@@ -48,4 +54,10 @@ export const remove = async (id: number) => {
   return await api
     .delete(`shelter/admin/volunteer-event/${id}`)
     .json<DeleteResponse>();
+};
+
+export const get = async (id: number) => {
+  return await api
+    .get(`shelter/admin/volunteer-event/${id}`)
+    .json<VolunteerEventDetail>();
 };
