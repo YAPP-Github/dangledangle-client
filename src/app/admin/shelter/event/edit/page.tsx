@@ -32,6 +32,7 @@ import {
   VolunteerEventPayload,
   post
 } from '@/api/shelter/admin/volunteer-event';
+import useAdminVolunteerEvent from '@/api/shelter/admin/useAdminVolunteerEvent';
 
 type ChipValues = {
   category: string;
@@ -43,8 +44,8 @@ type FormValues = {
   title: string;
   description?: string;
   recruitNum: number;
-  startAt: Date;
-  endAt: Date;
+  startAt: Date | string;
+  endAt: Date | string;
   iterationEndAt?: Date;
 };
 
@@ -55,9 +56,11 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
   startAt: yup
     .date()
     .default(() => new Date())
+    .transform((value, originValue) => new Date(originValue))
     .required(),
   endAt: yup
     .date()
+    .transform((value, originValue) => new Date(originValue))
     .min(yup.ref('startAt'), '종료 시간은 시작 시간보다 앞에 올 수 없습니다.')
     .required(),
   iterationEndAt: yup
@@ -68,13 +71,28 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
     )
 });
 
-export default function ShelterEventEditPage() {
+export default function ShelterEventEditPage({
+  searchParams
+}: {
+  searchParams: { id: string };
+}) {
+  const eventId = useMemo(
+    () =>
+      isNaN(Number(searchParams.id)) ? -1 : Number(Number(searchParams.id)),
+    [searchParams.id]
+  );
+
+  const { data: initialData } = useAdminVolunteerEvent(eventId, {
+    enabled: eventId !== -1
+  });
+
   const {
     register,
     handleSubmit,
     watch,
-    getValues,
+    reset,
     trigger,
+    getValues,
     resetField,
     formState: { errors, isDirty }
   } = useForm<FormValues>({
@@ -89,6 +107,29 @@ export default function ShelterEventEditPage() {
     iterationCycle: ITERATION_CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
+
+  console.log('🔸 → getValues():', getValues());
+  useEffect(() => {
+    if (!initialData) return;
+
+    const initialForm: FormValues = {
+      title: initialData.title,
+      description: initialData.description,
+      recruitNum: initialData.recruitNum,
+      startAt: initialData.startAt,
+      endAt: initialData.endAt,
+      iterationEndAt: undefined
+    };
+
+    const initalChipInputs: ChipValues = {
+      ageLimit: initialData.ageLimit,
+      category: initialData.category,
+      iterationCycle: ITERATION_CYCLE_OPTIONS[0].value
+    };
+
+    reset(initialForm);
+    setChipInput(initalChipInputs);
+  }, [initialData, reset]);
 
   const minStartAt = useMemo(
     () =>
@@ -122,7 +163,7 @@ export default function ShelterEventEditPage() {
   const iterationNotice = useMemo(() => {
     if (!startAt) return '';
     return getIterationNotice(
-      startAt,
+      new Date(startAt),
       chipInput.iterationCycle as IterationCycle
     );
   }, [startAt, chipInput.iterationCycle]);
@@ -161,7 +202,8 @@ export default function ShelterEventEditPage() {
 
   const onSubmit = (values: FormValues) => {
     const payload = getPayload(values);
-    post(payload).then(console.log);
+    console.log('🔸 → onSubmit → payload:', payload);
+    // post(payload).then(console.log);
   };
 
   return (
@@ -202,7 +244,10 @@ export default function ShelterEventEditPage() {
         type="datetime-local"
         required
         min={minStartAt}
-        {...register('startAt', { onChange: handleChangeDate })}
+        {...register('startAt', {
+          valueAsDate: true,
+          onChange: handleChangeDate
+        })}
         error={errors.startAt}
       />
       <TextField
@@ -210,7 +255,10 @@ export default function ShelterEventEditPage() {
         type="datetime-local"
         required
         min={minEndAt}
-        {...register('endAt', { onChange: handleChangeDate })}
+        {...register('endAt', {
+          valueAsDate: true,
+          onChange: handleChangeDate
+        })}
         error={errors.endAt}
       />
       <div>
@@ -287,7 +335,10 @@ export default function ShelterEventEditPage() {
       </div>
 
       <FixedFooter>
-        <Button disabled={!isDirty || !isEmpty(errors)} itemType="submit">
+        <Button
+          disabled={(!initialData && !isDirty) || !isEmpty(errors)}
+          itemType="submit"
+        >
           일정 만들기
         </Button>
       </FixedFooter>
