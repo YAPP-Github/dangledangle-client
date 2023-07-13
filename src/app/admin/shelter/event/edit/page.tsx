@@ -29,9 +29,14 @@ import getIterationNotice from './utils/getIterationNotice';
 import { isEmpty } from 'lodash';
 import { formatDatetimeForServer } from '@/utils/timeConvert';
 import {
+  PutVolunteerEventPayload,
   VolunteerEventPayload,
-  post
+  post,
+  put
 } from '@/api/shelter/admin/volunteer-event';
+import useAdminVolunteerEvent from '@/api/shelter/admin/useAdminVolunteerEvent';
+import { useRouter } from 'next/navigation';
+import useHeader from '@/hooks/useHeader';
 
 type ChipValues = {
   category: string;
@@ -43,8 +48,8 @@ type FormValues = {
   title: string;
   description?: string;
   recruitNum: number;
-  startAt: Date;
-  endAt: Date;
+  startAt: Date | string;
+  endAt: Date | string;
   iterationEndAt?: Date;
 };
 
@@ -55,9 +60,11 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
   startAt: yup
     .date()
     .default(() => new Date())
+    .transform((value, originValue) => new Date(originValue))
     .required(),
   endAt: yup
     .date()
+    .transform((value, originValue) => new Date(originValue))
     .min(yup.ref('startAt'), '종료 시간은 시작 시간보다 앞에 올 수 없습니다.')
     .required(),
   iterationEndAt: yup
@@ -68,12 +75,30 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
     )
 });
 
-export default function ShelterEventEditPage() {
+export default function ShelterEventEditPage({
+  searchParams
+}: {
+  searchParams: { id: string };
+}) {
+  const router = useRouter();
+
+  const eventId = useMemo(
+    () =>
+      isNaN(Number(searchParams.id)) ? -1 : Number(Number(searchParams.id)),
+    [searchParams.id]
+  );
+
+  const setHeader = useHeader({});
+
+  const { data: initialData, isFetching } = useAdminVolunteerEvent(eventId, {
+    enabled: eventId !== -1
+  });
+
   const {
     register,
     handleSubmit,
     watch,
-    getValues,
+    reset,
     trigger,
     resetField,
     formState: { errors, isDirty }
@@ -89,6 +114,31 @@ export default function ShelterEventEditPage() {
     iterationCycle: ITERATION_CYCLE_OPTIONS[0].value,
     ageLimit: AGE_LIMIT_OPTIONS[0].value
   });
+
+  useEffect(() => {
+    if (!initialData) {
+      setHeader(prev => ({ ...prev, title: '봉사 일정 만들기' }));
+      return;
+    }
+    setHeader(prev => ({ ...prev, title: '봉사 일정 수정하기' }));
+    const initialForm: FormValues = {
+      title: initialData.title,
+      description: initialData.description,
+      recruitNum: initialData.recruitNum,
+      startAt: initialData.startAt,
+      endAt: initialData.endAt,
+      iterationEndAt: undefined
+    };
+
+    const initalChipInputs: ChipValues = {
+      ageLimit: initialData.ageLimit,
+      category: initialData.category,
+      iterationCycle: ITERATION_CYCLE_OPTIONS[0].value
+    };
+
+    reset(initialForm);
+    setChipInput(initalChipInputs);
+  }, [initialData, reset, setHeader]);
 
   const minStartAt = useMemo(
     () =>
@@ -122,7 +172,7 @@ export default function ShelterEventEditPage() {
   const iterationNotice = useMemo(() => {
     if (!startAt) return '';
     return getIterationNotice(
-      startAt,
+      new Date(startAt),
       chipInput.iterationCycle as IterationCycle
     );
   }, [startAt, chipInput.iterationCycle]);
@@ -135,7 +185,7 @@ export default function ShelterEventEditPage() {
     }
   }, [chipInput.iterationCycle, resetField, trigger]);
 
-  const getPayload = (values: FormValues) => {
+  const getPostPayload = (values: FormValues) => {
     const iteration =
       chipInput.iterationCycle && values.iterationEndAt
         ? {
@@ -146,24 +196,42 @@ export default function ShelterEventEditPage() {
             iterationCycle: chipInput.iterationCycle as IterationCycle
           }
         : null;
+
     const payload: VolunteerEventPayload = {
       title: values.title,
       description: values.description || '',
       category: chipInput.category as VolunteerEventCategory,
       startAt: formatDatetimeForServer(values.startAt, 'DATETIME'),
       endAt: formatDatetimeForServer(values.endAt, 'DATETIME'),
-      iteration,
       recruitNum: values.recruitNum,
-      ageLimit: chipInput.ageLimit as AgeLimit
+      ageLimit: chipInput.ageLimit as AgeLimit,
+      iteration
     };
     return payload;
   };
+  const getPutPayload = (values: FormValues) => {
+    if (!initialData) throw Error(`initialData is ${initialData}`);
 
-  const onSubmit = (values: FormValues) => {
-    const payload = getPayload(values);
-    post(payload).then(console.log);
+    const payload: PutVolunteerEventPayload = {
+      ...getPostPayload(values),
+      status: initialData.eventStatus
+    };
+
+    return payload;
   };
 
+  const onSubmit = async (values: FormValues) => {
+    if (initialData) {
+      const payload = getPutPayload(values);
+      await put(eventId, payload);
+    } else {
+      const payload = getPostPayload(values);
+      await post(payload);
+    }
+    router.back();
+  };
+
+  if (isFetching) return <div></div>;
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div>
@@ -202,7 +270,10 @@ export default function ShelterEventEditPage() {
         type="datetime-local"
         required
         min={minStartAt}
-        {...register('startAt', { onChange: handleChangeDate })}
+        {...register('startAt', {
+          valueAsDate: true,
+          onChange: handleChangeDate
+        })}
         error={errors.startAt}
       />
       <TextField
@@ -210,7 +281,10 @@ export default function ShelterEventEditPage() {
         type="datetime-local"
         required
         min={minEndAt}
-        {...register('endAt', { onChange: handleChangeDate })}
+        {...register('endAt', {
+          valueAsDate: true,
+          onChange: handleChangeDate
+        })}
         error={errors.endAt}
       />
       <div>
@@ -287,8 +361,11 @@ export default function ShelterEventEditPage() {
       </div>
 
       <FixedFooter>
-        <Button disabled={!isDirty || !isEmpty(errors)} itemType="submit">
-          일정 만들기
+        <Button
+          disabled={(!initialData && !isDirty) || !isEmpty(errors)}
+          itemType="submit"
+        >
+          {initialData ? '일정 수정하기' : '일정 만들기'}
         </Button>
       </FixedFooter>
     </form>
