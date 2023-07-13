@@ -3,7 +3,7 @@ import { VolunteerEvent } from '../../types/volunteerEvent';
 export const volunteerEventsMock: VolunteerEvent[] = [
   {
     eventStatus: 'DONE',
-    category: '산책 봉사',
+    category: 'WALKING',
     volunteerEventId: 11,
     title: '한강 인근 댕댕이 산책 봉사자 모집합니다.',
     recruitNum: 5,
@@ -15,7 +15,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
   },
   {
     eventStatus: 'DONE',
-    category: '산책 봉사',
+    category: 'WALKING',
     volunteerEventId: 12,
     title: '태평역 인근 산책 봉사자 모집합니다.',
     recruitNum: 5,
@@ -27,7 +27,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
   },
   {
     eventStatus: 'IN_PROGRESS',
-    category: '견사 청소',
+    category: 'SHELTER_CLEANING',
     volunteerEventId: 13,
     title: '노원역 인근 견사 청소 봉사자 모집합니다.',
     joinNum: 4,
@@ -39,7 +39,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
   },
   {
     eventStatus: 'IN_PROGRESS',
-    category: '홍보물 제작',
+    category: 'PROMOTION',
     volunteerEventId: 14,
     title: '홍보물 제작 봉사자 모집합니다.',
     recruitNum: 6,
@@ -51,7 +51,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
   },
   {
     eventStatus: 'IN_PROGRESS',
-    category: '홍보물 제작',
+    category: 'PROMOTION',
     volunteerEventId: 15,
     title: '홍보물 제작 봉사자 모집합니다.',
     recruitNum: 6,
@@ -63,7 +63,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
   },
   {
     eventStatus: 'IN_PROGRESS',
-    category: '홍보물 제작',
+    category: 'PROMOTION',
     volunteerEventId: 16,
     title: '홍보물 제작 봉사자 모집합니다.',
     recruitNum: 6,

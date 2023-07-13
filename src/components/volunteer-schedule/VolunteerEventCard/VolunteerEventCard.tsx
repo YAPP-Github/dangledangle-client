@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import * as styles from './VolunteerEventCard.css';
 import { CSSProperties } from 'react';
 import { VolunteerEvent } from '../../../types/volunteerEvent';
+import { VOLUNTEER_EVENT_CATEGORY } from '@/constants/volunteerEvent';
 
 interface VolunteerEventCardProps {
   event?: VolunteerEvent;
@@ -50,7 +51,7 @@ export default function VolunteerEventCard({
                 <Badge type="primary">모집중</Badge>
               )}
 
-              <Badge type="line">{`#${category}`}</Badge>
+              <Badge type="line">{`#${VOLUNTEER_EVENT_CATEGORY[category]}`}</Badge>
             </div>
 
             <H4 className={styles.textClamp}>{title}</H4>

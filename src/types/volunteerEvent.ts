@@ -1,10 +1,12 @@
+import { VolunteerEventCategory } from '@/constants/volunteerEvent';
+
 export type EventStatus = 'IN_PROGRESS' | 'DONE' | 'CANCELED';
 export type MyParticipationStatus = 'PARTICIPATING' | 'WAITING' | 'NONE';
 
 export interface VolunteerEvent {
   volunteerEventId: number;
   eventStatus: EventStatus;
-  category: string;
+  category: VolunteerEventCategory;
   title: string;
   recruitNum: number;
   joinNum: number;
