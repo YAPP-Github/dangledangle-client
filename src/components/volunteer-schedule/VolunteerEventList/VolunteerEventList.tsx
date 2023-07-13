@@ -2,25 +2,28 @@ import VolunteerEventCard from '@/components/volunteer-schedule/VolunteerEventCa
 import { VolunteerEvent } from '../../../types/volunteerEvent';
 import { H3 } from '../../common/Typography';
 import { formatDate, isDateSame } from '@/utils/timeConvert';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Divider from '../../common/Divider/Divider';
 import useObserver from '@/hooks/useObserver';
 import { useIsFetching } from '@tanstack/react-query';
 import { queryKey } from '@/api/shelter/volunteer-event';
+import moment from 'moment';
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
   selectedDate: Date;
   shelterId: number;
 }
 
+const getDateHeaderElementId = (date: Date) =>
+  'date-' + moment(date).format('YYYYMMDD');
 const DateHeader = ({
   date,
   divider = true
 }: {
-  date: string;
+  date: Date;
   divider?: boolean;
 }) => (
-  <div id={date}>
+  <div id={getDateHeaderElementId(date)}>
     {divider && <Divider spacing={16} />}
     <H3 style={{ marginBottom: '10px' }}>{formatDate(date)}</H3>
   </div>
@@ -30,6 +33,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   selectedDate,
   shelterId
 }) => {
+  const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
   const { attatchObserver, observe } = useObserver('observer-target');
   const isFetchingEvents = useIsFetching({
     queryKey: queryKey.list(shelterId)
@@ -47,23 +51,44 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
     attatchObserver(handleIntersect);
   }, [attatchObserver, handleIntersect]);
 
-  // useEffect(() => {
-  //   if (focusedDate) {
-  //     console.log(focusedDate);
-  //     const targetEl = document.getElementById(focusedDate);
-  //     if (!targetEl) return;
+  const startAtList = useMemo(() => events?.map(e => e.startAt), [events]);
 
-  //     targetEl.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // }, [focusedDate]);
+  const findNearestDate = useCallback(
+    (date: Date) => {
+      const nearestStartAt = [...startAtList].sort(
+        (a, b) =>
+          Math.abs(moment(a).diff(date, 'day')) -
+          Math.abs(moment(b).diff(date, 'day'))
+      )[0];
+      console.log('🔸 → nearestStartAt:', nearestStartAt);
+      return new Date(nearestStartAt);
+    },
+    [startAtList]
+  );
+
+  useEffect(() => {
+    if (prevSelectedDate !== selectedDate && !isFetchingEvents) {
+      const nearestDate = findNearestDate(selectedDate);
+      const targetEl = document.getElementById(
+        getDateHeaderElementId(nearestDate)
+      );
+      setPrevSelectedDate(selectedDate);
+      console.log('🔸 → useEffect → targetEl:', targetEl);
+
+      if (!targetEl) return;
+      // TODO: 스크롤을 targetEl까지 내린다
+    }
+  }, [findNearestDate, isFetchingEvents, prevSelectedDate, selectedDate]);
 
   return (
     <div>
       {events?.map((event, idx) => (
         <div key={idx}>
-          {idx === 0 && <DateHeader date={event.startAt} divider={false} />}
+          {idx === 0 && (
+            <DateHeader date={new Date(event.startAt)} divider={false} />
+          )}
           {idx > 0 && !isDateSame(events[idx - 1].startAt, event.startAt) && (
-            <DateHeader date={event.startAt} />
+            <DateHeader date={new Date(event.startAt)} />
           )}
           <VolunteerEventCard style={{ marginBottom: '12px' }} event={event} />
         </div>
