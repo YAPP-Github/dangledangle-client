@@ -10,7 +10,7 @@ export const fixedFooter = style({
   left: 0,
   display: 'flex',
   justifyContent: 'center',
-  zIndex: 1
+  zIndex: 100
 });
 
 export const wrapper = style({

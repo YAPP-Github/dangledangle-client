@@ -2,11 +2,14 @@ import { palette } from '@/styles/color';
 import { BREAK_POINT, GLOBAL_PADDING_X } from '@/styles/global.css';
 import { createVar, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { HEADER_HEIGHT } from '../Header/Header.css';
 
 export const tabColor = createVar('tabColor');
 export const tabX = createVar('tabX');
+export const TAB_HEIGHT = 40;
 
 export const tabList = style({
+  boxSizing: 'border-box',
   width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
   maxWidth: BREAK_POINT,
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
@@ -14,12 +17,18 @@ export const tabList = style({
   justifyContent: 'space-between',
   background: tabColor,
   cursor: 'pointer',
-  borderBottom: `1px solid ${palette.gray100}`
+  borderBottom: `1px solid ${palette.gray100}`,
+  height: TAB_HEIGHT
+});
+
+export const sticky = style({
+  position: 'sticky',
+  top: HEADER_HEIGHT,
+  zIndex: 1
 });
 
 export const tabBox = style({
   flex: 1,
-  height: '40px',
   textAlign: 'center',
   position: 'relative'
 });
@@ -57,5 +66,5 @@ export const selectedLine = style({
   zIndex: 1,
   transition: 'transform 0.3s ease',
   willChange: 'transform',
-  transform: `translateX(${tabX}) translateY(1px)`
+  transform: `translate(${tabX}, 1px)`
 });
