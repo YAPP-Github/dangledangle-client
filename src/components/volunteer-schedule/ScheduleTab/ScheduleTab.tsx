@@ -94,6 +94,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
             events={volunteerEvents}
             shelterId={shelterId}
             scrollTo={scrollToTarget}
+            fetchNextEvents={query.fetchNextPage}
           />
         )}
       </div>

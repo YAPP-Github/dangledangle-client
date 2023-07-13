@@ -9,11 +9,13 @@ import { useIsFetching } from '@tanstack/react-query';
 import { queryKey } from '@/api/shelter/volunteer-event';
 import moment from 'moment';
 import { palette } from '@/styles/color';
+
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
   selectedDate: Date;
   shelterId: number;
   scrollTo: (eventCardEl: HTMLElement) => void;
+  fetchNextEvents: () => Promise<unknown>;
 }
 
 const getDateHeaderElementId = (date: Date) =>
@@ -37,7 +39,8 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   events,
   selectedDate,
   shelterId,
-  scrollTo
+  scrollTo,
+  fetchNextEvents
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
   const { attatchObserver, observe } = useObserver('observer-target');
@@ -46,12 +49,8 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   });
 
   const handleIntersect = useCallback(() => {
-    console.log('데이터 받아오는 중');
-    setTimeout(() => {
-      console.log('데이터 패치 완료');
-      // observe();
-    }, 1000);
-  }, [observe]);
+    fetchNextEvents().then(observe);
+  }, [fetchNextEvents, observe]);
 
   useEffect(() => {
     attatchObserver(handleIntersect);
