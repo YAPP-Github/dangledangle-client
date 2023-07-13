@@ -2,7 +2,7 @@ import VolunteerEventList from '@/components/volunteer-schedule/VolunteerEventLi
 import * as styles from './ScheduleTab.css';
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
 import { useCallback, useMemo, useState } from 'react';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import useVolunteerEventList, {
   monthlyInfiniteOption
 } from '@/api/shelter/volunteer-event/useVolunteerEventList';
@@ -31,33 +31,20 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
     [volunteerEvents]
   );
 
-  const findNearestEventDate = useCallback(
-    (target: Moment) => {
-      if (!eventDates) return undefined;
-      const nearestDate = [...eventDates].sort(
-        (a, b) =>
-          Math.abs(moment(a).diff(target, 'day')) -
-          Math.abs(moment(b).diff(target, 'day'))
-      )[0];
-      console.log(nearestDate);
-      return nearestDate;
-    },
-    [eventDates]
-  );
-
   const handleClickDate = useCallback((value: Date) => {
     setSelectedDate(value);
   }, []);
 
   const handleChangeMonth = useCallback(
+    // month 변경 시 해당 월에 해당하는 데이터 패치
     async (value: Date) => {
-      const newMonth = moment(value).month();
-      const prevMonth = moment(selectedDate).month();
+      const newDate = getEndOfMonth(value);
+      const prevDate = getEndOfMonth(selectedDate);
 
-      if (newMonth > prevMonth) {
+      if (newDate.isAfter(prevDate)) {
         await query.fetchNextPage();
         console.log('fetch next month');
-      } else if (newMonth < prevMonth) {
+      } else if (newDate.isBefore(prevDate)) {
         await query.fetchPreviousPage();
         console.log('fetch prev month');
       }
