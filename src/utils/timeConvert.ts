@@ -26,6 +26,10 @@ export function formatDate(dateStr: string | Date) {
   return date.format('D일 dddd');
 }
 
+export function formatKoDate(dateStr: string | Date) {
+  return moment(dateStr).format('YYYY년 M월 D일');
+}
+
 export function isDateSame(date1: string | Date, date2: string | Date) {
   const moment1 = moment(date1, 'YYYY-MM-DD');
   const moment2 = moment(date2, 'YYYY-MM-DD');

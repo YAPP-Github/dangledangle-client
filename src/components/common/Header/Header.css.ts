@@ -1,16 +1,20 @@
-import { palette } from '@/styles/color';
-import { style } from '@vanilla-extract/css';
+import { BREAK_POINT, GLOBAL_PADDING_X } from '@/styles/global.css';
+import { createVar, style } from '@vanilla-extract/css';
+
+export const headerColor = createVar('headerColor');
 
 export const HEADER_HEIGHT = 52;
 export const container = style({
   width: '100%',
+  maxWidth: `${BREAK_POINT}px`,
   height: '20px',
   display: 'flex',
   position: 'relative',
-  padding: '16px 0',
+  padding: '16px 20px',
   justifyContent: 'space-between',
   alignItems: 'center',
-  background: palette.background
+  transform: `translateX(${-GLOBAL_PADDING_X}px)`,
+  backgroundColor: headerColor
 });
 
 export const arrowLeft = style({
@@ -25,8 +29,6 @@ export const title = style({
 });
 
 export const rightSide = style({
-  position: 'absolute',
-  right: 0,
   display: 'flex',
   columnGap: 4
 });
