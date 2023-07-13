@@ -48,7 +48,7 @@ export default async function ShelterMainPage({
           </Tabs.TabList>
 
           <Tabs.TabPanel value={0}>
-            <ScheduleTab />
+            <ScheduleTab shelterId={Number(params.id)} />
           </Tabs.TabPanel>
           <Tabs.TabPanel value={1} size="fullWidth">
             <MapExample />

@@ -207,7 +207,9 @@ export default function ShelterEvent() {
 
         <Button
           style={{ marginTop: 1 }}
-          onClick={() => route.push(`${pathname}/edit`)}
+          onClick={() =>
+            route.push(`/admin/shelter/event/edit?id=${volunteerEventId}`)
+          }
         >
           일정 수정하기
         </Button>
