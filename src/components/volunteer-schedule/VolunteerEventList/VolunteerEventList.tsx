@@ -5,9 +5,12 @@ import { formatDate, isDateSame } from '@/utils/timeConvert';
 import { useCallback, useEffect } from 'react';
 import Divider from '../../common/Divider/Divider';
 import useObserver from '@/hooks/useObserver';
+import { useIsFetching } from '@tanstack/react-query';
+import { queryKey } from '@/api/shelter/volunteer-event';
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
-  focusedDate?: string;
+  selectedDate: Date;
+  shelterId: number;
 }
 
 const DateHeader = ({
@@ -24,9 +27,14 @@ const DateHeader = ({
 );
 const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   events,
-  focusedDate
+  selectedDate,
+  shelterId
 }) => {
   const { attatchObserver, observe } = useObserver('observer-target');
+  const isFetchingEvents = useIsFetching({
+    queryKey: queryKey.list(shelterId)
+  });
+
   const handleIntersect = useCallback(() => {
     console.log('데이터 받아오는 중');
     setTimeout(() => {
@@ -39,15 +47,15 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
     attatchObserver(handleIntersect);
   }, [attatchObserver, handleIntersect]);
 
-  useEffect(() => {
-    if (focusedDate) {
-      console.log(focusedDate);
-      const targetEl = document.getElementById(focusedDate);
-      if (!targetEl) return;
+  // useEffect(() => {
+  //   if (focusedDate) {
+  //     console.log(focusedDate);
+  //     const targetEl = document.getElementById(focusedDate);
+  //     if (!targetEl) return;
 
-      targetEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [focusedDate]);
+  //     targetEl.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // }, [focusedDate]);
 
   return (
     <div>

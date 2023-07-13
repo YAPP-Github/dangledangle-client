@@ -14,8 +14,8 @@ export default function Calendar() {
   };
 
   // onActiveStartDateChange 이벤트를 사용해 월이 변경될 때마다 콜백 함수를 호출할 수 있습니다.
-  const handleChangeMonth = (nextYear: number, nextMonth: number) => {
-    console.log(nextYear, nextMonth);
+  const handleChangeMonth = (value: Date) => {
+    console.log(value);
   };
 
   // datMark array를 넘겨 캘린더에 닷 아이콘을 렌더링 할 수 있습니다.

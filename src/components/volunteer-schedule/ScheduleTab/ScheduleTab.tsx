@@ -6,20 +6,14 @@ import moment, { Moment } from 'moment';
 import useVolunteerEventList, {
   monthlyInfiniteOption
 } from '@/api/shelter/volunteer-event/useVolunteerEventList';
-import {
-  getStartOfMonth,
-  getEndOfMonth,
-  formatDatetimeForServer
-} from '@/utils/timeConvert';
+import { getStartOfMonth, getEndOfMonth } from '@/utils/timeConvert';
 
 interface ScheduleTabProps {
   shelterId: number;
 }
 
 const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
-  const [focusedDate, setFocusedDate] = useState<string | undefined>(
-    formatDatetimeForServer(new Date(), 'DATE')
-  );
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const query = useVolunteerEventList(
     shelterId,
     getStartOfMonth(new Date()),
@@ -29,7 +23,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
 
   const volunteerEvents = useMemo(() => {
     const pages = query.data?.pages;
-    return pages?.flat();
+    return pages?.flatMap(page => page.events);
   }, [query.data?.pages]);
 
   const eventDates = useMemo(
@@ -51,18 +45,24 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
     [eventDates]
   );
 
-  const handleChangeDate = useCallback(
-    async (value: Date) => {
-      if (getStartOfMonth(value).isAfter(value)) {
-        await query.fetchNextPage();
-      } else if (getEndOfMonth(value).isBefore(value)) {
-        await query.fetchPreviousPage();
-      }
+  const handleClickDate = useCallback((value: Date) => {
+    setSelectedDate(value);
+  }, []);
 
-      const nearestDate = findNearestEventDate(moment(value));
-      setFocusedDate(nearestDate);
+  const handleChangeMonth = useCallback(
+    async (value: Date) => {
+      const newMonth = moment(value).month();
+      const prevMonth = moment(selectedDate).month();
+
+      if (newMonth > prevMonth) {
+        await query.fetchNextPage();
+        console.log('fetch next month');
+      } else if (newMonth < prevMonth) {
+        await query.fetchPreviousPage();
+        console.log('fetch prev month');
+      }
     },
-    [findNearestEventDate, query]
+    [query, selectedDate]
   );
 
   return (
@@ -70,14 +70,15 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
       <DangleCalendar
         className={styles.calendar}
         mark={eventDates}
-        onChange={handleChangeDate}
+        onChange={handleClickDate}
+        onChangeMonth={handleChangeMonth}
       />
       <div style={{ marginTop: '16px' }}>
         {volunteerEvents && (
           <VolunteerEventList
-            focusedDate={focusedDate}
+            selectedDate={selectedDate}
             events={volunteerEvents}
-            loadMoreEvents={query.fetchNextPage}
+            shelterId={shelterId}
           />
         )}
       </div>

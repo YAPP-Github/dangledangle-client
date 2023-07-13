@@ -1,11 +1,13 @@
 import api from '@/api/instance';
 import { VolunteerEvent } from '@/types/volunteerEvent';
 
-export type GetListByMonthResponse = {
+export type GetListResponse = {
   events: VolunteerEvent[];
+  from: string;
+  to: string;
 };
 
-export type GetListByMonthParams = {
+export type GetListParams = {
   shelterId: number;
   from: string;
   to: string;
@@ -20,10 +22,14 @@ export const getList = async ({
   shelterId,
   from,
   to
-}: GetListByMonthParams) => {
+}: GetListParams): Promise<GetListResponse> => {
   const data = await api
     .get(`shelter/${shelterId}/volunteer-event?from=${from}&to=${to}`)
-    .json<GetListByMonthResponse>();
+    .json<{ events: VolunteerEvent[] }>();
 
-  return data.events;
+  return {
+    events: data.events,
+    from,
+    to
+  };
 };
