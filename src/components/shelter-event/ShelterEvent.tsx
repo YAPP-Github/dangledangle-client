@@ -29,6 +29,8 @@ import {
 } from '@/constants/volunteerEvent';
 import useToast from '@/hooks/useToast';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 
 const QNA =
   'https://www.notion.so/yapp-workspace/FAQ-f492ba54a5d647129ca9697fbd307b20?pvs=4';
@@ -77,6 +79,7 @@ export default function ShelterEvent() {
     if (!dangle_access_token) {
       // access_token 없을 시에 개인 로그인 페이지로 보내서 리다이렉트 처리
       toastOn('봉사에 참여하기 위해 로그인이 필요합니다.');
+      Cookies.set(COOKIE_REDIRECT_URL, window.location.pathname);
       return route.push(
         `/volunteer/login?redirect=${encodeURIComponent(
           window.location.pathname

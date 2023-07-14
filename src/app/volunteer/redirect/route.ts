@@ -1,9 +1,11 @@
 import { getTokens } from '@/api/auth/volunteer/token';
 import {
   COOKIE_ACCESS_TOKEN_KEY,
+  COOKIE_REDIRECT_URL,
   COOKIE_REFRESH_TOKEN_KEY,
   COOKIE_REGISTER_EMAIL_KEY
 } from '@/constants/cookieKeys';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '../register/[...slug]/CurrentComponentTypes';
 
@@ -41,7 +43,11 @@ export async function GET(req: NextRequest) {
     const { accessToken, refreshToken } = await getTokens({ authToken });
 
     // TODO : 로그인 이후 리다이렉트 url 변경 필요
-    const res = NextResponse.redirect(`${originUrl}/volunteer`);
+    const cookieStore = cookies();
+    const redirectPath =
+      (await cookieStore.get(COOKIE_REDIRECT_URL)?.value) || '/volunteer';
+    const redirectTo = `${originUrl}${decodeURIComponent(redirectPath)}`;
+    const res = NextResponse.redirect(redirectTo);
 
     res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
       sameSite: 'lax',
