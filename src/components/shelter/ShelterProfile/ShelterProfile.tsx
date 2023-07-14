@@ -23,7 +23,7 @@ export default function ShelterProfile({
 }: ProfileProps) {
   //TODO auth 상태 관리
   const auth = useAuthContext();
-  const isShelterUser = 'shelterId' in auth.user; //shelterId가 있으면 True
+  const isShelterUser = auth.dangle_role === 'SHELTER'; //shelterId가 있으면 True
 
   return (
     <>
