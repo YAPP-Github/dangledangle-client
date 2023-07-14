@@ -16,3 +16,8 @@ export const circle = style({
   height: 24,
   borderRadius: '50%'
 });
+export const textWrap = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px'
+});

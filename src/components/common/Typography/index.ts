@@ -12,3 +12,4 @@ export const ButtonText1 = withTypographyBase('span', 'button1');
 export const ButtonText2 = withTypographyBase('span', 'button2');
 export const Caption1 = withTypographyBase('span', 'caption1');
 export const Caption2 = withTypographyBase('span', 'caption2');
+export const Caption3 = withTypographyBase('span', 'caption3');

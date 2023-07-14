@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { VolunteerEvent, get } from './volunteer-event';
-import { volteerEventKey } from './queryKey';
+import { queryKey } from '../admin/volunteer-event';
 
 export default function useVolunteerEvent(
   shelterId: number,
@@ -8,7 +8,7 @@ export default function useVolunteerEvent(
   options?: UseQueryOptions<VolunteerEvent>
 ) {
   return useQuery<VolunteerEvent>(
-    volteerEventKey.volEvent(shelterId, volunteerEventId),
+    queryKey.detail(volunteerEventId),
     () => get(shelterId, volunteerEventId),
     {
       ...options

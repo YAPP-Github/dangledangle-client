@@ -3,8 +3,8 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query';
+import { queryKey } from '../admin/volunteer-event';
 import { VolEventWithdraw, withdraw } from './volunteer-event';
-import { volteerEventKey } from './queryKey';
 
 export type PostVolEventWidthdrawParams = {
   shelterId: number;
@@ -24,10 +24,7 @@ export default function useWithdrawVolEvent(
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);
         return queryClient.invalidateQueries(
-          volteerEventKey.volEvent(
-            variables.shelterId,
-            variables.volunteerEventId
-          )
+          queryKey.detail(variables.volunteerEventId)
         );
       },
       ...options

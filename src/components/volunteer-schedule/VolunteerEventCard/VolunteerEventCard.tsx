@@ -42,7 +42,7 @@ export default function VolunteerEventCard({
         })}
         style={style}
       >
-        <Link href={`${pathname}/${volunteerEventId}`}>
+        <Link href={`${pathname}/event/${volunteerEventId}`}>
           <div className={styles.container}>
             <div className={styles.badgeWrapper}>
               {isDatePast(startAt) ? (

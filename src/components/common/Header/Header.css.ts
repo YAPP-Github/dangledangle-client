@@ -5,11 +5,13 @@ export const headerColor = createVar('headerColor');
 
 export const HEADER_HEIGHT = 52;
 export const container = style({
+  position: 'sticky',
+  zIndex: 1,
+  top: 0,
   width: '100%',
   maxWidth: `${BREAK_POINT}px`,
   height: '20px',
   display: 'flex',
-  position: 'relative',
   padding: '16px 20px',
   justifyContent: 'space-between',
   alignItems: 'center',
