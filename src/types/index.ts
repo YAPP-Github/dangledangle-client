@@ -45,20 +45,7 @@ interface Document {
   road_address: RoadAddress;
 }
 
-interface MapComponent extends Document {
-  code?: string;
-  region_1depth_name?: string;
-  region_2depth_name?: string;
-  region_3depth_name?: string;
-  region_4depth_name?: string;
-  place_name: string;
-}
 export interface KakaoMapApiResponse {
   meta: Meta;
   documents: Document[];
-}
-
-export interface KakaoMapComponentApiRes {
-  meta: Meta;
-  documents: MapComponent[];
 }

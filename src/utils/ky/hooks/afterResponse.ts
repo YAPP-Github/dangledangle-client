@@ -2,7 +2,6 @@ import ky, { AfterResponseHook } from 'ky';
 import Cookies from 'js-cookie';
 import {
   COOKIE_ACCESS_TOKEN_KEY,
-  COOKIE_REDIRECT_URL,
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
 import { fetchRefresh } from '@/api/auth/volunteer/refresh';
@@ -41,11 +40,5 @@ export const throwServerErrorMessage: AfterResponseHook = async (
     const responseData = (await response.json()) as ApiErrorResponse;
 
     throw responseData;
-  }
-};
-
-export const deleteClientCokiesPath: AfterResponseHook = async () => {
-  if (Cookies.get(COOKIE_REDIRECT_URL)) {
-    Cookies.remove(COOKIE_REDIRECT_URL);
   }
 };

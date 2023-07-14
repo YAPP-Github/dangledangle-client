@@ -1,4 +1,3 @@
-'use client';
 import { H4 } from '@/components/common/Typography';
 import clsx from 'clsx';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';

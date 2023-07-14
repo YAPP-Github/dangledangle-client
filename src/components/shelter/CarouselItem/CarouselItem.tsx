@@ -19,7 +19,7 @@ const CarouselItem = ({
     <div className={styles.item}>
       <Icon />
       <Body3 color="gray600" className={styles.carouselText}>
-        {`0${index + 1}`}
+        {`${index}.`}
       </Body3>
       <H4 color="gray900" style={{ marginBottom: '12px' }}>
         {title}

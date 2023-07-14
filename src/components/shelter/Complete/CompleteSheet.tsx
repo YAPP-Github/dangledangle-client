@@ -41,7 +41,7 @@ export default function CompleteSheet({
             <Image
               width={300}
               height={300}
-              src="/images/DefaultAnimal.png"
+              src="/sparkle.png"
               className={styles.image}
               alt="sparkle"
             />

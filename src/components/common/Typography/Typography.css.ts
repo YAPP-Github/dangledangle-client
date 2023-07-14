@@ -130,16 +130,6 @@ export const variants = {
       fontSize: '12px',
       lineHeight: '18px'
     }
-  ]),
-
-  caption3: style([
-    base,
-    {
-      fontStyle: 'normal',
-      fontWeight: 500,
-      fontSize: '12px',
-      lineHeight: '18px'
-    }
   ])
 };
 

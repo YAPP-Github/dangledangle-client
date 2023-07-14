@@ -4,10 +4,6 @@ import { variants } from '../Typography/Typography.css';
 import { createVar, style } from '@vanilla-extract/css';
 
 const width = createVar('width');
-const buttonColor = createVar('button_background_color');
-const activeColor = createVar('button_active_color');
-const disabledBackgroundColor = createVar('button_disabled_background_color');
-
 export const ButtonWrapper = recipe({
   base: {
     width,
@@ -17,61 +13,45 @@ export const ButtonWrapper = recipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transitionTimingFunction: 'ease-out',
-    transitionDuration: '0.2s',
-    cursor: 'pointer',
-    color: palette.white,
-    selectors: {
-      '&:disabled': {
-        transitionDuration: '0.4s',
-        cursor: 'not-allowed'
-      }
-    }
+    transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    cursor: 'pointer'
   },
   variants: {
     variant: {
       filled: {
-        backgroundColor: buttonColor,
-        selectors: {
-          '&:hover, &:active': {
-            backgroundColor: activeColor
-          },
-          '&:disabled': {
-            backgroundColor: disabledBackgroundColor
-          }
+        backgroundColor: palette.primary300,
+        color: palette.white,
+        transitionTimingFunction: 'ease-out',
+        transitionDuration: '0.2s',
+
+        '&:hover, &:active': {
+          backgroundColor: palette.primary400
+        },
+        '&:disabled': {
+          backgroundColor: palette.primary100
         }
       },
       line: {
         border: `solid 1px ${palette.gray300}`,
         backgroundColor: palette.gray50,
         color: palette.gray600,
+
         selectors: {
-          '&:hover, &:active': {
-            border: `solid 1px ${activeColor}`,
-            color: activeColor
+          '&:active': {
+            border: `solid 1px ${palette.primary300}`,
+            color: palette.primary300
           },
           '&:disabled': {
-            border: palette.gray300,
-            color: palette.gray300
+            border: 'inherit',
+            color: 'inherit'
           }
         }
       }
     },
-
-    buttonColor: {
-      primary: {
-        vars: {
-          [buttonColor]: palette.primary300,
-          [activeColor]: palette.primary400,
-          [disabledBackgroundColor]: palette.primary100
-        }
-      },
-      secondary: {
-        vars: {
-          [buttonColor]: palette.gray800,
-          [activeColor]: palette.gray900,
-          [disabledBackgroundColor]: palette.gray400
-        }
+    disabled: {
+      true: {
+        transitionDuration: '0.4s',
+        cursor: 'not-allowed'
       }
     },
     size: {
@@ -114,8 +94,7 @@ export const prefixIcon = style({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: palette.gray500,
-  transitionTimingFunction: 'ease-out',
-  transitionDuration: '0.2s',
+
   selectors: {
     [`button:active &`]: {
       backgroundColor: palette.primary300
@@ -125,5 +104,4 @@ export const prefixIcon = style({
 
 type ButtonVariants = RecipeVariants<typeof ButtonWrapper>;
 export type ButtonSizeType = NonNullable<ButtonVariants>['size'];
-export type ButtonVariantType = NonNullable<ButtonVariants>['variant'];
-export type ButtonColorType = NonNullable<ButtonVariants>['buttonColor'];
+export type ButtonVariant = NonNullable<ButtonVariants>['variant'];

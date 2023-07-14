@@ -1,35 +1,16 @@
-import { createVar, style } from '@vanilla-extract/css';
+import { palette } from '@/styles/color';
+import { style } from '@vanilla-extract/css';
 
-export const headerColor = createVar('headerColor');
-
-export const HEADER_HEIGHT = 52;
 export const container = style({
-  position: 'sticky',
-  zIndex: 1,
-  top: 0,
   width: '100%',
+  height: '20px',
   display: 'flex',
-  padding: '16px 20px',
-  boxSizing: 'border-box',
-  height: '56px',
+  padding: '16px 0',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: headerColor
+  background: palette.background
 });
 
 export const arrowLeft = style({
-  cursor: 'pointer',
-  zIndex: 1
-});
-
-export const title = style({
-  flex: 1,
-  textAlign: 'center'
-});
-
-export const rightSide = style({
-  position: 'absolute',
-  right: 20,
-  display: 'flex',
-  columnGap: 4
+  cursor: 'pointer'
 });

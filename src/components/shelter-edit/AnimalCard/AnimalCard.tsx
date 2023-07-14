@@ -8,16 +8,14 @@ import { ObservationAnimal } from '@/types/shelter';
 
 interface AnimalCardProps {
   data: ObservationAnimal;
-  mode?: 'edit' | 'view';
-  onClickEdit?: () => void;
-  onClickDelete?: () => void;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
 export default function AnimalCard({
   data,
   onClickEdit,
-  onClickDelete,
-  mode = 'view'
+  onClickDelete
 }: AnimalCardProps) {
   const { profileImageUrl, name, breed, age, gender, specialNote } = data;
   return (
@@ -42,37 +40,22 @@ export default function AnimalCard({
       </div>
       <hr className={styles.divider} />
 
-      {mode === 'edit' && onClickEdit && onClickDelete ? (
-        <Caption1 element={'p'} className={styles.textClamp} color="gray600">
-          {specialNote}
-        </Caption1>
-      ) : (
-        <Caption1 element={'p'} className={styles.textFull} color="gray600">
-          {specialNote}
-        </Caption1>
-      )}
-
-      {/* mode, clickEdit, clickDelete 모두 확인 */}
-      {mode === 'edit' && onClickEdit && onClickDelete && (
-        <div className={styles.buttonWarp}>
-          <Button
-            variant="line"
-            size="xsmall"
-            width="61px"
-            onClick={onClickEdit}
-          >
-            수정
-          </Button>
-          <Button
-            variant="line"
-            size="xsmall"
-            width="61px"
-            onClick={onClickDelete}
-          >
-            삭제
-          </Button>
-        </div>
-      )}
+      <Caption1 element={'p'} className={styles.textClamp} color="gray600">
+        {specialNote}
+      </Caption1>
+      <div className={styles.buttonWarp}>
+        <Button variant="line" size="xsmall" width="61px" onClick={onClickEdit}>
+          수정
+        </Button>
+        <Button
+          variant="line"
+          size="xsmall"
+          width="61px"
+          onClick={onClickDelete}
+        >
+          삭제
+        </Button>
+      </div>
     </section>
   );
 }

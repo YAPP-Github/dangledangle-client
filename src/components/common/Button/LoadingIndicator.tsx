@@ -1,16 +1,12 @@
 import * as styles from './LoadingIndicator.css';
-interface LoadingIndicatorProps {
-  color?: 'basic' | 'primary';
-}
+interface LoadingIndicatorProps {}
 
-const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
-  color = 'basic'
-}) => {
+const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({}) => {
   return (
     <div className={styles.container}>
-      <div className={styles.circle({ color })} />
-      <div className={styles.circle({ color })} />
-      <div className={styles.circle({ color })} />
+      <div className={styles.circle} />
+      <div className={styles.circle} />
+      <div className={styles.circle} />
     </div>
   );
 };
