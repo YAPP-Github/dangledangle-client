@@ -1,7 +1,12 @@
 import { Calendar, Clockmd, Profilemd } from '@/asset/icons';
 import Button from '@/components/common/Button/Button';
 
-import { Body2, ButtonText1, H3 } from '@/components/common/Typography';
+import {
+  Body2,
+  ButtonText1,
+  Caption1,
+  H3
+} from '@/components/common/Typography';
 import React from 'react';
 import * as styles from './ConfirmContent.css';
 import { formatKoDate, getDuration, pmamConvert } from '@/utils/timeConvert';
@@ -66,19 +71,17 @@ export default function ConfirmContent({
         return '대기 신청하려는 일정이 맞나요?';
       }
     } else if (myParticipationStatus === 'JOINING') {
-      if (joiningVolunteers?.length < recruitNum) {
-        return [
-          '신청하신 봉사를',
-          <br key="linebreak" />,
-          ' 정말 취소하시겠어요?'
-        ];
-      } else {
-        return [
-          '대기 중인 봉사 일정을',
-          <br key="linebreak" />,
-          ' 정말 취소하시겠어요?'
-        ];
-      }
+      return [
+        '신청하신 봉사를',
+        <br key="linebreak" />,
+        ' 정말 취소하시겠어요?'
+      ];
+    } else if (myParticipationStatus === 'WAITING') {
+      return [
+        '대기 중인 봉사 일정을',
+        <br key="linebreak" />,
+        ' 정말 취소하시겠어요?'
+      ];
     }
   };
 
@@ -98,19 +101,17 @@ export default function ConfirmContent({
         );
       }
     } else if (myParticipationStatus === 'JOINING') {
-      if (joiningVolunteers?.length < recruitNum) {
-        return (
-          <Button size="small" onClick={handleWithdraw}>
-            <ButtonText1 color="white">신청 취소하기</ButtonText1>
-          </Button>
-        );
-      } else {
-        return (
-          <Button size="small" onClick={handleWithdraw}>
-            <ButtonText1 color="white">대기 취소하기</ButtonText1>
-          </Button>
-        );
-      }
+      return (
+        <Button size="small" onClick={handleWithdraw}>
+          <ButtonText1 color="white">신청 취소하기</ButtonText1>
+        </Button>
+      );
+    } else if (myParticipationStatus === 'WAITING') {
+      return (
+        <Button size="small" onClick={handleWithdraw}>
+          <ButtonText1 color="white">대기 취소하기</ButtonText1>
+        </Button>
+      );
     }
   };
 
@@ -119,6 +120,16 @@ export default function ConfirmContent({
       <H3 color="gray900" style={{ textAlign: 'center', marginTop: 20 }}>
         {getMessage()}
       </H3>
+      {myParticipationStatus === 'NONE' &&
+      joiningVolunteers?.length >= recruitNum ? (
+        <Caption1
+          color="gray600"
+          style={{ display: 'block', textAlign: 'center' }}
+        >
+          빈 자리가 생겨 참석 상태로 전환되면 <br />
+          카톡 알림으로 발송해드려요!
+        </Caption1>
+      ) : null}
       <div className={styles.notiWrap}>
         <div className={styles.notiLine}>
           <Calendar />

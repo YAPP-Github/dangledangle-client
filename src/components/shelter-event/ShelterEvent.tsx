@@ -1,6 +1,15 @@
+import useVolunteerEvent from '@/api/shelter/event/useVolunteerEvent';
 import { Calendar, Clockmd } from '@/asset/icons';
 import Badge from '@/components/common/Badge/Badge';
-import { Body2, Body1, H4, Body3 } from '@/components/common/Typography';
+import Button from '@/components/common/Button/Button';
+import LoadingIndicator from '@/components/common/Button/LoadingIndicator';
+import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
+import Modal from '@/components/common/Modal/Modal';
+import Profile from '@/components/common/Profile/Profile';
+import { Body1, Body2, Body3, H4 } from '@/components/common/Typography';
+import useBooleanState from '@/hooks/useBooleanState';
+import { useAuthContext } from '@/providers/AuthContext';
+import { palette } from '@/styles/color';
 import {
   formatKoDate,
   getDuration,
@@ -8,21 +17,21 @@ import {
   pmamConvert
 } from '@/utils/timeConvert';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
-import * as styles from './ShelterEvent.css';
-import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
-import Button from '@/components/common/Button/Button';
-import { palette } from '@/styles/color';
-import { Fragment } from 'react';
-import Image from 'next/image';
-import Profile from '@/components/common/Profile/Profile';
-import { usePathname, useRouter } from 'next/navigation';
-import useVolunteerEvent from '@/api/shelter/event/useVolunteerEvent';
 import dynamic from 'next/dynamic';
-import LoadingIndicator from '@/components/common/Button/LoadingIndicator';
-import useWithdrawVolEvent from '@/api/shelter/event/useWithdrawVolEvent';
-import useParticipateVolEvent from '@/api/shelter/event/useParticipateVolEvent';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment } from 'react';
+import ConfirmContent from './ConfirmContent/ConfirmContent';
+import * as styles from './ShelterEvent.css';
+import {
+  AGE_LIMIT,
+  VOLUNTEER_EVENT_CATEGORY
+} from '@/constants/volunteerEvent';
+import useToast from '@/hooks/useToast';
 import Link from 'next/link';
 
+const QNA =
+  'https://www.notion.so/yapp-workspace/FAQ-f492ba54a5d647129ca9697fbd307b20?pvs=4';
 const NOTICE = '*세부 주소는 봉사 참가자에게 별도로 안내드립니다.';
 const DangleMap = dynamic(() => import('@/components/common/Map/DangleMap'), {
   loading: () => <LoadingIndicator color="primary" />
@@ -35,9 +44,13 @@ export default function ShelterEvent() {
   const shelterId = Number(splittedPath[2]);
   const volunteerEventId = Number(splittedPath[4]);
 
+  const { dangle_access_token, dangle_role, dangle_id } = useAuthContext();
+  const [isModal, setModalOpen, setModalClose] = useBooleanState();
+  const [showVol, setShowVolOpen, setShowVolClose, setToggleShowVol] =
+    useBooleanState();
+  const toastOn = useToast();
+
   const { data: eventDetail } = useVolunteerEvent(shelterId, volunteerEventId);
-  const { mutateAsync: participateEvt } = useParticipateVolEvent();
-  const { mutateAsync: withdrawEvt } = useWithdrawVolEvent();
 
   if (!eventDetail) return <LoadingIndicator color="primary" />;
 
@@ -58,6 +71,25 @@ export default function ShelterEvent() {
     waitingVolunteers
   } = eventDetail;
 
+  const allVolunteers = joiningVolunteers.concat(waitingVolunteers);
+
+  const handleModalOpen = () => {
+    if (!dangle_access_token) {
+      // access_token 없을 시에 개인 로그인 페이지로 보내서 리다이렉트 처리
+      toastOn('봉사에 참여하기 위해 로그인이 필요합니다.');
+      return route.push(
+        `/volunteer/login?redirect=${encodeURIComponent(
+          window.location.pathname
+        )}`
+      );
+    } else if (dangle_role === 'SHELTER') {
+      // Shelter 계정은 신청 불가능, 팝업
+      return toastOn('보호소 파트너 계정으로는 이벤트에 참여할 수 없어요.');
+    } else {
+      setModalOpen();
+    }
+  };
+
   const renderTextWithLineBreaks = (description: string) => {
     const lines = description.split('\n');
 
@@ -73,11 +105,66 @@ export default function ShelterEvent() {
     );
   };
 
-  const handleParticipate = () => {
-    participateEvt({ shelterId, volunteerEventId });
-  };
-  const handleWithdraw = () => {
-    withdrawEvt({ shelterId, volunteerEventId });
+  const renderFooterButton = () => {
+    if (eventStatus === 'CLOSED') {
+      return <Button disabled>모집이 종료된 일정입니다.</Button>;
+    }
+
+    if (dangle_role === 'SHELTER' && dangle_id === shelterId) {
+      return (
+        <Button
+          style={{ marginTop: 1 }}
+          onClick={() =>
+            route.push(`/admin/shelter/event/edit?id=${volunteerEventId}`)
+          }
+        >
+          일정 수정하기
+        </Button>
+      );
+    }
+
+    if (
+      myParticipationStatus === 'NONE' &&
+      joiningVolunteers?.length < recruitNum
+    ) {
+      return <Button onClick={handleModalOpen}>봉사 신청하기</Button>;
+    }
+
+    if (
+      myParticipationStatus === 'JOINING' &&
+      joiningVolunteers?.length < recruitNum
+    ) {
+      return (
+        <Button variant="line" onClick={handleModalOpen}>
+          봉사 신청 취소하기
+        </Button>
+      );
+    }
+
+    if (
+      myParticipationStatus === 'NONE' &&
+      joiningVolunteers?.length >= recruitNum
+    ) {
+      return (
+        <Button buttonColor="secondary" onClick={handleModalOpen}>
+          봉사 대기 신청하기
+        </Button>
+      );
+    }
+
+    if (myParticipationStatus === 'WAITING') {
+      return (
+        <Button
+          buttonColor="secondary"
+          variant="line"
+          onClick={handleModalOpen}
+        >
+          봉사 대기 취소하기
+        </Button>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -91,7 +178,7 @@ export default function ShelterEvent() {
               <Badge type="primary">모집중</Badge>
             )}
 
-            <Badge type="line">{`#${category}`}</Badge>
+            <Badge type="line">{`#${VOLUNTEER_EVENT_CATEGORY[category]}`}</Badge>
           </div>
 
           <p className={styles.title}>{title}</p>
@@ -139,9 +226,30 @@ export default function ShelterEvent() {
               /{recruitNum}
             </H4>
 
-            {joiningVolunteers?.map((people: string, index) => (
-              <Profile key={index} name={people} />
-            ))}
+            {allVolunteers?.map((people: string, index) => {
+              if (index >= 5 && !showVol) {
+                return null;
+              }
+
+              return (
+                <Profile
+                  key={index}
+                  name={people}
+                  waiting={index + 1 <= recruitNum ? false : true}
+                />
+              );
+            })}
+
+            {allVolunteers.length > 5 && (
+              <Button
+                size="xsmall"
+                buttonColor="secondary"
+                variant="line"
+                onClick={setToggleShowVol}
+              >
+                {showVol ? '참여 인원 접기' : '참여 인원 더보기'}
+              </Button>
+            )}
           </div>
           <div
             className={styles.divider}
@@ -165,7 +273,7 @@ export default function ShelterEvent() {
 
           <div className={styles.textWrapper}>
             <H4>모집 대상</H4>
-            <Body1>{ageLimit}</Body1>
+            <Body1>{AGE_LIMIT[ageLimit]}</Body1>
           </div>
 
           <div
@@ -192,28 +300,23 @@ export default function ShelterEvent() {
             })}
           />
 
-          <p className={styles.underline}>자주 묻고 답하는 질문</p>
+          <p className={styles.underline}>
+            <Link href={QNA}>자주 묻고 답하는 질문</Link>
+          </p>
           <p className={styles.underline}>1:1 문의하기</p>
         </div>
       </div>
 
-      <FixedFooter color={palette.white}>
-        {/* {myParticipationStatus === 'NONE' && (
-          <Button onClick={handleParticipate}>봉사 신청하기</Button>
-        )}
-        {myParticipationStatus === ('JOINING' || 'WATING') && (
-          <Button onClick={handleWithdraw}>봉사 신청 취소하기</Button>
-        )} */}
+      <FixedFooter color={palette.white}>{renderFooterButton()}</FixedFooter>
 
-        <Button
-          style={{ marginTop: 1 }}
-          onClick={() =>
-            route.push(`/admin/shelter/event/edit?id=${volunteerEventId}`)
-          }
-        >
-          일정 수정하기
-        </Button>
-      </FixedFooter>
+      <Modal open={isModal} onClose={setModalClose} isHeader={false}>
+        <ConfirmContent
+          eventDetail={eventDetail}
+          shelterId={shelterId}
+          volunteerEventId={volunteerEventId}
+          onClose={setModalClose}
+        />
+      </Modal>
     </>
   );
 }
