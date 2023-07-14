@@ -1,32 +1,44 @@
+'use client';
 import useToast from '@/hooks/useToast';
 import * as styles from './VolunteerFavoriteButtons.css';
 import Button from '@/components/common/Button/Button';
+import { use } from 'react';
+import { post } from '@/api/shelter/{shelterId}/bookmark';
 
-const fetchedData = {
-  isFavorited: false
-};
+const mockData = { isFavorited: true };
+
+async function fetchData() {
+  const res = new Promise<typeof mockData>(resolve =>
+    setTimeout(() => resolve(mockData), 0)
+  );
+  return res;
+}
+
+// 하나의 promse Ref를 갖기 위해, 변수에 할당하여 use() hook으로 전달.
+const dataPromise = fetchData();
 
 interface VolunteerFavoriteButtonsProps {
+  shelterId: number;
   bankAccount?: {
     accountNumber: string;
     bankName: string;
   } | null;
 }
-export default async function VolunteerFavoriteButtons({
+export default function VolunteerFavoriteButtons({
+  shelterId,
   bankAccount
 }: VolunteerFavoriteButtonsProps) {
-  const toastOn = useToast();
+  const toast = useToast();
 
   // TODO: 보호소 즐겨찾기 정보 가져오기
-  const { isFavorited } = await (async params => {
-    return new Promise<typeof fetchedData>(resolve =>
-      setTimeout(() => resolve(fetchedData), 0)
-    );
-  })();
+  const { isFavorited } = use(dataPromise);
 
-  // TODO : 즑겨찾기 추가/삭제 API 호출
-  const handleFavoriteClick = () => {
-    toastOn('즐겨찾기가 추가되었습니다.');
+  // TODO : 즐겨찾기 추가/삭제 API 적용
+  const handleFavoriteClick = async () => {
+    if (isFavorited) {
+      await post(shelterId);
+    }
+    toast('즐겨찾기가 추가되었습니다.');
   };
 
   const handleDonationClick = () => {
@@ -34,9 +46,9 @@ export default async function VolunteerFavoriteButtons({
       navigator.clipboard.writeText(
         `${bankAccount.bankName} ${bankAccount.accountNumber}`
       );
-      toastOn('후원 계좌번호가 복사되었습니다.');
+      toast('후원 계좌번호가 복사되었습니다.');
     } else {
-      toastOn('보호소에서 후원 계좌를 등록하지 않았습니다.');
+      toast('보호소에서 후원 계좌를 등록하지 않았습니다.');
     }
   };
 

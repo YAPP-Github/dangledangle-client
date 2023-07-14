@@ -1,4 +1,3 @@
-'use client';
 import ContainerWithStickyHeader from '@/components/common/ContainerWithStickyHeader/ContainerWithStickyHeader';
 import { get } from '@/api/shelter/{shelterId}';
 import ShelterProfile from '@/components/shelter/ShelterProfile/ShelterProfile';
@@ -22,6 +21,7 @@ export default async function ShelterMainPage({
     <>
       <ContainerWithStickyHeader headerProps={{ title: shelterHomeInfo.name }}>
         <ShelterProfile
+          shelterId={shelterId}
           shelterName={shelterHomeInfo.name}
           profileImageUrl={shelterHomeInfo.profileImageUrl}
           bankAccount={shelterHomeInfo.bankAccount}

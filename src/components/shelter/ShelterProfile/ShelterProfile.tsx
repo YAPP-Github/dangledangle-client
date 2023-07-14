@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { H3 } from '@/components/common/Typography';
 import * as styles from './ShelterProfile.css';
@@ -8,6 +7,7 @@ import { useAuthContext } from '@/providers/AuthContext';
 import VolunteerFavoriteButtons from './VolunteerFavoriteButtons/VolunteerFavoriteButtons';
 
 interface ProfileProps {
+  shelterId: number;
   profileImageUrl: string | null;
   bankAccount: {
     accountNumber: string;
@@ -15,7 +15,8 @@ interface ProfileProps {
   } | null;
   shelterName: string;
 }
-export default async function ShelterProfile({
+export default function ShelterProfile({
+  shelterId,
   profileImageUrl,
   shelterName,
   bankAccount
@@ -39,7 +40,10 @@ export default async function ShelterProfile({
           {isShelterUser ? (
             <ShelterProfileEditButton />
           ) : (
-            <VolunteerFavoriteButtons bankAccount={bankAccount} />
+            <VolunteerFavoriteButtons
+              shelterId={shelterId}
+              bankAccount={bankAccount}
+            />
           )}
         </div>
       </div>
