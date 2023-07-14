@@ -2,23 +2,12 @@
 import useToast from '@/hooks/useToast';
 import * as styles from './VolunteerFavoriteButtons.css';
 import Button from '@/components/common/Button/Button';
-import { use } from 'react';
-import { post } from '@/api/shelter/{shelterId}/bookmark';
-
-const mockData = { isFavorited: true };
-
-async function fetchData() {
-  const res = new Promise<typeof mockData>(resolve =>
-    setTimeout(() => resolve(mockData), 0)
-  );
-  return res;
-}
-
-// 하나의 promse Ref를 갖기 위해, 변수에 할당하여 use() hook으로 전달.
-const dataPromise = fetchData();
+import useBookMarkMutation from '@/api/shelter/{shelterId}/useBookMarkMutation';
+import { useCallback } from 'react';
 
 interface VolunteerFavoriteButtonsProps {
   shelterId: number;
+  bookMarked?: boolean;
   bankAccount?: {
     accountNumber: string;
     bankName: string;
@@ -26,21 +15,25 @@ interface VolunteerFavoriteButtonsProps {
 }
 export default function VolunteerFavoriteButtons({
   shelterId,
+  bookMarked,
   bankAccount
 }: VolunteerFavoriteButtonsProps) {
   const toast = useToast();
+  console.log('buttons', bookMarked);
 
-  // TODO: 보호소 즐겨찾기 정보 가져오기
-  const { isFavorited } = use(dataPromise);
-
-  // TODO : 즐겨찾기 추가/삭제 API 적용
-  const handleFavoriteClick = async () => {
-    if (isFavorited) {
-      await post(shelterId);
+  const bookMarkMessage = useCallback((bookMarkState: boolean) => {
+    if (bookMarkState) {
+      toast('즐겨찾기에 추가되었습니다.');
+    } else {
+      toast('즐겨찾기가 삭제되었습니다');
     }
-    toast('즐겨찾기가 추가되었습니다.');
-  };
+  }, []);
 
+  const { mutate } = useBookMarkMutation(shelterId, bookMarkMessage);
+
+  const handleFavoriteClick = async () => {
+    mutate(shelterId);
+  };
   const handleDonationClick = () => {
     if (bankAccount) {
       navigator.clipboard.writeText(
@@ -58,10 +51,10 @@ export default function VolunteerFavoriteButtons({
         buttonColor="secondary"
         size="small"
         onClick={handleFavoriteClick}
-        variant={isFavorited ? 'filled' : 'line'}
-        color={isFavorited ? 'white' : 'secondary'}
+        variant={bookMarked ? 'line' : 'filled'}
+        color={bookMarked ? 'secondary' : 'white'}
       >
-        {isFavorited ? '즐겨찾기' : '즐겨찾기 해제'}
+        {bookMarked ? '즐겨찾기 해제' : '즐겨찾기'}
       </Button>
       <Button
         buttonColor="secondary"

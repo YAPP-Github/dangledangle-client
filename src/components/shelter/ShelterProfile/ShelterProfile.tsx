@@ -5,25 +5,24 @@ import * as styles from './ShelterProfile.css';
 import ShelterProfileEditButton from './ShelterProfileButton/ShelterProfileEditButton';
 import { useAuthContext } from '@/providers/AuthContext';
 import VolunteerFavoriteButtons from './VolunteerFavoriteButtons/VolunteerFavoriteButtons';
+import useShelterHomeInfo from '@/api/shelter/{shelterId}/useShelterHomeInfo';
+import Button from '@/components/common/Button/Button';
 
 interface ProfileProps {
   shelterId: number;
-  profileImageUrl: string | null;
-  bankAccount: {
-    accountNumber: string;
-    bankName: string;
-  } | null;
-  shelterName: string;
+  profileImageUrl: string;
+  bookMarked?: boolean;
+  name: string;
 }
 export default function ShelterProfile({
-  shelterId,
   profileImageUrl,
-  shelterName,
-  bankAccount
+  name,
+  bookMarked,
+  shelterId
 }: ProfileProps) {
   //TODO auth 상태 관리
   const auth = useAuthContext();
-  const isShelterUser = auth.dangle_role === 'SHELTER'; //shelterId가 있으면 True
+  const { data: shelterHomeInfo } = useShelterHomeInfo(shelterId);
 
   return (
     <>
@@ -33,17 +32,27 @@ export default function ShelterProfile({
           height={80}
           className={styles.profileImage}
           src={profileImageUrl || '/sparkle.png'}
-          alt={`${shelterName}-profile-image`}
+          alt={`${name}-profile-image`}
         />
         <div className={styles.contents}>
-          <H3>{shelterName}</H3>
-          {isShelterUser ? (
-            <ShelterProfileEditButton />
+          <H3>{name}</H3>
+
+          {shelterHomeInfo ? (
+            auth.dangle_role === 'SHELTER' ? (
+              <ShelterProfileEditButton />
+            ) : (
+              <VolunteerFavoriteButtons
+                bookMarked={
+                  shelterHomeInfo === undefined
+                    ? bookMarked
+                    : shelterHomeInfo.bookMarked
+                }
+                shelterId={shelterId}
+                bankAccount={shelterHomeInfo?.bankAccount}
+              />
+            )
           ) : (
-            <VolunteerFavoriteButtons
-              shelterId={shelterId}
-              bankAccount={bankAccount}
-            />
+            <Button loading={true} buttonColor="secondary" />
           )}
         </div>
       </div>

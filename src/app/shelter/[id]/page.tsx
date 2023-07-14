@@ -22,9 +22,9 @@ export default async function ShelterMainPage({
       <ContainerWithStickyHeader headerProps={{ title: shelterHomeInfo.name }}>
         <ShelterProfile
           shelterId={shelterId}
-          shelterName={shelterHomeInfo.name}
+          name={shelterHomeInfo.name}
           profileImageUrl={shelterHomeInfo.profileImageUrl}
-          bankAccount={shelterHomeInfo.bankAccount}
+          bookMarked={shelterHomeInfo.bookMarked}
         />
         <Description description={shelterHomeInfo.description} />
       </ContainerWithStickyHeader>

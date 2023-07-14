@@ -28,6 +28,7 @@ export interface ShelterAdditionalInfo {
     bankName: string;
   } | null;
   notice: string | null;
+  bookMarked?: boolean;
 }
 
 export interface ShelterEssentialInfo {
