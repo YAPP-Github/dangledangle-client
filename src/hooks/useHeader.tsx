@@ -1,33 +1,44 @@
-import { headerState } from '@/store/header';
+import { HeaderState, headerState } from '@/store/header';
+import { palette } from '@/styles/color';
 import { useLayoutEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-interface HeaderProps {
-  isHeader?: 'hidden' | 'visible';
-  isBackArrow?: 'hidden' | 'visible';
+export interface UseHeaderProps extends Omit<HeaderState, 'title'> {
   title?: string;
-  thisPage?: number;
-  entirePage?: number;
 }
+
 const useHeader = ({
+  color,
   isHeader,
   isBackArrow,
   title,
   thisPage,
-  entirePage
-}: HeaderProps) => {
+  entirePage,
+  RightSideComponent
+}: UseHeaderProps) => {
   const setHeader = useSetRecoilState(headerState);
 
   useLayoutEffect(() => {
     setHeader(prev => ({
       ...prev,
+      color: color || palette.background,
       isHeader: isHeader || 'visible',
       isBackArrow: isBackArrow || 'visible',
       title: title || prev.title,
       thisPage: thisPage || null,
-      entirePage: entirePage || null
+      entirePage: entirePage || null,
+      RightSideComponent: RightSideComponent || null
     }));
-  }, [setHeader, isHeader, isBackArrow, title, thisPage, entirePage]);
+  }, [
+    setHeader,
+    color,
+    isHeader,
+    isBackArrow,
+    title,
+    thisPage,
+    entirePage,
+    RightSideComponent
+  ]);
 
   return setHeader;
 };

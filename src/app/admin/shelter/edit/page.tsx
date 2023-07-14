@@ -163,17 +163,21 @@ export default function ShelterEditPage() {
               <AnimalCard
                 key={animal.id}
                 data={animal}
+                mode="edit"
                 onClickEdit={() => handleClickEdit(idx)}
                 onClickDelete={() => handleClickDeleteAnimal(animal.id)}
               />
             ))}
           </div>
         )}
-        {window.location.hash === '#register' && (
-          <FixedFooter>
-            <Button onClick={handleClickCompleteRegister}>가입 완료하기</Button>
-          </FixedFooter>
-        )}
+        {typeof window !== 'undefined' &&
+          window.location.hash === '#register' && (
+            <FixedFooter>
+              <Button onClick={handleClickCompleteRegister}>
+                가입 완료하기
+              </Button>
+            </FixedFooter>
+          )}
         <AnimalFormDialog
           initialData={targetAnimal}
           open={isOpened}
