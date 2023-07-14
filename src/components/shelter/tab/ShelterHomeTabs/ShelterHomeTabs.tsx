@@ -23,7 +23,7 @@ export default function ShelterHomeTabs({ shelterId }: ShelterTabsProps) {
     () => [
       {
         title: '봉사 모집 일정',
-        PanelComp: () => <ScheduleTab />
+        PanelComp: () => <ScheduleTab shelterId={shelterId} />
       },
       {
         title: '안내 및 상세 정보',

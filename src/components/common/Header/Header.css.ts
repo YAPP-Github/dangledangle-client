@@ -1,21 +1,24 @@
-import { palette } from '@/styles/color';
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
+
+export const headerColor = createVar('headerColor');
 
 export const HEADER_HEIGHT = 52;
 export const container = style({
+  position: 'sticky',
+  zIndex: 1,
+  top: 0,
   width: '100%',
   display: 'flex',
-  position: 'relative',
   padding: '16px 20px',
   boxSizing: 'border-box',
+  height: '56px',
   justifyContent: 'space-between',
   alignItems: 'center',
-  background: palette.background
+  backgroundColor: headerColor
 });
 
 export const arrowLeft = style({
   cursor: 'pointer',
-  position: 'absolute',
   zIndex: 1
 });
 
@@ -25,7 +28,8 @@ export const title = style({
 });
 
 export const rightSide = style({
-  right: 0,
+  position: 'absolute',
+  right: 20,
   display: 'flex',
   columnGap: 4
 });

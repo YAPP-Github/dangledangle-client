@@ -28,3 +28,7 @@ export { default as BaseIcon } from './BaseIcon.svg';
 export { default as PhoneIcon } from './PhoneIcon.svg';
 export { default as ParkingIcon } from './ParkingIcon.svg';
 export { default as LoudSpeakerIcon } from './LoudSpeakerIcon.svg';
+export { default as Delete } from './Delete.svg';
+export { default as Calendar } from './Calendar.svg';
+export { default as Clockmd } from './Clockmd.svg';
+export { default as Profilemd } from './Profilemd.svg';

@@ -39,7 +39,7 @@ export const modalConatainer = recipe({
   variants: {
     size: {
       sm: {
-        transform: 'translate(-50%, -100%)'
+        transform: 'translate(-50%, -60%)'
       },
       lg: {
         transform: 'translate(-50%, -50%)'
