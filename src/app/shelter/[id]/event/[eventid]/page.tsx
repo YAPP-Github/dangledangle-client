@@ -1,7 +1,7 @@
 'use client';
 
 import { Delete, UploadIcon } from '@/asset/icons';
-import ShelterEvent from '@/components/shelter/shelter-event/ShelterEvent';
+import ShelterEvent from '@/components/shelter-event/ShelterEvent';
 import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
 import { palette } from '@/styles/color';
