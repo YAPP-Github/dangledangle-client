@@ -47,19 +47,7 @@ export default function ContainerWithStickyHeader({
     }
 
     const titleFadeInteractionControl = () => {
-      // const headerRect = headerElem.getBoundingClientRect();
       const containerRect = containerElem.getBoundingClientRect();
-
-      // const point = headerRect.height - containerRect.height;
-      /**
-       * containerRect.top 위치는 스크롤이 내려갈때마다 - 되므로,
-       * headerRect.height - containerRect.height 를 했을때의 top 위치가
-       * 헤더 하단부분과.container 하단부분이 맞닿는 지점이 된다.
-       */
-
-      /** 디자인상 스크롤 내릴 시 header에 의해 보호소 이름이 곧바로 가려짐,
-       *  container가 화면 최 상단에 닿았을때 fadeIn 인터랙션 하는것이 자연스러운듯
-       */
 
       if (containerRect.top <= 0) {
         titleElem.classList.add(styles.fadeIn);
