@@ -45,11 +45,11 @@ export async function GET(req: NextRequest) {
 
     res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
       sameSite: 'lax',
-      httpOnly: true
+      httpOnly: false
     });
     res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
       sameSite: 'lax',
-      httpOnly: true
+      httpOnly: false
     });
     return res;
   } catch (e) {
