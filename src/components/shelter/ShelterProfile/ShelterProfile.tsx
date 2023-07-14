@@ -31,7 +31,7 @@ export default function ShelterProfile({
           width={80}
           height={80}
           className={styles.profileImage}
-          src={profileImageUrl || '/sparkle.png'}
+          src={profileImageUrl || '/images/DefaultAnimal.png'}
           alt={`${name}-profile-image`}
         />
         <div className={styles.contents}>

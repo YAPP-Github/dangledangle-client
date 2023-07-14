@@ -15,7 +15,7 @@ export default function Description({
   description,
   summaryLength = SUMMARY_LENGTH_DEFAULT
 }: DescriptionProps) {
-  const [isExpanded, , , toggleExpaneded] = useBooleanState(true);
+  const [isExpanded, , , toggleExpaneded] = useBooleanState(false);
   const isLongDescription = description.length > summaryLength;
   const handleClick = () => {
     toggleExpaneded();
