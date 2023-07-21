@@ -15,6 +15,7 @@ import React, {
   useState
 } from 'react';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { UserRole } from '@/constants/user';
 
 const protectedRoutes = ['/volunteer', '/shelter', '/admin'];
 
@@ -31,7 +32,7 @@ type AuthState = {
   user: ShelterUser;
   dangle_access_token: string | null;
   dangle_id: number | null;
-  dangle_role: 'VOLUNTEER' | 'SHELTER' | 'NONE';
+  dangle_role: UserRole;
   logout: () => void;
 };
 
@@ -40,7 +41,7 @@ interface DecodeToken extends JwtPayload {
   exp: number;
   iat: number;
   id: number;
-  role: 'VOLUNTEER' | 'SHELTER' | 'NONE';
+  role: UserRole;
 }
 
 const initialAuthState: AuthState = {
@@ -58,7 +59,7 @@ type AuthContextProps = {
   user: ShelterUser | VolunteerUser;
   dangle_access_token: string | null;
   dangle_id: number | null;
-  dangle_role: 'VOLUNTEER' | 'SHELTER' | 'NONE';
+  dangle_role: UserRole;
   setAuthState: React.Dispatch<React.SetStateAction<AuthState>>;
   logout: () => void;
 };

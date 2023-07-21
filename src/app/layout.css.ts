@@ -10,10 +10,10 @@ export const container = style({
   maxWidth: BREAK_POINT,
   marginRight: 'auto',
   marginLeft: 'auto',
-  padding: `0 ${GLOBAL_PADDING_X}px`,
   height: '100%'
 });
 
 export const main = style({
+  padding: `0 ${GLOBAL_PADDING_X}px`,
   minHeight: `calc(100vh - ${FOOTER_HEIGHT}px)`
 });
