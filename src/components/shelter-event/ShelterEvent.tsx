@@ -130,31 +130,22 @@ export default function ShelterEvent({
       );
     }
 
-    if (
-      myParticipationStatus === 'NONE' &&
-      joiningVolunteers?.length < recruitNum
-    ) {
-      return <Button onClick={handleModalOpen}>봉사 신청하기</Button>;
+    if (myParticipationStatus === 'NONE') {
+      if (joiningVolunteers?.length < recruitNum) {
+        return <Button onClick={handleModalOpen}>봉사 신청하기</Button>;
+      } else {
+        return (
+          <Button buttonColor="secondary" onClick={handleModalOpen}>
+            봉사 대기 신청하기
+          </Button>
+        );
+      }
     }
 
-    if (
-      myParticipationStatus === 'JOINING' &&
-      joiningVolunteers?.length < recruitNum
-    ) {
+    if (myParticipationStatus === 'JOINING') {
       return (
         <Button variant="line" onClick={handleModalOpen}>
           봉사 신청 취소하기
-        </Button>
-      );
-    }
-
-    if (
-      myParticipationStatus === 'NONE' &&
-      joiningVolunteers?.length >= recruitNum
-    ) {
-      return (
-        <Button buttonColor="secondary" onClick={handleModalOpen}>
-          봉사 대기 신청하기
         </Button>
       );
     }
