@@ -26,10 +26,8 @@ export default function RootLayout({
             <AuthProvider>
               <div id="modal-portal" />
               <GlobalComponents />
-              <main className={styles.main}>
-                <Header />
-                {children}
-              </main>
+              <Header />
+              <main className={styles.main}>{children}</main>
               <Footer />
             </AuthProvider>
           </QueryProvider>

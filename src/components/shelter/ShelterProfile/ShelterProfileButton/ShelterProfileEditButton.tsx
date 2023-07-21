@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
-import Button from '../common/Button/Button';
-import * as styles from './VolunteerFavoriteButtons.css';
+import Button from '@/components/common/Button/Button';
+import * as styles from '../VolunteerFavoriteButtons/VolunteerFavoriteButtons.css';
 
 export default function ShelterProfileEditButton() {
   const router = useRouter();
