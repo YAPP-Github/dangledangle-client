@@ -15,8 +15,7 @@ interface VolunteerEventListProps {
   selectedDate: Date;
   shelterId: number;
   scrollTo: (eventCardEl: HTMLElement) => void;
-  fetchNextEvents: () => Promise<unknown>;
-  hasNextEvents?: boolean;
+  fetchNextEvents: () => Promise<{ hasNext: boolean }>;
 }
 
 const getDateHeaderElementId = (date: Date) =>
@@ -41,23 +40,24 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   selectedDate,
   shelterId,
   scrollTo,
-  fetchNextEvents,
-  hasNextEvents
+  fetchNextEvents
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
-  const { attatchObserver, observe } = useObserver('observer-target');
+  const { observe } = useObserver('observer-target');
   const isFetchingEvents = useIsFetching({
     queryKey: queryKey.list(shelterId)
   });
 
-  const handleIntersect = useCallback(() => {
-    if (hasNextEvents) fetchNextEvents().then(observe);
-  }, [fetchNextEvents, hasNextEvents, observe]);
+  const handleIntersect = useCallback(async () => {
+    const result = await fetchNextEvents();
+    result.hasNext && observe(handleIntersect);
+  }, [fetchNextEvents, observe]);
 
   useEffect(() => {
-    const isAttatched = attatchObserver(handleIntersect);
-    if (!isAttatched) setTimeout(() => attatchObserver(handleIntersect), 1000);
-  }, [attatchObserver, handleIntersect]);
+    const isAttatched = observe(handleIntersect);
+    if (!isAttatched) setTimeout(() => observe(handleIntersect), 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const startAtList = useMemo(() => events?.map(e => e.startAt), [events]);
 

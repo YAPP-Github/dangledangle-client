@@ -78,6 +78,11 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
     [query, selectedDate]
   );
 
+  const fetchNextEvents = useCallback(async () => {
+    const result = await query.fetchNextPage();
+    return { hasNext: Boolean(result.hasNextPage) };
+  }, [query]);
+
   return (
     <div>
       <DangleCalendar
@@ -94,8 +99,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
             events={volunteerEvents}
             shelterId={shelterId}
             scrollTo={scrollToTarget}
-            fetchNextEvents={query.fetchNextPage}
-            hasNextEvents={query.hasNextPage}
+            fetchNextEvents={fetchNextEvents}
           />
         )}
       </div>
