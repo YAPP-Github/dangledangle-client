@@ -106,12 +106,14 @@ export default function ShelterEditPage() {
     <div className="page">
       <section className={styles.imageSection}>
         <ImageUploader
-          imagePath={shelterQuery?.data?.profileImageUrl}
           name="image"
-          onChangeCallback={handleChangeImage}
-          placeholder="대표 사진"
+          imagePath={shelterQuery?.data?.profileImageUrl}
+          shape="circle"
+          defaultImage="shelter"
+          size="96"
           loading={isUploading}
           error={uploadError}
+          onChangeCallback={handleChangeImage}
         />
       </section>
       <section>
