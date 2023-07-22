@@ -7,8 +7,6 @@ export const size = createVar('size');
 export const avartar = recipe({
   base: {
     border: `1px solid ${palette.gray300}`,
-    width: size,
-    height: size,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
@@ -25,11 +23,15 @@ export const avartar = recipe({
     defaultImage: {
       shelter: {
         backgroundImage: `url(/images/DefaultAnimal.png)`,
-        backgroundColor: palette.white
+        backgroundColor: palette.white,
+        width: size,
+        height: size
       },
       puppy: {
         backgroundImage: `url(/images/DefaultAnimal.png)`,
-        backgroundColor: palette.gray200
+        backgroundColor: palette.gray200,
+        width: size,
+        height: size
       }
     }
   }
