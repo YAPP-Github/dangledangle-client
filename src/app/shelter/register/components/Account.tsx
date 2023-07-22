@@ -98,31 +98,34 @@ export default function Account({ onNext }: OnNextProps) {
           <Line>계정을 생성해주세요.</Line>
         </EmphasizedTitle>
       </div>
-      <TextField
-        label="이메일"
-        placeholder="이메일을 입력해주세요."
-        {...register('email')}
-        onBlur={() => {
-          if (emailValue?.length > 0) {
-            debouncedValidator(emailValue, 'EMAIL');
-          }
-        }}
-        error={errors.email}
-      />
-      <TextField
-        label="비밀번호"
-        placeholder="영문, 숫자, 특수문자 2가지 조합 8~15자"
-        type="password"
-        {...register('password')}
-        error={errors.password}
-      />
-      <TextField
-        label="비밀번호 확인"
-        placeholder="비밀번호를 한번 더 입력해주세요."
-        type="password"
-        {...register('passwordConfirm')}
-        error={errors.passwordConfirm}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
+        <TextField
+          label="이메일"
+          placeholder="이메일을 입력해주세요."
+          {...register('email')}
+          onBlur={() => {
+            if (emailValue?.length > 0) {
+              debouncedValidator(emailValue, 'EMAIL');
+            }
+          }}
+          error={errors.email}
+        />
+        <TextField
+          label="비밀번호"
+          placeholder="영문, 숫자, 특수문자 2가지 조합 8~15자"
+          type="password"
+          {...register('password')}
+          error={errors.password}
+        />
+        <TextField
+          label="비밀번호 확인"
+          placeholder="비밀번호를 한번 더 입력해주세요."
+          type="password"
+          {...register('passwordConfirm')}
+          error={errors.passwordConfirm}
+        />
+      </div>
+
       <Button
         disabled={isInputError || !areInputsFilled}
         onClick={handleBottomSheet}

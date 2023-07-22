@@ -74,7 +74,11 @@ export default function ShelterLogin() {
         />
       </div>
 
-      <FormProvider methods={methods} onSubmit={handleSubmit(handleLogin)}>
+      <FormProvider
+        methods={methods}
+        onSubmit={handleSubmit(handleLogin)}
+        style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}
+      >
         <TextField
           placeholder="이메일을 입력해주세요."
           {...register('email')}
