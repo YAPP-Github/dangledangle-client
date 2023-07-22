@@ -55,7 +55,8 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   }, [fetchNextEvents, hasNextEvents, observe]);
 
   useEffect(() => {
-    attatchObserver(handleIntersect);
+    const isAttatched = attatchObserver(handleIntersect);
+    if (!isAttatched) setTimeout(() => attatchObserver(handleIntersect), 1000);
   }, [attatchObserver, handleIntersect]);
 
   const startAtList = useMemo(() => events?.map(e => e.startAt), [events]);

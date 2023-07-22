@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export default function useObserver(
   targetElementId: string,
@@ -24,13 +24,15 @@ export default function useObserver(
       }, options);
 
       const targetEl = document.getElementById(targetElementId);
-      if (!targetEl)
-        throw Error(
-          `useObserver > startObserve: id가 ${targetElementId}인 DOM 요소가 없습니다`
+      if (!targetEl || !observer.current) {
+        console.error(
+          `target DOM 요소(${targetEl})가 없거나 attatchObserver가 호출되지 않았습니다`
         );
-
+        return false;
+      }
       observer.current = io;
       io.observe(targetEl);
+      return true;
     },
     [options, targetElementId]
   );
@@ -38,11 +40,13 @@ export default function useObserver(
   const observe = useCallback(() => {
     const targetEl = document.getElementById(targetElementId);
     if (!targetEl || !observer.current) {
-      throw Error(
+      console.error(
         `target DOM 요소(${targetEl})가 없거나 attatchObserver가 호출되지 않았습니다`
       );
+      return false;
     }
     observer.current.observe(targetEl);
+    return true;
   }, [targetElementId]);
 
   return { attatchObserver, observe };
