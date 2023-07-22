@@ -16,6 +16,7 @@ interface VolunteerEventListProps {
   shelterId: number;
   scrollTo: (eventCardEl: HTMLElement) => void;
   fetchNextEvents: () => Promise<unknown>;
+  hasNextEvents?: boolean;
 }
 
 const getDateHeaderElementId = (date: Date) =>
@@ -40,7 +41,8 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   selectedDate,
   shelterId,
   scrollTo,
-  fetchNextEvents
+  fetchNextEvents,
+  hasNextEvents
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
   const { attatchObserver, observe } = useObserver('observer-target');
@@ -49,8 +51,8 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   });
 
   const handleIntersect = useCallback(() => {
-    fetchNextEvents().then(observe);
-  }, [fetchNextEvents, observe]);
+    if (hasNextEvents) fetchNextEvents().then(observe);
+  }, [fetchNextEvents, hasNextEvents, observe]);
 
   useEffect(() => {
     attatchObserver(handleIntersect);
