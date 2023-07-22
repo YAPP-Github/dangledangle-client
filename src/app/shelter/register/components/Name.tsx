@@ -52,7 +52,7 @@ export default function Name({ onNext }: OnNextProps) {
         {...register('name')}
         onBlur={() => {
           if (nameValue?.length > 0) {
-            debouncedValidator(nameValue, 'NAME');
+            debouncedValidator(nameValue.trim(), 'NAME');
           }
         }}
         error={errors.name}
