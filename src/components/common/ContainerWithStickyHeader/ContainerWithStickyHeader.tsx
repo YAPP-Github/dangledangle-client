@@ -1,12 +1,13 @@
 'use client';
 import { useEffect } from 'react';
 import * as headerStyles from '@/components/common/Header/Header.css';
-
+import * as globalStyles from '@/styles/global.css';
 import * as styles from './ContainerWithStickyHeader.css';
 import useHeader, { UseHeaderProps } from '@/hooks/useHeader';
 import { variants } from '../Typography/Typography.css';
 import { UploadIcon } from '@/asset/icons';
 import useToast from '@/hooks/useToast';
+import clsx from 'clsx';
 
 //TOOD : uploadIcon 구현
 const ShareButton = () => {
@@ -62,5 +63,9 @@ export default function ContainerWithStickyHeader({
     return () =>
       window.removeEventListener('scroll', titleFadeInteractionControl);
   }, [setHeader]);
-  return <div className={styles.container}>{children}</div>;
+  return (
+    <div className={clsx([styles.container, globalStyles.expandGlobalPadding])}>
+      {children}
+    </div>
+  );
 }
