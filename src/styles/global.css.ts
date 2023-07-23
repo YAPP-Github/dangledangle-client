@@ -1,4 +1,4 @@
-import { globalStyle } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import 'vanilla-reset';
 import { palette } from './color';
 
@@ -9,3 +9,11 @@ globalStyle('.page', { marginTop: '20px' });
 export const BREAK_POINT = 600;
 export const GLOBAL_PADDING_X = 20;
 export const FOOTER_HEIGHT = 144;
+
+export const expandGlobalPadding = style({
+  width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
+  transform: `translateX(-${GLOBAL_PADDING_X}px)`,
+  maxWidth: BREAK_POINT,
+  padding: `0px ${GLOBAL_PADDING_X}px`,
+  boxSizing: 'border-box'
+});
