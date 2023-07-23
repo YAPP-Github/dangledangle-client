@@ -3,20 +3,25 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query';
-import { DeleteResponse, queryKey, remove } from './volunteer-event';
+import { DeleteResponse, remove } from './volunteer-event';
+import { queryKey } from '../volunteer-event';
 
-export type DeleteEventPayload = DeleteResponse;
+export interface DeleteEventPayload extends DeleteResponse {
+  shelterId: number;
+}
 
 export default function useDeleteVolunteerEvent(
   options?: UseMutationOptions<DeleteResponse, unknown, DeleteEventPayload>
 ) {
   const queryClient = useQueryClient();
   return useMutation<DeleteResponse, unknown, DeleteEventPayload>(
-    ({ volunteerEventId }) => remove(volunteerEventId),
+    ({ shelterId, volunteerEventId }) => remove(volunteerEventId),
     {
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);
-        return queryClient.invalidateQueries(queryKey.all);
+        return queryClient.invalidateQueries(
+          queryKey.list(variables.shelterId)
+        );
       },
       ...options
     }

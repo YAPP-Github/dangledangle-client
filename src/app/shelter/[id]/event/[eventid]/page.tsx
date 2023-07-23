@@ -22,11 +22,7 @@ export default function VolunteerEventPage() {
   const toastOn = useToast();
   const { dialogOn, dialogOff, setDialogLoading } = useDialog();
 
-  const { mutateAsync: deleteEvent } = useDeleteVolunteerEvent({
-    onSuccess: () => {
-      router.push(`/shelter/${shelterId}`);
-    }
-  });
+  const { mutateAsync: deleteEvent } = useDeleteVolunteerEvent();
 
   const handleClickDeleteVolEvent = (volunteerEventId: number) => {
     dialogOn({
@@ -36,9 +32,10 @@ export default function VolunteerEventPage() {
         text: '삭제',
         onClick: () => {
           setDialogLoading(true);
-          deleteEvent({ volunteerEventId }).then(() => {
+          deleteEvent({ shelterId, volunteerEventId }).then(() => {
             dialogOff();
             toastOn('이벤트가 삭제되었습니다.');
+            router.push(`/shelter/${shelterId}`);
           });
         }
       }
