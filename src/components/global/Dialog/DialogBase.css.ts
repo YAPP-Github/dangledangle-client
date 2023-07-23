@@ -34,7 +34,7 @@ export const modalConatainer = recipe({
     padding: '20px',
     background: palette.white,
     width: '320px',
-    maxHeight: 'calc(85vh)'
+    maxHeight: 'calc(95vh)'
   },
   variants: {
     size: {
