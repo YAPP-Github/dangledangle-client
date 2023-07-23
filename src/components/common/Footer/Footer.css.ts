@@ -2,7 +2,6 @@ import { FOOTER_HEIGHT } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const footerWrapper = style({
-  marginTop: 16,
   padding: '48px 20px',
   boxSizing: 'border-box',
   display: 'flex',
