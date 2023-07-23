@@ -25,6 +25,7 @@ export default function ContainerWithStickyHeader({
 }: React.PropsWithChildren<StickyTitleProps>) {
   const setHeader = useHeader({
     ...headerProps,
+    color: 'white',
     RightSideComponent: ShareButton
   });
 
