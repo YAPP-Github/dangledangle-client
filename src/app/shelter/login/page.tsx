@@ -106,7 +106,7 @@ export default function ShelterLogin() {
       </div>
 
       <div className={styles.registerTextWrapper}>
-        <Body3>아직 daenggle 회원이 아니신가요?</Body3>
+        <Body3>아직 dangledangle 회원이 아니신가요?</Body3>
         <ButtonText1
           style={{ cursor: 'pointer' }}
           onClick={() => router.push('/shelter/register')}
