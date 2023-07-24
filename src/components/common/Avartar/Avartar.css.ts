@@ -1,4 +1,3 @@
-import { Clock, Dog } from '@/asset/icons';
 import { palette } from '@/styles/color';
 import { createVar } from '@vanilla-extract/css';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
@@ -22,13 +21,13 @@ export const avartar = recipe({
     },
     defaultImage: {
       shelter: {
-        backgroundImage: `url(/images/DefaultAnimal.png)`,
+        backgroundImage: `url(/images/Shelter.png)`,
         backgroundColor: palette.white,
         width: size,
         height: size
       },
       puppy: {
-        backgroundImage: `url(/images/DefaultAnimal.png)`,
+        backgroundImage: `url(/images/Puppy.png)`,
         backgroundColor: palette.gray200,
         width: size,
         height: size
