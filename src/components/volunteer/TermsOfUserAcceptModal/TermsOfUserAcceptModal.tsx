@@ -7,7 +7,7 @@ import * as styles from './TermsOfUserAcceptModal.css';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useHeader from '@/hooks/useHeader';
-import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '@/app/volunteer/register/[...slug]/CurrentComponentTypes';
+import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '@/app/register/volunteer/[...slug]/CurrentComponentTypes';
 
 type InitTermsOfUserAcceptStateType = {
   age: boolean;

@@ -55,7 +55,7 @@ export const monthlyInfiniteOption: UseInfiniteQueryOptions<GetListResponse> = {
       NUM_OF_MAX_ITERATION_MONTHS,
       'months'
     );
-    if (prevDate.isBefore(minDate)) {
+    if (prevDate.isSameOrBefore(minDate)) {
       return undefined;
     }
 
@@ -72,7 +72,8 @@ export const monthlyInfiniteOption: UseInfiniteQueryOptions<GetListResponse> = {
       NUM_OF_MAX_ITERATION_MONTHS,
       'months'
     );
-    if (nextDate.isAfter(maxDate)) {
+
+    if (nextDate.isSameOrAfter(maxDate)) {
       return undefined;
     }
 

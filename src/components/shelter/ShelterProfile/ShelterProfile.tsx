@@ -7,6 +7,7 @@ import { useAuthContext } from '@/providers/AuthContext';
 import VolunteerFavoriteButtons from './VolunteerFavoriteButtons/VolunteerFavoriteButtons';
 import useShelterHomeInfo from '@/api/shelter/{shelterId}/useShelterHomeInfo';
 import Button from '@/components/common/Button/Button';
+import Avartar from '@/components/common/Avartar/Avartar';
 
 interface ProfileProps {
   shelterId: number;
@@ -27,12 +28,12 @@ export default function ShelterProfile({
   return (
     <>
       <div className={styles.wrapper}>
-        <Image
-          width={80}
-          height={80}
-          className={styles.profileImage}
-          src={profileImageUrl || '/images/DefaultAnimal.png'}
-          alt={`${name}-profile-image`}
+        <Avartar
+          size="80"
+          defaultImage="shelter"
+          shape="circle"
+          alt={`${name}의 프로필 이미지`}
+          imagePath={profileImageUrl}
         />
         <div className={styles.contents}>
           <H3>{name}</H3>

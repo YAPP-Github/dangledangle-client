@@ -7,8 +7,8 @@ export const STEP_PATH_3 = 'complete';
 export const FORM_NICKNAME = 'nickname';
 export const FORM_CONTACT_NUMBER = 'contactNumber';
 
-export const VOLUNTEER_REDIRECT_PATH_LOGIN = '/volunteer/login';
-export const VOLUNTEER_REDIRECT_PATH_REGISTER = '/volunteer/register';
+export const VOLUNTEER_REDIRECT_PATH_LOGIN = '/login/volunteer';
+export const VOLUNTEER_REDIRECT_PATH_REGISTER = '/register/volunteer';
 
 export type RegisterFormValues =
   | typeof FORM_NICKNAME

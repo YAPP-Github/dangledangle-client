@@ -15,7 +15,7 @@ interface VolunteerEventListProps {
   selectedDate: Date;
   shelterId: number;
   scrollTo: (eventCardEl: HTMLElement) => void;
-  fetchNextEvents: () => Promise<unknown>;
+  fetchNextEvents: () => Promise<{ hasNext: boolean }>;
 }
 
 const getDateHeaderElementId = (date: Date) =>
@@ -43,18 +43,21 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   fetchNextEvents
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
-  const { attatchObserver, observe } = useObserver('observer-target');
+  const { observe } = useObserver('observer-target');
   const isFetchingEvents = useIsFetching({
     queryKey: queryKey.list(shelterId)
   });
 
-  const handleIntersect = useCallback(() => {
-    fetchNextEvents().then(observe);
+  const handleIntersect = useCallback(async () => {
+    const result = await fetchNextEvents();
+    result.hasNext && observe(handleIntersect);
   }, [fetchNextEvents, observe]);
 
   useEffect(() => {
-    attatchObserver(handleIntersect);
-  }, [attatchObserver, handleIntersect]);
+    const isAttatched = observe(handleIntersect);
+    if (!isAttatched) setTimeout(() => observe(handleIntersect), 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const startAtList = useMemo(() => events?.map(e => e.startAt), [events]);
 

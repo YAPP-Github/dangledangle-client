@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export default function useObserver(
   targetElementId: string,
@@ -11,39 +11,31 @@ export default function useObserver(
     return () => observer.current?.disconnect();
   }, []);
 
-  const attatchObserver = useCallback(
+  const observe = useCallback(
     (onIntersect: Function) => {
       const io = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
-            onIntersect();
-            // onIntersect를 실행 후 unobserve
+            // 한 번 실행 후 unobserve
             observer.unobserve(entry.target);
+            onIntersect();
+            break;
           }
-        });
+        }
       }, options);
 
       const targetEl = document.getElementById(targetElementId);
-      if (!targetEl)
-        throw Error(
-          `useObserver > startObserve: id가 ${targetElementId}인 DOM 요소가 없습니다`
-        );
+      if (!targetEl) {
+        console.error(`target DOM 요소를 찾을 수 없습니다`);
+        return false;
+      }
 
       observer.current = io;
       io.observe(targetEl);
+      return true;
     },
     [options, targetElementId]
   );
 
-  const observe = useCallback(() => {
-    const targetEl = document.getElementById(targetElementId);
-    if (!targetEl || !observer.current) {
-      throw Error(
-        `target DOM 요소(${targetEl})가 없거나 attatchObserver가 호출되지 않았습니다`
-      );
-    }
-    observer.current.observe(targetEl);
-  }, [targetElementId]);
-
-  return { attatchObserver, observe };
+  return { observe };
 }

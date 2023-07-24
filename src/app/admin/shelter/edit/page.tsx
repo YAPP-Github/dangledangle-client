@@ -22,7 +22,7 @@ import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 import useHeader from '@/hooks/useHeader';
 import { ObservationAnimal, ShelterAdditionalInfo } from '@/types/shelter';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
-import RegisterComplete from '@/app/shelter/register/components/RegisterComplete';
+import RegisterComplete from '@/app/register/shelter/components/RegisterComplete';
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });
@@ -106,12 +106,14 @@ export default function ShelterEditPage() {
     <div className="page">
       <section className={styles.imageSection}>
         <ImageUploader
-          imagePath={shelterQuery?.data?.profileImageUrl}
           name="image"
-          onChangeCallback={handleChangeImage}
-          placeholder="대표 사진"
+          imagePath={shelterQuery?.data?.profileImageUrl}
+          shape="circle"
+          defaultImage="shelter"
+          size="96"
           loading={isUploading}
           error={uploadError}
+          onChangeCallback={handleChangeImage}
         />
       </section>
       <section>

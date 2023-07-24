@@ -155,9 +155,12 @@ export const AnimalForm: React.FC<AnimalFormProps> = ({
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <ImageUploader
-        imagePath={profileImageUrl}
         name="image"
-        variant="square"
+        imagePath={profileImageUrl}
+        style={{ alignSelf: 'center' }}
+        shape="square"
+        defaultImage="puppy"
+        size="80"
         onChangeCallback={onChangeImage}
       />
 

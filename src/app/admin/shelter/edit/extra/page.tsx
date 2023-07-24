@@ -176,7 +176,9 @@ export default function ShelterEditExtraPage() {
           error={errors.instagram}
           {...register('instagram')}
         />
-        <div>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}
+        >
           <TextField
             label="후원 계좌 정보"
             placeholder="은행명"

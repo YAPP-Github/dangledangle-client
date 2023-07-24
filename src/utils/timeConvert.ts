@@ -66,5 +66,5 @@ export function getDuration(
 }
 
 export const getStartOfMonth = (date: MomentInput) =>
-  moment(date).startOf('month');
+  moment(date).set('date', 1);
 export const getEndOfMonth = (date: MomentInput) => moment(date).endOf('month');

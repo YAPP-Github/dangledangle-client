@@ -24,22 +24,26 @@ export default function SpecificAddress({ onNext }: OnNextProps) {
         </EmphasizedTitle>
       </div>
 
-      <TextField
-        placeholder="우편번호를 입력해주세요."
-        {...register('address[postalCode]')}
-      />
-      <TextField
-        placeholder="보호소 주소을 입력해주세요."
-        {...register('address[address]')}
-      />
-      <TextField
-        placeholder="상세 주소를 입력하세요"
-        {...register('address[addressDetail]')}
-      />
-      <Message
-        status="error"
-        message={(errors.address as any)?.addressDetail?.message}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
+        <TextField
+          placeholder="우편번호를 입력해주세요."
+          {...register('address[postalCode]')}
+        />
+        <TextField
+          placeholder="보호소 주소을 입력해주세요."
+          {...register('address[address]')}
+        />
+        <div>
+          <TextField
+            placeholder="상세 주소를 입력하세요"
+            {...register('address[addressDetail]')}
+          />
+          <Message
+            status="error"
+            message={(errors.address as any)?.addressDetail?.message}
+          />
+        </div>
+      </div>
 
       {/* longitude x축 경도 latitude y축 위도 */}
       <input style={{ display: 'none' }} {...register('address[longitude]')} />

@@ -15,7 +15,7 @@ export default function useBookMarkMutation(
       onSuccessCallback(data.bookMarked!);
     },
     onError: () => {
-      router.replace('/volunteer/login');
+      router.replace('/login/volunteer');
     }
   });
 

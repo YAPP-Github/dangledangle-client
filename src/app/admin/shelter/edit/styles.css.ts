@@ -8,5 +8,7 @@ export const animalList = style({
 });
 
 export const imageSection = style({
-  marginBottom: 40
+  marginBottom: 40,
+  display: 'flex',
+  justifyContent: 'center'
 });
