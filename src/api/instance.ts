@@ -1,6 +1,7 @@
 import ky from 'ky';
 import { setAuthorizationHeader } from '@/utils/ky/hooks/beforeRequest';
 import {
+  deleteClientCokiesPath,
   retryRequestOnUnauthorized,
   throwServerErrorMessage
 } from '@/utils/ky/hooks/afterResponse';
@@ -12,7 +13,11 @@ const api = ky.create({
   },
   hooks: {
     beforeRequest: [setAuthorizationHeader],
-    afterResponse: [retryRequestOnUnauthorized, throwServerErrorMessage]
+    afterResponse: [
+      retryRequestOnUnauthorized,
+      throwServerErrorMessage,
+      deleteClientCokiesPath
+    ]
   }
 });
 

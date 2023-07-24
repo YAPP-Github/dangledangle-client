@@ -1,46 +1,14 @@
 import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
+import { recipe } from '@vanilla-extract/recipes';
 
 export const container = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  position: 'relative',
-  width: '100%'
+  position: 'relative'
 });
 
-export const label = style({
+export const avartar = style({
   position: 'relative',
   cursor: 'pointer'
-});
-
-export const defaultCircle = recipe({
-  base: {
-    marginTop: 10,
-    marginBottom: 10,
-    margin: 'auto',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: `1px solid ${palette.gray300}`
-  },
-  variants: {
-    variant: {
-      circle: {
-        width: '96px',
-        height: '96px',
-        borderRadius: '96px',
-        background: palette.gray50
-      },
-      square: {
-        width: '80px',
-        height: '80px',
-        background: palette.white,
-        borderRadius: '8px'
-      }
-    }
-  }
 });
 
 export const camera = recipe({
@@ -49,27 +17,21 @@ export const camera = recipe({
     display: 'flex',
     cursor: 'pointer',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '24px',
+    height: '24px',
+    borderRadius: '24px',
+    background: palette.gray900,
+    bottom: 0,
+    right: 0,
+    zIndex: 1
   },
 
   variants: {
-    variant: {
-      circle: {
-        width: '24px',
-        height: '24px',
-        borderRadius: '24px',
-        marginTop: '72px',
-        left: 'calc(50% + 24px)',
-        background: palette.gray900
-      },
-      square: {
-        width: '80px',
-        height: '80px',
-        background: palette.gray50,
-        borderRadius: '8px'
-      },
-      none: {
-        opacity: 0
+    square: {
+      true: {
+        bottom: '-4px',
+        right: '-4px'
       }
     }
   }
@@ -81,41 +43,13 @@ export const fileInput = style({
   pointerEvents: 'none'
 });
 
-export const imageCircle = recipe({
-  base: {
-    display: 'block',
-    position: 'relative',
-    marginTop: 10,
-    marginBottom: 10,
-    margin: 'auto',
-    objectFit: 'cover'
-  },
-  variants: {
-    variant: {
-      circle: {
-        width: '96px',
-        height: '96px',
-        borderRadius: '96px'
-      },
-      square: {
-        width: '80px',
-        height: '80px',
-        borderRadius: '8px'
-      }
-    }
-  }
-});
-
 export const loadingMask = style({
   position: 'absolute',
-  top: 0,
-  left: 0,
+  width: '100%',
+  height: '100%',
   backgroundColor: palette.gray200,
   opacity: 0.7,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
 });
-
-type ButtonVariants = RecipeVariants<typeof defaultCircle>;
-export type ImageVariant = NonNullable<ButtonVariants>['variant'];

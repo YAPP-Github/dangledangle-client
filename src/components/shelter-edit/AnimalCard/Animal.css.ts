@@ -37,6 +37,11 @@ export const textClamp = style({
   width: '100%'
 });
 
+export const textFull = style({
+  width: '100%',
+  textAlign: 'start'
+});
+
 export const buttonWarp = style({
   display: 'flex',
   width: '100%',
