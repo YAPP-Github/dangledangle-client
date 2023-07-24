@@ -13,13 +13,13 @@ export default function useObserver(
 
   const observe = useCallback(
     (onIntersect: Function) => {
-      const io = new IntersectionObserver(async (entries, observer) => {
-        for await (const entry of entries) {
+      const io = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             // 한 번 실행 후 unobserve
             observer.unobserve(entry.target);
-            await onIntersect();
-            return;
+            onIntersect();
+            break;
           }
         }
       }, options);
