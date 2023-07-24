@@ -22,7 +22,7 @@ import useUpdateImage from '@/api/shelter/admin/useUpdateImage';
 import useHeader from '@/hooks/useHeader';
 import { ObservationAnimal, ShelterAdditionalInfo } from '@/types/shelter';
 import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
-import RegisterComplete from '@/app/shelter/register/components/RegisterComplete';
+import RegisterComplete from '@/app/register/shelter/components/RegisterComplete';
 
 export default function ShelterEditPage() {
   useHeader({ title: '보호소 정보' });

@@ -7,7 +7,7 @@ import {
 } from '@/constants/cookieKeys';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '../register/[...slug]/CurrentComponentTypes';
+import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '../../register/volunteer/[...slug]/CurrentComponentTypes';
 
 export async function GET(req: NextRequest) {
   const query = new URL(req.url).searchParams;

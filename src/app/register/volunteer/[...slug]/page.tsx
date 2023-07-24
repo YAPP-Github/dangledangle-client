@@ -9,7 +9,7 @@ export default function Register({}) {
   const registerEmail = cookies().get(COOKIE_REGISTER_EMAIL_KEY);
 
   if (!registerEmail) {
-    return redirect('/volunteer/login');
+    return redirect('/login/volunteer');
   }
 
   return (

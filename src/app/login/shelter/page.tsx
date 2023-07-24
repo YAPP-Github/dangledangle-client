@@ -13,7 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { loginValidation } from '../utils/shelterValidaion';
+import { loginValidation } from '../../shelter/utils/shelterValidaion';
 import * as styles from './styles.css';
 import { useAuthContext } from '@/providers/AuthContext';
 
@@ -103,7 +103,7 @@ export default function ShelterLogin() {
         <ButtonText1
           className={styles.btnTextWrapper}
           color="gray400"
-          onClick={() => router.push('/shelter/password')}
+          onClick={() => router.push('/login/shelter/password')}
         >
           비밀번호 찾기
         </ButtonText1>
@@ -113,7 +113,7 @@ export default function ShelterLogin() {
         <Body3>아직 dangledangle 회원이 아니신가요?</Body3>
         <ButtonText1
           style={{ cursor: 'pointer' }}
-          onClick={() => router.push('/shelter/register')}
+          onClick={() => router.push('/register/shelter')}
         >
           회원가입
         </ButtonText1>

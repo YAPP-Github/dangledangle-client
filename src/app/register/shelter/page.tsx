@@ -12,7 +12,6 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useLayoutEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
-import { registerValidation } from '../utils/shelterValidaion';
 import Account from './components/Account';
 import Additional from './components/Additional';
 import Address from './components/Address';
@@ -23,6 +22,7 @@ import RegisterComplete from './components/RegisterComplete';
 import RequireComplete from './components/RequireComplete';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
+import { registerValidation } from '@/app/shelter/utils/shelterValidaion';
 
 export interface OnNextProps {
   onNext: VoidFunction;

@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { passWordFindValidation } from '../utils/shelterValidaion';
+import { passWordFindValidation } from '../../../shelter/utils/shelterValidaion';
 import * as styles from './styles.css';
 
 const helperMessage = `등록한 파트너 계정의 이메일을 입력해주세요.

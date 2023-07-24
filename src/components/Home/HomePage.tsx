@@ -22,10 +22,10 @@ export default function HomePage() {
         ))}
       </Carousel>
       <div className={styles.buttomWrap}>
-        <Button variant="line" onClick={() => router.push('/volunteer/login')}>
+        <Button variant="line" onClick={() => router.push('/login/volunteer')}>
           개인 봉사자로 시작하기
         </Button>
-        <Button variant="line" onClick={() => router.push('/shelter/login')}>
+        <Button variant="line" onClick={() => router.push('/login/shelter')}>
           보호소 파트너로 시작하기
         </Button>
       </div>
