@@ -4,7 +4,7 @@ import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
 import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
-import Header from '@/components/common/Header/Header';
+import ServerSideHeader from '@/components/common/Header/ServerSideHeader';
 import { AuthProvider } from '@/providers/AuthContext';
 import Footer from '@/components/common/Footer/Footer';
 
@@ -26,7 +26,7 @@ export default function RootLayout({
             <AuthProvider>
               <div id="modal-portal" />
               <GlobalComponents />
-              <Header />
+              <ServerSideHeader />
               <main className={styles.main}>{children}</main>
               <Footer />
             </AuthProvider>

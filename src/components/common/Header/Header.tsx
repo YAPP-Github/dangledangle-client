@@ -10,11 +10,12 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
 
 interface HeaderComponentProps {
-  /** 이동 URL */
-  href?: string;
+  // /** 이동 URL */
+  initColor: string;
+  initTitle?: string;
 }
 
-export default function Header({ href }: HeaderComponentProps) {
+export default function Header({ initColor, initTitle }: HeaderComponentProps) {
   const {
     color,
     isHeader,
@@ -27,8 +28,15 @@ export default function Header({ href }: HeaderComponentProps) {
 
   const router = useRouter();
   const navigate = () => {
-    href ? router.push('/' + href) : router.back();
+    router.back();
   };
+
+  const headerColor =
+    (initColor === 'default' ? palette.background : initColor) ||
+    color ||
+    palette.background;
+
+  const headerTitle = initTitle || title;
 
   return (
     <>
@@ -36,13 +44,13 @@ export default function Header({ href }: HeaderComponentProps) {
         <nav
           className={styles.container}
           style={assignInlineVars({
-            [styles.headerColor]: color || palette.background
+            [styles.headerColor]: headerColor
           })}
         >
           <a className={styles.arrowLeft} onClick={navigate}>
             {isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
-          <H4 className={styles.title}>{title}</H4>
+          <H4 className={styles.title}>{headerTitle}</H4>
           <div className={styles.rightSide}>
             {<PageNumbering thisPage={thisPage} entirePage={entirePage} />}
             {RightSideComponent && <RightSideComponent />}
