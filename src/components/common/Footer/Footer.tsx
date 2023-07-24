@@ -22,7 +22,9 @@ export default function Footer() {
   return (
     <>
       <footer className={styles.footerWrapper}>
-        <Daenggle height={16} width={140} viewBox="0 0 279 30" />
+        <div>
+          <Daenggle height={22} width={54} />
+        </div>
         <div className={styles.linkWrapper}>
           {footerLinks.map(({ href, title }, index) => (
             <div key={`footer_${index}`}>

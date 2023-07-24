@@ -7,7 +7,13 @@ import FixedFooter from '@/components/common/FixedFooter/FixedFooter';
 import Modal from '@/components/common/Modal/Modal';
 import Profile from '@/components/common/Profile/Profile';
 import { Body1, Body2, Body3, H4 } from '@/components/common/Typography';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
+import {
+  AGE_LIMIT,
+  VOLUNTEER_EVENT_CATEGORY
+} from '@/constants/volunteerEvent';
 import useBooleanState from '@/hooks/useBooleanState';
+import useToast from '@/hooks/useToast';
 import { useAuthContext } from '@/providers/AuthContext';
 import { palette } from '@/styles/color';
 import {
@@ -17,20 +23,14 @@ import {
   pmamConvert
 } from '@/utils/timeConvert';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
+import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import ConfirmContent from './ConfirmContent/ConfirmContent';
 import * as styles from './ShelterEvent.css';
-import {
-  AGE_LIMIT,
-  VOLUNTEER_EVENT_CATEGORY
-} from '@/constants/volunteerEvent';
-import useToast from '@/hooks/useToast';
-import Link from 'next/link';
-import Cookies from 'js-cookie';
-import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 
 const QNA =
   'https://www.notion.so/yapp-workspace/FAQ-f492ba54a5d647129ca9697fbd307b20?pvs=4';
@@ -39,12 +39,16 @@ const DangleMap = dynamic(() => import('@/components/common/Map/DangleMap'), {
   loading: () => <LoadingIndicator color="primary" />
 });
 
-export default function ShelterEvent() {
+interface ShelterEventProps {
+  shelterId: number;
+  volunteerEventId: number;
+}
+
+export default function ShelterEvent({
+  shelterId,
+  volunteerEventId
+}: ShelterEventProps) {
   const route = useRouter();
-  const pathname = usePathname();
-  const splittedPath = pathname.split('/');
-  const shelterId = Number(splittedPath[2]);
-  const volunteerEventId = Number(splittedPath[4]);
 
   const { dangle_access_token, dangle_role, dangle_id } = useAuthContext();
   const [isModal, setModalOpen, setModalClose] = useBooleanState();
@@ -109,7 +113,7 @@ export default function ShelterEvent() {
   };
 
   const renderFooterButton = () => {
-    if (eventStatus === 'CLOSED') {
+    if (isDatePast(endAt)) {
       return <Button disabled>모집이 종료된 일정입니다.</Button>;
     }
 
@@ -126,31 +130,22 @@ export default function ShelterEvent() {
       );
     }
 
-    if (
-      myParticipationStatus === 'NONE' &&
-      joiningVolunteers?.length < recruitNum
-    ) {
-      return <Button onClick={handleModalOpen}>봉사 신청하기</Button>;
+    if (myParticipationStatus === 'NONE') {
+      if (joiningVolunteers?.length < recruitNum) {
+        return <Button onClick={handleModalOpen}>봉사 신청하기</Button>;
+      } else {
+        return (
+          <Button buttonColor="secondary" onClick={handleModalOpen}>
+            봉사 대기 신청하기
+          </Button>
+        );
+      }
     }
 
-    if (
-      myParticipationStatus === 'JOINING' &&
-      joiningVolunteers?.length < recruitNum
-    ) {
+    if (myParticipationStatus === 'JOINING') {
       return (
         <Button variant="line" onClick={handleModalOpen}>
           봉사 신청 취소하기
-        </Button>
-      );
-    }
-
-    if (
-      myParticipationStatus === 'NONE' &&
-      joiningVolunteers?.length >= recruitNum
-    ) {
-      return (
-        <Button buttonColor="secondary" onClick={handleModalOpen}>
-          봉사 대기 신청하기
         </Button>
       );
     }

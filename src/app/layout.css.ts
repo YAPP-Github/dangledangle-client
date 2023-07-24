@@ -4,6 +4,7 @@ import {
   FOOTER_HEIGHT,
   GLOBAL_PADDING_X
 } from '@/styles/global.css';
+import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 
 export const container = style({
   boxSizing: 'border-box',
@@ -15,5 +16,5 @@ export const container = style({
 
 export const main = style({
   padding: `0 ${GLOBAL_PADDING_X}px`,
-  minHeight: `calc(100vh - ${FOOTER_HEIGHT}px)`
+  minHeight: `calc(100vh - ${FOOTER_HEIGHT}px - ${HEADER_HEIGHT}px)`
 });

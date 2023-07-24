@@ -1,7 +1,10 @@
+import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
-  width: '100%'
+  backgroundColor: palette.white,
+  display: 'flex',
+  flexDirection: 'column'
 });
 
 export const sticky = style({
