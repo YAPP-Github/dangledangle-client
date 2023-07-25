@@ -31,3 +31,9 @@ export const overlay = style({
 export const childrenWrap = style({
   marginTop: '40px'
 });
+
+export const phoneWrap = style({
+  display: 'flex',
+  justifyContent: 'center',
+  paddingTop: '8px'
+});
