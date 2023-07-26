@@ -12,6 +12,7 @@ import * as styles from './Skeleton.css';
 export default function SkeletonList({ isShelter }: SkeletonProps) {
   return (
     <div className={styles.list}>
+      <div style={{ padding: '2px' }}></div>
       <div
         className={styles.box({ variant: 'square' })}
         style={assignInlineVars({
