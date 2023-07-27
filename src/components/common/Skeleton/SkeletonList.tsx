@@ -1,6 +1,7 @@
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Skeleton, { SkeletonProps } from './Skeleton';
 import * as styles from './Skeleton.css';
+import uuidv4 from '@/utils/uuidv4';
 
 /**
  * Skeleton이 render 되는 시간을 조정하고 싶을 시
@@ -20,8 +21,8 @@ export default function SkeletonList({ isShelter }: SkeletonProps) {
           [styles.skeletonHeight]: '26px'
         })}
       ></div>
-      {[...Array(4)].map((_, index) => (
-        <Skeleton key={index} isShelter={isShelter ? true : false} />
+      {[...Array(4)].map(_ => (
+        <Skeleton key={uuidv4()} isShelter={isShelter || false} />
       ))}
     </div>
   );

@@ -11,7 +11,7 @@ const DeferredComponent = ({
   children
 }: PropsWithChildren<{ deferTime?: number }>) => {
   const [isDeferred, setIsDeferred] = useState(false);
-  const DEFERRED_MILLISEC = deferTime ? deferTime : 200;
+  const DEFERRED_MILLISEC = deferTime || 200;
 
   useEffect(() => {
     // DEFERRED_MILLISEC 지난 후 skeleton Render
