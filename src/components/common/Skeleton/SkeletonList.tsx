@@ -22,7 +22,7 @@ export default function SkeletonList({ isShelter }: SkeletonProps) {
         })}
       ></div>
       {[...Array(4)].map(_ => (
-        <Skeleton key={uuidv4()} isShelter={isShelter || false} />
+        <Skeleton key={uuidv4()} isShelter={isShelter ?? false} />
       ))}
     </div>
   );
