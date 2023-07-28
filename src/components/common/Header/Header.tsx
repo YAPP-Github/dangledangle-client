@@ -8,6 +8,7 @@ import { Body2, H4 } from '../Typography';
 import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
+import { useMemo } from 'react';
 
 interface HeaderComponentProps {
   // /** 이동 URL */
@@ -16,6 +17,7 @@ interface HeaderComponentProps {
 }
 
 export default function Header({ initColor, initTitle }: HeaderComponentProps) {
+  const headerValue = useRecoilValue(headerState);
   const {
     color,
     isHeader,
@@ -24,19 +26,28 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
     RightSideComponent,
     thisPage,
     entirePage
-  } = useRecoilValue(headerState);
+  } = headerValue;
 
   const router = useRouter();
   const navigate = () => {
     router.back();
   };
 
-  const headerColor =
-    (initColor === 'default' ? palette.background : initColor) ||
-    color ||
-    palette.background;
+  const headerColor = useMemo(() => {
+    if (!color || initColor === color) {
+      return initColor === 'default' ? palette.background : initColor;
+    } else {
+      return color;
+    }
+  }, [color, initColor]);
 
-  const headerTitle = initTitle || title;
+  const headerTitle = useMemo(() => {
+    if (!title || initTitle === title) {
+      return initTitle;
+    } else {
+      return title;
+    }
+  }, [title, initTitle]);
 
   return (
     <>
