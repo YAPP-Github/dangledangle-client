@@ -5,13 +5,11 @@ import useShelterRegister from '@/api/shelter/auth/useShelterRegister';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import useFunnel, { StepsProps } from '@/hooks/useFunnel';
 import useToast from '@/hooks/useToast';
-import { headerState } from '@/store/header';
 import { removeDash } from '@/utils/formatInputs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePathname } from 'next/navigation';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 import Account from './components/Account';
 import Additional from './components/Additional';
 import Address from './components/Address';
@@ -23,6 +21,7 @@ import RequireComplete from './components/RequireComplete';
 import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
 import { registerValidation } from '@/app/shelter/utils/shelterValidaion';
+import useHeader from '@/hooks/useHeader';
 
 export interface OnNextProps {
   onNext: VoidFunction;
@@ -78,14 +77,7 @@ const Steps: StepsProps<OnNextProps>[] = [
 
 export default function ShelterRegister() {
   const toastOn = useToast();
-  const setHeader = useSetRecoilState(headerState);
-
-  useLayoutEffect(() => {
-    setHeader(prev => ({
-      ...prev,
-      title: '보호소 파트너 계정 가입'
-    }));
-  }, [setHeader]);
+  useHeader({ title: '보호소 파트너 계정 가입' });
 
   const pathname = usePathname();
   const { goToNextStep, currentStepIndex } = useFunnel<OnNextProps>(

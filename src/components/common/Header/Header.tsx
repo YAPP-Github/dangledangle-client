@@ -8,13 +8,16 @@ import { Body2, H4 } from '../Typography';
 import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
+import { useMemo } from 'react';
 
 interface HeaderComponentProps {
-  /** 이동 URL */
-  href?: string;
+  // /** 이동 URL */
+  initColor: string;
+  initTitle?: string;
 }
 
-export default function Header({ href }: HeaderComponentProps) {
+export default function Header({ initColor, initTitle }: HeaderComponentProps) {
+  const headerValue = useRecoilValue(headerState);
   const {
     color,
     isHeader,
@@ -23,12 +26,28 @@ export default function Header({ href }: HeaderComponentProps) {
     RightSideComponent,
     thisPage,
     entirePage
-  } = useRecoilValue(headerState);
+  } = headerValue;
 
   const router = useRouter();
   const navigate = () => {
-    href ? router.push('/' + href) : router.back();
+    router.back();
   };
+
+  const headerColor = useMemo(() => {
+    if (!color || initColor === color) {
+      return initColor === 'default' ? palette.background : initColor;
+    } else {
+      return color;
+    }
+  }, [color, initColor]);
+
+  const headerTitle = useMemo(() => {
+    if (!title || initTitle === title) {
+      return initTitle;
+    } else {
+      return title;
+    }
+  }, [title, initTitle]);
 
   return (
     <>
@@ -36,13 +55,13 @@ export default function Header({ href }: HeaderComponentProps) {
         <nav
           className={styles.container}
           style={assignInlineVars({
-            [styles.headerColor]: color || palette.background
+            [styles.headerColor]: headerColor
           })}
         >
           <a className={styles.arrowLeft} onClick={navigate}>
             {isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
-          <H4 className={styles.title}>{title}</H4>
+          <H4 className={styles.title}>{headerTitle}</H4>
           <div className={styles.rightSide}>
             {<PageNumbering thisPage={thisPage} entirePage={entirePage} />}
             {RightSideComponent && <RightSideComponent />}

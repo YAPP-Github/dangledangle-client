@@ -1,7 +1,6 @@
 'use client';
 
 import { HomeLogo } from '@/asset/icons';
-import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
 import Button from '../common/Button/Button';
 import Carousel from '../common/Carousel/Carousel';
@@ -9,7 +8,6 @@ import * as styles from './HomePage.css';
 
 export default function HomePage() {
   const router = useRouter();
-  const setHeader = useHeader({ title: '로그인 또는 회원가입' });
 
   return (
     <div style={{ position: 'relative' }}>
