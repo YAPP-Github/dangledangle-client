@@ -2,12 +2,12 @@
 import CheckBox from '@/components/common/CheckBox/CheckBox.tsx';
 import * as styles from './HomeCalendar.css.ts';
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
-import { useState } from 'react';
 import { Caption3, H4 } from '@/components/common/Typography/index.ts';
 import { ArrowFold, ArrowUnfold } from '@/asset/icons/index.ts';
 import useBooleanState from '@/hooks/useBooleanState.tsx';
 import moment from 'moment';
 import clsx from 'clsx';
+import { useAuthContext } from '@/providers/AuthContext.tsx';
 
 interface FoldToggleProps {
   isFolded: boolean;
@@ -36,7 +36,7 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
   onChangeBookmark
 }) => {
   const [isFolded, fold, unfold] = useBooleanState(false);
-
+  const { dangle_role } = useAuthContext();
   return (
     <div>
       {(isFolded && (
@@ -53,8 +53,12 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
           <DangleCalendar id="home-calendar" />
           <div className={styles.calendarFooter}>
             <div className={styles.toggleItem} onClick={onChangeBookmark}>
-              <CheckBox value={bookmark} onClick={() => null} />
-              <Caption3>즐겨찾기한 보호소만 보기</Caption3>
+              {dangle_role !== 'SHELTER' && (
+                <>
+                  <CheckBox value={bookmark} onClick={() => null} />
+                  <Caption3>즐겨찾기한 보호소만 보기</Caption3>
+                </>
+              )}
             </div>
             <FoldToggle isFolded={false} onClick={fold} />
           </div>

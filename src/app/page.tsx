@@ -13,7 +13,7 @@ import { EventStatus } from '@/types/volunteerEvent';
 import { useCallback, useState } from 'react';
 import * as styles from './styles.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
-import { H4 } from '@/components/common/Typography';
+import { Body3, H4 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 
 type EventFilter = {
@@ -77,6 +77,14 @@ export default function HomePage() {
           handleChangeFilter('bookmark', !filter.bookmark)
         }
       />
+      {dangle_role === 'NONE' && filter.bookmark && (
+        <div className={styles.empty}>
+          <Body3 color="gray400">
+            보호소 즐겨찾기 기능을 사용하려면 <br />
+            로그인이 필요합니다
+          </Body3>
+        </div>
+      )}
     </div>
   );
 }

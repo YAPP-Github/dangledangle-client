@@ -25,3 +25,8 @@ export const title = style([
     paddingTop: 32
   }
 ]);
+
+export const empty = style({
+  padding: '54px 0',
+  textAlign: 'center'
+});
