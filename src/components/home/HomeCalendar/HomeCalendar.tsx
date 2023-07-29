@@ -27,9 +27,14 @@ const FoldToggle: React.FC<FoldToggleProps> = ({
   );
 };
 
-interface HomeCalendarProps {}
-const HomeCalendar: React.FC<HomeCalendarProps> = ({}) => {
-  const [bookmark, setBookmark] = useState(false);
+interface HomeCalendarProps {
+  bookmark: boolean;
+  onChangeBookmark: () => void;
+}
+const HomeCalendar: React.FC<HomeCalendarProps> = ({
+  bookmark,
+  onChangeBookmark
+}) => {
   const [isFolded, fold, unfold] = useBooleanState(false);
 
   return (
@@ -47,10 +52,7 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({}) => {
         <div>
           <DangleCalendar id="home-calendar" />
           <div className={styles.calendarFooter}>
-            <div
-              className={styles.toggleItem}
-              onClick={() => setBookmark(!bookmark)}
-            >
+            <div className={styles.toggleItem} onClick={onChangeBookmark}>
               <CheckBox value={bookmark} onClick={() => null} />
               <Caption3>즐겨찾기한 보호소만 보기</Caption3>
             </div>

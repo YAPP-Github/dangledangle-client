@@ -12,27 +12,36 @@ import { EventStatus } from '@/types/volunteerEvent';
 import { useCallback, useState } from 'react';
 import * as styles from './styles.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
+import { H4 } from '@/components/common/Typography';
 
 type EventFilter = {
   region: 'local' | ShelterRegion;
   category: 'all' | VolunteerEventCategory;
   status: 'all' | EventStatus;
+  bookmark: boolean;
 };
 export default function HomePage() {
   const [filter, setFilter] = useState<EventFilter>({
     region: 'local',
     category: 'all',
-    status: 'all'
+    status: 'all',
+    bookmark: false
   });
 
-  const handleChangeFilter = useCallback((name: string, value: string) => {
-    setFilter(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }, []);
+  const handleChangeFilter = useCallback(
+    (name: string, value: string | boolean) => {
+      setFilter(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    },
+    []
+  );
   return (
     <div>
+      <div className={styles.title}>
+        <H4> 봉사 일정을 둘러봐요 🙌 </H4>
+      </div>
       <div className={styles.filterContainer}>
         <Filter
           label="지역"
@@ -50,7 +59,12 @@ export default function HomePage() {
           onChange={handleChangeFilter}
         />
       </div>
-      <HomeCalendar />
+      <HomeCalendar
+        bookmark={filter.bookmark}
+        onChangeBookmark={() =>
+          handleChangeFilter('bookmark', !filter.bookmark)
+        }
+      />
     </div>
   );
 }

@@ -16,3 +16,12 @@ export const filterContainer = style([
     background: palette.white
   }
 ]);
+
+export const title = style([
+  expandGlobalPadding,
+  {
+    background: palette.white,
+    paddingBottom: 16,
+    paddingTop: 32
+  }
+]);
