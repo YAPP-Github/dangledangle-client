@@ -8,6 +8,7 @@ import useBooleanState from '@/hooks/useBooleanState.tsx';
 import moment from 'moment';
 import clsx from 'clsx';
 import { useAuthContext } from '@/providers/AuthContext.tsx';
+import { useCallback, useState } from 'react';
 
 interface FoldToggleProps {
   isFolded: boolean;
@@ -37,11 +38,17 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
 }) => {
   const [isFolded, fold, unfold] = useBooleanState(false);
   const { dangle_role } = useAuthContext();
+  const [date, setDate] = useState(new Date());
+
+  const handleChangeDate = useCallback((value: Date) => {
+    setDate(value);
+  }, []);
+
   return (
     <div>
       {(isFolded && (
         <div className={styles.foldedHeader}>
-          <H4>{moment(new Date()).format('YYYY.MM')}</H4>
+          <H4>{moment(date).format('YYYY.MM')}</H4>
           <FoldToggle
             className={styles.headerFoldToggle}
             isFolded={true}
@@ -50,7 +57,12 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
         </div>
       )) || (
         <div>
-          <DangleCalendar id="home-calendar" />
+          <DangleCalendar
+            id="home-calendar"
+            value={date}
+            onChange={handleChangeDate}
+            onChangeMonth={handleChangeDate}
+          />
           <div className={styles.calendarFooter}>
             <div className={styles.toggleItem} onClick={onChangeBookmark}>
               {dangle_role !== 'SHELTER' && (
