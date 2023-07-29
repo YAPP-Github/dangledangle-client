@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeLogo } from '@/asset/icons';
+import { MainLogo } from '@/asset/icons';
 import Button from '@/components/common/Button/Button';
 import Carousel from '@/components/common/Carousel/Carousel';
 import useHeader from '@/hooks/useHeader';
@@ -14,7 +14,7 @@ export default function LoginPage() {
   return (
     <div style={{ position: 'relative' }}>
       <div className={styles.homeLogo}>
-        <HomeLogo />
+        <MainLogo />
       </div>
       <Carousel>
         {new Array(5).fill(0).map((_value, idx) => (
