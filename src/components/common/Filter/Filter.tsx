@@ -51,7 +51,7 @@ const Filter = ({ name, label, options, onChange }: FilterProps) => {
     <>
       <button className={styles.container} onClick={openFilter}>
         <div className={styles.grid}>
-          <Caption3>
+          <Caption3 className={styles.label}>
             {label} · {pickOption}
           </Caption3>
           <DropArrow />
