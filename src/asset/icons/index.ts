@@ -38,3 +38,5 @@ export { default as MypageChat } from './MypageChat.svg';
 export { default as MypageNoti } from './MypageNoti.svg';
 export { default as MypageStar } from './MypageStar.svg';
 export { default as MypageTerms } from './MypageTerms.svg';
+export { default as DropArrow } from './DropArrow.svg';
+export { default as Phone } from './Phone.svg';

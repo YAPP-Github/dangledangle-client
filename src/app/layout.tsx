@@ -7,6 +7,7 @@ import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalCom
 import Header from '@/components/common/Header/Header';
 import { AuthProvider } from '@/providers/AuthContext';
 import Footer from '@/components/common/Footer/Footer';
+import ScrollToTop from '@/components/global/ScrollToTop/ScrollToTop';
 
 export const metadata = {
   title: 'Create Next App',
@@ -27,7 +28,9 @@ export default function RootLayout({
               <div id="modal-portal" />
               <GlobalComponents />
               <Header />
-              <main className={styles.main}>{children}</main>
+              <ScrollToTop>
+                <main className={styles.main}>{children}</main>
+              </ScrollToTop>
               <Footer />
             </AuthProvider>
           </QueryProvider>
