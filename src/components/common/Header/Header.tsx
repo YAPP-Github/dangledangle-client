@@ -58,7 +58,7 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
             [styles.headerColor]: headerColor
           })}
         >
-          <a className={styles.arrowLeft} onClick={navigate}>
+          <a className={styles.homeIcon} onClick={navigate}>
             {isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
           <H4 className={styles.title}>{headerTitle}</H4>

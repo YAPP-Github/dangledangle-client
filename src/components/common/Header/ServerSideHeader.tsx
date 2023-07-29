@@ -1,10 +1,16 @@
 import { base64ToUtf8 } from '@/utils/base64ToUtf8';
 import Header from './Header';
 import { headers } from 'next/headers';
+import { X_HEADER_TITLE, X_PATH_NAME } from '@/constants/customHeaderKeys';
+import MainHeader from './MainHeader';
 
 export default function ServerSideHeader() {
-  const header = headers().get('X-My-Custom-Header') ?? '';
+  const headerTitleProps = headers().get(X_HEADER_TITLE) ?? '';
+  const pathName = headers().get(X_PATH_NAME) ?? '';
+  const prop = JSON.parse(base64ToUtf8(headerTitleProps) || '{}');
 
-  const prop = JSON.parse(base64ToUtf8(header) || '{}');
+  if (pathName === '/') {
+    return <MainHeader />;
+  }
   return <Header initColor={prop.backgroundColor} initTitle={prop.title} />;
 }
