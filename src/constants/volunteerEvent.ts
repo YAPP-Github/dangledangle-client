@@ -1,4 +1,5 @@
 import { ChipOption } from '@/components/common/ChipInput/ChipInput';
+import { FilterOption } from '@/components/common/Filter/Filter';
 import createInputOptions from '@/utils/createInputOptions';
 
 export const VOLUNTEER_EVENT_CATEGORY = {
@@ -38,3 +39,15 @@ export const AGE_LIMIT = {
 };
 export type AgeLimit = keyof typeof AGE_LIMIT;
 export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
+
+export const SHELTER_REGION = {
+  seoul: '서울',
+  jeju: '제주도',
+  kangwon: '강원도',
+  incheon: '인천'
+};
+export type ShelterRegion = keyof typeof SHELTER_REGION;
+export const SHELTER_REGION_OPTIONS: FilterOption[] = createInputOptions({
+  local: '내 주변',
+  ...SHELTER_REGION
+});
