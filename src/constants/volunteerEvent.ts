@@ -51,3 +51,11 @@ export const SHELTER_REGION_OPTIONS: FilterOption[] = createInputOptions({
   local: '내 주변',
   ...SHELTER_REGION
 });
+
+const EVENT_STATUS = {
+  IN_PROGRESS: '모집 중',
+  DONE: '모집 종료'
+};
+
+export const EVENT_STATUS_OPTIONS: FilterOption[] =
+  createInputOptions(EVENT_STATUS);

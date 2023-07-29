@@ -1,5 +1,5 @@
 import { palette } from '@/styles/color';
-import { GLOBAL_PADDING_X, expandGlobalPadding } from '@/styles/global.css';
+import { expandGlobalPadding } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const filterContainer = style([

@@ -4,6 +4,7 @@ import Filter from '@/components/common/Filter/Filter';
 import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
 import {
   CATEGORY_OPTIONS,
+  EVENT_STATUS_OPTIONS,
   SHELTER_REGION_OPTIONS,
   ShelterRegion,
   VolunteerEventCategory
@@ -13,6 +14,7 @@ import { useCallback, useState } from 'react';
 import * as styles from './styles.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
 import { H4 } from '@/components/common/Typography';
+import { useAuthContext } from '@/providers/AuthContext';
 
 type EventFilter = {
   region: 'local' | ShelterRegion;
@@ -21,6 +23,7 @@ type EventFilter = {
   bookmark: boolean;
 };
 export default function HomePage() {
+  const { dangle_role } = useAuthContext();
   const [filter, setFilter] = useState<EventFilter>({
     region: 'local',
     category: 'all',
@@ -43,12 +46,21 @@ export default function HomePage() {
         <H4> 봉사 일정을 둘러봐요 🙌 </H4>
       </div>
       <div className={styles.filterContainer}>
-        <Filter
-          label="지역"
-          name="region"
-          options={SHELTER_REGION_OPTIONS}
-          onChange={handleChangeFilter}
-        />
+        {(dangle_role === 'SHELTER' && (
+          <Filter
+            label="모집 상태"
+            name="status"
+            options={EVENT_STATUS_OPTIONS}
+            onChange={handleChangeFilter}
+          />
+        )) || (
+          <Filter
+            label="지역"
+            name="region"
+            options={SHELTER_REGION_OPTIONS}
+            onChange={handleChangeFilter}
+          />
+        )}
         <ChipInput
           style={{
             flexWrap: 'nowrap'
