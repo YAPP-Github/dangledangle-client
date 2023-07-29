@@ -32,5 +32,7 @@ export { default as Delete } from './Delete.svg';
 export { default as Calendar } from './Calendar.svg';
 export { default as Clockmd } from './Clockmd.svg';
 export { default as Profilemd } from './Profilemd.svg';
+export { default as ArrowFold } from './ArrowFold.svg';
+export { default as ArrowUnfold } from './ArrowUnfold.svg';
 export { default as DropArrow } from './DropArrow.svg';
 export { default as Phone } from './Phone.svg';
