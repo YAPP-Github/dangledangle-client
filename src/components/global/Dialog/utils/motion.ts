@@ -23,7 +23,7 @@ export const bottomVariants = {
     y: '0%',
     transition: {
       type: 'spring',
-      stiffness: 300,
+      stiffness: 250,
       damping: 30
     }
   },
@@ -32,7 +32,7 @@ export const bottomVariants = {
     y: '100%',
     transition: {
       type: 'spring',
-      stiffness: 300,
+      stiffness: 250,
       damping: 30
     }
   }
