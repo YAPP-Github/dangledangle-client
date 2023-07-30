@@ -38,3 +38,17 @@ export const AGE_LIMIT = {
 };
 export type AgeLimit = keyof typeof AGE_LIMIT;
 export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
+
+export const MY_STATUS = {
+  NONE: '미참여',
+  JOINING: '참여중',
+  WAITING: '대기중'
+};
+export type MyStatus = keyof typeof MY_STATUS;
+
+export const SHELTER_STATUS = {
+  IN_PROGRESS: '모집 진행중',
+  CLOSED: '모집 완료',
+  DONE: '종료'
+};
+export type ShelterStatus = keyof typeof SHELTER_STATUS;
