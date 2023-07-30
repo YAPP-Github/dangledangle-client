@@ -71,7 +71,9 @@ export default function Mypage() {
     { label: '이용약관', link: '', Svg: MypageTerms }
   ];
 
-  const { data: info } = useMyInfo(dangle_role, { enabled: !!dangle_role });
+  const { data: info } = useMyInfo(dangle_role, {
+    enabled: !!dangle_role && dangle_role !== 'NONE'
+  });
   const { mutate: logout } = useLogout();
 
   if (!info) return null;
@@ -112,9 +114,7 @@ export default function Mypage() {
         </H3>
 
         <Link
-          href={`${location.href}${
-            isShelterRole ? '/shelter/edit' : '/volunteer'
-          }`}
+          href={`${pathname}${isShelterRole ? '/shelter/edit' : '/volunteer'}`}
         >
           <div className={styles.grid}>
             <Caption2 color="gray600">
@@ -124,7 +124,11 @@ export default function Mypage() {
           </div>
         </Link>
 
-        <Link href="">
+        <Link
+          href={`${pathname}${
+            isShelterRole ? '/shelter/event' : '/volunteer/event'
+          }`}
+        >
           <div className={styles.box}>
             {myStatus.map(({ value, cnt }, index) => (
               <section style={{ display: 'flex' }} key={index}>
