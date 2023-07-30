@@ -20,7 +20,11 @@ export const container = style({
   selectors: {
     [`&:only-child`]: {
       flexGrow: 1
-    },
+    }
+  }
+});
+export const paintFirstCard = style({
+  selectors: {
     [`&:first-child`]: {
       backgroundImage: 'url(/svg/PuppySpot.svg)',
       backgroundColor: palette.primary300,
@@ -69,4 +73,10 @@ export const title = style({
       color: `white`
     }
   }
+});
+
+export const deActivatedContent = style({
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center'
 });

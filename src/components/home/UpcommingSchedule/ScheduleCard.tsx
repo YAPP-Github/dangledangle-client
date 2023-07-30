@@ -1,9 +1,6 @@
-// 상태 - 로그인 x | 일정 없음 | 일정 있음
-// 색상 변경 - 맨 앞에 카드
-// 크기 변경 - 하나만 있을때 꽉 채우기
-//  모집중, 모집 종료
-
+'use client';
 import {
+  Body3,
   Caption1,
   Caption2,
   Caption3,
@@ -18,6 +15,8 @@ import {
 } from '@/utils/timeConvert';
 import * as styles from './ScheduleCard.css';
 import { PropsWithChildren } from 'react';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 
 interface ScheduleCardProps {
   selected?: boolean;
@@ -47,7 +46,7 @@ export default function ScheduleCard({
     endAt
   )} (${getDuration(startAt, endAt)})`;
   return (
-    <article className={styles.container}>
+    <article className={clsx([styles.container, styles.paintFirstCard])}>
       <div className={styles.timeInfo}>
         <Day>{eventDay}</Day>
         <Duringtime>{`${duringTime}`}</Duringtime>
@@ -58,6 +57,36 @@ export default function ScheduleCard({
         <Waiting>
           {joinNum}/{recruitNum}명{waitingNum > 0 && `(대기 ${waitingNum}명)`}
         </Waiting>
+      </div>
+    </article>
+  );
+}
+
+export function NoneScheduleCard() {
+  return (
+    <article className={clsx([styles.container, styles.deActivatedContent])}>
+      <DeActivatedText>진행 예정인 일정이 없습니다.</DeActivatedText>
+      <DeActivatedText>모집 중인 봉사 일정을 둘러보세요!</DeActivatedText>
+    </article>
+  );
+}
+
+export function NoticeLoginScheduleCard() {
+  const router = useRouter();
+  return (
+    <article
+      style={{
+        cursor: 'pointer'
+      }}
+      className={clsx([styles.container, styles.deActivatedContent])}
+      onClick={() => {
+        router.push('/login');
+      }}
+    >
+      <div className={styles.deActivatedContent}>
+        <DeActivatedText>
+          로그인하여 다가오는 일정을 확인해보세요
+        </DeActivatedText>
       </div>
     </article>
   );
@@ -78,4 +107,10 @@ const ShelterProfile = ({ children }: PropsWithChildren) => (
 );
 const Waiting = ({ children }: PropsWithChildren) => (
   <Caption1 className={styles.firstCardVariation}>{children}</Caption1>
+);
+
+const DeActivatedText = ({ children }: PropsWithChildren) => (
+  <Body3 color="gray400" style={{ cursor: 'default' }}>
+    {children}
+  </Body3>
 );
