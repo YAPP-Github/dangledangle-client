@@ -9,13 +9,19 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
 import { useMemo } from 'react';
 import MainHeader from './MainHeader';
+import { UserRole } from '@/constants/user';
 
 interface HeaderComponentProps {
   initColor: string;
   initTitle?: string;
+  initRole?: UserRole;
 }
 
-export default function Header({ initColor, initTitle }: HeaderComponentProps) {
+export default function Header({
+  initColor,
+  initTitle,
+  initRole
+}: HeaderComponentProps) {
   const headerValue = useRecoilValue(headerState);
   const {
     color,
@@ -49,7 +55,7 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
   }, [title, initTitle]);
 
   if (pathName === '/') {
-    return <MainHeader />;
+    return <MainHeader role={initRole} />;
   }
 
   return (

@@ -1,15 +1,18 @@
 'use client';
 import { MainLogo } from '@/asset/icons';
 import { useRouter } from 'next/navigation';
-import { useAuthContext } from '@/providers/AuthContext';
 import { Body3, Body4 } from '../Typography';
 import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
+import { UserRole } from '@/constants/user';
 
-export default function MainHeader() {
+interface MainHeaderProps {
+  role?: UserRole;
+}
+
+export default function MainHeader({ role }: MainHeaderProps) {
   const router = useRouter();
-  const { dangle_role: role } = useAuthContext();
   const refresh = () => {
     router.refresh();
   };
@@ -49,7 +52,7 @@ export default function MainHeader() {
         <Body3 style={{ cursor: 'default' }} onClick={moveToLogin}>
           {content}
         </Body3>
-        {role !== 'NONE' && (
+        {(role === 'SHELTER' || role === 'VOLUNTEER') && (
           <a className={styles.myPageIcon} onClick={moveToMypage}>
             <Body4 color="gray600">MY</Body4>
           </a>
