@@ -1,8 +1,18 @@
+'use client';
 import clsx from 'clsx';
-import ScheduleCard from './ScheduleCard';
+import ScheduleCard, {
+  NoneScheduleCard,
+  NoticeLoginScheduleCard
+} from './ScheduleCard';
 import * as styles from './UpcommingScheduleSection.css';
 import { expandGlobalPadding } from '@/styles/global.css';
 import { H4 } from '@/components/common/Typography';
+import { useAuthContext } from '@/providers/AuthContext';
+import useVolunteerEventList from '@/api/shelter/volunteer-event/useVolunteerEventList';
+import moment from 'moment';
+import { useMemo } from 'react';
+import Skeleton from '@/components/common/Skeleton/Skeleton';
+
 const mock = [
   {
     volunteerEventId: 1,
@@ -59,19 +69,87 @@ const mock = [
 ];
 
 export default function UpcommingScheduleSection() {
+  const { dangle_role: role } = useAuthContext();
+
+  console.log(role);
+
   return (
-    <section className={clsx([styles.section, expandGlobalPadding])}>
-      <H4 className={styles.sectionTitle}>봉사 일정이 다가오고 있어요 🐶</H4>
+    <section className={clsx([expandGlobalPadding, styles.section])}>
+      <H4> 봉사 일정이 다가오고 있어요 🐶</H4>
       <div className={styles.cardList}>
-        {mock.map(item => (
-          <ScheduleCard
-            key={`schedule_${item.volunteerEventId}`}
-            userRole="SHELTER"
-            shelterId={1}
-            {...item}
-          />
-        ))}
+        {role === 'NONE' ? (
+          <NoticeLoginScheduleCard />
+        ) : role === 'VOLUNTEER' ? (
+          <VolunteerUserEventList />
+        ) : role === 'SHELTER' ? (
+          <ShelterUserEventList />
+        ) : (
+          <Skeleton />
+        )}
       </div>
     </section>
+  );
+}
+
+function VolunteerUserEventList() {
+  const { dangle_id: volunteerId } = useAuthContext();
+
+  // const volunteerEvents = useMemo(() => {
+  //   const pages = data?.pages;
+  //   return pages?.flatMap(page => page.events);
+  // }, [data?.pages]);
+
+  const volunteerEvents = mock;
+  return (
+    <>
+      {volunteerEvents?.length ? (
+        volunteerEvents?.map((item, i) => (
+          <ScheduleCard
+            key={`schedule_${i}_${item.volunteerEventId}`}
+            userRole="VOLUNTEER"
+            {...item}
+          />
+        ))
+      ) : (
+        <NoneScheduleCard />
+      )}
+    </>
+  );
+}
+
+function ShelterUserEventList() {
+  const { dangle_id: shelterId } = useAuthContext();
+  const { data, isLoading } = useVolunteerEventList(
+    shelterId!,
+    moment(),
+    moment().add(2, 'week')
+  );
+
+  const volunteerEvents = useMemo(() => {
+    const pages = data?.pages;
+    return pages
+      ?.flatMap(page => page.events)
+      .sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      );
+  }, [data?.pages]);
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+  return (
+    <>
+      {volunteerEvents?.length ? (
+        volunteerEvents?.map((item, i) => (
+          <ScheduleCard
+            key={`schedule_${i}_${item.volunteerEventId}`}
+            userRole="SHELTER"
+            {...item}
+          />
+        ))
+      ) : (
+        <NoneScheduleCard />
+      )}
+    </>
   );
 }

@@ -19,9 +19,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 
 interface ScheduleCardProps {
-  selected?: boolean;
   userRole: UserRole;
-  shelterId: number;
   startAt: Date | string;
   endAt: Date | string;
   title: string;
@@ -31,9 +29,7 @@ interface ScheduleCardProps {
 }
 
 export default function ScheduleCard({
-  selected,
   userRole,
-  shelterId,
   startAt,
   endAt,
   title,
