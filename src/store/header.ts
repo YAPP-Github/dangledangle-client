@@ -14,7 +14,7 @@ export interface HeaderState {
 export const headerState = atom<HeaderState>({
   key: 'header',
   default: {
-    color: '',
+    color: palette.background,
     title: '',
     isHeader: 'visible',
     isBackArrow: 'visible',

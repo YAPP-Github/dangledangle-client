@@ -104,11 +104,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
           dangle_role: decodedToken.role
         }));
       }
+    } else {
+      if (!protectedRoutes.some(route => pathname.includes(route)))
+        router.push('/');
     }
-    // else {
-    //   if (!protectedRoutes.some(route => pathname.includes(route)))
-    //     router.push('/');
-    // }
   }, [router, pathname]);
 
   const logout = useCallback(() => {

@@ -12,7 +12,7 @@ const api = ky.create({
     'Content-Type': 'application/json'
   },
   hooks: {
-    beforeRequest: [setAuthorizationHeader(process)],
+    beforeRequest: [setAuthorizationHeader],
     afterResponse: [
       retryRequestOnUnauthorized,
       throwServerErrorMessage,

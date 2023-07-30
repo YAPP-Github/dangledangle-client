@@ -1,7 +1,9 @@
 const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
+const Dotenv = require('dotenv-webpack');
 const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
+const isLocal = process.env.NODE_ENV === 'development';
 const nextConfig = {
   experimental: {
     appDir: true
@@ -31,8 +33,14 @@ const nextConfig = {
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
+    config.plugins.push(
+      new Dotenv({
+        path: `.env.${isLocal ? 'local' : 'production'}`
+      })
+    );
     return config;
   },
+
   images: {
     remotePatterns: [
       {

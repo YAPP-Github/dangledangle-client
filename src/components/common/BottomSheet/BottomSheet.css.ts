@@ -7,7 +7,8 @@ export const bottomSheetLeft = createVar('bottomSheetLeft');
 export const panel = style({
   position: 'fixed',
   bottom: -5,
-  left: bottomSheetLeft,
+  left: [bottomSheetLeft],
+  height: '560px',
   borderRadius: '20px 20px 0px 0px',
   width: '100%',
   maxWidth: BREAK_POINT,
@@ -28,11 +29,5 @@ export const overlay = style({
 });
 
 export const childrenWrap = style({
-  marginTop: '20px'
-});
-
-export const phoneWrap = style({
-  display: 'flex',
-  justifyContent: 'center',
-  paddingTop: '8px'
+  marginTop: '40px'
 });
