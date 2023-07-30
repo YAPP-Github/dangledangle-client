@@ -4,14 +4,13 @@ export const section = style({
   height: '100%',
   overflow: 'hidden',
   backgroundColor: 'white',
-  padding: '28px 20px',
+  paddingTop: '28px',
+  paddingBottom: '28px',
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
   rowGap: '16px'
 });
-
-export const sectionTitle = style({});
 
 export const cardList = style({
   width: '100%',
