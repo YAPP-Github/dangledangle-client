@@ -1,17 +1,16 @@
 'use client';
-
 import { ArrowLeft } from '@/asset/icons';
 import { headerState } from '@/store/header';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { Body2, H4 } from '../Typography';
 import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
 import { useMemo } from 'react';
+import MainHeader from './MainHeader';
 
 interface HeaderComponentProps {
-  // /** 이동 URL */
   initColor: string;
   initTitle?: string;
 }
@@ -27,8 +26,8 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
     thisPage,
     entirePage
   } = headerValue;
-
   const router = useRouter();
+  const pathName = usePathname();
   const navigate = () => {
     router.back();
   };
@@ -48,6 +47,10 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
       return title;
     }
   }, [title, initTitle]);
+
+  if (pathName === '/') {
+    return <MainHeader />;
+  }
 
   return (
     <>

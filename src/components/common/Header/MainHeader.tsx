@@ -20,9 +20,13 @@ export default function MainHeader() {
         : role === 'SHELTER'
         ? '/admin/shelter'
         : '';
-
     router.push(path);
   };
+
+  const moveToLogin = () => {
+    if (role === 'NONE') router.push('/login');
+  };
+
   const content =
     role === 'VOLUNTEER'
       ? '개인봉사자'
@@ -42,7 +46,9 @@ export default function MainHeader() {
       </a>
 
       <div className={styles.rightSide}>
-        <Body3 style={{ cursor: 'default' }}>{content}</Body3>
+        <Body3 style={{ cursor: 'default' }} onClick={moveToLogin}>
+          {content}
+        </Body3>
         {role !== 'NONE' && (
           <a className={styles.myPageIcon} onClick={moveToMypage}>
             <Body4 color="gray600">MY</Body4>
