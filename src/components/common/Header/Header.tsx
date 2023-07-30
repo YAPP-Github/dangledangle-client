@@ -15,12 +15,14 @@ interface HeaderComponentProps {
   initColor: string;
   initTitle?: string;
   initRole?: UserRole;
+  shelterId?: number | null;
 }
 
 export default function Header({
   initColor,
   initTitle,
-  initRole
+  initRole,
+  shelterId
 }: HeaderComponentProps) {
   const headerValue = useRecoilValue(headerState);
   const {
@@ -55,7 +57,7 @@ export default function Header({
   }, [title, initTitle]);
 
   if (pathName === '/') {
-    return <MainHeader role={initRole} />;
+    return <MainHeader role={initRole} shelterId={shelterId!} />;
   }
 
   return (

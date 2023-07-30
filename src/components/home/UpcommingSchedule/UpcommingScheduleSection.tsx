@@ -71,8 +71,6 @@ const mock = [
 export default function UpcommingScheduleSection() {
   const { dangle_role: role } = useAuthContext();
 
-  console.log(role);
-
   return (
     <section className={clsx([expandGlobalPadding, styles.section])}>
       <H4> 봉사 일정이 다가오고 있어요 🐶</H4>

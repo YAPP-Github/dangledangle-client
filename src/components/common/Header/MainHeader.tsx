@@ -9,9 +9,10 @@ import { UserRole } from '@/constants/user';
 
 interface MainHeaderProps {
   role?: UserRole;
+  shelterId?: number;
 }
 
-export default function MainHeader({ role }: MainHeaderProps) {
+export default function MainHeader({ role, shelterId }: MainHeaderProps) {
   const router = useRouter();
   const refresh = () => {
     router.refresh();
@@ -21,7 +22,7 @@ export default function MainHeader({ role }: MainHeaderProps) {
       role === 'VOLUNTEER'
         ? '/admin/volunteer'
         : role === 'SHELTER'
-        ? '/admin/shelter'
+        ? `/shelter/${shelterId}`
         : '';
     router.push(path);
   };

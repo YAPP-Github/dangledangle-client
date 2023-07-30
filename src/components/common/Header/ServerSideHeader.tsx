@@ -16,6 +16,7 @@ export default function ServerSideHeader() {
       initColor={prop.backgroundColor}
       initTitle={prop.title}
       initRole={role as UserRole}
+      shelterId={dangle_id}
     />
   );
 }
