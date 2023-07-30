@@ -5,6 +5,7 @@ import * as m from '@/components/global/Dialog/utils/motion';
 import clsx from 'clsx';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { BREAK_POINT } from '@/styles/global.css';
+import { Phone } from '@/asset/icons';
 
 interface BottomSheetProps {
   /** bottom sheet status */
@@ -67,6 +68,9 @@ export default function BottomSheet({
             animate="visible"
             exit="leaving"
           >
+            <div className={styles.phoneWrap}>
+              <Phone />
+            </div>
             <div className={styles.childrenWrap}>{children}</div>
           </motion.section>
         </>

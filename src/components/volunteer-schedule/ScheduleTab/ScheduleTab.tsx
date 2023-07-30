@@ -8,6 +8,7 @@ import useVolunteerEventList, {
 } from '@/api/shelter/volunteer-event/useVolunteerEventList';
 import { getStartOfMonth, getEndOfMonth } from '@/utils/timeConvert';
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
+import SkeletonList from '@/components/common/Skeleton/SkeletonList';
 
 interface ScheduleTabProps {
   shelterId: number;
@@ -93,6 +94,7 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
         onChangeMonth={handleChangeMonth}
       />
       <div style={{ marginTop: '16px' }}>
+        {(query.isLoading || query.isFetching) && <SkeletonList />}
         {volunteerEvents && (
           <VolunteerEventList
             selectedDate={selectedDate}
