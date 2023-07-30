@@ -6,7 +6,7 @@ export default function RegisterComplete() {
   return (
     <CompleteSheet
       message="가입 완료!<br/>같이 세상을 바꿔볼까요?"
-      onClick={() => router.push('/event')}
+      onClick={() => router.push('/login')}
       buttonTitle="홈 살펴보러 가기"
     />
   );
