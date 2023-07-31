@@ -9,7 +9,7 @@ export default function useMyShelterEvent(
   options?: UseInfiniteQueryOptions<MypageEvent>
 ) {
   return useInfiniteQuery<MypageEvent>(
-    [...queryKey.all],
+    [...queryKey.all, JSON.stringify(filter)],
     ({ pageParam = 0 }) => getMyEvent({ ...filter, page: pageParam }),
     {
       getNextPageParam: lastPage => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { MyShelterEvent, MyVolunteerEvent } from '@/api/mypage/event/event';
 import { ArrowRightLg } from '@/asset/icons';
 import Avartar from '@/components/common/Avartar/Avartar';
 import {
@@ -9,12 +10,10 @@ import {
   H4
 } from '@/components/common/Typography';
 import { MY_STATUS, SHELTER_STATUS } from '@/constants/volunteerEvent';
-import { formatKoDay, getDuration, pmamConvert } from '@/utils/timeConvert';
-import * as styles from './MyPageCard.css';
-import { MyShelterEvent, MyVolunteerEvent } from '@/api/mypage/event/event';
-import { usePathname } from 'next/navigation';
 import { useAuthContext } from '@/providers/AuthContext';
+import { formatKoDate, getDuration, pmamConvert } from '@/utils/timeConvert';
 import Link from 'next/link';
+import * as styles from './MyPageCard.css';
 
 interface MyPageCardProps {
   event: MyShelterEvent | MyVolunteerEvent;
@@ -71,7 +70,9 @@ function EventInfo({ event }: MyPageCardProps) {
   return (
     <div>
       <div className={styles.txtLine}>
-        <Caption1>{formatKoDay(event.startAt)}</Caption1>
+        <Caption1>
+          {formatKoDate(event.startAt, 'YYYY년 M월 D일 dddd')}
+        </Caption1>
         <ArrowRightLg />
       </div>
       <Caption3 color="gray600" style={{ marginTop: '2px' }}>
