@@ -1,9 +1,23 @@
+import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import { palette } from '@/styles/color';
-import { expandGlobalPadding } from '@/styles/global.css';
+import { GLOBAL_PADDING_X, expandGlobalPadding } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
-export const filterContainer = style([
+export const FILTER_HEIGHT = 47.5;
+
+export const expandWhiteContainer = style([
   expandGlobalPadding,
+  {
+    background: palette.white
+  }
+]);
+
+export const sticky = style({
+  position: 'sticky',
+  top: HEADER_HEIGHT
+});
+export const filterContainer = style([
+  expandWhiteContainer,
   {
     display: 'flex',
     columnGap: 8,
@@ -13,15 +27,15 @@ export const filterContainer = style([
     '::-webkit-scrollbar': {
       display: 'none'
     },
-    background: palette.white
+    paddingTop: 10,
+    paddingBottom: 4
   }
 ]);
 
 export const title = style([
-  expandGlobalPadding,
+  expandWhiteContainer,
   {
-    background: palette.white,
-    paddingBottom: 16,
+    paddingBottom: 6,
     paddingTop: 32
   }
 ]);
@@ -29,4 +43,11 @@ export const title = style([
 export const empty = style({
   padding: '54px 0',
   textAlign: 'center'
+});
+
+export const dummyItem = style({
+  background: 'black',
+  marginBottom: 12,
+  width: '100%',
+  height: 200
 });
