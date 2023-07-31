@@ -41,9 +41,13 @@ export default function SettingItem({
         phoneNumber: !isShelterInfo(info) ? info?.phoneNumber! : '',
         alarmEnabled: e.target.checked
       };
-      mutateAsync(payload).then(res => {
-        toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
-      });
+
+      //FIXME: 보호소 alarm 추가되어야 함
+      if (!isShelterInfo(info)) {
+        mutateAsync(payload).then(res => {
+          toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
+        });
+      }
     },
     [toggleAlarm, mutateAsync, toastOn, info]
   );

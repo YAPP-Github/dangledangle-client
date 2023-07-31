@@ -7,10 +7,12 @@ import {
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
 import { useRouter } from 'next/navigation';
+import useToast from '@/hooks/useToast';
 
 export default function useLogout() {
   const { setAuthState } = useAuthContext();
   const router = useRouter();
+  const toastOn = useToast();
 
   return useMutation<string, Error>(logout, {
     onSuccess: response => {
@@ -19,7 +21,9 @@ export default function useLogout() {
         // client cookies delete
         Cookies.remove(COOKIE_ACCESS_TOKEN_KEY);
         Cookies.remove(COOKIE_REFRESH_TOKEN_KEY);
+
         router.push('/login');
+        toastOn('로그아웃이 완료되었습니다.');
       } else {
         console.error(response);
       }

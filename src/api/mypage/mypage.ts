@@ -14,6 +14,7 @@ export interface MyVolInfo {
 export interface MyShelterInfo {
   name: string;
   historyStat: ShleterInfo;
+  alarm: boolean;
 }
 
 export interface VolInfo {
