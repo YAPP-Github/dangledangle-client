@@ -16,34 +16,40 @@ export interface MyBaseEvent {
   volunteerEventId: number;
   title: string;
   category: string;
-  eventStatus: string;
+  eventStatus: ShelterStatus;
   startAt: string;
   endAt: string;
-}
-
-export interface MyShelterEvent extends MyBaseEvent {
-  eventStatus: ShelterStatus;
   recruitNum: number;
   participantNum: number;
   waitingNum: number;
 }
 
+export interface MyShelterEvent extends MyBaseEvent {}
+
 export interface MyVolunteerEvent extends MyBaseEvent {
+  shelterName: string;
   myParticipationStatus: MyStatus;
-  name: string;
-  profileImageUrl: string;
 }
 
 export interface MypageEventParams {
   page?: number;
-  status?: ShelterStatus;
+  status?: ShelterStatus | MyStatus;
 }
 
-export const getMyEvent = async (filter: MypageEventParams) => {
+export const getMyShelterEvent = async (filter: MypageEventParams) => {
   const queryParameters = parsingFilter(filter);
 
   const response = await api
     .get(`shelter/admin/my/volunteer-event${queryParameters}`)
+    .then(res => res.json<MypageEvent>());
+  return response;
+};
+
+export const getMyVolEvent = async (filter: MypageEventParams) => {
+  const queryParameters = parsingFilter(filter);
+
+  const response = await api
+    .get(`volunteer/my/volunteer-event${queryParameters}`)
     .then(res => res.json<MypageEvent>());
   return response;
 };

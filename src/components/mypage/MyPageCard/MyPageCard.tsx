@@ -17,6 +17,7 @@ import * as styles from './MyPageCard.css';
 
 interface MyPageCardProps {
   event: MyShelterEvent | MyVolunteerEvent;
+  isVolunteer?: boolean;
 }
 
 interface ShelterInfoProps {
@@ -33,14 +34,17 @@ export function isShelterCard(
   return obj !== undefined && 'eventStatus' in obj;
 }
 
-export default function MyPageCard({ event }: MyPageCardProps) {
+export default function MyPageCard({
+  event,
+  isVolunteer = false
+}: MyPageCardProps) {
   const { dangle_id: shelterId } = useAuthContext();
   if (!event) return null;
 
   const isShelter = isShelterCard(event);
-  const status = isShelter
-    ? SHELTER_STATUS[event.eventStatus]
-    : MY_STATUS[event.myParticipationStatus];
+  const status = isVolunteer
+    ? MY_STATUS[(event as MyVolunteerEvent).myParticipationStatus]
+    : SHELTER_STATUS[(event as MyShelterEvent).eventStatus];
 
   return (
     <div className={styles.container}>
@@ -54,10 +58,10 @@ export default function MyPageCard({ event }: MyPageCardProps) {
         <EventInfo event={event} />
         <H4 className={styles.textClamp}>{event.title}</H4>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {isShelter ? (
-            <ShelterInfo event={event as MyShelterEvent} />
-          ) : (
+          {isVolunteer ? (
             <VolunteerInfo event={event as MyVolunteerEvent} />
+          ) : (
+            <ShelterInfo event={event as MyShelterEvent} />
           )}
           <Caption1 color="error">{status}</Caption1>
         </div>
@@ -102,9 +106,9 @@ function VolunteerInfo({ event }: VolunteerInfoProps) {
         defaultImage="shelter"
         shape="circle"
         alt={`${event.volunteerEventId}의 프로필 이미지`}
-        imagePath={event.profileImageUrl}
+        // imagePath={event.profileImageUrl}
       ></Avartar>
-      <Caption2>{event.name}</Caption2>
+      <Caption2>{event.shelterName}</Caption2>
     </div>
   );
 }

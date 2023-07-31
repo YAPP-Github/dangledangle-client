@@ -41,8 +41,9 @@ export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
 
 export const MY_STATUS = {
   NONE: '미참여',
-  JOINING: '참여중',
-  WAITING: '대기중'
+  JOINING: '신청 완료',
+  WAITING: '신청 대기중',
+  DONE: '진행 완료'
 };
 export type MyStatus = keyof typeof MY_STATUS;
 

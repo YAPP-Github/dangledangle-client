@@ -5,17 +5,17 @@ import {
 import {
   MypageEvent,
   MypageEventParams,
-  getMyShelterEvent,
+  getMyVolEvent,
   queryKey
 } from './event';
 
-export default function useMyShelterEvent(
+export default function useMyVolEvent(
   filter?: MypageEventParams,
   options?: UseInfiniteQueryOptions<MypageEvent>
 ) {
   return useInfiniteQuery<MypageEvent>(
     [...queryKey.all, JSON.stringify(filter)],
-    ({ pageParam = 0 }) => getMyShelterEvent({ ...filter, page: pageParam }),
+    ({ pageParam = 0 }) => getMyVolEvent({ ...filter, page: pageParam }),
     {
       getNextPageParam: lastPage => {
         if (lastPage.content.length === 0) {
