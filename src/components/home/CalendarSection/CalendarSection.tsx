@@ -1,6 +1,6 @@
 'use client';
 
-import Filter from '@/components/common/Filter/Filter';
+import Filter, { FilterRef } from '@/components/common/Filter/Filter';
 import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
 import {
   CATEGORY_OPTIONS,
@@ -10,7 +10,7 @@ import {
   VolunteerEventCategory
 } from '@/constants/volunteerEvent';
 import { EventStatus } from '@/types/volunteerEvent';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as styles from './CalendarSection.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
 import { Body3, H4 } from '@/components/common/Typography';
@@ -34,6 +34,7 @@ export default function CalendarSection() {
   });
   const [loading, loadingOn, loadingOff] = useBooleanState(true);
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
+  const regionFilterRef = useRef<FilterRef>(null);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
@@ -51,7 +52,7 @@ export default function CalendarSection() {
       getUserGeolocation()
         .then(setGeolocation)
         .catch(() => {
-          // TODO: 필터 값 바꾸기
+          regionFilterRef.current?.setPickOption(REGION_OPTIONS[0]);
           setFilter(prev => ({ ...prev, region: REGION_OPTIONS[0] }));
         })
         .finally(loadingOff);
@@ -76,6 +77,7 @@ export default function CalendarSection() {
             />
           )) || (
             <Filter
+              ref={regionFilterRef}
               label="지역"
               name="region"
               options={['내 주변', ...REGION_OPTIONS]}
