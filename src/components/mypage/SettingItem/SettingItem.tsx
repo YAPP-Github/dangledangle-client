@@ -72,6 +72,7 @@ export default function SettingItem({
             name={'alram'}
             onChange={handleToggleChange}
             checked={info?.alarm}
+            disabled={isShelterRole ? true : false}
           />
         </div>
 
