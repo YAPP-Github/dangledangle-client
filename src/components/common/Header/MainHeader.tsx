@@ -6,6 +6,9 @@ import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
 import { UserRole } from '@/constants/user';
+import useObserver from '@/hooks/useObserver';
+import { DOM_ID_BANNER } from '@/constants/dom';
+import { useEffect } from 'react';
 
 interface MainHeaderProps {
   role?: UserRole;
@@ -38,8 +41,28 @@ export default function MainHeader({ role, shelterId }: MainHeaderProps) {
       ? '보호소 파트너'
       : '로그인/회원가입';
 
+  const { toggle } = useObserver(DOM_ID_BANNER);
+
+  useEffect(() => {
+    const header = document.getElementById('main_header');
+    console.log('header useEffext');
+    if (!header) return;
+    const on = () => {
+      console.log('on');
+      header.classList.add(styles.headerColorOn);
+      header.classList.remove(styles.headerColorOff);
+    };
+    const off = () => {
+      console.log('off');
+      header.classList.remove(styles.headerColorOn);
+      header.classList.add(styles.headerColorOff);
+    };
+    toggle(on, off);
+  }, []);
+
   return (
     <nav
+      id="main_header"
       className={styles.container}
       style={assignInlineVars({
         [styles.headerColor]: palette.background

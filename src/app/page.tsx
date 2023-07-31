@@ -36,6 +36,8 @@ export default async function HomePage() {
       <Banner name={name} shelterId={shelterId} />
       <UpcommingScheduleSection />
       <HomeCalendar />
+      {/* 인터렉션 테스트용 */}
+      <div style={{ height: '100vw' }}></div>
     </>
   );
 }
