@@ -8,6 +8,7 @@ import ServerSideHeader from '@/components/common/Header/ServerSideHeader';
 import { AuthProvider } from '@/providers/AuthContext';
 import Footer from '@/components/common/Footer/Footer';
 import ScrollToTop from '@/components/global/ScrollToTop/ScrollToTop';
+import { PORTAL_ELEMENT_ID } from '@/components/global/Dialog/Portal/types';
 
 export const metadata = {
   title: 'Create Next App',
@@ -25,13 +26,14 @@ export default function RootLayout({
         <RecoilRootWrapper>
           <QueryProvider>
             <AuthProvider>
-              <div id="modal-portal" />
+              <div id={PORTAL_ELEMENT_ID.modal} />
               <GlobalComponents />
               <ServerSideHeader />
               <ScrollToTop>
                 <main className={styles.main}>{children}</main>
               </ScrollToTop>
               <Footer />
+              <div id={PORTAL_ELEMENT_ID.bottom} />
             </AuthProvider>
           </QueryProvider>
         </RecoilRootWrapper>

@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import { Caption3 } from '../Typography';
 import * as styles from './Filter.css';
 import FilterBottom from './FilterBottom';
+import Portal from '@/components/global/Dialog/Portal/Portal';
 export interface FilterOption {
   label: string;
   value: string;
@@ -58,14 +59,16 @@ const Filter = ({ name, label, options, onChange }: FilterProps) => {
         </div>
       </button>
 
-      <FilterBottom
-        open={isFilter}
-        onClose={closeFilter}
-        label={label}
-        options={options}
-        pickOption={pickOption}
-        onClick={handleChangeData}
-      />
+      <Portal portalId="bottom">
+        <FilterBottom
+          open={isFilter}
+          onClose={closeFilter}
+          label={label}
+          options={options}
+          pickOption={pickOption}
+          onClick={handleChangeData}
+        />
+      </Portal>
     </>
   );
 };
