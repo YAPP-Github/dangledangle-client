@@ -12,6 +12,7 @@ import uuidv4 from '@/utils/uuidv4';
 import { useCallback, useEffect, useState } from 'react';
 import { isShelterInfo } from '../../page';
 import * as styles from './styles.css';
+import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';
 
 export type ShelterFilter = 'IN_PROGRESS' | 'DONE' | '';
 
@@ -80,7 +81,9 @@ export default function ShelterEvent() {
           page.content.map(event => <MyPageCard key={uuidv4()} event={event} />)
         )
       ) : (
-        <SkeletonList />
+        <DeferredComponent>
+          <SkeletonList />
+        </DeferredComponent>
       )}
     </div>
   );
