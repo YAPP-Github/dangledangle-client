@@ -44,8 +44,7 @@ export async function GET(req: NextRequest) {
 
     // TODO : 로그인 이후 리다이렉트 url 변경 필요
     const cookieStore = cookies();
-    const redirectPath =
-      (await cookieStore.get(COOKIE_REDIRECT_URL)?.value) || '/volunteer';
+    const redirectPath = cookieStore.get(COOKIE_REDIRECT_URL)?.value || '/';
     const redirectTo = `${originUrl}${decodeURIComponent(redirectPath)}`;
     const res = NextResponse.redirect(redirectTo);
 
