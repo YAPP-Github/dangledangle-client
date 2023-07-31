@@ -15,6 +15,8 @@ import * as styles from './CalendarSection.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
 import { Body3, H4 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
+import getUserGeolocation from './utils/getUserGeolocation';
+import useBooleanState from '@/hooks/useBooleanState';
 
 type EventFilter = {
   region: '내 주변' | RegionOptions;
@@ -30,6 +32,8 @@ export default function CalendarSection() {
     status: 'IN_PROGRESS',
     bookmark: false
   });
+  const [loading, loadingOn, loadingOff] = useBooleanState(true);
+  const [geolocation, setGeolocation] = useState<GeolocationPosition>();
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
@@ -40,6 +44,22 @@ export default function CalendarSection() {
     },
     []
   );
+
+  useEffect(() => {
+    if (dangle_role !== 'SHELTER' && filter.region === '내 주변') {
+      loadingOn();
+      getUserGeolocation()
+        .then(setGeolocation)
+        .catch(() => {
+          // TODO: 필터 값 바꾸기
+          setFilter(prev => ({ ...prev, region: REGION_OPTIONS[0] }));
+        })
+        .finally(loadingOff);
+    } else {
+      loadingOff();
+    }
+  }, [dangle_role, filter.region, handleChangeFilter, loadingOff, loadingOn]);
+
   return (
     <div>
       <div className={styles.title}>
@@ -87,12 +107,16 @@ export default function CalendarSection() {
           </div>
         )}
       </div>
-      <div className={styles.dummyItem} />
-      <div className={styles.dummyItem} />
-      <div className={styles.dummyItem} />
-      <div className={styles.dummyItem} />
-      <div className={styles.dummyItem} />
-      <div className={styles.dummyItem} />
+      {!loading && (
+        <div>
+          <div className={styles.dummyItem} />
+          <div className={styles.dummyItem} />
+          <div className={styles.dummyItem} />
+          <div className={styles.dummyItem} />
+          <div className={styles.dummyItem} />
+          <div className={styles.dummyItem} />
+        </div>
+      )}
     </div>
   );
 }
