@@ -13,7 +13,7 @@ export interface FilterOption {
 interface FilterProps {
   name: string;
   label: string;
-  options: FilterOption[];
+  options: FilterOption[] | readonly string[];
   onChange: (name: string, value: string) => void;
 }
 
@@ -37,7 +37,9 @@ interface FilterProps {
 
 const Filter = ({ name, label, options, onChange }: FilterProps) => {
   const [isFilter, openFilter, closeFilter] = useBooleanState();
-  const [pickOption, setPickOption] = useState(options[0]?.label);
+  const [pickOption, setPickOption] = useState(
+    typeof options[0] === 'string' ? options[0] : options[0]?.label
+  );
 
   const handleChangeData = useCallback(
     (label: string, value: string) => {

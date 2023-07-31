@@ -5,29 +5,29 @@ import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
 import {
   CATEGORY_OPTIONS,
   EVENT_STATUS_OPTIONS,
-  SHELTER_REGION_OPTIONS,
-  ShelterRegion,
+  REGION_OPTIONS,
+  RegionOptions,
   VolunteerEventCategory
 } from '@/constants/volunteerEvent';
 import { EventStatus } from '@/types/volunteerEvent';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as styles from './CalendarSection.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
 import { Body3, H4 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 
 type EventFilter = {
-  region: 'local' | ShelterRegion;
+  region: '내 주변' | RegionOptions;
   category: 'all' | VolunteerEventCategory;
-  status: 'all' | EventStatus;
+  status: EventStatus;
   bookmark: boolean;
 };
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
   const [filter, setFilter] = useState<EventFilter>({
-    region: 'local',
+    region: '내 주변',
     category: 'all',
-    status: 'all',
+    status: 'IN_PROGRESS',
     bookmark: false
   });
 
@@ -58,7 +58,7 @@ export default function CalendarSection() {
             <Filter
               label="지역"
               name="region"
-              options={SHELTER_REGION_OPTIONS}
+              options={['내 주변', ...REGION_OPTIONS]}
               onChange={handleChangeFilter}
             />
           )}

@@ -40,17 +40,20 @@ export const AGE_LIMIT = {
 export type AgeLimit = keyof typeof AGE_LIMIT;
 export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
 
-export const SHELTER_REGION = {
-  seoul: '서울',
-  jeju: '제주도',
-  kangwon: '강원도',
-  incheon: '인천'
-};
-export type ShelterRegion = keyof typeof SHELTER_REGION;
-export const SHELTER_REGION_OPTIONS: FilterOption[] = createInputOptions({
-  local: '내 주변',
-  ...SHELTER_REGION
-});
+export const REGION_OPTIONS = [
+  '서울',
+  '경기도',
+  '인천',
+  '대전',
+  '강원도',
+  '대구',
+  '경상도',
+  '전라도',
+  '충청도',
+  '제주도'
+] as const;
+
+export type RegionOptions = (typeof REGION_OPTIONS)[number];
 
 const EVENT_STATUS = {
   IN_PROGRESS: '모집 중',
