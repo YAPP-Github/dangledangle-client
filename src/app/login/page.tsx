@@ -6,6 +6,7 @@ import Carousel from '@/components/common/Carousel/Carousel';
 import useHeader from '@/hooks/useHeader';
 import { useRouter } from 'next/navigation';
 import * as styles from './styles.css';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,12 +14,16 @@ export default function LoginPage() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <div className={styles.homeLogo}>
-        <MainLogo />
-      </div>
       <Carousel>
         {new Array(5).fill(0).map((_value, idx) => (
-          <div key={idx} className={styles.item}></div>
+          <Image
+            key={`login_banner_${idx}`}
+            src={`/images/login/login_banner_${idx}.png`}
+            alt="login1"
+            width={320 * 1.5}
+            height={420 * 1.5}
+            className={styles.item}
+          />
         ))}
       </Carousel>
       <div className={styles.buttomWrap}>

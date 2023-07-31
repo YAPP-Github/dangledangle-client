@@ -23,6 +23,21 @@ export const container = style({
     }
   }
 });
+
+export const arrowIcon = style({
+  transform: 'scale(1.5)',
+  position: 'absolute',
+  top: '16px',
+  right: '16px',
+  stroke: palette.gray900,
+  cursor: 'pointer',
+  selectors: {
+    [`${container}:first-child >  &`]: {
+      stroke: 'white'
+    }
+  }
+});
+
 export const paintFirstCard = style({
   selectors: {
     [`&:first-child`]: {

@@ -10,7 +10,7 @@ interface SpecialCareAnimalTabProps {
 export default function SpecialCareAnimalTab({
   shelterId
 }: SpecialCareAnimalTabProps) {
-  const { data } = useObservationAnimalListAtHome({ shelterId, page: 1 });
+  const { data } = useObservationAnimalListAtHome({ shelterId, page: 0 });
 
   return (
     <>

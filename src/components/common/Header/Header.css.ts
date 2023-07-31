@@ -47,3 +47,11 @@ export const myPageIcon = style({
   background: palette.gray50,
   cursor: 'pointer'
 });
+
+export const headerColorOn = style({
+  backgroundColor: palette.white,
+  transition: '0.2s ease-in-out'
+});
+export const headerColorOff = style({
+  backgroundColor: palette.background
+});

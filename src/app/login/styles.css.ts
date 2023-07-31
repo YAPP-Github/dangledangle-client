@@ -9,8 +9,8 @@ export const homeLogo = style({
 });
 export const item = style({
   marginTop: '40px',
-  width: '300px',
-  height: '340px',
+  width: '320px',
+  height: '420px',
   background: palette.gray50,
   borderRadius: '4px',
   display: 'flex',

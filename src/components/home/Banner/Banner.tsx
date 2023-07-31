@@ -1,9 +1,9 @@
 'use client';
-import Image from 'next/image';
 import * as styles from './Banner.css';
 import { useRouter } from 'next/navigation';
 import { Caption2 } from '@/components/common/Typography';
 import { ArrowRight } from '@/asset/icons';
+import { DOM_ID_BANNER } from '@/constants/dom';
 
 interface BannerProps {
   name: string;
@@ -12,7 +12,7 @@ interface BannerProps {
 
 export default function Banner({ name, shelterId }: BannerProps) {
   return (
-    <section>
+    <section id={DOM_ID_BANNER}>
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
           <h1>안녕하세요! {name && <span>{name}님.</span>}</h1>
@@ -20,7 +20,7 @@ export default function Banner({ name, shelterId }: BannerProps) {
         </div>
         <a className={styles.infoLink} href="#">
           <Caption2 color="gray600">댕글댕글 서비스를 소개합니다</Caption2>
-          <ArrowRight />
+          <ArrowRight stroke="#6C6C6C" />
         </a>
         {shelterId && <MyShelterHomeButton shelterId={shelterId} />}
       </div>

@@ -103,6 +103,7 @@ function VolunteerUserEventList() {
       {volunteerEvents?.length ? (
         volunteerEvents?.map((item, i) => (
           <ScheduleCard
+            shelterId={0} // api 연동 필요
             key={`schedule_${i}_${item.volunteerEventId}`}
             userRole="VOLUNTEER"
             {...item}
@@ -140,6 +141,7 @@ function ShelterUserEventList() {
       {volunteerEvents?.length ? (
         volunteerEvents?.map((item, i) => (
           <ScheduleCard
+            shelterId={shelterId!}
             key={`schedule_${i}_${item.volunteerEventId}`}
             userRole="SHELTER"
             {...item}

@@ -17,8 +17,10 @@ import * as styles from './ScheduleCard.css';
 import { PropsWithChildren } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
+import { ArrowRight } from '@/asset/icons';
 
 interface ScheduleCardProps {
+  shelterId: number;
   userRole: UserRole;
   startAt: Date | string;
   endAt: Date | string;
@@ -29,6 +31,7 @@ interface ScheduleCardProps {
 }
 
 export default function ScheduleCard({
+  shelterId,
   userRole,
   startAt,
   endAt,
@@ -37,12 +40,17 @@ export default function ScheduleCard({
   joinNum,
   waitingNum
 }: ScheduleCardProps) {
+  const router = useRouter();
+  const moveTo = () => {
+    router.push(`/shelter/${shelterId}`);
+  };
   const eventDay = `${formatKoDate(startAt)} ${getLocaleWeekday(startAt)}`;
   const duringTime = `${pmamConvert(startAt)} ${pmamConvert(
     endAt
   )} (${getDuration(startAt, endAt)})`;
   return (
     <article className={clsx([styles.container, styles.paintFirstCard])}>
+      <ArrowRight className={styles.arrowIcon} onClick={moveTo} />
       <div className={styles.timeInfo}>
         <Day>{eventDay}</Day>
         <Duringtime>{`${duringTime}`}</Duringtime>
