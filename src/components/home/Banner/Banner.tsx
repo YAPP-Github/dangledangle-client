@@ -20,7 +20,7 @@ export default function Banner({ name, shelterId }: BannerProps) {
         </div>
         <a className={styles.infoLink} href="#">
           <Caption2 color="gray600">댕글댕글 서비스를 소개합니다</Caption2>
-          <ArrowRight />
+          <ArrowRight stroke="#6C6C6C" />
         </a>
         {shelterId && <MyShelterHomeButton shelterId={shelterId} />}
       </div>
