@@ -76,7 +76,7 @@ export default function MyPageForVolunteer() {
     const payload = {
       ...data,
       phoneNumber: removeDash(data.phoneNumber),
-      alarmEnabled: !isShelterInfo(info!) ? info?.alarm ?? true : true
+      alarmEnabled: !isShelterInfo(info!) ? info?.alarmEnabled ?? true : true
     };
     mutateAsync(payload).then(res => {
       toastOn('계정 정보가 업로드 되었습니다.');

@@ -8,13 +8,13 @@ export interface MyVolInfo {
   nickName: string;
   historyStat: VolInfo;
   phoneNumber: string;
-  alarm: boolean;
+  alarmEnabled: boolean;
 }
 
 export interface MyShelterInfo {
   name: string;
   historyStat: ShleterInfo;
-  alarm: boolean;
+  alarmEnabled: boolean;
 }
 
 export interface VolInfo {

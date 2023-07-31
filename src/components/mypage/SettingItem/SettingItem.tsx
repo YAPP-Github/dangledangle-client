@@ -31,7 +31,7 @@ export default function SettingItem({
   const { mutateAsync } = useUpdateVolInfo();
 
   const toastOn = useToast();
-  const [alarm, , , toggleAlarm] = useBooleanState(info?.alarm);
+  const [alarm, , , toggleAlarm] = useBooleanState(info?.alarmEnabled);
 
   const handleToggleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +71,7 @@ export default function SettingItem({
           <ToggleSwitch
             name={'alram'}
             onChange={handleToggleChange}
-            checked={info?.alarm}
+            checked={info?.alarmEnabled}
             disabled={isShelterRole ? true : false}
           />
         </div>
