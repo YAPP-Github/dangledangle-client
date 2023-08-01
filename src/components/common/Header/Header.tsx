@@ -57,7 +57,7 @@ export default function Header({
   }, [title, initTitle]);
 
   if (pathName === '/') {
-    return <MainHeader role={initRole} shelterId={shelterId!} />;
+    return <MainHeader initRole={initRole} shelterId={shelterId!} />;
   }
 
   return (
