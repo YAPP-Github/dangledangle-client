@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 export default function useObserver(
   targetElementId: string,
@@ -37,5 +37,29 @@ export default function useObserver(
     [options, targetElementId]
   );
 
-  return { observe };
+  const toggle = useCallback(
+    (on: Function, off: Function) => {
+      let toggleState = false;
+
+      const targetEl = document.getElementById(targetElementId);
+      if (!targetEl) {
+        console.error(`target DOM 요소를 찾을 수 없습니다`);
+        return false;
+      }
+
+      const io = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.rootBounds) {
+            toggleState ? on() : off();
+            toggleState = !toggleState;
+          }
+        });
+      }, options);
+
+      io.observe(targetEl);
+    },
+    [options, targetElementId]
+  );
+
+  return { observe, toggle };
 }

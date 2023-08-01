@@ -14,6 +14,7 @@ export const expandGlobalPadding = style({
   width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
   maxWidth: BREAK_POINT,
-  padding: `0px ${GLOBAL_PADDING_X}px`,
+  paddingLeft: `${GLOBAL_PADDING_X}px`,
+  paddingRight: `${GLOBAL_PADDING_X}px`,
   boxSizing: 'border-box'
 });
