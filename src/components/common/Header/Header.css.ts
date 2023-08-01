@@ -3,7 +3,7 @@ import { createVar, style } from '@vanilla-extract/css';
 
 export const headerColor = createVar('headerColor');
 
-export const HEADER_HEIGHT = 52;
+export const HEADER_HEIGHT = 56;
 export const container = style({
   position: 'sticky',
   zIndex: 1,

@@ -8,15 +8,17 @@ import { palette } from '@/styles/color';
 import { UserRole } from '@/constants/user';
 import useObserver from '@/hooks/useObserver';
 import { DOM_ID_BANNER } from '@/constants/dom';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useAuthContext } from '@/providers/AuthContext';
 
 interface MainHeaderProps {
-  role?: UserRole;
+  initRole?: UserRole;
   shelterId?: number;
 }
 
-export default function MainHeader({ role, shelterId }: MainHeaderProps) {
+export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
   const router = useRouter();
+  const { dangle_role: role } = useAuthContext();
   const refresh = () => {
     router.refresh();
   };
@@ -34,12 +36,19 @@ export default function MainHeader({ role, shelterId }: MainHeaderProps) {
     if (role === 'NONE') router.push('/login');
   };
 
-  const content =
-    role === 'VOLUNTEER'
+  const content = useMemo(() => {
+    let setRole = null;
+    if (initRole || !role || initRole === role) {
+      setRole = initRole;
+    } else {
+      setRole = role;
+    }
+    return setRole === 'VOLUNTEER'
       ? '개인봉사자'
       : role === 'SHELTER'
       ? '보호소 파트너'
       : '로그인/회원가입';
+  }, [initRole, role]);
 
   const { toggle } = useObserver(DOM_ID_BANNER);
 
