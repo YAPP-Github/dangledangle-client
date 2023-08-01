@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 
 export interface AvartarProps extends PropsWithChildren {
-  size: '96' | '80' | '32';
+  size: '96' | '80' | '40' | '32' | '20';
   defaultImage: styles.DefaultImageVariant;
   shape: styles.ShapeVariant;
   alt?: string;

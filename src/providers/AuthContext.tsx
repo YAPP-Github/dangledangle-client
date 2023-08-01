@@ -17,8 +17,6 @@ import React, {
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserRole } from '@/constants/user';
 
-const protectedRoutes = ['/volunteer', '/shelter', '/admin'];
-
 type VolunteerUser = {
   id: string;
 };
@@ -44,7 +42,7 @@ interface DecodeToken extends JwtPayload {
   role: UserRole;
 }
 
-const initialAuthState: AuthState = {
+export const initialAuthState: AuthState = {
   user: {
     shelterId: '',
     shelterUserId: ''
@@ -105,10 +103,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         }));
       }
     }
-    // else {
-    //   if (!protectedRoutes.some(route => pathname.includes(route)))
-    //     router.push('/');
-    // }
   }, [router, pathname]);
 
   const logout = useCallback(() => {

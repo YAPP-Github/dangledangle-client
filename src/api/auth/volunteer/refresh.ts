@@ -4,10 +4,13 @@ export type LoginResponse = {
   accessToken: string;
   refreshToken: string;
 };
-/** 아직 개발되지 않은 api입니다 */
-export const fetchRefresh = async () => {
+type LoginPayload = LoginResponse;
+
+export const fetchRefresh = async (data: LoginPayload) => {
   const response = await api
-    .get(`auth/token/refresh`)
+    .get(`auth/token/refresh`, {
+      json: data
+    })
     .then(res => res.json<LoginResponse>());
 
   return response;

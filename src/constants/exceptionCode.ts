@@ -4,7 +4,7 @@ export enum ExceptionCode {
   FATAL_ERROR = 'API-000',
   /** API-001 / 서버에서 핸들링 하지 않은 에러 발생  */
   UNHANDLED_ERROR = 'API-001',
-  /** API-002 / 인증되지 않은 사용자  */
+  /** API-002 / 인증되지 않은 사용자 / 만료된 토큰입니다. 다시 로그인을 진행해주세요.  */
   UNAUTHENTICATED = 'API-002',
   /** API-003 / 인가되지 않은 사용자 */
   UNAUTHORIZED = 'API-003',
