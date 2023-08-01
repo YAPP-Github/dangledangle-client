@@ -21,12 +21,7 @@ export default function MainHeader({ role, shelterId }: MainHeaderProps) {
     router.refresh();
   };
   const moveToMypage = () => {
-    const path =
-      role === 'VOLUNTEER'
-        ? '/admin/volunteer'
-        : role === 'SHELTER'
-        ? `/shelter/${shelterId}`
-        : '';
+    const path = '/admin';
     router.push(path);
   };
 
