@@ -40,5 +40,9 @@ export const headerServerSideRenderProp: HeaderServerSideRenderProp[] = [
   {
     url: /\/admin\/shelter\/edit\/.+/,
     title: '추가 정보'
+  },
+  {
+    url: '/unregister',
+    title: '회원 탈퇴'
   }
 ];
