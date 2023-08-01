@@ -18,7 +18,7 @@ export default function BookmarkCard({ bookmark }: BookmarkCardProps) {
   const { mutateAsync } = useDeleteBookmark();
   const handleBookmark = useCallback(() => {
     mutateAsync(shelterId).then(res =>
-      toastOn(`${name} 보호소가 즐겨찾기에서 삭제되었습니다.`)
+      toastOn(`${name}가 즐겨찾기에서 삭제되었습니다.`)
     );
   }, [mutateAsync, name, shelterId, toastOn]);
 
