@@ -28,14 +28,20 @@ export interface ShleterInfo {
   inProgress: number;
 }
 
-export interface VolInfoPayload {
+export interface BasePayload {
+  alarmEnabled: boolean;
+}
+export interface VolInfoPayload extends BasePayload {
   nickName: string;
   phoneNumber: string;
-  alarmEnabled: boolean;
 }
 
 export interface VolResponse {
   volunteerId: number;
+}
+
+export interface ShelterResponse {
+  shelterId: number;
 }
 
 export const getVolInfo = async () => {
@@ -63,5 +69,14 @@ export const postMyVolInfo = async (data: VolInfoPayload) => {
       json: data
     })
     .then(res => res.json<VolResponse>());
+  return response;
+};
+
+export const postShelterAlarm = async (data: BasePayload) => {
+  const response = await api
+    .put(`shelter/admin/alarm`, {
+      json: data
+    })
+    .then(res => res.json<ShelterResponse>());
   return response;
 };

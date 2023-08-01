@@ -8,6 +8,7 @@ import useBooleanState from '@/hooks/useBooleanState';
 import { useCallback } from 'react';
 import useMyInfo from '@/api/mypage/useMyInfo';
 import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
+import useUpdateShelterAlarm from '@/api/mypage/useUpdateShelterAlarm';
 import useToast from '@/hooks/useToast';
 
 interface SettingItemProps {
@@ -28,28 +29,37 @@ export default function SettingItem({
   const { data: info } = useMyInfo(dangle_role, {
     enabled: !!dangle_role && dangle_role !== 'NONE'
   });
-  const { mutateAsync } = useUpdateVolInfo();
+  const { mutateAsync: volunteerAlarm } = useUpdateVolInfo();
+  const { mutateAsync: shelterAlarm } = useUpdateShelterAlarm();
 
   const toastOn = useToast();
-  const [alarm, , , toggleAlarm] = useBooleanState(info?.alarmEnabled);
 
   const handleToggleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      toggleAlarm();
-      const payload = {
-        nickName: !isShelterInfo(info) ? info?.nickName! : '',
-        phoneNumber: !isShelterInfo(info) ? info?.phoneNumber! : '',
-        alarmEnabled: e.target.checked
-      };
+      let payload;
 
       //FIXME: 보호소 alarm 추가되어야 함
       if (!isShelterInfo(info)) {
-        mutateAsync(payload).then(res => {
+        payload = {
+          nickName: !isShelterInfo(info) ? info?.nickName! : '',
+          phoneNumber: !isShelterInfo(info) ? info?.phoneNumber! : '',
+          alarmEnabled: e.target.checked
+        };
+
+        volunteerAlarm(payload).then(res => {
+          toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
+        });
+      } else {
+        payload = {
+          alarmEnabled: e.target.checked
+        };
+
+        shelterAlarm(payload).then(res => {
           toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
         });
       }
     },
-    [toggleAlarm, mutateAsync, toastOn, info]
+    [volunteerAlarm, shelterAlarm, toastOn, info]
   );
 
   function KaKaoAlarm({
@@ -72,7 +82,6 @@ export default function SettingItem({
             name={'alram'}
             onChange={handleToggleChange}
             checked={info?.alarmEnabled}
-            disabled={isShelterRole ? true : false}
           />
         </div>
 
