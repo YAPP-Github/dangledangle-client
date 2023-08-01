@@ -1,3 +1,4 @@
+'use client';
 import { Body1, ButtonText2 } from '@/components/common/Typography';
 import * as styles from './LogoutSection.css';
 import useLogout from '@/api/mypage/useLogout';

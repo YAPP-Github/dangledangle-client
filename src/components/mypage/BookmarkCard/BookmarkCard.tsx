@@ -1,3 +1,4 @@
+'use client';
 import { ShelterInfo } from '@/api/mypage/bookmark/bookmark';
 import useDeleteBookmark from '@/api/mypage/bookmark/useDeleteBookmark';
 import { Star } from '@/asset/icons';

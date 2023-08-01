@@ -1,3 +1,4 @@
+'use client';
 import { MypageEvent } from '@/api/mypage/event/event';
 import ChipInput, { ChipOption } from '@/components/common/ChipInput/ChipInput';
 import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';

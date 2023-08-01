@@ -1,5 +1,4 @@
 'use client';
-
 import { MyShelterEvent, MyVolunteerEvent } from '@/api/mypage/event/event';
 import { ArrowRightLg } from '@/asset/icons';
 import Avartar from '@/components/common/Avartar/Avartar';
