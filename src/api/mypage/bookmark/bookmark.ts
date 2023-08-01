@@ -10,7 +10,8 @@ export interface Bookmark {
 
 export interface ShelterInfo {
   shelterId: number;
-  name: string;
+  shelterName: string;
+  shelterProfileImageUrl: string;
 }
 
 export const getMyBookmark = async () => {

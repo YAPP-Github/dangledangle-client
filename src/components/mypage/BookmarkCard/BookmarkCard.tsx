@@ -15,13 +15,13 @@ interface BookmarkCardProps {
 
 export default function BookmarkCard({ bookmark }: BookmarkCardProps) {
   const toastOn = useToast();
-  const { name, shelterId } = bookmark;
+  const { shelterId, shelterName, shelterProfileImageUrl } = bookmark;
   const { mutateAsync } = useDeleteBookmark();
   const handleBookmark = useCallback(() => {
     mutateAsync(shelterId).then(res =>
-      toastOn(`${name}가 즐겨찾기에서 삭제되었습니다.`)
+      toastOn(`${shelterName}가 즐겨찾기에서 삭제되었습니다.`)
     );
-  }, [mutateAsync, name, shelterId, toastOn]);
+  }, [mutateAsync, shelterName, shelterId, toastOn]);
 
   return (
     <div className={styles.container}>
@@ -33,9 +33,9 @@ export default function BookmarkCard({ bookmark }: BookmarkCardProps) {
               defaultImage="shelter"
               shape="circle"
               alt={`${shelterId}의 프로필 이미지`}
-              // imagePath={profileImageUrl}
+              imagePath={shelterProfileImageUrl}
             ></Avartar>
-            <Body3>{name}</Body3>
+            <Body3>{shelterName}</Body3>
           </div>
         </Link>
       </div>

@@ -38,7 +38,6 @@ export default function SettingItem({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       let payload;
 
-      //FIXME: 보호소 alarm 추가되어야 함
       if (!isShelterInfo(info)) {
         payload = {
           nickName: !isShelterInfo(info) ? info?.nickName! : '',

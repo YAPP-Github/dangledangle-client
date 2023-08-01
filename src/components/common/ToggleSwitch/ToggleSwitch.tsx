@@ -1,4 +1,6 @@
+'use client';
 import React, { useCallback } from 'react';
+import { Caption3 } from '../Typography';
 import * as styles from './ToggleSwitch.css';
 
 interface ToggleSwitchProps {
@@ -41,7 +43,7 @@ export const ToggleSwitch = React.forwardRef<
         disabled={disabled}
         {...rest}
       />
-      {label && <label htmlFor={id || name}>{label}</label>}
+      {label && <Caption3 htmlFor={id || name}>{label}</Caption3>}
     </fieldset>
   );
 });
