@@ -33,25 +33,29 @@ export function isShelterCard(
   return obj !== undefined && 'eventStatus' in obj;
 }
 
-export default function MyPageCard({
-  event,
-  isVolunteer = false
-}: MyPageCardProps) {
+export default function MyPageCard({ event, isVolunteer }: MyPageCardProps) {
   const { dangle_id: shelterId } = useAuthContext();
   if (!event) return null;
-
-  const isShelter = isShelterCard(event);
   const status = isVolunteer
     ? MY_STATUS[(event as MyVolunteerEvent).myParticipationStatus]
     : SHELTER_STATUS[(event as MyShelterEvent).eventStatus];
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container({
+        color:
+          status === MY_STATUS.DONE || status === SHELTER_STATUS.DONE
+            ? 'gray'
+            : 'white'
+      })}
+    >
       <Link
         href={
-          isShelter
-            ? `/shelter/${shelterId}/event/${event.volunteerEventId}`
-            : ''
+          isVolunteer
+            ? `/shelter/${(event as MyVolunteerEvent)?.shelterId}/event/${
+                (event as MyVolunteerEvent)?.volunteerEventId
+              }`
+            : `/shelter/${shelterId}/event/${event.volunteerEventId}`
         }
       >
         <EventInfo event={event} />
@@ -62,7 +66,19 @@ export default function MyPageCard({
           ) : (
             <ShelterInfo event={event as MyShelterEvent} />
           )}
-          <Caption1 color="error">{status}</Caption1>
+
+          {status !== MY_STATUS.DONE && status !== SHELTER_STATUS.DONE ? (
+            <Caption1
+              color={
+                status === MY_STATUS.JOINING ||
+                status === SHELTER_STATUS.IN_PROGRESS
+                  ? 'error'
+                  : 'gray600'
+              }
+            >
+              {status}
+            </Caption1>
+          ) : null}
         </div>
       </Link>
     </div>
@@ -92,7 +108,7 @@ function EventInfo({ event }: MyPageCardProps) {
 function ShelterInfo({ event }: ShelterInfoProps) {
   return (
     <Caption1 color="gray600">
-      {event.participantNum}/{event.recruitNum}명
+      {event.participantNum + event.recruitNum}/{event.recruitNum}명
     </Caption1>
   );
 }
@@ -105,7 +121,7 @@ function VolunteerInfo({ event }: VolunteerInfoProps) {
         defaultImage="shelter"
         shape="circle"
         alt={`${event.volunteerEventId}의 프로필 이미지`}
-        // imagePath={event.profileImageUrl}
+        imagePath={(event as MyVolunteerEvent).shelterImageProfileUrl}
       ></Avartar>
       <Caption2>{event.shelterName}</Caption2>
     </div>

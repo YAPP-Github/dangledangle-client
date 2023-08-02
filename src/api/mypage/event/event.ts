@@ -27,7 +27,9 @@ export interface MyBaseEvent {
 export interface MyShelterEvent extends MyBaseEvent {}
 
 export interface MyVolunteerEvent extends MyBaseEvent {
+  shelterId: number;
   shelterName: string;
+  shelterImageProfileUrl: string;
   myParticipationStatus: MyStatus;
 }
 
