@@ -57,7 +57,7 @@ export default function ShelterEvent({
 
   const { data: eventDetail } = useVolunteerEvent(shelterId, volunteerEventId);
 
-  if (!eventDetail) return <LoadingIndicator color="primary" />;
+  if (!eventDetail) return null;
 
   const {
     shelterName,
