@@ -117,8 +117,8 @@ export const variants = {
     {
       fontStyle: 'normal',
       fontWeight: 500,
-      fontSize: '12px',
-      lineHeight: '18px'
+      fontSize: '14px',
+      lineHeight: '20px'
     }
   ]),
 
@@ -136,7 +136,7 @@ export const variants = {
     base,
     {
       fontStyle: 'normal',
-      fontWeight: 500,
+      fontWeight: 400,
       fontSize: '12px',
       lineHeight: '18px'
     }

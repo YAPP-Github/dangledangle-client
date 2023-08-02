@@ -62,3 +62,18 @@ const EVENT_STATUS = {
 
 export const EVENT_STATUS_OPTIONS: FilterOption[] =
   createInputOptions(EVENT_STATUS);
+
+export const MY_STATUS = {
+  NONE: '미참여',
+  JOINING: '신청 완료',
+  WAITING: '신청 대기중',
+  DONE: '진행 완료'
+};
+export type MyStatus = keyof typeof MY_STATUS;
+
+export const SHELTER_STATUS = {
+  IN_PROGRESS: '모집 진행중',
+  CLOSED: '모집 완료',
+  DONE: '종료'
+};
+export type ShelterStatus = keyof typeof SHELTER_STATUS;

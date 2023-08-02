@@ -43,7 +43,7 @@ export default function ShelterLogin() {
     async (data: LoginPayload) => {
       try {
         await mutateAsync(data);
-        router.push('/event');
+        router.push('/');
       } catch (e) {
         toastOn('로그인에 실패했습니다.');
         setError(

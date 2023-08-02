@@ -1,22 +1,29 @@
 'use client';
-
 import { ArrowLeft } from '@/asset/icons';
 import { headerState } from '@/store/header';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { Body2, H4 } from '../Typography';
 import * as styles from './Header.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { palette } from '@/styles/color';
 import { useMemo } from 'react';
+import MainHeader from './MainHeader';
+import { UserRole } from '@/constants/user';
 
 interface HeaderComponentProps {
-  // /** 이동 URL */
   initColor: string;
   initTitle?: string;
+  initRole?: UserRole;
+  shelterId?: number | null;
 }
 
-export default function Header({ initColor, initTitle }: HeaderComponentProps) {
+export default function Header({
+  initColor,
+  initTitle,
+  initRole,
+  shelterId
+}: HeaderComponentProps) {
   const headerValue = useRecoilValue(headerState);
   const {
     color,
@@ -27,8 +34,8 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
     thisPage,
     entirePage
   } = headerValue;
-
   const router = useRouter();
+  const pathName = usePathname();
   const navigate = () => {
     router.back();
   };
@@ -49,6 +56,10 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
     }
   }, [title, initTitle]);
 
+  if (pathName === '/') {
+    return <MainHeader initRole={initRole} shelterId={shelterId!} />;
+  }
+
   return (
     <>
       {isHeader === 'visible' ? (
@@ -58,7 +69,7 @@ export default function Header({ initColor, initTitle }: HeaderComponentProps) {
             [styles.headerColor]: headerColor
           })}
         >
-          <a className={styles.arrowLeft} onClick={navigate}>
+          <a className={styles.homeIcon} onClick={navigate}>
             {isBackArrow === 'visible' ? <ArrowLeft /> : null}
           </a>
           <H4 className={styles.title}>{headerTitle}</H4>

@@ -53,7 +53,7 @@ export default function VolunteerEventPage() {
     );
   };
 
-  const setHeader = useHeader({
+  useHeader({
     color: palette.white,
     RightSideComponent: ShareButton
   });

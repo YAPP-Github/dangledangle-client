@@ -1,12 +1,12 @@
-import React, { HTMLAttributes, forwardRef, useMemo } from 'react';
-import * as styles from './Button.css';
-import clsx from 'clsx';
 import { PlusIcon } from '@/asset/icons';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
+import clsx from 'clsx';
+import { ButtonHTMLAttributes, forwardRef, useMemo } from 'react';
+import * as styles from './Button.css';
 import LoadingIndicator from './LoadingIndicator';
 
 type PrefixIcon = 'plus';
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   size?: styles.ButtonSizeType;
   variant?: styles.ButtonVariantType;

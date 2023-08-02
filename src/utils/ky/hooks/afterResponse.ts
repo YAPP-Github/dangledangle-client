@@ -16,8 +16,20 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
 ) => {
   const data = await response.json();
 
-  if (data.exceptionCode === ExceptionCode.UNAUTHORIZED) {
-    const data = await fetchRefresh();
+  if (data.exceptionCode === ExceptionCode.UNAUTHENTICATED) {
+    const accessToken = Cookies.get(COOKIE_ACCESS_TOKEN_KEY);
+    const refreshToken = Cookies.get(COOKIE_REFRESH_TOKEN_KEY);
+
+    if (!accessToken || !refreshToken) {
+      throw new Error('Access token or refresh token is missing');
+    }
+
+    const payload = {
+      accessToken,
+      refreshToken
+    };
+
+    const data = await fetchRefresh(payload);
 
     const newAccessToken = data.accessToken;
     const newRefreshToken = data.refreshToken;
