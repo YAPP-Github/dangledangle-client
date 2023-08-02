@@ -279,7 +279,6 @@ export default function ShelterEvent({
           <div className={styles.textWrapper}>
             <H4>위치</H4>
             <DangleMap
-              address={address.address}
               latitude={address?.latitude}
               longitude={address?.longitude}
               notice={NOTICE}
