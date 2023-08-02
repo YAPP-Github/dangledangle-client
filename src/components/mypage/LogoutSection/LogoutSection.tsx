@@ -1,8 +1,9 @@
 'use client';
-import { Body1, ButtonText2 } from '@/components/common/Typography';
-import * as styles from './LogoutSection.css';
 import useLogout from '@/api/mypage/useLogout';
+import { Body1, ButtonText2 } from '@/components/common/Typography';
 import useDialog from '@/hooks/useDialog';
+import { useRouter } from 'next/navigation';
+import * as styles from './LogoutSection.css';
 
 interface LogoutSectionProps {}
 
@@ -22,6 +23,8 @@ export default function LogoutSection({}: LogoutSectionProps) {
       }
     });
   };
+  const router = useRouter();
+  const moveToUnregister = () => router.push('/unregister');
 
   return (
     <div className={styles.container}>
@@ -31,7 +34,7 @@ export default function LogoutSection({}: LogoutSectionProps) {
         </Body1>
       </div>
 
-      <div className={styles.btnWrapper}>
+      <div className={styles.btnWrapper} onClick={moveToUnregister}>
         <ButtonText2 color="gray400" className={styles.btnTxt}>
           회원탈퇴
         </ButtonText2>
