@@ -3884,6 +3884,57 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dangledangle-client@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "dangledangle-client@workspace:."
+  dependencies:
+    "@commitlint/cli": ^17.6.3
+    "@commitlint/config-conventional": ^17.6.3
+    "@hookform/resolvers": ^3.1.0
+    "@svgr/webpack": ^8.0.1
+    "@tanstack/query-core": ^4.29.11
+    "@tanstack/react-query": ^4.29.7
+    "@tanstack/react-query-devtools": ^4.29.7
+    "@types/js-cookie": ^3.0.3
+    "@types/jsonwebtoken": ^9.0.2
+    "@types/lodash": ^4.14.195
+    "@types/node": 20.1.3
+    "@types/react": ^18.2.11
+    "@types/react-dom": 18.2.4
+    "@vanilla-extract/css": ^1.11.0
+    "@vanilla-extract/dynamic": ^2.0.3
+    "@vanilla-extract/next-plugin": ^2.1.3
+    "@vanilla-extract/recipes": ^0.4.0
+    clsx: ^1.2.1
+    commitizen: ^4.3.0
+    cz-customizable: ^7.0.0
+    dotenv-webpack: ^8.0.1
+    eslint: ^8.42.0
+    eslint-config-next: 13.4.2
+    eslint-config-prettier: ^8.8.0
+    eslint-plugin-prettier: ^4.2.1
+    framer-motion: ^10.12.16
+    husky: ^8.0.3
+    js-cookie: ^3.0.5
+    jsonwebtoken: ^9.0.1
+    ky: ^0.33.3
+    lint-staged: ^13.2.2
+    lodash: ^4.17.21
+    moment: ^2.29.4
+    next: 13.4.2
+    prettier: ^2.8.8
+    react: 18.2.0
+    react-calendar: ^4.3.0
+    react-daum-postcode: ^3.1.3
+    react-dom: 18.2.0
+    react-hook-form: ^7.44.1
+    recoil: ^0.7.7
+    typescript: ^5.1.3
+    vanilla-reset: ^2021.11.29
+    yup: ^1.2.0
+  languageName: unknown
+  linkType: soft
+
 "dargs@npm:^7.0.0":
   version: 7.0.0
   resolution: "dargs@npm:7.0.0"
@@ -9133,57 +9184,6 @@ __metadata:
   checksum: 2c7bc9a7cd4c9f40d3b0b0a98e370781b68b8b7c4515720869aced2b00d92f5da1762b4ffa947f9e795d6cd6b19f410bd4d15fdd38aca7bd96df59bd9486fb54
   languageName: node
   linkType: hard
-
-"yapp-web-2@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "yapp-web-2@workspace:."
-  dependencies:
-    "@commitlint/cli": ^17.6.3
-    "@commitlint/config-conventional": ^17.6.3
-    "@hookform/resolvers": ^3.1.0
-    "@svgr/webpack": ^8.0.1
-    "@tanstack/query-core": ^4.29.11
-    "@tanstack/react-query": ^4.29.7
-    "@tanstack/react-query-devtools": ^4.29.7
-    "@types/js-cookie": ^3.0.3
-    "@types/jsonwebtoken": ^9.0.2
-    "@types/lodash": ^4.14.195
-    "@types/node": 20.1.3
-    "@types/react": ^18.2.11
-    "@types/react-dom": 18.2.4
-    "@vanilla-extract/css": ^1.11.0
-    "@vanilla-extract/dynamic": ^2.0.3
-    "@vanilla-extract/next-plugin": ^2.1.3
-    "@vanilla-extract/recipes": ^0.4.0
-    clsx: ^1.2.1
-    commitizen: ^4.3.0
-    cz-customizable: ^7.0.0
-    dotenv-webpack: ^8.0.1
-    eslint: ^8.42.0
-    eslint-config-next: 13.4.2
-    eslint-config-prettier: ^8.8.0
-    eslint-plugin-prettier: ^4.2.1
-    framer-motion: ^10.12.16
-    husky: ^8.0.3
-    js-cookie: ^3.0.5
-    jsonwebtoken: ^9.0.1
-    ky: ^0.33.3
-    lint-staged: ^13.2.2
-    lodash: ^4.17.21
-    moment: ^2.29.4
-    next: 13.4.2
-    prettier: ^2.8.8
-    react: 18.2.0
-    react-calendar: ^4.3.0
-    react-daum-postcode: ^3.1.3
-    react-dom: 18.2.0
-    react-hook-form: ^7.44.1
-    recoil: ^0.7.7
-    typescript: ^5.1.3
-    vanilla-reset: ^2021.11.29
-    yup: ^1.2.0
-  languageName: unknown
-  linkType: soft
 
 "yargs-parser@npm:^20.2.3":
   version: 20.2.9
