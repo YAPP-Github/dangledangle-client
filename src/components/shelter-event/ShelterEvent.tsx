@@ -83,7 +83,7 @@ export default function ShelterEvent({
       // access_token 없을 시에 개인 로그인 페이지로 보내서 리다이렉트 처리
       toastOn('봉사에 참여하기 위해 로그인이 필요합니다.');
       Cookies.set(COOKIE_REDIRECT_URL, window.location.pathname);
-      return route.push(`/login/volunteer`);
+      return route.replace(`/login/volunteer`);
     } else if (dangle_role === 'SHELTER') {
       // Shelter 계정은 신청 불가능, 팝업
       return toastOn('보호소 파트너 계정으로는 이벤트에 참여할 수 없어요.');

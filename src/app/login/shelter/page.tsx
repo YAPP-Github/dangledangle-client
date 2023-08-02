@@ -11,11 +11,12 @@ import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { loginValidation } from '../../shelter/utils/shelterValidaion';
 import * as styles from './styles.css';
-import { useAuthContext } from '@/providers/AuthContext';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
+import Cookies from 'js-cookie';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -32,18 +33,20 @@ export default function ShelterLogin() {
 
   const router = useRouter();
   const toastOn = useToast();
-  const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
-
-  const { logout } = useAuthContext();
-  useEffect(logout, [logout]);
+  useHeader({ title: '보호소 파트너로 시작하기' });
 
   const { mutateAsync } = useShelterLogin();
 
   const handleLogin = useCallback(
     async (data: LoginPayload) => {
       try {
+        const redirectPath = Cookies.get(COOKIE_REDIRECT_URL) || '';
+        const redirectTo = `${location.origin}${decodeURIComponent(
+          redirectPath
+        )}`;
+
         await mutateAsync(data);
-        router.push('/');
+        router.push(redirectTo);
       } catch (e) {
         toastOn('로그인에 실패했습니다.');
         setError(
