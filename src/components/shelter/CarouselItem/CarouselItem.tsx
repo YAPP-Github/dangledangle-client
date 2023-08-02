@@ -1,23 +1,35 @@
 import React from 'react';
 import { Body3, H4 } from '@/components/common/Typography';
 import * as styles from './CarouselItem.css';
+import Image from 'next/image';
 
 interface CarouselItemProps {
-  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   index: number;
   title: string;
   description: string;
 }
 
-const CarouselItem = ({
-  icon: Icon,
-  index,
-  title,
-  description
-}: CarouselItemProps) => {
+const CarouselItem = ({ index, title, description }: CarouselItemProps) => {
   return (
     <div className={styles.item}>
-      <Icon />
+      <Image
+        key={`register_${index + 1}`}
+        src={`/images/register/shelter_register_${index + 1}.png`}
+        alt={`register_${index + 1}`}
+        width={90}
+        height={90}
+        className={styles.image}
+      />
+      {index === 2 && (
+        <Image
+          key={`register_5`}
+          src={`/images/register/shelter_register_5.png`}
+          alt={`register_${index + 1}`}
+          width={99}
+          height={65}
+          className={styles.extra}
+        />
+      )}
       <Body3 color="gray600" className={styles.carouselText}>
         {`0${index + 1}`}
       </Body3>
