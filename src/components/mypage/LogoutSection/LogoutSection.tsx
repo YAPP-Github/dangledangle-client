@@ -1,14 +1,29 @@
-import { Body1, ButtonText2 } from '@/components/common/Typography';
-import * as styles from './LogoutSection.css';
+'use client';
 import useLogout from '@/api/mypage/useLogout';
+import { Body1, ButtonText2 } from '@/components/common/Typography';
+import useDialog from '@/hooks/useDialog';
 import { useRouter } from 'next/navigation';
+import * as styles from './LogoutSection.css';
 
 interface LogoutSectionProps {}
 
 export default function LogoutSection({}: LogoutSectionProps) {
   const { mutate: logout } = useLogout();
+  const { dialogOn, dialogOff } = useDialog();
+  const handleLogout = async () => {
+    dialogOn({
+      message: '로그아웃 하시겠습니까?',
+      close: {},
+      confirm: {
+        text: '로그아웃',
+        onClick: () => {
+          dialogOff();
+          logout();
+        }
+      }
+    });
+  };
   const router = useRouter();
-  const handleLogout = async () => logout();
   const moveToUnregister = () => router.push('/unregister');
 
   return (

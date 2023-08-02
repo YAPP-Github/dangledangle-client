@@ -56,13 +56,13 @@ export default function Unregister({ role }: UnregisterProps) {
     <>
       <div className={styles.wrapper}>
         <div className={styles.top}>
-          <H2>{`${name} 님`},</H2>
+          <H2>{`${name}님`},</H2>
           <H2>정말 탈퇴하시겠어요?🥲</H2>
         </div>
 
         <article className={styles.articleWrapper}>
           <div className={styles.articleTitle}>
-            <Warning /> <H4>댕글댕글 탈퇴 전 확인해주세요.</H4>
+            <Warning /> <H4>&nbsp;댕글댕글 탈퇴 전 확인해주세요.</H4>
           </div>
           <div className={styles.content}>
             <ul className={styles.ul}>

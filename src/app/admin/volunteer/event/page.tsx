@@ -62,6 +62,7 @@ export default function MyVolEventPage() {
     <EventHistory
       data={data!}
       isLoading={isLoading}
+      isVolunteer={true}
       shelterFilter={shelterFilter}
       options={STATUS_OPTIONS}
       onChange={handleChipInput}

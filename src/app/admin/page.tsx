@@ -83,7 +83,7 @@ export default function Mypage() {
             <Caption2 color="gray600">
               {isShelterRole && '보호소 '}계정 관리
             </Caption2>
-            <ArrowRight />
+            <ArrowRight stroke="#6C6C6C" />
           </div>
         </Link>
 

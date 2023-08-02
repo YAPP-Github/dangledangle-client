@@ -1,3 +1,4 @@
+'use client';
 import { Body3, H3 } from '@/components/common/Typography';
 import * as styles from './MyStatusItem.css';
 import useMyInfo from '@/api/mypage/useMyInfo';

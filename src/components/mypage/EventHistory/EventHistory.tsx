@@ -11,6 +11,7 @@ import { ShelterFilter, VolunteerFilter } from './hooks/useEventFilter';
 interface EventHistoryProps {
   data: InfiniteData<MypageEvent>;
   isLoading: boolean;
+  isVolunteer: boolean;
   shelterFilter: Record<string, VolunteerFilter | ShelterFilter>;
   options: ChipOption[];
   onChange: (name: string, value: string) => void;
@@ -19,6 +20,7 @@ interface EventHistoryProps {
 export default function EventHistory({
   data,
   isLoading,
+  isVolunteer,
   shelterFilter,
   options,
   onChange
@@ -37,7 +39,11 @@ export default function EventHistory({
       {data && !isLoading ? (
         data.pages.flatMap(page =>
           page.content.map(event => (
-            <MyPageCard key={uuidv4()} event={event} isVolunteer />
+            <MyPageCard
+              key={uuidv4()}
+              event={event}
+              isVolunteer={isVolunteer}
+            />
           ))
         )
       ) : (

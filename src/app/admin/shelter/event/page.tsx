@@ -52,6 +52,7 @@ export default function ShelterEvent() {
     <EventHistory
       data={data!}
       isLoading={isLoading}
+      isVolunteer={false}
       shelterFilter={shelterFilter}
       options={STATUS_OPTIONS}
       onChange={handleChipInput}

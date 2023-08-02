@@ -1,15 +1,15 @@
+'use client';
+import useMyInfo from '@/api/mypage/useMyInfo';
+import useUpdateShelterAlarm from '@/api/mypage/useUpdateShelterAlarm';
+import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
 import { SettingProps, isShelterInfo } from '@/app/admin/page';
-import * as styles from './SettingItem.css';
-import Link from 'next/link';
-import { Body1, Caption3 } from '@/components/common/Typography';
 import { ArrowRightLg } from '@/asset/icons';
 import ToggleSwitch from '@/components/common/ToggleSwitch/ToggleSwitch';
-import useBooleanState from '@/hooks/useBooleanState';
-import { useCallback } from 'react';
-import useMyInfo from '@/api/mypage/useMyInfo';
-import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
-import useUpdateShelterAlarm from '@/api/mypage/useUpdateShelterAlarm';
+import { Body1, Caption3 } from '@/components/common/Typography';
 import useToast from '@/hooks/useToast';
+import Link from 'next/link';
+import { useCallback } from 'react';
+import * as styles from './SettingItem.css';
 
 interface SettingItemProps {
   setting: SettingProps;
@@ -38,7 +38,6 @@ export default function SettingItem({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       let payload;
 
-      //FIXME: 보호소 alarm 추가되어야 함
       if (!isShelterInfo(info)) {
         payload = {
           nickName: !isShelterInfo(info) ? info?.nickName! : '',
