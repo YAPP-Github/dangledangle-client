@@ -17,6 +17,7 @@ import { Body3, H4 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 import getUserGeolocation from './utils/getUserGeolocation';
 import useBooleanState from '@/hooks/useBooleanState';
+import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 
 type EventFilter = {
   region: '내 주변' | RegionOptions;
@@ -35,6 +36,8 @@ export default function CalendarSection() {
   const [loading, loadingOn, loadingOff] = useBooleanState(true);
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
   const regionFilterRef = useRef<FilterRef>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const [isFolded, setIsFolded] = useState(false);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
@@ -61,12 +64,28 @@ export default function CalendarSection() {
     }
   }, [dangle_role, filter.region, handleChangeFilter, loadingOff, loadingOn]);
 
+  useEffect(() => {
+    function autoFoldCalendar() {
+      if (!stickyRef.current) return;
+      const stickyTop = stickyRef.current.getBoundingClientRect().top;
+      if (stickyTop <= HEADER_HEIGHT) {
+        setIsFolded(true);
+        window.removeEventListener('scroll', autoFoldCalendar);
+      }
+    }
+
+    window.addEventListener('scroll', autoFoldCalendar);
+    return () => {
+      window.removeEventListener('scroll', autoFoldCalendar);
+    };
+  }, []);
+
   return (
     <div>
       <div className={styles.title}>
         <H4> 봉사 일정을 둘러봐요 🙌 </H4>
       </div>
-      <div className={styles.sticky}>
+      <div ref={stickyRef} className={styles.sticky}>
         <div className={styles.filterContainer}>
           {(dangle_role === 'SHELTER' && (
             <Filter
@@ -95,6 +114,8 @@ export default function CalendarSection() {
           />
         </div>
         <HomeCalendar
+          isFolded={isFolded}
+          setIsFolded={setIsFolded}
           bookmark={filter.bookmark}
           onChangeBookmark={() =>
             handleChangeFilter('bookmark', !filter.bookmark)

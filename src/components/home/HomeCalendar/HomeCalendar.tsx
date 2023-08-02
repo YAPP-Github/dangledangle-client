@@ -4,11 +4,10 @@ import * as styles from './HomeCalendar.css.ts';
 import DangleCalendar from '@/components/common/Calendar/DangleCalendar';
 import { Caption3, H4 } from '@/components/common/Typography/index.ts';
 import { ArrowFold, ArrowUnfold } from '@/asset/icons/index.ts';
-import useBooleanState from '@/hooks/useBooleanState.tsx';
 import moment from 'moment';
 import clsx from 'clsx';
 import { useAuthContext } from '@/providers/AuthContext.tsx';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface FoldToggleProps {
   isFolded: boolean;
@@ -29,20 +28,30 @@ const FoldToggle: React.FC<FoldToggleProps> = ({
 };
 
 interface HomeCalendarProps {
+  isFolded: boolean;
+  setIsFolded: (isFolded: boolean) => void;
   bookmark: boolean;
   onChangeBookmark: () => void;
 }
 const HomeCalendar: React.FC<HomeCalendarProps> = ({
+  isFolded,
+  setIsFolded,
   bookmark,
   onChangeBookmark
 }) => {
-  const [isFolded, fold, unfold] = useBooleanState(false);
   const { dangle_role } = useAuthContext();
   const [date, setDate] = useState(new Date());
+  const [hasFolded, setHasFolded] = useState(false);
 
   const handleChangeDate = useCallback((value: Date) => {
     setDate(value);
   }, []);
+
+  useEffect(() => {
+    if (isFolded && !hasFolded) {
+      setHasFolded(true);
+    }
+  }, [hasFolded, isFolded]);
 
   return (
     <div>
@@ -52,7 +61,7 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
           <FoldToggle
             className={styles.headerFoldToggle}
             isFolded={true}
-            onClick={unfold}
+            onClick={() => setIsFolded(false)}
           />
         </div>
       )) || (
@@ -72,7 +81,10 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
                 </>
               )}
             </div>
-            <FoldToggle isFolded={false} onClick={fold} />
+            {/* 최소 한 번 접힌 적이 있을 때만 렌더링 */}
+            {hasFolded && (
+              <FoldToggle isFolded={false} onClick={() => setIsFolded(true)} />
+            )}
           </div>
         </div>
       )}
