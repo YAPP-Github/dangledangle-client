@@ -4,7 +4,7 @@ import Filter, { FilterRef } from '@/components/common/Filter/Filter';
 import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
 import {
   CATEGORY_OPTIONS,
-  EVENT_STATUS_OPTIONS,
+  EVENT_STATUS_FILTER_OPTIONS,
   REGION_OPTIONS,
   RegionOptions,
   VolunteerEventCategory
@@ -91,7 +91,7 @@ export default function CalendarSection() {
             <Filter
               label="모집 상태"
               name="status"
-              options={EVENT_STATUS_OPTIONS}
+              options={EVENT_STATUS_FILTER_OPTIONS}
               onChange={handleChangeFilter}
             />
           )) || (
