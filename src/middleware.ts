@@ -1,18 +1,18 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { COOKIE_ACCESS_TOKEN_KEY } from './constants/cookieKeys';
 import appendHeaderTitle from './utils/middleware/hooks/appendHeaderProps';
+import protectedURLs from './utils/middleware/hooks/protectedURLs';
 
 export async function middleware(req: NextRequest) {
-  const accessToken = req.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value || '';
+  const requestHeaders = new Headers(req.headers);
 
-  if (!accessToken) {
-    if (req.nextUrl.pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
+  const adminURLsResult = protectedURLs({ req, requestHeaders });
+  if (adminURLsResult.redirect) {
+    return adminURLsResult.response;
   }
 
-  const requestHeaders = new Headers(req.headers);
+  appendHeaderTitle({ req, requestHeaders });
+
   appendHeaderTitle({ req, requestHeaders });
 
   return NextResponse.next({
