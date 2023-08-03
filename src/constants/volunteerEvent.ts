@@ -1,4 +1,5 @@
 import { ChipOption } from '@/components/common/ChipInput/ChipInput';
+import { FilterOption } from '@/components/common/Filter/Filter';
 import createInputOptions from '@/utils/createInputOptions';
 
 export const VOLUNTEER_EVENT_CATEGORY = {
@@ -38,6 +39,29 @@ export const AGE_LIMIT = {
 };
 export type AgeLimit = keyof typeof AGE_LIMIT;
 export const AGE_LIMIT_OPTIONS: ChipOption[] = createInputOptions(AGE_LIMIT);
+
+export const REGION_OPTIONS = [
+  '서울',
+  '경기도',
+  '인천',
+  '대전',
+  '강원도',
+  '대구',
+  '경상도',
+  '전라도',
+  '충청도',
+  '제주도'
+] as const;
+
+export type RegionOptions = (typeof REGION_OPTIONS)[number];
+
+const EVENT_STATUS_FILTER = {
+  IN_PROGRESS: '모집 중',
+  DONE: '모집 종료'
+};
+
+export const EVENT_STATUS_FILTER_OPTIONS: FilterOption[] =
+  createInputOptions(EVENT_STATUS_FILTER);
 
 export const MY_STATUS = {
   NONE: '미참여',

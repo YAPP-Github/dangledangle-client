@@ -11,7 +11,8 @@ export const container = style({
   maxWidth: BREAK_POINT,
   marginRight: 'auto',
   marginLeft: 'auto',
-  height: '100%'
+  height: '100%',
+  boxShadow: '0px 1px 5px 1px rgba(0, 0, 0, 0.10)'
 });
 
 export const main = style({

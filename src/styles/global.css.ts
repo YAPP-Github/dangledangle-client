@@ -2,11 +2,12 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import 'vanilla-reset';
 import { palette } from './color';
 
-globalStyle('body', { backgroundColor: palette.background });
+globalStyle('body', { backgroundColor: palette.gray50 });
+globalStyle('main, footer', { backgroundColor: palette.background });
 globalStyle('ul, ol, li', { listStyle: 'none' });
 globalStyle('.page', { marginTop: '20px' });
 
-export const BREAK_POINT = 600;
+export const BREAK_POINT = 440;
 export const GLOBAL_PADDING_X = 20;
 export const FOOTER_HEIGHT = 144;
 

@@ -21,6 +21,7 @@ export const title = style({
 export const label = style({
   padding: '9px 248px 9px 0px',
   borderBottom: `1px solid ${palette.gray100}`,
+  cursor: 'pointer',
   ':hover': {
     backgroundColor: palette.gray100
   }

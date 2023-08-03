@@ -1,10 +1,11 @@
 'use client';
 import { DropArrow } from '@/asset/icons';
 import useBooleanState from '@/hooks/useBooleanState';
-import { useCallback, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 import { Caption3 } from '../Typography';
 import * as styles from './Filter.css';
 import FilterBottom from './FilterBottom';
+import Portal from '@/components/global/Dialog/Portal/Portal';
 export interface FilterOption {
   label: string;
   value: string;
@@ -12,7 +13,7 @@ export interface FilterOption {
 interface FilterProps {
   name: string;
   label: string;
-  options: FilterOption[];
+  options: FilterOption[] | readonly string[];
   onChange: (name: string, value: string) => void;
 }
 
@@ -34,40 +35,54 @@ interface FilterProps {
  * @param onChange 필터 값을 변경할 때 호출되는 콜백 함수입니다. 필터 name과 선택된 option의 value 값이 인자로 전달됩니다.
  */
 
-const Filter = ({ name, label, options, onChange }: FilterProps) => {
-  const [isFilter, openFilter, closeFilter] = useBooleanState();
-  const [pickOption, setPickOption] = useState(options[0]?.label);
+export interface FilterRef {
+  setPickOption: (option: string) => void;
+}
+const Filter = forwardRef<FilterRef, FilterProps>(
+  ({ name, label, options, onChange }: FilterProps, ref) => {
+    const [isFilter, openFilter, closeFilter] = useBooleanState();
+    const [pickOption, setPickOption] = useState(
+      typeof options[0] === 'string' ? options[0] : options[0]?.label
+    );
 
-  const handleChangeData = useCallback(
-    (label: string, value: string) => {
-      setPickOption(label);
-      onChange(name, value);
-      closeFilter();
-    },
-    [name, onChange, closeFilter]
-  );
+    useImperativeHandle(ref, () => ({
+      setPickOption
+    }));
 
-  return (
-    <>
-      <button className={styles.container} onClick={openFilter}>
-        <div className={styles.grid}>
-          <Caption3>
-            {label} · {pickOption}
-          </Caption3>
-          <DropArrow />
-        </div>
-      </button>
+    const handleChangeData = useCallback(
+      (label: string, value: string) => {
+        setPickOption(label);
+        onChange(name, value);
+        closeFilter();
+      },
+      [name, onChange, closeFilter]
+    );
 
-      <FilterBottom
-        open={isFilter}
-        onClose={closeFilter}
-        label={label}
-        options={options}
-        pickOption={pickOption}
-        onClick={handleChangeData}
-      />
-    </>
-  );
-};
+    return (
+      <>
+        <button className={styles.container} onClick={openFilter}>
+          <div className={styles.grid}>
+            <Caption3 className={styles.label}>
+              {label} · {pickOption}
+            </Caption3>
+            <DropArrow />
+          </div>
+        </button>
 
+        <Portal portalId="bottom">
+          <FilterBottom
+            open={isFilter}
+            onClose={closeFilter}
+            label={label}
+            options={options}
+            pickOption={pickOption}
+            onClick={handleChangeData}
+          />
+        </Portal>
+      </>
+    );
+  }
+);
+
+Filter.displayName = 'Filter';
 export default Filter;
