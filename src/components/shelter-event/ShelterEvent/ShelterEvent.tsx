@@ -29,8 +29,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
-import ConfirmContent from './ConfirmContent/ConfirmContent';
+
 import * as styles from './ShelterEvent.css';
+import ConfirmContent from '../ConfirmContent/ConfirmContent';
 
 const QNA =
   'https://www.notion.so/yapp-workspace/FAQ-f492ba54a5d647129ca9697fbd307b20?pvs=4';
