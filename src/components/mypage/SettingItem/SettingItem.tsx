@@ -2,7 +2,10 @@
 import useMyInfo from '@/api/mypage/useMyInfo';
 import useUpdateShelterAlarm from '@/api/mypage/useUpdateShelterAlarm';
 import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
-import { SettingProps, isShelterInfo } from '@/app/admin/page';
+import {
+  SettingProps,
+  isShelterInfo
+} from '@/components/mypage/MyPageMain/MyPageMain';
 import { ArrowRightLg } from '@/asset/icons';
 import ToggleSwitch from '@/components/common/ToggleSwitch/ToggleSwitch';
 import { Body1, Caption3 } from '@/components/common/Typography';

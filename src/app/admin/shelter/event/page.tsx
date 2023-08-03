@@ -5,10 +5,10 @@ import { ChipOption } from '@/components/common/ChipInput/ChipInput';
 import EventHistory from '@/components/mypage/EventHistory/EventHistory';
 import useEventFilter from '@/components/mypage/EventHistory/hooks/useEventFilter';
 import useEventScroll from '@/components/mypage/EventHistory/hooks/useEventScroll';
+import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
 import useHeader from '@/hooks/useHeader';
 import { useAuthContext } from '@/providers/AuthContext';
 import { palette } from '@/styles/color';
-import { isShelterInfo } from '../../page';
 
 export default function ShelterEvent() {
   useHeader({ title: '봉사 활동 조회', color: palette.white });

@@ -3,7 +3,7 @@ import { Body3, H3 } from '@/components/common/Typography';
 import * as styles from './MyStatusItem.css';
 import useMyInfo from '@/api/mypage/useMyInfo';
 import { useAuthContext } from '@/providers/AuthContext';
-import { isShelterInfo } from '@/app/admin/page';
+import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
 
 export default function MyStatusItem() {
   const { dangle_role } = useAuthContext();
