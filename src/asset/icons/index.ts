@@ -40,3 +40,8 @@ export { default as MypageStar } from './MypageStar.svg';
 export { default as MypageTerms } from './MypageTerms.svg';
 export { default as ArrowRightLg } from './ArrowRightLg.svg';
 export { default as Star } from './Star.svg';
+export { default as DaenggleLogo } from './DaenggleLogo.svg';
+export { default as Register_1 } from './Register_1.svg';
+export { default as Register_2 } from './Register_2.svg';
+export { default as Register_3 } from './Register_3.svg';
+export { default as Register_4 } from './Register_4.svg';

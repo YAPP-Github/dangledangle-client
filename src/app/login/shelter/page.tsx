@@ -2,21 +2,21 @@
 
 import { LoginPayload } from '@/api/shelter/auth/login';
 import useShelterLogin from '@/api/shelter/auth/useShelterLogin';
-import { Daenggle } from '@/asset/icons';
+import { DaenggleLogo } from '@/asset/icons';
 import Button from '@/components/common/Button/Button';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { Body3, ButtonText1 } from '@/components/common/Typography';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { loginValidation } from '../../shelter/utils/shelterValidaion';
 import * as styles from './styles.css';
-import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
-import Cookies from 'js-cookie';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -69,7 +69,7 @@ export default function ShelterLogin() {
   return (
     <>
       <div className={styles.logoWrapper}>
-        <Daenggle
+        <DaenggleLogo
           style={{
             margin: 'auto',
             display: 'block'
