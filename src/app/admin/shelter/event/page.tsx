@@ -10,9 +10,9 @@ import { useAuthContext } from '@/providers/AuthContext';
 import { palette } from '@/styles/color';
 import uuidv4 from '@/utils/uuidv4';
 import { useCallback, useEffect, useState } from 'react';
-import * as styles from '@/components/mypage/EventHistory/EventHistory.css';
 import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';
 import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
+import * as styles from './styles.css';
 
 export type ShelterFilter = 'IN_PROGRESS' | 'DONE' | '';
 
