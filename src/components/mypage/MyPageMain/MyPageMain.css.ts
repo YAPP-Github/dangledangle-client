@@ -25,3 +25,55 @@ export const settingSection = style({
   backgroundColor: palette.white,
   margin: '8px 0 0 0'
 });
+
+export const txtGird = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+export const stroke = style({
+  width: '1px',
+  height: '60px',
+  backgroundColor: palette.gray200,
+  margin: '0 22px 0 22px'
+});
+export const box = style({
+  width: `calc(100% - 4 * ${GLOBAL_PADDING_X}px)`,
+  marginTop: '20px',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '14px 38px 14px 38px',
+  backgroundColor: palette.white,
+  borderRadius: '8px',
+  cursor: 'pointer'
+});
+
+export const accountTxt = style({
+  display: 'flex',
+  flexDirection: 'row',
+  columnGap: '8px',
+  alignItems: 'center'
+});
+
+export const accountBox = style({
+  padding: '16px 20px 16px 20px',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  cursor: 'pointer'
+});
+
+export const noti = style({
+  display: 'block',
+  padding: '4px 20px 16px 20px'
+});
+export const divider = style({
+  width: '100%',
+  backgroundColor: palette.gray200,
+  height: '1px',
+  margin: '8 0 8 0'
+});
