@@ -11,12 +11,12 @@ import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '@/providers/AuthContext';
 import useMyInfo from '@/api/mypage/useMyInfo';
-import { isShelterInfo } from '../page';
 import { MyVolInfo } from '@/api/mypage/mypage';
 import { isEmpty } from 'lodash';
 import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
 import { useRouter } from 'next/navigation';
 import useToast from '@/hooks/useToast';
+import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
 
 interface UpdateMyVolInfo extends Pick<MyVolInfo, 'nickName' | 'phoneNumber'> {}
 

@@ -29,6 +29,11 @@ export default function useMap(longitude: number, latitude: number) {
 
       if (!districtOrCity) {
         districtOrCity = regions.find(name => name?.slice(-1) === '시');
+        setDistrictName(`${region_1depth_name} ${region_1depth_name}청`);
+      } else {
+        setDistrictName(
+          `${region_1depth_name} ${region_2depth_name} ${region_2depth_name}청`
+        );
       }
 
       return districtOrCity
@@ -48,7 +53,6 @@ export default function useMap(longitude: number, latitude: number) {
 
         if (result && result.documents && result.documents.length > 0) {
           const { x, y, place_name } = result.documents[0];
-          setDistrictName(place_name);
 
           return { x, y, place_name };
         } else {

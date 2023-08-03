@@ -29,8 +29,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
-import ConfirmContent from './ConfirmContent/ConfirmContent';
+
 import * as styles from './ShelterEvent.css';
+import ConfirmContent from '../ConfirmContent/ConfirmContent';
 
 const QNA =
   'https://www.notion.so/yapp-workspace/FAQ-f492ba54a5d647129ca9697fbd307b20?pvs=4';
@@ -57,7 +58,7 @@ export default function ShelterEvent({
 
   const { data: eventDetail } = useVolunteerEvent(shelterId, volunteerEventId);
 
-  if (!eventDetail) return <LoadingIndicator color="primary" />;
+  if (!eventDetail) return null;
 
   const {
     shelterName,
@@ -83,7 +84,7 @@ export default function ShelterEvent({
       // access_token 없을 시에 개인 로그인 페이지로 보내서 리다이렉트 처리
       toastOn('봉사에 참여하기 위해 로그인이 필요합니다.');
       Cookies.set(COOKIE_REDIRECT_URL, window.location.pathname);
-      return route.push(`/login/volunteer`);
+      return route.replace(`/login/volunteer`);
     } else if (dangle_role === 'SHELTER') {
       // Shelter 계정은 신청 불가능, 팝업
       return toastOn('보호소 파트너 계정으로는 이벤트에 참여할 수 없어요.');
@@ -279,7 +280,6 @@ export default function ShelterEvent({
           <div className={styles.textWrapper}>
             <H4>위치</H4>
             <DangleMap
-              address={address.address}
               latitude={address?.latitude}
               longitude={address?.longitude}
               notice={NOTICE}

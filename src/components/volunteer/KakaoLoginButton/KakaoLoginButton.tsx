@@ -13,7 +13,7 @@ export default function KakaoLoginButton() {
       <Link href={process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL!}>
         <button className={styles.KakaoLoginButton}>
           <KakaoLogo />
-          <H4>카카오로 로그인</H4>
+          <H4>카카오로 시작하기</H4>
         </button>
       </Link>
     </>

@@ -1,12 +1,26 @@
-import CompleteSheet from '@/components/shelter/Complete/CompleteSheet';
+import Button from '@/components/common/Button/Button';
+import { H2, H3 } from '@/components/common/Typography';
+import Image from 'next/image';
 import { OnNextProps } from '../page';
+import * as styles from './../styles.css';
 
 export default function RequireComplete({ onNext }: OnNextProps) {
   return (
-    <CompleteSheet
-      message="필수 정보 입력이 <br/>완료되었어요!"
-      onClick={onNext}
-      buttonTitle="다음"
-    />
+    <div className={styles.complete}>
+      <Image
+        width={100}
+        height={100}
+        src="/images/CheckRequire.png"
+        alt="sparkle"
+      />
+      <H2 style={{ margin: '116px 0 10px 0' }}>필수 입력 정보 완료!</H2>
+      <H3 color="gray600" style={{ textAlign: 'center' }}>
+        댕글댕글에 오신 것을 <br />
+        환영해요!
+      </H3>
+      <Button onClick={onNext} style={{ marginTop: '152px' }}>
+        다음
+      </Button>
+    </div>
   );
 }

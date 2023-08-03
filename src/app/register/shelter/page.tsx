@@ -102,7 +102,6 @@ export default function ShelterRegister() {
         name: data.name.trim(),
         phoneNumber: removeDash(data.phoneNumber)
       };
-      console.log(newData);
 
       try {
         await mutateAsync(newData);

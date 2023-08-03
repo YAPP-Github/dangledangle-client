@@ -2,10 +2,9 @@ import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const item = style({
-  boxSizing: 'border-box',
-  width: '268px',
-  maxWidth: '268px',
-  padding: '32px',
+  width: '220px',
+  maxWidth: '284px',
+  padding: '32px 24px 32px 24px',
   background: palette.gray50,
   borderRadius: '8px',
   display: 'flex',
@@ -17,4 +16,11 @@ export const item = style({
 export const carouselText = style({
   marginTop: '24px',
   marginBottom: '4px'
+});
+export const image = style({
+  position: 'relative'
+});
+export const extra = style({
+  position: 'absolute',
+  left: '685px'
 });

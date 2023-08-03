@@ -1,12 +1,12 @@
-import React from 'react';
 import { Body3, H4 } from '@/components/common/Typography';
+import React from 'react';
 import * as styles from './CarouselItem.css';
 
 interface CarouselItemProps {
   icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   index: number;
   title: string;
-  description: string;
+  description: (string | React.JSX.Element)[];
 }
 
 const CarouselItem = ({
@@ -25,7 +25,7 @@ const CarouselItem = ({
         {title}
       </H4>
       <Body3 color="gray900" style={{ maxWidth: '220px' }}>
-        {description}
+        {description as string[]}
       </Body3>
     </div>
   );
