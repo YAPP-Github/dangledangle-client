@@ -18,7 +18,11 @@ export default function protectedURLs({
   const { dangle_role: role } = decodeDangleToken(accessToken);
 
   if (!accessToken) {
-    if (req.nextUrl.pathname.startsWith('/admin')) {
+    const noRedirectForEditExtra = req.nextUrl.pathname.startsWith(
+      '/admin/shelter/edit/extra'
+    );
+
+    if (!noRedirectForEditExtra && req.nextUrl.pathname.startsWith('/admin')) {
       const { pathname, search, origin, basePath } = req.nextUrl;
 
       if (!req.cookies.get(COOKIE_REDIRECT_URL)?.value) {
