@@ -39,9 +39,9 @@ export default function CompleteSheet({
         <div className={container}>
           <div className={styles.contents}>
             <Image
-              width={300}
-              height={300}
-              src="/images/DefaultAnimal.png"
+              width={100}
+              height={100}
+              src="/images/CheckRequire.png"
               className={styles.image}
               alt="sparkle"
             />

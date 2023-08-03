@@ -1,3 +1,4 @@
+import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
@@ -56,4 +57,18 @@ export const checkBox = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '24px'
+});
+
+export const complete = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  marginTop: `calc(208px - ${HEADER_HEIGHT}px)`
+});
+export const finish = style({
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  marginTop: `calc(110px - ${HEADER_HEIGHT}px)`
 });
