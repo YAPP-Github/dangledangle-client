@@ -37,8 +37,8 @@ export default function MyPageCard({ event, isVolunteer }: MyPageCardProps) {
   const { dangle_id: shelterId } = useAuthContext();
   if (!event) return null;
   const status = isVolunteer
-    ? MY_STATUS[(event as MyVolunteerEvent).myParticipationStatus]
-    : SHELTER_STATUS[(event as MyShelterEvent).eventStatus];
+    ? MY_STATUS[(event as unknown as MyVolunteerEvent).myParticipationStatus]
+    : SHELTER_STATUS[(event as unknown as MyShelterEvent).eventStatus];
 
   return (
     <div
