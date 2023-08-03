@@ -1,8 +1,7 @@
 'use client';
 import { MyShelterInfo, MyVolInfo } from '@/api/mypage/mypage';
+import useLogout from '@/api/mypage/useLogout';
 import useMyInfo from '@/api/mypage/useMyInfo';
-import useUpdateShelterAlarm from '@/api/mypage/useUpdateShelterAlarm';
-import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
 import {
   ArrowRight,
   ArrowRightLg,
@@ -11,20 +10,19 @@ import {
   MypageStar,
   MypageTerms
 } from '@/asset/icons';
-import ToggleSwitch from '@/components/common/ToggleSwitch/ToggleSwitch';
 import {
   Body1,
   Body3,
+  ButtonText2,
   Caption2,
   Caption3,
   H3
 } from '@/components/common/Typography';
-import LogoutSection from '@/components/mypage/LogoutSection/LogoutSection';
+import useDialog from '@/hooks/useDialog';
 import useHeader from '@/hooks/useHeader';
-import useToast from '@/hooks/useToast';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React from 'react';
 import * as styles from './MyPageMain.css';
 
 export interface SettingProps {
@@ -42,42 +40,30 @@ export function isShelterInfo(
 export default function MyPageMain({ dangle_role }: { dangle_role: string }) {
   useHeader({ title: '내 정보' });
   const pathname = usePathname();
+  const router = useRouter();
   const isShelterRole = dangle_role === 'SHELTER';
+
+  const { dialogOn, dialogOff } = useDialog();
 
   const { data: info } = useMyInfo(dangle_role, {
     enabled: !!dangle_role && dangle_role !== 'NONE'
   });
-  const { mutateAsync: volunteerAlarm } = useUpdateVolInfo();
-  const { mutateAsync: shelterAlarm } = useUpdateShelterAlarm();
+  const { mutate: logout } = useLogout();
 
-  const toastOn = useToast();
-
-  const handleToggleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      let payload;
-
-      if (!isShelterInfo(info)) {
-        payload = {
-          nickName: !isShelterInfo(info) ? info?.nickName! : '',
-          phoneNumber: !isShelterInfo(info) ? info?.phoneNumber! : '',
-          alarmEnabled: e.target.checked
-        };
-
-        volunteerAlarm(payload).then(res => {
-          toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
-        });
-      } else {
-        payload = {
-          alarmEnabled: e.target.checked
-        };
-
-        shelterAlarm(payload).then(res => {
-          toastOn('카카오톡 알림 설정이 업로드 되었습니다.');
-        });
+  const handleLogout = async () => {
+    dialogOn({
+      message: '로그아웃 하시겠습니까?',
+      close: {},
+      confirm: {
+        text: '로그아웃',
+        onClick: () => {
+          dialogOff();
+          logout();
+        }
       }
-    },
-    [volunteerAlarm, shelterAlarm, toastOn, info]
-  );
+    });
+  };
+  const moveToUnregister = () => router.push('/unregister');
 
   const NOTI: React.ReactNode[] = isShelterRole
     ? [
@@ -128,60 +114,6 @@ export default function MyPageMain({ dangle_role }: { dangle_role: string }) {
     ];
   }
 
-  function KaKaoAlarm({
-    setting,
-    notification
-  }: {
-    setting: SettingProps;
-    index: number;
-    notification: React.ReactNode[];
-  }) {
-    const { label, Svg } = setting;
-    return (
-      <>
-        <div className={styles.accountBox}>
-          <div className={styles.accountTxt}>
-            <Svg />
-            <Body1>{label}</Body1>
-          </div>
-          <ToggleSwitch
-            name={'alram'}
-            onChange={handleToggleChange}
-            checked={info?.alarmEnabled}
-          />
-        </div>
-
-        <Caption3 color="gray600" className={styles.noti}>
-          {notification as string[]}
-        </Caption3>
-        <div className={styles.divider} />
-      </>
-    );
-  }
-
-  function OtherAlarm({
-    setting,
-    index
-  }: {
-    setting: SettingProps;
-    index: number;
-  }) {
-    const { link, label, Svg } = setting;
-    return (
-      <Link href={link}>
-        <div className={styles.accountBox}>
-          <div className={styles.accountTxt}>
-            <Svg />
-            <Body1>{label}</Body1>
-          </div>
-          <ArrowRightLg />
-        </div>
-
-        {index === 0 || index === 3 ? <div className={styles.divider} /> : null}
-      </Link>
-    );
-  }
-
   return (
     <div className={styles.wrapper}>
       <main className={styles.container}>
@@ -222,18 +154,45 @@ export default function MyPageMain({ dangle_role }: { dangle_role: string }) {
       </main>
 
       <div className={styles.settingSection}>
-        {settings.map((setting, index) => {
-          if (index === 1 && isShelterRole) return null;
+        {settings.map(({ link, label, Svg }, index) => {
+          if (index === 1 && isShelterRole) return;
 
-          return index === 0 ? (
-            <KaKaoAlarm setting={setting} index={index} notification={NOTI} />
-          ) : (
-            <OtherAlarm setting={setting} index={index} />
+          return (
+            <Link href={link} key={index}>
+              <div className={styles.accountBox}>
+                <div className={styles.accountTxt}>
+                  <Svg />
+                  <Body1>{label}</Body1>
+                </div>
+
+                <ArrowRightLg />
+              </div>
+              {index === 0 && (
+                <Caption3 color="gray600" className={styles.noti}>
+                  {NOTI}
+                </Caption3>
+              )}
+              {index === 0 || index === 3 ? (
+                <div className={styles.divider} />
+              ) : null}
+            </Link>
           );
         })}
       </div>
 
-      <LogoutSection />
+      <div className={styles.loginContainer}>
+        <div className={styles.accountBox}>
+          <Body1 color="error" onClick={handleLogout}>
+            로그아웃
+          </Body1>
+        </div>
+
+        <div className={styles.btnWrapper} onClick={moveToUnregister}>
+          <ButtonText2 color="gray400" className={styles.btnTxt}>
+            회원탈퇴
+          </ButtonText2>
+        </div>
+      </div>
     </div>
   );
 }
