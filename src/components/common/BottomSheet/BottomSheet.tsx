@@ -33,7 +33,7 @@ export default function BottomSheet({
     const updateLeftValue = () => {
       const innerWidth = window.innerWidth;
       const newLeftValue =
-        innerWidth < 600 ? 0 : (innerWidth - BREAK_POINT) / 2;
+        innerWidth < BREAK_POINT ? 0 : (innerWidth - BREAK_POINT) / 2;
       setLeftValue(newLeftValue);
     };
 
