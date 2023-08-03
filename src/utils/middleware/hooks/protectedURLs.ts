@@ -2,7 +2,6 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REDIRECT_URL
 } from '@/constants/cookieKeys';
-import decodeDangleToken from '@/utils/token/decodeDangleToken';
 import { NextResponse, type NextRequest } from 'next/server';
 
 interface HandleAdminURLsProps {
@@ -15,7 +14,6 @@ export default function protectedURLs({
   requestHeaders
 }: HandleAdminURLsProps) {
   const accessToken = req.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value || '';
-  const { dangle_role: role } = decodeDangleToken(accessToken);
 
   if (!accessToken) {
     const noRedirectForEditExtra = req.nextUrl.pathname.startsWith(
@@ -35,24 +33,6 @@ export default function protectedURLs({
       return {
         redirect: true,
         response: NextResponse.redirect(signUrl, { headers: requestHeaders })
-      };
-    }
-  } else {
-    if (
-      req.nextUrl.pathname.startsWith('/admin/volunteer') &&
-      role !== 'VOLUNTEER'
-    ) {
-      return {
-        redirect: true,
-        response: NextResponse.redirect(new URL('/', req.url))
-      };
-    } else if (
-      req.nextUrl.pathname.startsWith('/admin/shelter') &&
-      role !== 'SHELTER'
-    ) {
-      return {
-        redirect: true,
-        response: NextResponse.redirect(new URL('/', req.url))
       };
     }
   }
