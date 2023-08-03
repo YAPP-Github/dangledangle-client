@@ -17,3 +17,7 @@ export const grid = style({
   display: 'flex',
   gap: '4px'
 });
+
+export const label = style({
+  whiteSpace: 'nowrap'
+});

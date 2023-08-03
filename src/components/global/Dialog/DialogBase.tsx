@@ -21,7 +21,7 @@ export default function DialogBase({
   const { modalSize, modalRef } = useResize(open);
 
   return (
-    <Portal>
+    <Portal portalId="modal">
       <section className={styles.container}>
         <AnimatePresence>
           {open && (

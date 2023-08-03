@@ -1,11 +1,11 @@
 import * as volunteer from '@/api/volunteer/my';
 import * as shelter from '@/api/shelter/{shelterId}';
 import Banner from '@/components/home/Banner/Banner';
-import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
 import UpcommingScheduleSection from '@/components/home/UpcommingSchedule/UpcommingScheduleSection';
 import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 import decodeDangleToken from '@/utils/token/decodeDangleToken';
 import { cookies } from 'next/headers';
+import CalendarSection from '@/components/home/CalendarSection/CalendarSection';
 
 export default async function HomePage() {
   const accessToken = cookies().get(COOKIE_ACCESS_TOKEN_KEY)?.value || '';
@@ -35,9 +35,7 @@ export default async function HomePage() {
     <>
       <Banner name={name} shelterId={shelterId} />
       <UpcommingScheduleSection />
-      <HomeCalendar />
-      {/* 인터렉션 테스트용 */}
-      <div style={{ height: '100vw' }}></div>
+      <CalendarSection />
     </>
   );
 }

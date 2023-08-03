@@ -2,6 +2,7 @@
 import React, { CSSProperties, useCallback } from 'react';
 import * as styles from './ChipInput.css';
 import Chip from './Chip';
+import clsx from 'clsx';
 
 export type ChipOption = {
   value: string;
@@ -13,6 +14,7 @@ interface ChipInputProps {
   options: ChipOption[] | string[];
   onChange: (name: string, value: string) => void;
   style?: CSSProperties;
+  className?: string;
 }
 
 const ChipInput: React.FC<ChipInputProps> = ({
@@ -20,7 +22,8 @@ const ChipInput: React.FC<ChipInputProps> = ({
   onChange,
   name,
   value,
-  style
+  style,
+  className
 }) => {
   const getOptionValue = useCallback((option: (typeof options)[0]) => {
     return typeof option === 'string' ? option : option.value;
@@ -38,7 +41,7 @@ const ChipInput: React.FC<ChipInputProps> = ({
   );
 
   return (
-    <ul className={styles.container} style={style}>
+    <ul className={clsx(styles.container, className)} style={style}>
       {options.map(option => {
         return (
           <Chip
