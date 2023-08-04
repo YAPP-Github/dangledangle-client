@@ -27,25 +27,25 @@ const FoldToggle: React.FC<FoldToggleProps> = ({
   );
 };
 
+export const CALENDAR_ID = 'home-calendar';
 interface HomeCalendarProps {
   isFolded: boolean;
   setIsFolded: (isFolded: boolean) => void;
   bookmark: boolean;
+  date: Date;
+  onClickDate: (value: Date) => void;
   onChangeBookmark: () => void;
 }
 const HomeCalendar: React.FC<HomeCalendarProps> = ({
   isFolded,
   setIsFolded,
   bookmark,
+  date,
+  onClickDate,
   onChangeBookmark
 }) => {
   const { dangle_role } = useAuthContext();
-  const [date, setDate] = useState(new Date());
   const [hasFolded, setHasFolded] = useState(false);
-
-  const handleChangeDate = useCallback((value: Date) => {
-    setDate(value);
-  }, []);
 
   useEffect(() => {
     if (isFolded && !hasFolded) {
@@ -69,8 +69,8 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
           <DangleCalendar
             id="home-calendar"
             value={date}
-            onChange={handleChangeDate}
-            onChangeMonth={handleChangeDate}
+            onChange={onClickDate}
+            onChangeMonth={onClickDate}
           />
           <div className={styles.calendarFooter}>
             <div className={styles.toggleItem} onClick={onChangeBookmark}>

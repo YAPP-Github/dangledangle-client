@@ -53,8 +53,19 @@ export const infoWrapper = style({
   columnGap: '6px'
 });
 
-export const status = style({
+export const statusWrapper = style({
   display: 'flex',
-  justifyContent: 'flex-end',
-  marginTop: '4px'
+  alignItems: 'flex-end'
+});
+
+export const myStatus = style({
+  textAlign: 'right',
+  flexGrow: 1,
+  marginTop: 4
+});
+
+export const shelterInfo = style({
+  display: 'flex',
+  marginTop: 10,
+  columnGap: 4
 });
