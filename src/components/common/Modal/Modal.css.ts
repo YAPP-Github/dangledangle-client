@@ -1,3 +1,4 @@
+import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const header = style({
@@ -15,7 +16,8 @@ export const closeIcon = style({
 
 export const childrenWarp = style({
   width: '100%',
-  height: 'auto'
+  height: 'auto',
+  backgroundColor: palette.white
 });
 
 export const contents = style({

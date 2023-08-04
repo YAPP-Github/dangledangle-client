@@ -27,22 +27,21 @@ export const dialogOverlay = style({
 export const modalConatainer = recipe({
   base: {
     boxSizing: 'border-box',
-    position: 'fixed',
+    position: 'absolute',
     top: '50%',
     left: '50%',
     borderRadius: '8px',
     padding: '20px',
-    background: palette.white,
-    width: '320px',
-    maxHeight: 'calc(95vh)'
+    backgroundColor: palette.white,
+    width: '320px'
   },
   variants: {
     size: {
       sm: {
-        transform: 'translate(-50%, -60%)'
+        transform: 'translate(-50%, 100%)'
       },
       lg: {
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, 10%)'
       }
     }
   }
