@@ -12,61 +12,7 @@ import useVolunteerEventList from '@/api/shelter/volunteer-event/useVolunteerEve
 import moment from 'moment';
 import { useMemo } from 'react';
 import Skeleton from '@/components/common/Skeleton/Skeleton';
-
-const mock = [
-  {
-    volunteerEventId: 1,
-    category: 'WALKING',
-    title:
-      '태평역 인근 산책산책산책산책산책산책산책산책산책산책산책 봉사자 모집합니다.',
-    eventStatus: 'IN_PROGRESS',
-    myParticipationStatus: 'NONE',
-    startAt: '2023-07-30 15:00:00',
-    endAt: '2023-07-30 17:38:02',
-    recruitNum: 1,
-    joinNum: 0,
-    waitingNum: 0
-  },
-  {
-    volunteerEventId: 2,
-    category: 'WALKING',
-    title:
-      '태평역 인근 산책 봉사자봉사자봉사자봉사자봉사자봉사자봉사자 모집합니다.',
-    eventStatus: 'IN_PROGRESS',
-    myParticipationStatus: 'NONE',
-    startAt: '2023-07-31 15:03:38',
-    endAt: '2023-07-31 17:38:02',
-    recruitNum: 1,
-    joinNum: 0,
-    waitingNum: 0
-  },
-  {
-    volunteerEventId: 2,
-    category: 'WALKING',
-    title:
-      '태평역 인근 산책 봉사자봉사자봉사자봉사자봉사자봉사자봉사자 모집합니다.',
-    eventStatus: 'IN_PROGRESS',
-    myParticipationStatus: 'NONE',
-    startAt: '2023-07-31 15:03:38',
-    endAt: '2023-07-31 17:38:02',
-    recruitNum: 1,
-    joinNum: 0,
-    waitingNum: 0
-  },
-  {
-    volunteerEventId: 2,
-    category: 'WALKING',
-    title:
-      '태평역 인근 산책 봉사자봉사자봉사자봉사자봉사자봉사자봉사자 모집합니다.',
-    eventStatus: 'IN_PROGRESS',
-    myParticipationStatus: 'NONE',
-    startAt: '2023-07-31 15:03:38',
-    endAt: '2023-07-31 17:38:02',
-    recruitNum: 1,
-    joinNum: 0,
-    waitingNum: 0
-  }
-];
+import useMyVolEvent from '@/api/mypage/event/useMyVolEvent';
 
 export default function UpcommingScheduleSection() {
   const { dangle_role: role } = useAuthContext();
@@ -91,13 +37,17 @@ export default function UpcommingScheduleSection() {
 
 function VolunteerUserEventList() {
   const { dangle_id: volunteerId } = useAuthContext();
+  const { data, isLoading } = useMyVolEvent({ page: 0, status: 'JOINING' });
 
-  // const volunteerEvents = useMemo(() => {
-  //   const pages = data?.pages;
-  //   return pages?.flatMap(page => page.events);
-  // }, [data?.pages]);
+  const volunteerEvents = useMemo(() => {
+    const pages = data?.pages;
+    return pages?.flatMap(page => page.content);
+  }, [data?.pages]);
 
-  const volunteerEvents = mock;
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   return (
     <>
       {volunteerEvents?.length ? (
@@ -136,6 +86,7 @@ function ShelterUserEventList() {
   if (isLoading) {
     return <Skeleton />;
   }
+  console.log(volunteerEvents);
   return (
     <>
       {volunteerEvents?.length ? (

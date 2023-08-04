@@ -26,7 +26,8 @@ interface ScheduleCardProps {
   endAt: Date | string;
   title: string;
   recruitNum: number;
-  joinNum: number;
+  joinNum?: number;
+  participantNum?: number;
   waitingNum: number;
 }
 
@@ -38,6 +39,7 @@ export default function ScheduleCard({
   title,
   recruitNum,
   joinNum,
+  participantNum,
   waitingNum
 }: ScheduleCardProps) {
   const router = useRouter();
@@ -59,7 +61,8 @@ export default function ScheduleCard({
       <div className={styles.bottomInfo}>
         {userRole === 'SHELTER' && <ShelterProfile>아지네마을</ShelterProfile>}
         <Waiting>
-          {joinNum}/{recruitNum}명{waitingNum > 0 && `(대기 ${waitingNum}명)`}
+          {joinNum || participantNum}/{recruitNum}명
+          {waitingNum > 0 && `(대기 ${waitingNum}명)`}
         </Waiting>
       </div>
     </article>
