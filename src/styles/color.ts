@@ -2,7 +2,7 @@ export const palette = {
   white: 'white',
   gray50: '#F8F8F8',
   gray100: '#F3F3F3',
-  gray200: '#EDEDED',
+  gray200: '#E8E8E8',
   gray300: '#D5D5D5',
   gray400: '#B1B1B1',
   gray500: '#909090',
