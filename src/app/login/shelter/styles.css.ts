@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const logoWrapper = style({
-  margin: '60px auto'
+  padding: '60px 0 76px 0'
 });
 
 export const buttonWrapper = style({
