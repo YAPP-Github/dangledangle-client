@@ -33,6 +33,7 @@ import {
   STEP_PATH_3
 } from './CurrentComponentTypes';
 import { ExceptionCode } from '@/constants/exceptionCode';
+import { removeDash } from '@/utils/formatInputs';
 
 export default function RegisterMain() {
   useHeader({ title: '기본 정보' });
@@ -69,7 +70,9 @@ export default function RegisterMain() {
           asyncCheck: async () => {
             try {
               const nickname = methods.getValues(FORM_NICKNAME);
-              const phoneNumber = methods.getValues(FORM_CONTACT_NUMBER);
+              const phoneNumber = removeDash(
+                methods.getValues(FORM_CONTACT_NUMBER)
+              );
               const email = Cookies.get(COOKIE_REGISTER_EMAIL_KEY);
 
               if (!email) {
