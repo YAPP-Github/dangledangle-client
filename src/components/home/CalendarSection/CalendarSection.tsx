@@ -63,12 +63,14 @@ export default function CalendarSection() {
     { ...monthlyInfiniteOption, enabled: !loading }
   );
 
-  // const volunteerEvents = useMemo(() => {
-  //   const pages = query.data?.pages;
-  //   return pages?.flatMap(page => page.events);
-  // }, [query.data?.pages]);
-
-  const volunteerEvents = homeEventsMock;
+  const volunteerEvents = useMemo(() => {
+    // TODO: mock data 제거
+    if (!query.data) {
+      return homeEventsMock;
+    }
+    const pages = query.data?.pages;
+    return pages?.flatMap(page => page.events);
+  }, [query.data]);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
