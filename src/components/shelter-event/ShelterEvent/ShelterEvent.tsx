@@ -209,7 +209,8 @@ export default function ShelterEvent({
           <div
             className={styles.divider}
             style={assignInlineVars({
-              [styles.dividerHeghit]: '8px'
+              [styles.dividerHeghit]: '8px',
+              [styles.dividerColor]: palette.gray50
             })}
           />
           <div className={styles.textWrapper}>
@@ -249,7 +250,8 @@ export default function ShelterEvent({
           <div
             className={styles.divider}
             style={assignInlineVars({
-              [styles.dividerHeghit]: '1px'
+              [styles.dividerHeghit]: '1px',
+              [styles.dividerColor]: palette.gray200
             })}
           />
 
@@ -262,7 +264,8 @@ export default function ShelterEvent({
           <div
             className={styles.divider}
             style={assignInlineVars({
-              [styles.dividerHeghit]: '1px'
+              [styles.dividerHeghit]: '1px',
+              [styles.dividerColor]: palette.gray200
             })}
           />
 
@@ -274,7 +277,8 @@ export default function ShelterEvent({
           <div
             className={styles.divider}
             style={assignInlineVars({
-              [styles.dividerHeghit]: '1px'
+              [styles.dividerHeghit]: '1px',
+              [styles.dividerColor]: palette.gray200
             })}
           />
 
@@ -290,7 +294,8 @@ export default function ShelterEvent({
           <div
             className={styles.divider}
             style={assignInlineVars({
-              [styles.dividerHeghit]: '8px'
+              [styles.dividerHeghit]: '8px',
+              [styles.dividerColor]: palette.gray50
             })}
           />
 
