@@ -6,7 +6,7 @@ import ScheduleCard, {
 } from './ScheduleCard';
 import * as styles from './UpcommingScheduleSection.css';
 import { expandGlobalPadding } from '@/styles/global.css';
-import { H4 } from '@/components/common/Typography';
+import { H3 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 import useVolunteerEventList from '@/api/shelter/volunteer-event/useVolunteerEventList';
 import moment from 'moment';
@@ -19,7 +19,7 @@ export default function UpcommingScheduleSection() {
 
   return (
     <section className={clsx([expandGlobalPadding, styles.section])}>
-      <H4> 봉사 일정이 다가오고 있어요 🐶</H4>
+      <H3> 봉사 일정이 다가오고 있어요 🐶</H3>
       <div className={styles.cardList}>
         {role === 'NONE' ? (
           <NoticeLoginScheduleCard />

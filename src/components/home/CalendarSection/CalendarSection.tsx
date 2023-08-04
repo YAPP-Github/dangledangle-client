@@ -13,7 +13,7 @@ import { EventStatus } from '@/types/volunteerEvent';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as styles from './CalendarSection.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
-import { Body3, H4 } from '@/components/common/Typography';
+import { Body3, H3 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 import getUserGeolocation from './utils/getUserGeolocation';
 import useBooleanState from '@/hooks/useBooleanState';
@@ -83,7 +83,7 @@ export default function CalendarSection() {
   return (
     <div>
       <div className={styles.title}>
-        <H4> 봉사 일정을 둘러봐요 🙌 </H4>
+        <H3> 봉사 일정을 둘러봐요 🙌 </H3>
       </div>
       <div ref={stickyRef} className={styles.sticky}>
         <div className={styles.filterContainer}>
