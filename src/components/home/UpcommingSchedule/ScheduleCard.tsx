@@ -52,7 +52,7 @@ export default function ScheduleCard({
     router.push(`/shelter/${shelterId}`);
   };
   const eventDay = `${formatKoDate(startAt)} ${getLocaleWeekday(startAt)}`;
-  const duringTime = `${pmamConvert(startAt)} ${pmamConvert(
+  const duringTime = `${pmamConvert(startAt)} - ${pmamConvert(
     endAt
   )} (${getDuration(startAt, endAt)})`;
 
