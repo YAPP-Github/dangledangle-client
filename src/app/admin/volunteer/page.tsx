@@ -115,7 +115,7 @@ export default function MyPageForVolunteer() {
           display: 'flex',
           flexDirection: 'column',
           gap: '40px',
-          marginTop: '24px'
+          paddingTop: '24px'
         }}
       >
         <TextField
