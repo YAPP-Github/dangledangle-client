@@ -43,7 +43,11 @@ const RadioButton = React.forwardRef<HTMLInputElement, RadioButtonProps>(
             <label
               key={index}
               htmlFor={option.value}
-              className={styles.radioWrapper}
+              className={clsx(
+                styles.radioWrapper({
+                  check: selectedValue === option.value ? true : false
+                })
+              )}
             >
               <input
                 ref={ref}

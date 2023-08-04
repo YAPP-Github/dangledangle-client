@@ -11,10 +11,21 @@ import '@/styles/global.css';
 import * as styles from './layout.css';
 
 export const metadata = {
+  metadataBase: new URL('https://dangledangle.vercel.app'),
   title: '댕글댕글',
-  description: '더 나은 세상을 만들어봐요',
+  description: '더 나은 세상을 만들어봐요!',
   openGraph: {
-    images: ['/images/DangleShare.png']
+    title: '댕글댕글',
+    description: '더 나은 세상을 만들어봐요!',
+    url: 'https://dangledangle.vercel.app',
+    images: [
+      {
+        url: '/images/DangleShare.png',
+        width: 380,
+        height: 270,
+        alt: '댕글댕글'
+      }
+    ]
   }
 };
 
