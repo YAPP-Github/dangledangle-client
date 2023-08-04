@@ -30,7 +30,7 @@ export const headerServerSideRenderProp: HeaderServerSideRenderProp[] = [
     title: '개인봉사자로 시작하기.'
   },
   {
-    url: /\/shelter\/\d/,
+    url: /\/shelter\/\d+/,
     backgroundColor: 'white'
   },
   {

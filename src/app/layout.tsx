@@ -1,4 +1,3 @@
-import Footer from '@/components/common/Footer/Footer';
 import ServerSideHeader from '@/components/common/Header/ServerSideHeader';
 import { PORTAL_ELEMENT_ID } from '@/components/global/Dialog/Portal/types';
 import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
@@ -9,6 +8,7 @@ import RecoilRootWrapper from '@/providers/RecoilRootWrapper';
 import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
+import Footer from '@/components/common/Footer/Footer';
 
 export const metadata = {
   metadataBase: new URL('https://dangledangle.vercel.app'),

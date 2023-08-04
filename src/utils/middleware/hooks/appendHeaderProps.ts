@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { matchURL } from '../matchUrl';
 import { headerServerSideRenderProp } from '../headerServerSideRenderProp';
-import { X_HEADER_TITLE } from '@/constants/customHeaderKeys';
+import { X_HEADER_TITLE } from '@/constants/customHttpHeaderKeys';
 
 interface CustomMiddleWareProps {
   req: NextRequest;

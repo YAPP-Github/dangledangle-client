@@ -2,8 +2,21 @@
 import { Daenggle } from '@/asset/icons';
 import * as styles from './Footer.css';
 import { Caption1 } from '../Typography';
+import {
+  FooterServerSideRenderProp,
+  footerServerSideRenderProp
+} from '@/utils/middleware/footerServerSideRenderProp';
+import { usePathname } from 'next/navigation';
+import { matchURL } from '@/utils/middleware/matchUrl';
 
-export default function Footer() {
+type FooterProps = Omit<FooterServerSideRenderProp, 'url'>;
+
+export default function Footer({ backgroundColor = 'default' }: FooterProps) {
+  const path = usePathname();
+  const matchedFooterURL = matchURL(footerServerSideRenderProp);
+  const matchedIndex = matchedFooterURL(path);
+  const visiblity = matchedIndex !== null;
+
   const footerLinks = [
     {
       href: '#',
@@ -21,7 +34,12 @@ export default function Footer() {
 
   return (
     <>
-      <footer className={styles.footerWrapper}>
+      <footer
+        style={{
+          backgroundColor: backgroundColor === 'white' ? 'white' : ''
+        }}
+        className={styles.footerWrapper({ visible: visiblity })}
+      >
         <div>
           <Daenggle height={22} width={54} />
         </div>
