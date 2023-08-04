@@ -13,8 +13,6 @@ export async function middleware(req: NextRequest) {
 
   appendHeaderTitle({ req, requestHeaders });
 
-  appendHeaderTitle({ req, requestHeaders });
-
   return NextResponse.next({
     request: {
       headers: requestHeaders

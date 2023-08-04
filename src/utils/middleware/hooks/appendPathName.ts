@@ -1,4 +1,4 @@
-import { X_PATH_NAME } from '@/constants/customHeaderKeys';
+import { X_PATH_NAME } from '@/constants/customHttpHeaderKeys';
 import { NextRequest } from 'next/server';
 
 interface CustomMiddleWareProps {
