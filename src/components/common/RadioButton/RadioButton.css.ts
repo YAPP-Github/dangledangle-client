@@ -7,16 +7,30 @@ export const container = style({
   columnGap: '10px'
 });
 
-export const radioWrapper = style({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '85px',
-  height: '32px',
-  border: `1px solid ${palette.gray300}`,
-  borderRadius: '8px',
-  cursor: 'pointer'
+export const radioWrapper = recipe({
+  base: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '85px',
+    height: '32px',
+
+    borderRadius: '8px',
+    cursor: 'pointer'
+  },
+  variants: {
+    check: {
+      false: {
+        backgroundColor: palette.white,
+        border: `1px solid ${palette.gray300}`
+      },
+      true: {
+        backgroundColor: palette.primary300,
+        border: `1px solid ${palette.primary300}`
+      }
+    }
+  }
 });
 
 export const label = recipe({
@@ -45,12 +59,5 @@ export const radio = style({
   height: '100%',
   margin: 0,
   cursor: 'pointer',
-
-  zIndex: -1,
-  selectors: {
-    [`${radioWrapper} &:checked`]: {
-      background: palette.primary300,
-      border: `1px solid ${palette.primary300}`
-    }
-  }
+  zIndex: -1
 });
