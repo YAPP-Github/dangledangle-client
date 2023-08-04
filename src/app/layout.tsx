@@ -1,14 +1,14 @@
+import Footer from '@/components/common/Footer/Footer';
+import ServerSideHeader from '@/components/common/Header/ServerSideHeader';
+import { PORTAL_ELEMENT_ID } from '@/components/global/Dialog/Portal/types';
+import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
+import { AuthProvider } from '@/providers/AuthContext';
+import MainWrapper from '@/providers/MainWrapper';
 import QueryProvider from '@/providers/QueryProvider';
 import RecoilRootWrapper from '@/providers/RecoilRootWrapper';
 import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
-import { GlobalComponents } from '@/components/global/GlobalComponents/GlobalComponents';
-import ServerSideHeader from '@/components/common/Header/ServerSideHeader';
-import { AuthProvider } from '@/providers/AuthContext';
-import Footer from '@/components/common/Footer/Footer';
-import ScrollToTop from '@/components/global/ScrollToTop/ScrollToTop';
-import { PORTAL_ELEMENT_ID } from '@/components/global/Dialog/Portal/types';
 
 export const metadata = {
   title: '댕글댕글',
@@ -32,9 +32,9 @@ export default function RootLayout({
               <div id={PORTAL_ELEMENT_ID.modal} />
               <GlobalComponents />
               <ServerSideHeader />
-              <ScrollToTop>
+              <MainWrapper>
                 <main className={styles.main}>{children}</main>
-              </ScrollToTop>
+              </MainWrapper>
               <Footer />
               <div id={PORTAL_ELEMENT_ID.bottom} />
             </AuthProvider>
