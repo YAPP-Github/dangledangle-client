@@ -45,3 +45,4 @@ export { default as Register_1 } from './Register_1.svg';
 export { default as Register_2 } from './Register_2.svg';
 export { default as Register_3 } from './Register_3.svg';
 export { default as Register_4 } from './Register_4.svg';
+export { default as Add } from './Add.svg';

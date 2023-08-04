@@ -9,6 +9,9 @@ import useVolunteerEventList, {
 import { getStartOfMonth, getEndOfMonth } from '@/utils/timeConvert';
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
+import FloatingButton from '../FloatingButton/FloatingButton';
+import { useAuthContext } from '@/providers/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface ScheduleTabProps {
   shelterId: number;
@@ -16,7 +19,10 @@ interface ScheduleTabProps {
 
 export const CALENDAR_ID = 'schedule-tab-calendar';
 const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { dangle_id } = useAuthContext();
+
   const query = useVolunteerEventList(
     shelterId,
     getStartOfMonth(new Date()),
@@ -104,6 +110,13 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
           />
         )}
       </div>
+      {dangle_id === shelterId && (
+        <FloatingButton
+          onClick={() => router.push('/admin/shelter/event/edit')}
+        >
+          일정 만들기
+        </FloatingButton>
+      )}
     </div>
   );
 };
