@@ -5,15 +5,12 @@ import { formatDate, isDateSame } from '@/utils/timeConvert';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Divider from '../../common/Divider/Divider';
 import useObserver from '@/hooks/useObserver';
-import { useIsFetching } from '@tanstack/react-query';
-import { queryKey } from '@/api/shelter/volunteer-event';
 import moment from 'moment';
 import { palette } from '@/styles/color';
 
 interface VolunteerEventListProps {
   events: VolunteerEvent[];
   selectedDate: Date;
-  shelterId: number;
   scrollTo: (eventCardEl: HTMLElement) => void;
   fetchNextEvents: () => Promise<{ hasNext: boolean }>;
 }
@@ -38,15 +35,11 @@ const DateHeader = ({
 const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   events,
   selectedDate,
-  shelterId,
   scrollTo,
   fetchNextEvents
 }) => {
   const [prevSelectedDate, setPrevSelectedDate] = useState(selectedDate);
   const { observe } = useObserver('observer-target');
-  const isFetchingEvents = useIsFetching({
-    queryKey: queryKey.list(shelterId)
-  });
 
   const handleIntersect = useCallback(async () => {
     const result = await fetchNextEvents();
@@ -75,7 +68,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
   );
 
   useEffect(() => {
-    if (prevSelectedDate !== selectedDate && !isFetchingEvents) {
+    if (prevSelectedDate !== selectedDate) {
       const nearestDate = findNearestDate(selectedDate);
       const dateHeaderEl = document.getElementById(
         getDateHeaderElementId(nearestDate)
@@ -86,13 +79,7 @@ const VolunteerEventList: React.FC<VolunteerEventListProps> = ({
       if (!dateHeaderEl || !dateHeaderEl.parentElement) return;
       scrollTo(dateHeaderEl.parentElement);
     }
-  }, [
-    findNearestDate,
-    isFetchingEvents,
-    prevSelectedDate,
-    scrollTo,
-    selectedDate
-  ]);
+  }, [findNearestDate, prevSelectedDate, scrollTo, selectedDate]);
 
   return (
     <div>

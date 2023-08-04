@@ -94,12 +94,11 @@ const ScheduleTab: React.FC<ScheduleTabProps> = ({ shelterId }) => {
         onChangeMonth={handleChangeMonth}
       />
       <div style={{ marginTop: '16px' }}>
-        {(query.isLoading || query.isFetching) && <SkeletonList />}
+        {!volunteerEvents && <SkeletonList />}
         {volunteerEvents && (
           <VolunteerEventList
             selectedDate={selectedDate}
             events={volunteerEvents}
-            shelterId={shelterId}
             scrollTo={scrollToTarget}
             fetchNextEvents={fetchNextEvents}
           />
