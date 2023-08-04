@@ -3,7 +3,12 @@ import { palette } from '@/styles/color';
 import { style } from '@vanilla-extract/css';
 
 export const titleWrapper = style({
-  marginTop: '40px'
+  paddingTop: '40px'
+});
+export const bottomSheetTxt = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between'
 });
 export const subWrapper = style({
   display: 'flex',
@@ -63,12 +68,12 @@ export const complete = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: `calc(208px - ${HEADER_HEIGHT}px)`
+  paddingTop: `calc(208px - ${HEADER_HEIGHT}px)`
 });
 export const finish = style({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: `calc(110px - ${HEADER_HEIGHT}px)`
+  paddingTop: `calc(110px - ${HEADER_HEIGHT}px)`
 });

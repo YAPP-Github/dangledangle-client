@@ -6,7 +6,7 @@ export const item = style({
   maxWidth: '284px',
   padding: '32px 24px 32px 24px',
   background: palette.gray50,
-  borderRadius: '8px',
+  borderRadius: '16px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',

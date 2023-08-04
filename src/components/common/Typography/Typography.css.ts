@@ -26,7 +26,7 @@ export const variants = {
     base,
     {
       fontStyle: 'normal',
-      fontWeight: 700,
+      fontWeight: 600,
       fontSize: '24px',
       lineHeight: '34px'
     }
@@ -38,7 +38,7 @@ export const variants = {
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '18px',
-      lineHeight: '24px'
+      lineHeight: '26px'
     }
   ]),
 
@@ -46,7 +46,7 @@ export const variants = {
     base,
     {
       fontStyle: 'normal',
-      fontWeight: 700,
+      fontWeight: 600,
       fontSize: '16px',
       lineHeight: '22px'
     }
@@ -58,7 +58,7 @@ export const variants = {
       fontStyle: 'normal',
       fontWeight: 400,
       fontSize: '16px',
-      lineHeight: '19px'
+      lineHeight: '24px'
     }
   ]),
 
@@ -86,7 +86,7 @@ export const variants = {
     base,
     {
       fontStyle: 'normal',
-      fontWeight: 700,
+      fontWeight: 600,
       fontSize: '14px',
       lineHeight: '22px'
     }
@@ -112,6 +112,16 @@ export const variants = {
     }
   ]),
 
+  button3: style([
+    base,
+    {
+      fontStyle: 'normal',
+      fontWeight: 500,
+      fontSize: '12px',
+      lineHeight: '14px'
+    }
+  ]),
+
   caption1: style([
     base,
     {
@@ -127,8 +137,8 @@ export const variants = {
     {
       fontStyle: 'normal',
       fontWeight: 400,
-      fontSize: '12px',
-      lineHeight: '18px'
+      fontSize: '14px',
+      lineHeight: '20px'
     }
   ]),
 
@@ -136,7 +146,7 @@ export const variants = {
     base,
     {
       fontStyle: 'normal',
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: '12px',
       lineHeight: '18px'
     }

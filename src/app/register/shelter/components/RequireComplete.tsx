@@ -15,8 +15,7 @@ export default function RequireComplete({ onNext }: OnNextProps) {
       />
       <H2 style={{ margin: '116px 0 10px 0' }}>필수 입력 정보 완료!</H2>
       <H3 color="gray600" style={{ textAlign: 'center' }}>
-        댕글댕글에 오신 것을 <br />
-        환영해요!
+        댕글댕글에 오신 것을 환영해요!
       </H3>
       <Button onClick={onNext} style={{ marginTop: '152px' }}>
         다음

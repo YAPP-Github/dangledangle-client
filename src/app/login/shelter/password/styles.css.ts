@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const titleWrapper = style({
-  marginTop: '40px',
-  marginBottom: '126px'
+  paddingTop: '40px',
+  paddingBottom: '126px'
 });

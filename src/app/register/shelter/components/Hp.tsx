@@ -18,7 +18,7 @@ export default function Hp({ onNext }: OnNextProps) {
   } = useFormContext();
   const hpValue = watch('phoneNumber');
 
-  const setHeader = useHeader({
+  useHeader({
     thisPage: 2,
     entirePage: 4
   });

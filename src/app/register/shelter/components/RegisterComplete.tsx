@@ -31,7 +31,14 @@ export default function RegisterComplete() {
         <br />
         도움을 요청해 보세요!
       </H3>
-      <Button onClick={() => router.push('/')} style={{ marginTop: '112px' }}>
+      <Button
+        onClick={(e: React.MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          router.push('/');
+        }}
+        style={{ marginTop: '112px' }}
+      >
         홈 살펴보러 가기
       </Button>
     </div>

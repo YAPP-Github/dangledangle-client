@@ -35,6 +35,16 @@ export default function protectedURLs({
         response: NextResponse.redirect(signUrl, { headers: requestHeaders })
       };
     }
+  } else if (accessToken) {
+    if (req.nextUrl.pathname.startsWith('/login')) {
+      const { origin, basePath } = req.nextUrl;
+
+      const mainReturnUrl = new URL(`${basePath}`, origin);
+      return {
+        redirect: true,
+        response: NextResponse.redirect(mainReturnUrl)
+      };
+    }
   }
 
   // redirect 필요 없을 시

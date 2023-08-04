@@ -3,6 +3,7 @@ import { GLOBAL_PADDING_X } from '@/styles/global.css';
 import { createVar, style } from '@vanilla-extract/css';
 
 export const dividerHeghit = createVar('dividerHeghit');
+export const dividerColor = createVar('dividerColor');
 
 export const eventHeader = style({
   backgroundColor: palette.white,
@@ -45,13 +46,14 @@ export const profileWraper = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '10px'
+  gap: '10px',
+  cursor: 'pointer'
 });
 
 export const divider = style({
   width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
   transform: `translateX(${-GLOBAL_PADDING_X}px)`,
-  backgroundColor: palette.gray200,
+  backgroundColor: dividerColor,
   height: dividerHeghit,
   margin: '20px 0'
 });

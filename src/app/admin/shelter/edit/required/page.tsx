@@ -13,7 +13,7 @@ import useUpdateEssentialInfo from '@/api/shelter/admin/useUpdateEssentialInfo';
 import { useRouter } from 'next/navigation';
 import AddressSearchBar from '@/components/shelter-edit/AddressSearchBar/AddressSearchBar';
 import { ShelterEssentialInfoPayload } from '@/api/shelter/admin/essential-info';
-import { formatPhone, removeDash } from '@/utils/formatInputs';
+import { formatPhone, removeDash, phoneRegex } from '@/utils/formatInputs';
 import yup from '@/utils/yup';
 import useHeader from '@/hooks/useHeader';
 import { SearchedAddress } from '@/types/shelter';
@@ -32,8 +32,32 @@ const schema: yup.ObjectSchema<Partial<FormValues>> = yup
     name: yup.string().required(),
     phoneNumber: yup
       .string()
-      .required()
-      .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
+      .matches(phoneRegex, '숫자만 입력해주세요')
+      .test(
+        'phone-format-validation',
+        '전화번호 형식이 올바르지 않습니다',
+        value => {
+          let val = removeDash(value || '');
+          if (!val || (val && val.length <= 3)) {
+            return true;
+          }
+
+          const result = val.slice(0, 2);
+          const phone = val.slice(2);
+
+          if (result === '02' && (phone.length === 7 || phone.length <= 8)) {
+            return true;
+          } else if (
+            phone.length === 7 ||
+            phone.length === 8 ||
+            phone.length === 9
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      ),
     addressDetail: yup.string().required(),
     description: yup.string().max(300).required()
   })

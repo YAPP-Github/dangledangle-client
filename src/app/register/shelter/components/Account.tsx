@@ -5,18 +5,20 @@ import EmphasizedTitle, {
   Line
 } from '@/components/common/EmphasizedTitle/EmphasizedTitle';
 import TextField from '@/components/common/TextField/TextField';
-import { H2, H3 } from '@/components/common/Typography';
+import { ButtonText2, H2, H3 } from '@/components/common/Typography';
 import useBooleanState from '@/hooks/useBooleanState';
 import useDebounceValidator from '@/hooks/useDebounceValidator';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
+import { useRouter } from 'next/navigation';
 
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
 
 export default function Account({ onNext }: OnNextProps) {
+  const router = useRouter();
   const [isSheet, isOpenSheet, isCloseSheet] = useBooleanState();
   const {
     register,
@@ -77,15 +79,19 @@ export default function Account({ onNext }: OnNextProps) {
     });
   }, [allChecked]);
 
-  const handleSingleChecked = useCallback(
-    (key: keyof SingleCheckedState) => {
-      setsingleChecked({
-        ...singleChecked,
-        [key]: !singleChecked[key]
-      });
-    },
-    [singleChecked]
-  );
+  const handleSingleChecked = useCallback((key: keyof SingleCheckedState) => {
+    setsingleChecked(prevState => {
+      const newState = {
+        ...prevState,
+        [key]: !prevState[key]
+      };
+
+      const areAllChecked = Object.values(newState).every(value => value);
+      setAllChecked(areAllChecked);
+
+      return newState;
+    });
+  }, []);
 
   const isButtonDisabled =
     !singleChecked.over14 || !singleChecked.terms || !singleChecked.privacy;
@@ -152,16 +158,38 @@ export default function Account({ onNext }: OnNextProps) {
                 label="(필수) 만 14세 이상 이용입니다."
               />
 
-              <CheckBox
-                value={singleChecked.terms}
-                onClick={() => handleSingleChecked('terms')}
-                label="(필수) 서비스 이용약관에 동의"
-              />
-              <CheckBox
-                value={singleChecked.privacy}
-                onClick={() => handleSingleChecked('privacy')}
-                label="(필수) 개인정보 처리방침 동의"
-              />
+              <div className={styles.bottomSheetTxt}>
+                <CheckBox
+                  value={singleChecked.terms}
+                  onClick={() => handleSingleChecked('terms')}
+                  label="(필수) 서비스 이용약관에 동의"
+                />
+                <ButtonText2
+                  color="gray400"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    router.push('/');
+                  }}
+                >
+                  보기
+                </ButtonText2>
+              </div>
+              <div className={styles.bottomSheetTxt}>
+                <CheckBox
+                  value={singleChecked.privacy}
+                  onClick={() => handleSingleChecked('privacy')}
+                  label="(필수) 개인정보 처리방침 동의"
+                />
+                <ButtonText2
+                  color="gray400"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    router.push('/');
+                  }}
+                >
+                  보기
+                </ButtonText2>
+              </div>
               <CheckBox
                 value={singleChecked.marketing}
                 onClick={() => handleSingleChecked('marketing')}

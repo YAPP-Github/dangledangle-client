@@ -1,3 +1,4 @@
+import { phoneRegex, removeDash } from '@/utils/formatInputs';
 import yup from '@/utils/yup';
 
 export const loginValidation = yup.object().shape({
@@ -11,7 +12,7 @@ export const loginValidation = yup.object().shape({
     .min(8, '비밀번호가 너무 짧습니다. 8~15자로 입력해주세요.')
     .matches(
       /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])/,
-      '영문, 숫자, 특수문자 2가지 조합 8~15자로 입력해주세요.'
+      '영문, 숫자, 특수문자 3가지 조합 8~15자로 입력해주세요.'
     )
     .max(15, '비밀번호가 너무 깁니다. 8~15자로 입력해주세요.')
 });
@@ -30,7 +31,7 @@ export const registerValidation = yup.object({
     .min(8, '비밀번호가 너무 짧습니다. 8~15자로 입력해주세요.')
     .matches(
       /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])/,
-      '영문, 숫자, 특수문자 2가지 조합 8~15자로 입력해주세요.'
+      '영문, 숫자, 특수문자 3가지 조합 8~15자로 입력해주세요.'
     )
     .max(15, '비밀번호가 너무 깁니다. 8~15자로 입력해주세요.'),
   passwordConfirm: yup
@@ -53,7 +54,32 @@ export const registerValidation = yup.object({
     ),
   phoneNumber: yup
     .string()
-    .matches(/^\d{3}-\d{3,4}-\d{4}$/, '유효한 연락처 형식이 아닙니다.'),
+    .matches(phoneRegex, '숫자만 입력해주세요')
+    .test(
+      'phone-format-validation',
+      '전화번호 형식이 올바르지 않습니다',
+      value => {
+        let val = removeDash(value || '');
+        if (!val || (val && val.length <= 3)) {
+          return true;
+        }
+
+        const result = val.slice(0, 2);
+        const phone = val.slice(2);
+
+        if (result === '02' && (phone.length === 7 || phone.length <= 8)) {
+          return true;
+        } else if (
+          phone.length === 7 ||
+          phone.length === 8 ||
+          phone.length === 9
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    ),
   address: yup.object().shape({
     address: yup.string().required(),
     addressDetail: yup.string(),
