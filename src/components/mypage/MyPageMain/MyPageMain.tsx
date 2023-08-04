@@ -142,7 +142,7 @@ export default function MyPageMain({ dangle_role }: { dangle_role: string }) {
               <section style={{ display: 'flex' }} key={index}>
                 <div className={styles.txtGird}>
                   <H3>{cnt}</H3>
-                  <Body3>{value}</Body3>
+                  <Body3 style={{ whiteSpace: 'nowrap' }}>{value}</Body3>
                 </div>
                 {index < myStatus.length - 1 && (
                   <div className={styles.stroke} />
