@@ -12,7 +12,10 @@ import { PORTAL_ELEMENT_ID } from '@/components/global/Dialog/Portal/types';
 
 export const metadata = {
   title: '댕글댕글',
-  description: '더 나은 세상을 만들어봐요'
+  description: '더 나은 세상을 만들어봐요',
+  openGraph: {
+    images: ['/images/DangleShare.png']
+  }
 };
 
 export default function RootLayout({
