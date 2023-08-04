@@ -8,7 +8,7 @@ type LoginPayload = LoginResponse;
 
 export const fetchRefresh = async (data: LoginPayload) => {
   const response = await api
-    .get(`auth/token/refresh`, {
+    .post(`auth/token/refresh`, {
       json: data
     })
     .then(res => res.json<LoginResponse>());

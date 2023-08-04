@@ -29,6 +29,8 @@ export const retryRequestOnUnauthorized: AfterResponseHook = async (
       refreshToken
     };
 
+    Cookies.remove(COOKIE_ACCESS_TOKEN_KEY);
+    Cookies.remove(COOKIE_REFRESH_TOKEN_KEY);
     const data = await fetchRefresh(payload);
 
     const newAccessToken = data.accessToken;
