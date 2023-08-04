@@ -86,7 +86,6 @@ function ShelterUserEventList() {
   if (isLoading) {
     return <Skeleton />;
   }
-  console.log(volunteerEvents);
   return (
     <>
       {volunteerEvents?.length ? (
