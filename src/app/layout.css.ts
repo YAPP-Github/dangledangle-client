@@ -16,6 +16,7 @@ export const container = style({
 });
 
 export const main = style({
+  overflow: 'auto',
   padding: `0 ${GLOBAL_PADDING_X}px`,
   minHeight: `calc(100vh - ${FOOTER_HEIGHT}px - ${HEADER_HEIGHT}px)`
 });
