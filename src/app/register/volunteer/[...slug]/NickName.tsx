@@ -19,6 +19,7 @@ export default function NickName({ formName }: CurrentComponentProps) {
           <TextFieldWithForm
             name={formName}
             helper={'10자 이내 국문/영문/숫자/특수문자 가능 (이모지 불가)'}
+            placeholder={'사용하실 닉네임을 입력해주세요'}
             maxLength={10}
           />
         )}
