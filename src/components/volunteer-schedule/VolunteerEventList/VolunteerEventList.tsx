@@ -1,5 +1,8 @@
 import VolunteerEventCard from '@/components/volunteer-schedule/VolunteerEventCard/VolunteerEventCard';
-import { VolunteerEvent } from '../../../types/volunteerEvent';
+import {
+  HomeVolunteerEvent,
+  VolunteerEvent
+} from '../../../types/volunteerEvent';
 import { H3 } from '../../common/Typography';
 import { formatDate, isDateSame } from '@/utils/timeConvert';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,7 +12,7 @@ import moment from 'moment';
 import { palette } from '@/styles/color';
 
 interface VolunteerEventListProps {
-  events: VolunteerEvent[];
+  events: VolunteerEvent[] | HomeVolunteerEvent[];
   selectedDate: Date;
   scrollTo: (eventCardEl: HTMLElement) => void;
   fetchNextEvents: () => Promise<{ hasNext: boolean }>;

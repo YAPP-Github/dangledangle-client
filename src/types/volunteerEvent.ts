@@ -19,7 +19,7 @@ export interface VolunteerEvent {
 
 export interface VolunteerEventDetail extends VolunteerEvent {
   shelterName: string;
-  shelterProfileImageUrl: string;
+  shelterProfileImageUrl: string | null;
   title: string;
   description: string;
   address: ShelterAddress;
@@ -34,5 +34,5 @@ export interface VolunteerEventDetail extends VolunteerEvent {
 export interface HomeVolunteerEvent extends VolunteerEvent {
   shelterId: number;
   shelterName: string;
-  shelterProfileImageUrl: string;
+  shelterProfileImageUrl: string | null;
 }

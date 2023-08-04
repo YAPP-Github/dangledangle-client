@@ -24,6 +24,7 @@ import useHomeEventList, {
 import { HomeEventFilter } from '@/api/volunteer-event';
 import { getEndOfMonth, getStartOfMonth } from '@/utils/timeConvert';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
+import { homeEventsMock } from './mock';
 
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
@@ -62,10 +63,12 @@ export default function CalendarSection() {
     { ...monthlyInfiniteOption, enabled: !loading }
   );
 
-  const volunteerEvents = useMemo(() => {
-    const pages = query.data?.pages;
-    return pages?.flatMap(page => page.events);
-  }, [query.data?.pages]);
+  // const volunteerEvents = useMemo(() => {
+  //   const pages = query.data?.pages;
+  //   return pages?.flatMap(page => page.events);
+  // }, [query.data?.pages]);
+
+  const volunteerEvents = homeEventsMock;
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
