@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 export default function useResize(open: boolean) {
-  const [modalSize, setModalSize] = useState<'sm' | 'lg'>('sm');
+  const [modalSize, setModalSize] = useState<'sm' | 'md' | 'lg'>('sm');
   const modalRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -10,8 +10,10 @@ export default function useResize(open: boolean) {
         if (modalRef.current) {
           const modalHeight = modalRef.current.offsetHeight;
 
-          if (modalHeight <= window.innerHeight * 0.5) {
+          if (modalHeight <= window.innerHeight * 0.3) {
             setModalSize('sm');
+          } else if (modalHeight <= window.innerHeight * 0.5) {
+            setModalSize('md');
           } else {
             setModalSize('lg');
           }
