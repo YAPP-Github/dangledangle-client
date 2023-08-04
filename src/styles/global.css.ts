@@ -2,7 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import 'vanilla-reset';
 import { palette } from './color';
 
-globalStyle('body', { backgroundColor: palette.gray50 });
+globalStyle('body', { backgroundColor: palette.gray50, overflowX: 'hidden' });
 globalStyle('main, footer', { backgroundColor: palette.background });
 globalStyle('ul, ol, li', { listStyle: 'none' });
 globalStyle('.page', { marginTop: '20px' });
