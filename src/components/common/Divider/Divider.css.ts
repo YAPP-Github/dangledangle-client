@@ -6,7 +6,7 @@ export const marginTop = createVar('marginTop');
 export const marginBottom = createVar('marginBottom');
 export const divider = style({
   height: '1px',
-  backgroundColor: palette.gray300,
+  backgroundColor: palette.gray200,
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
   marginTop,
   marginBottom

@@ -49,15 +49,12 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
 
   useEffect(() => {
     const header = document.getElementById('main_header');
-    console.log('header useEffext');
     if (!header) return;
     const on = () => {
-      console.log('on');
       header.classList.add(styles.headerColorOn);
       header.classList.remove(styles.headerColorOff);
     };
     const off = () => {
-      console.log('off');
       header.classList.remove(styles.headerColorOn);
       header.classList.add(styles.headerColorOff);
     };
