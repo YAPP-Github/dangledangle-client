@@ -1,8 +1,8 @@
 'use client';
 
 import useDeleteVolunteerEvent from '@/api/shelter/admin/useDeleteVolunteerEvent';
+import useVolunteerEvent from '@/api/shelter/event/useVolunteerEvent';
 import { Delete, UploadIcon } from '@/asset/icons';
-
 import useDialog from '@/hooks/useDialog';
 import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
@@ -10,6 +10,8 @@ import { useAuthContext } from '@/providers/AuthContext';
 import { palette } from '@/styles/color';
 import { useRouter } from 'next/navigation';
 import ShelterEvent from '../ShelterEvent/ShelterEvent';
+import useSnsShare from '@/hooks/useSnsShare';
+
 interface VolunteerEventPageProps {
   shelterId: number;
   volunteerEventId: number;
@@ -23,8 +25,10 @@ export default function VolunteerEventPage({
 
   const toastOn = useToast();
   const { dialogOn, dialogOff, setDialogLoading } = useDialog();
+  const { handleSnsShare } = useSnsShare();
 
   const { mutateAsync: deleteEvent } = useDeleteVolunteerEvent();
+  const { data: eventDetail } = useVolunteerEvent(shelterId, volunteerEventId);
 
   const handleClickDeleteVolEvent = (volunteerEventId: number) => {
     dialogOn({
@@ -47,7 +51,14 @@ export default function VolunteerEventPage({
   const ShareButton = () => {
     return (
       <div style={{ display: 'flex', gap: 12 }}>
-        <UploadIcon onClick={() => toastOn('공유하기 버튼 클릭됨')} />
+        <UploadIcon
+          onClick={() =>
+            handleSnsShare(
+              `${eventDetail?.title!}ㆍ${eventDetail?.shelterName}`,
+              location.href
+            )
+          }
+        />
         {dangle_id === shelterId && (
           <Delete onClick={() => handleClickDeleteVolEvent(volunteerEventId)} />
         )}
@@ -62,7 +73,11 @@ export default function VolunteerEventPage({
 
   return (
     <>
-      <ShelterEvent shelterId={shelterId} volunteerEventId={volunteerEventId} />
+      <ShelterEvent
+        shelterId={shelterId}
+        volunteerEventId={volunteerEventId}
+        data={eventDetail!}
+      />
     </>
   );
 }

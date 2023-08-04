@@ -45,7 +45,8 @@ export const profileWraper = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '10px'
+  gap: '10px',
+  cursor: 'pointer'
 });
 
 export const divider = style({

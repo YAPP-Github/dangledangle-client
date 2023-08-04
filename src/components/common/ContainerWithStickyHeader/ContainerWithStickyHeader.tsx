@@ -1,20 +1,13 @@
 'use client';
-import { useEffect } from 'react';
-import * as headerStyles from '@/components/common/Header/Header.css';
-import * as globalStyles from '@/styles/global.css';
-import * as styles from './ContainerWithStickyHeader.css';
-import useHeader, { UseHeaderProps } from '@/hooks/useHeader';
-import { variants } from '../Typography/Typography.css';
 import { UploadIcon } from '@/asset/icons';
-import useToast from '@/hooks/useToast';
+import * as headerStyles from '@/components/common/Header/Header.css';
+import useHeader, { UseHeaderProps } from '@/hooks/useHeader';
+import useSnsShare from '@/hooks/useSnsShare';
+import * as globalStyles from '@/styles/global.css';
 import clsx from 'clsx';
-
-//TOOD : uploadIcon 구현
-const ShareButton = () => {
-  const toast = useToast();
-  return <UploadIcon onClick={() => toast('공유하기버튼 클릭됨')} />;
-};
-
+import { useEffect } from 'react';
+import { variants } from '../Typography/Typography.css';
+import * as styles from './ContainerWithStickyHeader.css';
 interface StickyTitleProps {
   headerProps: UseHeaderProps;
 }
@@ -23,6 +16,18 @@ export default function ContainerWithStickyHeader({
   headerProps,
   children
 }: React.PropsWithChildren<StickyTitleProps>) {
+  const { handleSnsShare } = useSnsShare();
+
+  const ShareButton = () => {
+    return (
+      <UploadIcon
+        onClick={() => {
+          handleSnsShare(`${headerProps.title}를 둘러보세요!`, location.href);
+        }}
+      />
+    );
+  };
+
   const setHeader = useHeader({
     ...headerProps,
     color: 'white',
