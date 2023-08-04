@@ -30,3 +30,9 @@ export interface VolunteerEventDetail extends VolunteerEvent {
   eventStatus: EventStatus;
   myParticipationStatus: MyParticipationStatus;
 }
+
+export interface HomeVolunteerEvent extends VolunteerEvent {
+  shelterId: number;
+  shelterName: string;
+  shelterProfileImageUrl: string;
+}
