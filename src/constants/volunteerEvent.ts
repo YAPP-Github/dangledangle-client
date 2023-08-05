@@ -60,8 +60,10 @@ const EVENT_STATUS_FILTER = {
   DONE: '모집 종료'
 };
 
-export const EVENT_STATUS_FILTER_OPTIONS: FilterOption[] =
-  createInputOptions(EVENT_STATUS_FILTER);
+export const EVENT_STATUS_FILTER_OPTIONS: FilterOption[] = createInputOptions({
+  all: '전체',
+  ...EVENT_STATUS_FILTER
+});
 
 export const MY_STATUS = {
   NONE: '미참여',

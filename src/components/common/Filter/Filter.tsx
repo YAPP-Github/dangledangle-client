@@ -1,7 +1,13 @@
 'use client';
 import { DropArrow } from '@/asset/icons';
 import useBooleanState from '@/hooks/useBooleanState';
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react';
 import { Caption3 } from '../Typography';
 import * as styles from './Filter.css';
 import FilterBottom from './FilterBottom';
@@ -41,9 +47,13 @@ export interface FilterRef {
 const Filter = forwardRef<FilterRef, FilterProps>(
   ({ name, label, options, onChange }: FilterProps, ref) => {
     const [isFilter, openFilter, closeFilter] = useBooleanState();
-    const [pickOption, setPickOption] = useState(
-      typeof options[0] === 'string' ? options[0] : options[0]?.label
-    );
+    const [pickOption, setPickOption] = useState('');
+
+    useEffect(() => {
+      const initial =
+        typeof options[0] === 'string' ? options[0] : options[0]?.label;
+      setPickOption(initial);
+    }, [options]);
 
     useImperativeHandle(ref, () => ({
       setPickOption
