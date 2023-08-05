@@ -167,7 +167,7 @@ export default function ShelterEvent({
         <div className={styles.container}>
           <div className={styles.badgeWrapper}>
             {isDatePast(startAt) ? (
-              <Badge type="gray">모집완료</Badge>
+              <Badge type="gray">모집종료</Badge>
             ) : (
               <Badge type="primary">모집중</Badge>
             )}

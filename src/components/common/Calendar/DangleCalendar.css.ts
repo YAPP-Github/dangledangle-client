@@ -4,13 +4,12 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const calendar = style({
-  width: '100%',
-  maxWidth: '100%',
+  width: 'calc(100% + 40px)',
   margin: 'auto',
   backgroundColor: palette.white,
   color: palette.gray900,
-  padding: '20px',
-  transform: `translateX(${-GLOBAL_PADDING_X}px)`
+  transform: `translateX(${-GLOBAL_PADDING_X}px)`,
+  padding: '20px 0'
 });
 
 export const dotWrapper = style({
