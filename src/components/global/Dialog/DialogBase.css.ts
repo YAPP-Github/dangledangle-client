@@ -27,7 +27,7 @@ export const dialogOverlay = style({
 export const modalConatainer = recipe({
   base: {
     boxSizing: 'border-box',
-    position: 'absolute',
+    position: 'fixed',
     top: '50%',
     left: '50%',
     borderRadius: '8px',
@@ -38,13 +38,13 @@ export const modalConatainer = recipe({
   variants: {
     size: {
       sm: {
-        transform: 'translate(-50%, 100%)'
+        transform: 'translate(-50%, -80%)'
       },
       md: {
-        transform: 'translate(-50%, 50%)'
+        transform: 'translate(-50%, -50%)'
       },
       lg: {
-        transform: 'translate(-50%, 10%)'
+        transform: 'translate(-50%, -50%)'
       }
     }
   }
