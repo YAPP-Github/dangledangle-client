@@ -1,7 +1,7 @@
 import { base64ToUtf8 } from '@/utils/base64ToUtf8';
 import Header from './Header';
 import { cookies, headers } from 'next/headers';
-import { X_HEADER_TITLE } from '@/constants/customHeaderKeys';
+import { X_HEADER_TITLE } from '@/constants/customHttpHeaderKeys';
 import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 import decodeDangleToken from '@/utils/token/decodeDangleToken';
 import { UserRole } from '@/constants/user';

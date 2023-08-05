@@ -32,14 +32,16 @@ export const modalConatainer = recipe({
     left: '50%',
     borderRadius: '8px',
     padding: '20px',
-    background: palette.white,
-    width: '320px',
-    maxHeight: 'calc(95vh)'
+    backgroundColor: palette.white,
+    width: '320px'
   },
   variants: {
     size: {
       sm: {
-        transform: 'translate(-50%, -60%)'
+        transform: 'translate(-50%, -80%)'
+      },
+      md: {
+        transform: 'translate(-50%, -50%)'
       },
       lg: {
         transform: 'translate(-50%, -50%)'

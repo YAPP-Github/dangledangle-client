@@ -9,7 +9,8 @@ export const eventHeader = style({
   backgroundColor: palette.white,
   padding: '20px',
   width: `calc(100%)`,
-  transform: `translateX(${-GLOBAL_PADDING_X}px)`
+  transform: `translateX(${-GLOBAL_PADDING_X}px)`,
+  marginBottom: '96px' //fixedFooter 높이
 });
 export const container = style({
   display: 'flex',

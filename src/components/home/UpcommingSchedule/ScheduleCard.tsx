@@ -18,26 +18,33 @@ import { PropsWithChildren } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { ArrowRight } from '@/asset/icons';
+import Image from 'next/image';
 
 interface ScheduleCardProps {
   shelterId: number;
+  shelterName?: string;
+  shelterImageProfileUrl?: string;
   userRole: UserRole;
   startAt: Date | string;
   endAt: Date | string;
   title: string;
   recruitNum: number;
-  joinNum: number;
+  joinNum?: number;
+  participantNum?: number;
   waitingNum: number;
 }
 
 export default function ScheduleCard({
   shelterId,
+  shelterName,
+  shelterImageProfileUrl,
   userRole,
   startAt,
   endAt,
   title,
   recruitNum,
   joinNum,
+  participantNum,
   waitingNum
 }: ScheduleCardProps) {
   const router = useRouter();
@@ -45,9 +52,13 @@ export default function ScheduleCard({
     router.push(`/shelter/${shelterId}`);
   };
   const eventDay = `${formatKoDate(startAt)} ${getLocaleWeekday(startAt)}`;
-  const duringTime = `${pmamConvert(startAt)} ${pmamConvert(
+  const duringTime = `${pmamConvert(startAt)} - ${pmamConvert(
     endAt
   )} (${getDuration(startAt, endAt)})`;
+
+  const joinOrParticipantNum =
+    joinNum === 0 ? `${joinNum}` : joinNum || participantNum;
+
   return (
     <article className={clsx([styles.container, styles.paintFirstCard])}>
       <ArrowRight className={styles.arrowIcon} onClick={moveTo} />
@@ -57,9 +68,15 @@ export default function ScheduleCard({
       </div>
       <Title>{title}</Title>
       <div className={styles.bottomInfo}>
-        {userRole === 'SHELTER' && <ShelterProfile>아지네마을</ShelterProfile>}
+        {userRole === 'VOLUNTEER' && (
+          <ShelterProfile
+            shelterImageProfileUrl={shelterImageProfileUrl}
+            shelterName={shelterName!}
+          />
+        )}
         <Waiting>
-          {joinNum}/{recruitNum}명{waitingNum > 0 && `(대기 ${waitingNum}명)`}
+          {joinOrParticipantNum}/{recruitNum}명
+          {waitingNum > 0 && `(대기 ${waitingNum}명)`}
         </Waiting>
       </div>
     </article>
@@ -106,8 +123,24 @@ const Duringtime = ({ children }: PropsWithChildren) => (
 const Title = ({ children }: PropsWithChildren) => (
   <H4 className={styles.title}>{children}</H4>
 );
-const ShelterProfile = ({ children }: PropsWithChildren) => (
-  <Caption2 className={styles.firstCardVariation}>{children}</Caption2>
+
+const ShelterProfile = ({
+  shelterImageProfileUrl,
+  shelterName
+}: {
+  shelterImageProfileUrl?: string;
+  shelterName: string;
+}) => (
+  <div className={styles.profileContainer}>
+    <Image
+      style={{ borderRadius: '50%' }}
+      src={shelterImageProfileUrl || '/images/Shelter.png'}
+      width={20}
+      height={20}
+      alt={`${shelterName}`}
+    />
+    <Caption2 className={styles.firstCardVariation}>{shelterName}</Caption2>
+  </div>
 );
 const Waiting = ({ children }: PropsWithChildren) => (
   <Caption1 className={styles.firstCardVariation}>{children}</Caption1>

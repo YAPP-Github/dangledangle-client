@@ -1,10 +1,18 @@
 'use client';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  MouseEventHandler,
+  TouchEventHandler,
+  PropsWithChildren
+} from 'react';
 import * as styles from './Carousel.css';
 import { debounce } from 'lodash';
 import { GLOBAL_PADDING_X } from '@/styles/global.css';
 
-interface CarouselProps extends React.PropsWithChildren {}
+interface CarouselProps extends PropsWithChildren {}
 
 // 0 < SENSITIVITY <= 1. 값이 작을수록 인덱스가 쉽게 변경됨
 const SENSITIVITY = 0.4;
@@ -68,29 +76,53 @@ const Carousel: React.FC<CarouselProps> = props => {
     });
   }, [index, itemWidth]);
 
-  const handleMouseDown = useCallback<React.MouseEventHandler>(e => {
+  const scrollStart = useCallback((pageX: number) => {
     if (!containerRef.current) return;
     setIsMouseDown(true);
-    setStartX(e.pageX - containerRef.current.offsetLeft);
+    setStartX(pageX - containerRef.current.offsetLeft);
     setStartScrollLeft(containerRef.current.scrollLeft);
   }, []);
 
-  const handleMouseMove = useCallback<React.MouseEventHandler>(
-    e => {
+  const scrolling = useCallback(
+    (pageX: number) => {
       if (!containerRef.current || !isMouseDown) return;
-
-      const x = e.pageX - containerRef.current.offsetLeft;
+      const x = pageX - containerRef.current.offsetLeft;
       const walk = startX - x;
       containerRef.current.scrollLeft = startScrollLeft + walk;
     },
-    [isMouseDown, startX, startScrollLeft]
+    [isMouseDown, startScrollLeft, startX]
   );
 
-  const handleMouseUp = useCallback<React.MouseEventHandler>(() => {
+  const scrollEnd = useCallback(() => {
     setIsMouseDown(false);
     if (!isMouseDown) return;
     paginate();
   }, [isMouseDown, paginate]);
+
+  const handleMouseDown: MouseEventHandler = e => {
+    const pageX = e.pageX;
+    scrollStart(pageX);
+  };
+  const handleTouchStart: TouchEventHandler = e => {
+    const pageX = e.targetTouches[0]?.pageX;
+    scrollStart(pageX);
+  };
+
+  const handleMouseMove: MouseEventHandler = e => {
+    const pageX = e.pageX;
+    scrolling(pageX);
+  };
+  const handleTouchMove: TouchEventHandler = e => {
+    const pageX = e.targetTouches[0]?.pageX;
+    scrolling(pageX);
+  };
+
+  const handleMouseUp: MouseEventHandler = () => {
+    scrollEnd();
+  };
+  const handleTouchEnd = () => {
+    scrollEnd();
+  };
 
   useEffect(() => {
     const ref = containerRef.current;
@@ -121,6 +153,9 @@ const Carousel: React.FC<CarouselProps> = props => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div ref={itemsWrapperRef} className={styles.itemsWrapper}>
         {props.children}

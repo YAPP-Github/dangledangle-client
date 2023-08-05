@@ -14,6 +14,7 @@ import useWithdrawVolEvent from '@/api/shelter/event/useWithdrawVolEvent';
 import useParticipateVolEvent from '@/api/shelter/event/useParticipateVolEvent';
 import { VolunteerEvent } from '@/api/shelter/event/volunteer-event';
 import useToast from '@/hooks/useToast';
+import { palette } from '@/styles/color';
 
 interface ConfirmContentProps {
   eventDetail: VolunteerEvent;
@@ -116,7 +117,7 @@ export default function ConfirmContent({
   };
 
   return (
-    <main>
+    <main style={{ backgroundColor: palette.white }}>
       <H3 color="gray900" style={{ textAlign: 'center', marginTop: 20 }}>
         {getMessage()}
       </H3>
