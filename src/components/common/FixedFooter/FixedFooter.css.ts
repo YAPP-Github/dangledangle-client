@@ -4,6 +4,7 @@ import { createVar, style } from '@vanilla-extract/css';
 export const footerColor = createVar('footerColor');
 
 export const fixedFooter = style({
+  backgroundColor: 'unset',
   position: 'fixed',
   bottom: 0,
   right: 0,
@@ -14,6 +15,7 @@ export const fixedFooter = style({
 });
 
 export const wrapper = style({
+  boxSizing: 'border-box',
   maxWidth: `${BREAK_POINT}px`,
   width: '100%',
   padding: `10px ${GLOBAL_PADDING_X}px 30px`,

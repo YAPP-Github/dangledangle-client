@@ -27,7 +27,7 @@ export default function LoginPage() {
         ))}
       </Carousel>
       <div className={styles.buttomWrap}>
-        <Button variant="line" onClick={() => router.push('/login/volunteer')}>
+        <Button onClick={() => router.push('/login/volunteer')}>
           개인 봉사자로 시작하기
         </Button>
         <Button variant="line" onClick={() => router.push('/login/shelter')}>

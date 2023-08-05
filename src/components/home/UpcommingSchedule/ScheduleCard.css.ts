@@ -95,3 +95,8 @@ export const deActivatedContent = style({
   justifyContent: 'center',
   textAlign: 'center'
 });
+
+export const profileContainer = style({
+  display: 'flex',
+  gap: '4px'
+});

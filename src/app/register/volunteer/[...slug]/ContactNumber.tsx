@@ -28,6 +28,7 @@ export default function ContactNumber({ formName }: CurrentComponentProps) {
       <div className={style.InputSection}>
         {formName && (
           <TextField
+            placeholder="연락처를 입력하세요 (- 제외)"
             {...register(formName, { onChange: handlePhoneNumberChange })}
           />
         )}

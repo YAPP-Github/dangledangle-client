@@ -1,6 +1,6 @@
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import { palette } from '@/styles/color';
-import { GLOBAL_PADDING_X, expandGlobalPadding } from '@/styles/global.css';
+import { expandGlobalPadding } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
 export const FILTER_HEIGHT = 47.5;
@@ -14,7 +14,8 @@ export const expandWhiteContainer = style([
 
 export const sticky = style({
   position: 'sticky',
-  top: HEADER_HEIGHT
+  top: HEADER_HEIGHT,
+  zIndex: 10
 });
 export const filterContainer = style([
   expandWhiteContainer,

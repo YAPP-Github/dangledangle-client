@@ -1,47 +1,80 @@
 'use client';
 
 import Filter, { FilterRef } from '@/components/common/Filter/Filter';
-import HomeCalendar from '@/components/home/HomeCalendar/HomeCalendar';
+import HomeCalendar, {
+  CALENDAR_ID
+} from '@/components/home/HomeCalendar/HomeCalendar';
 import {
   CATEGORY_OPTIONS,
   EVENT_STATUS_FILTER_OPTIONS,
-  REGION_OPTIONS,
-  RegionOptions,
-  VolunteerEventCategory
+  REGION_OPTIONS
 } from '@/constants/volunteerEvent';
-import { EventStatus } from '@/types/volunteerEvent';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as styles from './CalendarSection.css';
 import ChipInput from '@/components/common/ChipInput/ChipInput';
-import { Body3, H4 } from '@/components/common/Typography';
+import { Body3, H3 } from '@/components/common/Typography';
 import { useAuthContext } from '@/providers/AuthContext';
 import getUserGeolocation from './utils/getUserGeolocation';
 import useBooleanState from '@/hooks/useBooleanState';
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
+import VolunteerEventList from '@/components/volunteer-schedule/VolunteerEventList/VolunteerEventList';
+import useHomeEventList, {
+  monthlyInfiniteOption
+} from '@/api/volunteer-event/useHomeEventList';
+import { HomeEventFilter } from '@/api/volunteer-event';
+import { getEndOfMonth, getStartOfMonth } from '@/utils/timeConvert';
+import SkeletonList from '@/components/common/Skeleton/SkeletonList';
+import { homeEventsMock } from './mock';
 
-type EventFilter = {
-  region: '내 주변' | RegionOptions;
-  category: 'all' | VolunteerEventCategory;
-  status: EventStatus;
-  bookmark: boolean;
-};
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
-  const [filter, setFilter] = useState<EventFilter>({
-    region: '내 주변',
+  const [filterInput, setFilterInput] = useState<HomeEventFilter>({
+    address: '내 주변',
     category: 'all',
-    status: 'IN_PROGRESS',
-    bookmark: false
+    status: dangle_role === 'SHELTER' ? 'IN_PROGRESS' : 'all',
+    isFavorite: false
   });
   const [loading, loadingOn, loadingOff] = useBooleanState(true);
   const [geolocation, setGeolocation] = useState<GeolocationPosition>();
   const regionFilterRef = useRef<FilterRef>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const [isFolded, setIsFolded] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const filterForQuery = useMemo<HomeEventFilter>(() => {
+    if (
+      dangle_role !== 'SHELTER' &&
+      filterInput.address === '내 주변' &&
+      geolocation
+    ) {
+      return {
+        ...filterInput,
+        longitude: geolocation.coords.longitude,
+        latitude: geolocation.coords.latitude
+      };
+    }
+    return { ...filterInput, address: undefined };
+  }, [dangle_role, filterInput, geolocation]);
+
+  const query = useHomeEventList(
+    filterForQuery,
+    getStartOfMonth(new Date()),
+    getEndOfMonth(new Date()),
+    { ...monthlyInfiniteOption, enabled: !loading }
+  );
+
+  const volunteerEvents = useMemo(() => {
+    // TODO: mock data 제거
+    if (!query.data) {
+      return homeEventsMock;
+    }
+    const pages = query.data?.pages;
+    return pages?.flatMap(page => page.events);
+  }, [query.data]);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
-      setFilter(prev => ({
+      setFilterInput(prev => ({
         ...prev,
         [name]: value
       }));
@@ -50,19 +83,25 @@ export default function CalendarSection() {
   );
 
   useEffect(() => {
-    if (dangle_role !== 'SHELTER' && filter.region === '내 주변') {
+    if (dangle_role !== 'SHELTER' && filterInput.address === '내 주변') {
       loadingOn();
       getUserGeolocation()
         .then(setGeolocation)
         .catch(() => {
           regionFilterRef.current?.setPickOption(REGION_OPTIONS[0]);
-          setFilter(prev => ({ ...prev, region: REGION_OPTIONS[0] }));
+          setFilterInput(prev => ({ ...prev, address: REGION_OPTIONS[0] }));
         })
         .finally(loadingOff);
     } else {
       loadingOff();
     }
-  }, [dangle_role, filter.region, handleChangeFilter, loadingOff, loadingOn]);
+  }, [
+    dangle_role,
+    filterInput.address,
+    handleChangeFilter,
+    loadingOff,
+    loadingOn
+  ]);
 
   useEffect(() => {
     function autoFoldCalendar() {
@@ -80,10 +119,26 @@ export default function CalendarSection() {
     };
   }, []);
 
+  const scrollToTarget = (eventCardEl: HTMLElement) => {
+    const calendarEl = document.getElementById(CALENDAR_ID);
+    if (!calendarEl) return;
+
+    const calendarBottom = calendarEl.getBoundingClientRect().bottom;
+    const eventCardTop = eventCardEl.getBoundingClientRect().top;
+    const scrollTo = window.scrollY + eventCardTop - calendarBottom;
+
+    window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+  };
+
+  const fetchNextEvents = useCallback(async () => {
+    const result = await query.fetchNextPage();
+    return { hasNext: Boolean(result.hasNextPage) };
+  }, [query]);
+
   return (
     <div>
       <div className={styles.title}>
-        <H4> 봉사 일정을 둘러봐요 🙌 </H4>
+        <H3> 봉사 일정을 둘러봐요 🙌 </H3>
       </div>
       <div ref={stickyRef} className={styles.sticky}>
         <div className={styles.filterContainer}>
@@ -98,7 +153,7 @@ export default function CalendarSection() {
             <Filter
               ref={regionFilterRef}
               label="지역"
-              name="region"
+              name="address"
               options={['내 주변', ...REGION_OPTIONS]}
               onChange={handleChangeFilter}
             />
@@ -108,7 +163,7 @@ export default function CalendarSection() {
               flexWrap: 'nowrap'
             }}
             name="category"
-            value={filter.category}
+            value={filterInput.category || 'all'}
             options={[{ label: '전체', value: 'all' }, ...CATEGORY_OPTIONS]}
             onChange={handleChangeFilter}
           />
@@ -116,12 +171,14 @@ export default function CalendarSection() {
         <HomeCalendar
           isFolded={isFolded}
           setIsFolded={setIsFolded}
-          bookmark={filter.bookmark}
+          date={selectedDate}
+          onClickDate={setSelectedDate}
+          bookmark={filterInput.isFavorite || false}
           onChangeBookmark={() =>
-            handleChangeFilter('bookmark', !filter.bookmark)
+            handleChangeFilter('isFavorite', !filterInput.isFavorite)
           }
         />
-        {dangle_role === 'NONE' && filter.bookmark && (
+        {dangle_role === 'NONE' && filterInput.isFavorite && (
           <div className={styles.empty}>
             <Body3 color="gray400">
               보호소 즐겨찾기 기능을 사용하려면 <br />
@@ -130,16 +187,17 @@ export default function CalendarSection() {
           </div>
         )}
       </div>
-      {!loading && (
-        <div>
-          <div className={styles.dummyItem} />
-          <div className={styles.dummyItem} />
-          <div className={styles.dummyItem} />
-          <div className={styles.dummyItem} />
-          <div className={styles.dummyItem} />
-          <div className={styles.dummyItem} />
-        </div>
-      )}
+      <div style={{ marginTop: '16px' }}>
+        {!volunteerEvents && <SkeletonList />}
+        {volunteerEvents && (
+          <VolunteerEventList
+            selectedDate={selectedDate}
+            events={volunteerEvents}
+            scrollTo={scrollToTarget}
+            fetchNextEvents={fetchNextEvents}
+          />
+        )}
+      </div>
     </div>
   );
 }
