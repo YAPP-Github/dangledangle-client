@@ -7,6 +7,7 @@ import uuidv4 from '@/utils/uuidv4';
 import { InfiniteData } from '@tanstack/react-query';
 import * as styles from './EventHistory.css';
 import { ShelterFilter, VolunteerFilter } from './hooks/useEventFilter';
+import clsx from 'clsx';
 
 interface EventHistoryProps {
   data: InfiniteData<MypageEvent>;
@@ -27,7 +28,7 @@ export default function EventHistory({
 }: EventHistoryProps) {
   return (
     <div className={styles.eventContianer}>
-      <div className={styles.chipContainer}>
+      <div className={clsx([styles.chipContainer, 'admin-sticky'])}>
         <ChipInput
           name="status"
           value={shelterFilter.status}
