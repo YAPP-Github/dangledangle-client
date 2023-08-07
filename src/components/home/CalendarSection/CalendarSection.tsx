@@ -25,6 +25,7 @@ import { HomeEventFilter } from '@/api/volunteer-event';
 import { getEndOfMonth, getStartOfMonth } from '@/utils/timeConvert';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
 import { homeEventsMock } from './mock';
+import clsx from 'clsx';
 
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
@@ -140,7 +141,7 @@ export default function CalendarSection() {
       <div className={styles.title}>
         <H3> 봉사 일정을 둘러봐요 🙌 </H3>
       </div>
-      <div ref={stickyRef} className={styles.sticky}>
+      <div ref={stickyRef} className={clsx(styles.sticky, 'sticky')}>
         <div className={styles.filterContainer}>
           {(dangle_role === 'SHELTER' && (
             <Filter
