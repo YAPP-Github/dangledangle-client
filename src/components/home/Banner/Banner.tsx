@@ -1,7 +1,7 @@
 'use client';
 import * as styles from './Banner.css';
 import { useRouter } from 'next/navigation';
-import { Caption2 } from '@/components/common/Typography';
+import { Caption1, Caption2 } from '@/components/common/Typography';
 import { ArrowRight } from '@/asset/icons';
 import { DOM_ID_BANNER } from '@/constants/dom';
 
@@ -35,7 +35,7 @@ const MyShelterHomeButton = ({ shelterId }: { shelterId: string }) => {
   };
   return (
     <button className={styles.myShelterHomeButton} onClick={moveToHome}>
-      MY 보호소 홈
+      <Caption1 color="white">MY 보호소 홈</Caption1>
     </button>
   );
 };
