@@ -16,6 +16,8 @@ export const palette = {
   primary300: '#FE5555',
   primary400: '#EA3E3E',
   error: '#FF2121',
+  success: '#52C2D0',
+  success50: '#E2EEEC',
   background: '#F2F1ED'
 } as const;
 

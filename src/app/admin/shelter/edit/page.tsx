@@ -93,7 +93,7 @@ export default function ShelterEditPage() {
   };
 
   const MenuBadge = (isCompleted: boolean) => (
-    <Badge type={isCompleted ? 'primary' : 'gray'}>
+    <Badge type={isCompleted ? 'success' : 'gray'}>
       {isCompleted ? '입력 완료' : '미입력'}
     </Badge>
   );

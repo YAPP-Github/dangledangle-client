@@ -3,7 +3,8 @@ import { style, styleVariants } from '@vanilla-extract/css';
 
 export const badgeColor = styleVariants({
   primary: { color: palette.primary300, backgroundColor: palette.primary50 },
-  gray: { color: palette.gray400, backgroundColor: palette.gray200 },
+  gray: { color: palette.gray500, backgroundColor: palette.gray200 },
+  success: { color: palette.success, backgroundColor: palette.success50 },
   line: {
     color: palette.gray600,
     backgroundColor: palette.white
@@ -12,7 +13,7 @@ export const badgeColor = styleVariants({
 
 export const badge = style({
   width: 'fit-content',
-  padding: '4px 10px',
+  padding: '2px 6px',
   borderRadius: '4px'
 });
 
