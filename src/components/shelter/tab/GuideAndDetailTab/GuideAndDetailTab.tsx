@@ -33,7 +33,7 @@ export default function GuideAndDeatilPanel({
                 <Body3 key={`shelter_notice_${i}`}>{paragraph}</Body3>
               ))
           ) : (
-            <Body3>별도 안내 사항이 없어요😅</Body3>
+            <Body3 color="gray600">별도 안내 사항이 없어요😅</Body3>
           )}
         </div>
       </article>
@@ -49,13 +49,16 @@ export default function GuideAndDeatilPanel({
         <ParkingIcon />
         <div className={styles.contents}>
           <H4>주차 정보</H4>
-          {shelterHomeInfo.parkingInfo?.parkingEnabled ? (
+          {shelterHomeInfo.parkingInfo ? (
             <>
-              <Body2>주차 가능</Body2>
-              <Body3>주차 추가 안내사항 텍스트 예시</Body3>
+              <Body2>
+                주차{' '}
+                {shelterHomeInfo.parkingInfo.parkingEnabled ? '가능' : '불가능'}
+              </Body2>
+              <Body3>{shelterHomeInfo.parkingInfo.parkingNotice}</Body3>
             </>
           ) : (
-            <Body2>주차 불가능</Body2>
+            <Body3 color="gray600">별도 안내 사항이 없어요.</Body3>
           )}
         </div>
       </article>
