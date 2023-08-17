@@ -1,90 +1,11 @@
-'use client';
-import useMyShelterEvent from '@/api/mypage/event/useMyShelterEvent';
-import useMyInfo from '@/api/mypage/useMyInfo';
-import ChipInput, { ChipOption } from '@/components/common/ChipInput/ChipInput';
-import SkeletonList from '@/components/common/Skeleton/SkeletonList';
-import MyPageCard from '@/components/mypage/MyPageCard/MyPageCard';
-import useHeader from '@/hooks/useHeader';
-import { useScroll } from '@/hooks/useScroll';
-import { useAuthContext } from '@/providers/AuthContext';
-import { palette } from '@/styles/color';
-import uuidv4 from '@/utils/uuidv4';
-import { useCallback, useEffect, useState } from 'react';
-import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';
-import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
-import * as styles from './styles.css';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
+import decodeDangleToken from '@/utils/token/decodeDangleToken';
+import { cookies } from 'next/headers';
+import MyShelterEventPage from './MyShelterEventPage';
 
-export type ShelterFilter = 'IN_PROGRESS' | 'DONE' | '';
+export default function ShelterHistoryPage() {
+  const accessToken = cookies().get(COOKIE_ACCESS_TOKEN_KEY)?.value || '';
+  const { dangle_role: role } = decodeDangleToken(accessToken);
 
-export default function ShelterEvent() {
-  useHeader({ title: '봉사 활동 조회', color: palette.white });
-  const { dangle_role } = useAuthContext();
-
-  const [shelterFilter, setShelterFilter] = useState<
-    Record<string, ShelterFilter>
-  >({
-    status: ''
-  });
-  const { data: info } = useMyInfo(dangle_role, {
-    enabled: !!dangle_role && dangle_role !== 'NONE'
-  });
-
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    useMyShelterEvent(shelterFilter);
-  const isNearBottom = useScroll(100, isFetchingNextPage);
-
-  useEffect(() => {
-    if (isNearBottom && hasNextPage && !isFetchingNextPage) fetchNextPage();
-  }, [isNearBottom, hasNextPage, fetchNextPage, isFetchingNextPage]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [shelterFilter]);
-
-  const handleChipInput = useCallback((name: string, value: string) => {
-    let status = value as ShelterFilter;
-    setShelterFilter(shelterFilter => ({ ...shelterFilter, [name]: status }));
-  }, []);
-
-  const STATUS_OPTIONS: ChipOption[] = [
-    {
-      label: `전체 ${
-        isShelterInfo(info)
-          ? info?.historyStat.done + info?.historyStat.inProgress
-          : 0
-      }`,
-      value: ''
-    },
-    {
-      label: `진행중 ${isShelterInfo(info) ? info?.historyStat.inProgress : 0}`,
-      value: 'IN_PROGRESS'
-    },
-    {
-      label: `종료 ${isShelterInfo(info) ? info?.historyStat.done : 0}`,
-      value: 'DONE'
-    }
-  ];
-
-  return (
-    <div className={styles.eventContianer}>
-      <div className={styles.chipContainer}>
-        <ChipInput
-          name="status"
-          value={shelterFilter.status}
-          options={STATUS_OPTIONS}
-          onChange={handleChipInput}
-        />
-      </div>
-
-      {data && !isLoading ? (
-        data.pages.flatMap(page =>
-          page.content.map(event => <MyPageCard key={uuidv4()} event={event} />)
-        )
-      ) : (
-        <DeferredComponent>
-          <SkeletonList />
-        </DeferredComponent>
-      )}
-    </div>
-  );
+  return <MyShelterEventPage dangle_role={role} />;
 }
