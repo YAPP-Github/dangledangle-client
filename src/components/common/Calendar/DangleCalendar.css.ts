@@ -25,7 +25,7 @@ export const dot = recipe({
     width: '4px',
     borderRadius: '4px',
     display: 'flex',
-    marginTop: '20px'
+    marginTop: '28px'
   },
   variants: {
     date: {
@@ -112,14 +112,42 @@ globalStyle(`${calendar} .react-calendar__tile`, {
   fontStyle: 'normal',
   fontWeight: 500,
   lineHeight: '14px',
-  color: '#6c6c6c'
+  color: '#6c6c6c',
+
+  position: 'relative'
+});
+
+globalStyle(`${calendar} .react-calendar__tile::before`, {
+  content: '',
+  position: 'absolute',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  zIndex: -100
 });
 
 // 날짜 호버됐을 시
 globalStyle(`${calendar} .react-calendar__tile:enabled:hover`, {
-  background: palette.gray100,
-  color: palette.primary300,
-  borderRadius: '6px'
+  color: palette.primary200
+});
+globalStyle(`${calendar} .react-calendar__tile:enabled:hover::before`, {
+  background: palette.primary50
+});
+
+// 오늘 날짜
+globalStyle(`${calendar} .react-calendar__tile--now `, {
+  color: palette.white
+});
+globalStyle(`${calendar} .react-calendar__tile--now::before`, {
+  background: palette.gray900
+});
+
+// 선택한 날짜
+globalStyle(`${calendar} .react-calendar__tile--active:enabled:focus`, {
+  color: palette.gray800
+});
+globalStyle(`${calendar} .react-calendar__tile:enabled:focus::before`, {
+  background: palette.gray200
 });
 
 globalStyle(`${calendar} .react-calendar__month-view__days__day--weekend`, {
@@ -132,15 +160,3 @@ globalStyle(
     color: palette.gray200
   }
 );
-
-// 오늘 날짜
-globalStyle(`${calendar} .react-calendar__tile--now `, {
-  background: palette.gray900,
-  color: palette.white
-});
-
-// 선택한 날짜
-globalStyle(`${calendar} .react-calendar__tile--active:enabled:focus`, {
-  background: palette.gray200,
-  color: palette.gray900
-});
