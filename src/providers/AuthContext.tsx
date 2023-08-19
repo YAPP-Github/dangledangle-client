@@ -71,16 +71,19 @@ const AuthContext = createContext<AuthContextProps>({
   logout: () => {}
 });
 
-const AuthProvider = ({ children }: PropsWithChildren) => {
+const AuthProvider = ({
+  token,
+  children
+}: PropsWithChildren & {
+  token: string | null;
+}) => {
   const [authState, setAuthState] = useState(initialAuthState);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    const dangle_access_token = cookie.get(COOKIE_ACCESS_TOKEN_KEY);
-
-    if (dangle_access_token) {
-      const decoded = jwt.decode(dangle_access_token);
+    if (token) {
+      const decoded = jwt.decode(token);
       const isDecodeToken = (decoded: any): decoded is DecodeToken => {
         return (
           decoded &&

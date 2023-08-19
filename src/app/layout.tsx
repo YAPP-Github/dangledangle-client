@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className={styles.container}>
         <RecoilRootWrapper>
           <QueryProvider>
-            <AuthProvider>
+            <AuthProvider token={store[COOKIE_ACCESS_TOKEN_KEY]}>
               <div id={PORTAL_ELEMENT_ID.modal} />
               <GlobalComponents />
               <ServerSideHeader />
