@@ -9,6 +9,9 @@ import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
 import Footer from '@/components/common/Footer/Footer';
+import { cookies } from 'next/headers';
+import { store, setStore } from '@/api/instance';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 
 export const metadata = {
   metadataBase: new URL('https://dangledangle.vercel.app'),
@@ -34,6 +37,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  cookies()
+    .getAll()
+    .forEach(({ name, value }) => {
+      setStore(name, value);
+    });
+
   return (
     <html lang="ko" className={font.className}>
       <body className={styles.container}>
