@@ -49,12 +49,12 @@ export async function GET(req: NextRequest) {
     const res = NextResponse.redirect(redirectTo);
 
     res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
-      sameSite: 'lax',
-      httpOnly: false
+      sameSite: 'strict',
+      httpOnly: true
     });
     res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
-      sameSite: 'lax',
-      httpOnly: false
+      sameSite: 'strict',
+      httpOnly: true
     });
     return res;
   } catch (e) {
