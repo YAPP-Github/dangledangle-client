@@ -179,26 +179,27 @@ export default function CalendarSection() {
             handleChangeFilter('isFavorite', !filterInput.isFavorite)
           }
         />
-        {dangle_role === 'NONE' && filterInput.isFavorite && (
-          <div className={styles.empty}>
-            <Body3 color="gray400">
-              보호소 즐겨찾기 기능을 사용하려면 <br />
-              로그인이 필요합니다
-            </Body3>
-          </div>
-        )}
       </div>
-      <div style={{ marginTop: '16px' }}>
-        {!volunteerEvents && <SkeletonList />}
-        {volunteerEvents && (
-          <VolunteerEventList
-            selectedDate={selectedDate}
-            events={volunteerEvents}
-            scrollTo={scrollToTarget}
-            fetchNextEvents={fetchNextEvents}
-          />
-        )}
-      </div>
+      {dangle_role === 'NONE' && filterInput.isFavorite ? (
+        <div className={styles.empty}>
+          <Body3 color="gray400">
+            보호소 즐겨찾기 기능을 사용하려면 <br />
+            로그인이 필요합니다
+          </Body3>
+        </div>
+      ) : (
+        <div style={{ marginTop: '16px' }}>
+          {!volunteerEvents && <SkeletonList />}
+          {volunteerEvents && (
+            <VolunteerEventList
+              selectedDate={selectedDate}
+              events={volunteerEvents}
+              scrollTo={scrollToTarget}
+              fetchNextEvents={fetchNextEvents}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
