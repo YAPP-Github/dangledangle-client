@@ -51,10 +51,11 @@ export default function CalendarSection() {
       return {
         ...filterInput,
         longitude: geolocation.coords.longitude,
-        latitude: geolocation.coords.latitude
+        latitude: geolocation.coords.latitude,
+        address: undefined
       };
     }
-    return { ...filterInput, address: undefined };
+    return { ...filterInput, longitude: undefined, latitude: undefined };
   }, [dangle_role, filterInput, geolocation]);
 
   const query = useHomeEventList(
