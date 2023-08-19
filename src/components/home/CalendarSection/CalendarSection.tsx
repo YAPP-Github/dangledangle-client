@@ -121,7 +121,7 @@ export default function CalendarSection() {
   }, []);
 
   const scrollToTarget = (eventCardEl: HTMLElement) => {
-    const calendarEl = document.getElementById(CALENDAR_ID);
+    const calendarEl = document.getElementById(CALENDAR_ID)?.parentElement;
     if (!calendarEl) return;
 
     const calendarBottom = calendarEl.getBoundingClientRect().bottom;

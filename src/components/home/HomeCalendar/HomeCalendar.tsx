@@ -67,7 +67,7 @@ const HomeCalendar: React.FC<HomeCalendarProps> = ({
       )) || (
         <div>
           <DangleCalendar
-            id="home-calendar"
+            id={CALENDAR_ID}
             value={date}
             onChange={onClickDate}
             onChangeMonth={onClickDate}
