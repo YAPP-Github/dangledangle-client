@@ -139,15 +139,15 @@ export default function MyPageMain({ dangle_role }: { dangle_role: string }) {
         >
           <div className={styles.box}>
             {myStatus.map(({ value, cnt }, index) => (
-              <section style={{ display: 'flex' }} key={index}>
-                <div className={styles.txtGird}>
+              <>
+                <div className={styles.txtGird} key={index}>
                   <H3>{cnt}</H3>
                   <Body3 style={{ whiteSpace: 'nowrap' }}>{value}</Body3>
                 </div>
                 {index < myStatus.length - 1 && (
                   <div className={styles.stroke} />
                 )}
-              </section>
+              </>
             ))}
           </div>
         </Link>

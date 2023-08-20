@@ -15,7 +15,7 @@ export default function Banner({ name, shelterId }: BannerProps) {
     <section id={DOM_ID_BANNER}>
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
-          <h1>안녕하세요! {name && <span>{name}님.</span>}</h1>
+          <h1>안녕하세요! {name && <span>{name}님</span>}</h1>
           <h1>더 나은 세상을 만들어봐요</h1>
         </div>
         <a className={styles.infoLink} href="#">

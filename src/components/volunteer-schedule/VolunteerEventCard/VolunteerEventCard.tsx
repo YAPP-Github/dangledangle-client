@@ -78,7 +78,7 @@ export default function VolunteerEventCard({
                 <Profile />
                 <Caption1 color="gray700">
                   {joinNum}/{recruitNum}명
-                  {waitingNum > 0 && `(대기 ${waitingNum}명)`}
+                  {waitingNum > 0 && ` (대기 ${waitingNum}명)`}
                 </Caption1>
               </div>
 
