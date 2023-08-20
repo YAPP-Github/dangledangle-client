@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  COOKIE_ACCESS_TOKEN_KEY,
-  COOKIE_REFRESH_TOKEN_KEY
-} from '@/constants/cookieKeys';
-import cookie from 'js-cookie';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
@@ -16,6 +12,7 @@ import React, {
 } from 'react';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserRole } from '@/constants/user';
+import { removeStore, setStore } from '@/api/instance';
 
 type VolunteerUser = {
   id: string;
@@ -72,14 +69,21 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 const AuthProvider = ({
-  token,
+  initToken,
   children
 }: PropsWithChildren & {
-  token: string | null;
+  initToken: string | null;
 }) => {
+  const [token, setToken] = useState(initToken);
   const [authState, setAuthState] = useState(initialAuthState);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (initToken && token) {
+      setStore(COOKIE_ACCESS_TOKEN_KEY, initToken);
+    }
+  }, [initToken, token]);
 
   useEffect(() => {
     if (token) {
@@ -106,12 +110,12 @@ const AuthProvider = ({
         }));
       }
     }
-  }, [router, pathname]);
+  }, [router, pathname, token]);
 
   const logout = useCallback(() => {
-    cookie.remove(COOKIE_ACCESS_TOKEN_KEY);
-    cookie.remove(COOKIE_REFRESH_TOKEN_KEY);
     setAuthState(initialAuthState);
+    setToken(null);
+    removeStore(COOKIE_ACCESS_TOKEN_KEY);
   }, []);
 
   const { user, dangle_access_token, dangle_id, dangle_role } = authState;

@@ -22,7 +22,11 @@ export default async function HomePage() {
     }
 
     if (role === 'VOLUNTEER') {
-      const { nickName: volunteerName } = await volunteer.get();
+      const { nickName: volunteerName } = await volunteer.get({
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
       name = String(volunteerName);
     }
   } catch (e) {
