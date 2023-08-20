@@ -3,6 +3,7 @@ import {
   useInfiniteQuery
 } from '@tanstack/react-query';
 import {
+  MyVolunteerEvent,
   MypageEvent,
   MypageEventParams,
   getMyVolEvent,
@@ -11,9 +12,9 @@ import {
 
 export default function useMyVolEvent(
   filter?: MypageEventParams,
-  options?: UseInfiniteQueryOptions<MypageEvent>
+  options?: UseInfiniteQueryOptions<MypageEvent<MyVolunteerEvent>>
 ) {
-  return useInfiniteQuery<MypageEvent>(
+  return useInfiniteQuery<MypageEvent<MyVolunteerEvent>>(
     [...queryKey.all, JSON.stringify(filter)],
     ({ pageParam = 0 }) => getMyVolEvent({ ...filter, page: pageParam }),
     {

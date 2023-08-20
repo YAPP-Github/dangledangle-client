@@ -1,4 +1,8 @@
-import { MypageEvent } from '@/api/mypage/event/event';
+import {
+  MyShelterEvent,
+  MyVolunteerEvent,
+  MypageEvent
+} from '@/api/mypage/event/event';
 import ChipInput, { ChipOption } from '@/components/common/ChipInput/ChipInput';
 import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
@@ -9,7 +13,7 @@ import * as styles from './EventHistory.css';
 import { ShelterFilter, VolunteerFilter } from './hooks/useEventFilter';
 
 interface EventHistoryProps {
-  data: InfiniteData<MypageEvent>;
+  data: InfiniteData<MypageEvent<MyShelterEvent | MyVolunteerEvent>>;
   isLoading: boolean;
   isVolunteer: boolean;
   shelterFilter: Record<string, VolunteerFilter | ShelterFilter>;
