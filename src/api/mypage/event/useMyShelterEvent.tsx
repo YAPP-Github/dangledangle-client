@@ -3,6 +3,7 @@ import {
   useInfiniteQuery
 } from '@tanstack/react-query';
 import {
+  MyShelterEvent,
   MypageEvent,
   MypageEventParams,
   getMyShelterEvent,
@@ -11,9 +12,9 @@ import {
 
 export default function useMyShelterEvent(
   filter?: MypageEventParams,
-  options?: UseInfiniteQueryOptions<MypageEvent>
+  options?: UseInfiniteQueryOptions<MypageEvent<MyShelterEvent>>
 ) {
-  return useInfiniteQuery<MypageEvent>(
+  return useInfiniteQuery<MypageEvent<MyShelterEvent>>(
     [...queryKey.all, JSON.stringify(filter)],
     ({ pageParam = 0 }) => getMyShelterEvent({ ...filter, page: pageParam }),
     {
