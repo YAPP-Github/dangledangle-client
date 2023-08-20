@@ -9,9 +9,9 @@ import font from '@/styles/font';
 import '@/styles/global.css';
 import * as styles from './layout.css';
 import Footer from '@/components/common/Footer/Footer';
-import { cookies } from 'next/headers';
-import { store, setStore } from '@/api/instance';
 import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
+import { cookies } from 'next/headers';
+import { setStore } from '@/api/instance';
 
 export const metadata = {
   metadataBase: new URL('https://dangledangle.vercel.app'),
@@ -37,18 +37,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  cookies()
-    .getAll()
-    .forEach(({ name, value }) => {
-      setStore(name, value);
-    });
+  const initToken = cookies().get(COOKIE_ACCESS_TOKEN_KEY)?.value || '';
 
   return (
     <html lang="ko" className={font.className}>
       <body className={styles.container}>
         <RecoilRootWrapper>
           <QueryProvider>
-            <AuthProvider token={store[COOKIE_ACCESS_TOKEN_KEY]}>
+            <AuthProvider initToken={initToken}>
               <div id={PORTAL_ELEMENT_ID.modal} />
               <GlobalComponents />
               <ServerSideHeader />

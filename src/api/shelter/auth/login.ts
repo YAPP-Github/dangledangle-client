@@ -6,12 +6,10 @@ export interface LoginPayload {
   password: string;
 }
 
-export type LoginResponse =
-  | {
-      accessToken: string;
-      refreshToken: string;
-    }
-  | ApiErrorResponse;
+export type LoginResponse = {
+  accessToken: string;
+  refreshToken: string;
+};
 
 export const loginShelter = async (data: LoginPayload) => {
   const response = await api

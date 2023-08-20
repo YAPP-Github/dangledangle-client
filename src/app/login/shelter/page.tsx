@@ -44,9 +44,8 @@ export default function ShelterLogin() {
         const redirectTo = `${location.origin}${decodeURIComponent(
           redirectPath
         )}`;
-
         await mutateAsync(data);
-        router.push(redirectTo);
+        location.href = redirectTo;
       } catch (e) {
         toastOn('로그인에 실패했습니다.');
         setError(

@@ -7,7 +7,7 @@ import {
 } from '@/utils/ky/hooks/afterResponse';
 
 /**
- * cookie에 있는 authroitoken 저장하는 공간,
+ * client 사이드에서 httponly 쿠키 사용이 불가능하므로 객체에 저장
  * beforeRequest 훅에서 여기 있는 store를 꺼내서 헤더에 넣어준다.
  */
 export const store: { [key in string]: string } = {};
@@ -15,6 +15,7 @@ export const store: { [key in string]: string } = {};
 export const setStore = (key: string, value: string) => {
   store[key] = value;
 };
+export const removeStore = (key: string) => {};
 
 const api = ky.extend({
   prefixUrl: process.env.NEXT_PUBLIC_API_ENDPOINT,
