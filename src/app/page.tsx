@@ -35,6 +35,7 @@ export default async function HomePage() {
     <>
       <Banner name={name} shelterId={shelterId} />
       <UpcommingScheduleSection />
+      <hr style={{ marginTop: '8px' }} />
       <CalendarSection />
     </>
   );

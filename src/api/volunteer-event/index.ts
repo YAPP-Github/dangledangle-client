@@ -4,6 +4,7 @@ import {
 } from '@/constants/volunteerEvent';
 import api from '../instance';
 import { EventStatus, HomeVolunteerEvent } from '@/types/volunteerEvent';
+import { queryKey as ShelterVolunteerEventQueryKey } from '../shelter/volunteer-event';
 
 export type HomeEventFilter = {
   category?: 'all' | VolunteerEventCategory;
@@ -15,7 +16,7 @@ export type HomeEventFilter = {
 };
 
 export const queryKey = {
-  all: 'all-volunteer-event' as const,
+  all: [ShelterVolunteerEventQueryKey.all, 'all'] as const,
   list: (filter: Omit<HomeEventFilter, 'longitude' | 'latitude'>) => [
     queryKey.all,
     filter

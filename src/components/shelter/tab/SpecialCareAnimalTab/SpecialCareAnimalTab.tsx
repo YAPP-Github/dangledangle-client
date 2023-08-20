@@ -1,7 +1,7 @@
 'use client';
 import AnimalCard from '@/components/shelter-edit/AnimalCard/AnimalCard';
 import * as styles from './SpecialCareAnimalTab.css';
-import { Body2, H4 } from '@/components/common/Typography';
+import { Body3, H4 } from '@/components/common/Typography';
 import useObservationAnimalListAtHome from '@/api/shelter/{shelterId}/useObservationAnimalList';
 
 interface SpecialCareAnimalTabProps {
@@ -24,7 +24,7 @@ export default function SpecialCareAnimalTab({
             </div>
           ))
         ) : (
-          <Body2>특별케어 동물 정보가 없어요😅</Body2>
+          <Body3 color="gray600">특별케어 동물 정보가 없어요😅</Body3>
         )}
       </section>
     </>

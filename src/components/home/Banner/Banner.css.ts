@@ -36,6 +36,5 @@ export const myShelterHomeButton = style({
   borderRadius: '50px',
   boxSizing: 'border-box',
   backgroundColor: palette.gray700,
-  color: palette.white,
   cursor: 'pointer'
 });
