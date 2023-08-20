@@ -134,6 +134,17 @@ globalStyle(`${calendar} .react-calendar__tile:enabled:hover::before`, {
   background: palette.primary50
 });
 
+globalStyle(`${calendar} .react-calendar__month-view__days__day--weekend`, {
+  color: palette.error
+});
+
+globalStyle(
+  `${calendar} .react-calendar__month-view__days__day--neighboringMonth`,
+  {
+    color: palette.gray200
+  }
+);
+
 // 오늘 날짜
 globalStyle(`${calendar} .react-calendar__tile--now `, {
   color: palette.white
@@ -149,14 +160,3 @@ globalStyle(`${calendar} .react-calendar__tile--active:enabled:focus`, {
 globalStyle(`${calendar} .react-calendar__tile:enabled:focus::before`, {
   background: palette.gray200
 });
-
-globalStyle(`${calendar} .react-calendar__month-view__days__day--weekend`, {
-  color: palette.error
-});
-
-globalStyle(
-  `${calendar} .react-calendar__month-view__days__day--neighboringMonth`,
-  {
-    color: palette.gray200
-  }
-);
