@@ -1,7 +1,7 @@
 import api from '../instance';
 
 export const queryKey = {
-  all: ['mypage-info'] as const
+  all: ['volunteer-event', 'mypage-info'] as const
 };
 
 export interface MyVolInfo {

@@ -15,7 +15,8 @@ export type GetListParams = {
 
 export const queryKey = {
   all: ['volunteer-event'] as const,
-  list: (shelterId: number) => [...queryKey.all, shelterId, 'list']
+  list: (shelterId: number) => [...queryKey.all, shelterId, 'list'],
+  detail: (eventId: number) => [...queryKey.all, eventId]
 };
 
 export const getList = async ({

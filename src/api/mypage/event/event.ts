@@ -3,7 +3,7 @@ import { ShelterStatus, MyStatus } from '@/constants/volunteerEvent';
 import { parsingFilter } from '@/utils/parsingFilter';
 
 export const queryKey = {
-  all: ['mypage-event'] as const
+  all: ['volunteer-event', 'admin'] as const
 };
 
 export interface MypageEvent {

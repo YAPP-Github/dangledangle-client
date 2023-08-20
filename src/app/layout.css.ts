@@ -21,7 +21,7 @@ export const main = style({
   minHeight: `calc(100vh - ${FOOTER_HEIGHT}px - ${HEADER_HEIGHT}px)`,
 
   selectors: {
-    '&:has(.sticky)': {
+    '&:has(.sticky), &:has(.admin-sticky)': {
       overflow: 'unset'
     }
   }

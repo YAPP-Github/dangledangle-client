@@ -3,8 +3,8 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query';
-import { queryKey } from '../admin/volunteer-event';
 import { VolEventJoin, participate } from './volunteer-event';
+import { queryKey } from '../volunteer-event';
 
 export type PostVolEventParticipateParams = {
   shelterId: number;
@@ -23,10 +23,10 @@ export default function useParticipateVolEvent(
       participate(shelterId, volunteerEventId),
     {
       onSuccess: (data, variables, context) => {
-        options?.onSuccess && options.onSuccess(data, variables, context);
-        return queryClient.invalidateQueries(
-          queryKey.detail(variables.volunteerEventId)
-        );
+        return queryClient.invalidateQueries({
+          queryKey: queryKey.all,
+          refetchType: 'all'
+        });
       },
       ...options
     }
