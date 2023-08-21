@@ -1,17 +1,15 @@
 import { useAuthContext } from '@/providers/AuthContext';
 import { useMutation } from '@tanstack/react-query';
 import useToast from '@/hooks/useToast';
-import ky from 'ky';
+import { fe } from '../instance';
 
 export default function useLogout() {
   const { logout: clientLogout } = useAuthContext();
   const toastOn = useToast();
 
   const logoutAPI = async () => {
-    const response = await ky
-      .get('auth/logout', {
-        prefixUrl: process?.env.NEXT_PUBLIC_FRONT_ENDPOINT
-      })
+    const response = await fe
+      .get('auth/logout')
       .then(res => res.json<string>());
     return response;
   };

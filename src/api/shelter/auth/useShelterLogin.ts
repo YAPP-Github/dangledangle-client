@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginPayload } from './login';
-import ky from 'ky';
 import { ApiErrorResponse } from '@/types/apiTypes';
+import { fe } from '@/api/instance';
 
 export const shelterAuthKey = {
   all: ['shelterAuth'] as const
@@ -12,10 +12,9 @@ export type ShelterLoginResponse = {
 };
 
 const shelterLoginAPI = async (data: LoginPayload) => {
-  const response = await ky
+  const response = await fe
     .post(`auth/shelter/login`, {
-      json: data,
-      prefixUrl: process.env.NEXT_PUBLIC_FRONT_ENDPOINT
+      json: data
     })
     .then(res => res.json<ShelterLoginResponse>());
 
