@@ -11,7 +11,6 @@ import * as styles from './layout.css';
 import Footer from '@/components/common/Footer/Footer';
 import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 import { cookies } from 'next/headers';
-import { setStore } from '@/api/instance';
 
 export const metadata = {
   metadataBase: new URL('https://dangledangle.vercel.app'),

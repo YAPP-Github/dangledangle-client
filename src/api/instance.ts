@@ -25,7 +25,7 @@ const api = ky.extend({
   hooks: {
     beforeRequest: [setAuthorizationHeader(process)],
     afterResponse: [
-      retryRequestOnUnauthorized,
+      retryRequestOnUnauthorized(process),
       throwServerErrorMessage,
       deleteClientCokiesPath
     ]
