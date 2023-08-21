@@ -6,7 +6,6 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  console.log('logout');
   const cookies = req.cookies;
   const redirectPath = cookies.get('redirectUrl')?.value || '/';
   const redirectTo = `${req.nextUrl.origin}${decodeURIComponent(redirectPath)}`;

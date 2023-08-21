@@ -79,11 +79,7 @@ const AuthProvider = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (initToken && token) {
-      setStore(COOKIE_ACCESS_TOKEN_KEY, initToken);
-    }
-  }, [initToken, token]);
+  initToken && setStore(COOKIE_ACCESS_TOKEN_KEY, initToken);
 
   useEffect(() => {
     if (token) {
