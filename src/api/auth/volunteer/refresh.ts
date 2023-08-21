@@ -1,5 +1,4 @@
-import api from '@/api/instance';
-import ky from 'ky';
+import api, { fe } from '@/api/instance';
 
 export type LoginResponse = {
   accessToken: string;
@@ -17,15 +16,11 @@ export const fetchRefresh = async (data: LoginResponse) => {
 };
 
 export const getRefresh = async () => {
-  const response = await ky
-    .get(`auth/token/refresh`, {
-      prefixUrl: process.env.NEXT_PUBLIC_FRONT_ENDPOINT
-    })
-    .then(res =>
-      res.json<{
-        success: boolean;
-      }>()
-    );
+  const response = await fe.get(`auth/token/refresh`).then(res =>
+    res.json<{
+      success: boolean;
+    }>()
+  );
 
   return response;
 };

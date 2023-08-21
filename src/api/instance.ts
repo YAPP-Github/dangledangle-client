@@ -32,4 +32,8 @@ const api = ky.extend({
   }
 });
 
+export const fe = ky.extend({
+  prefixUrl: process.env.NEXT_PUBLIC_FRONT_ENDPOINT
+});
+
 export default api;
