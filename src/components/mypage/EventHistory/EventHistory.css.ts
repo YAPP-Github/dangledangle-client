@@ -3,6 +3,8 @@ import { palette } from '@/styles/color';
 import { GLOBAL_PADDING_X } from '@/styles/global.css';
 import { style } from '@vanilla-extract/css';
 
+export const CHIP_HEIGHT = 42;
+
 export const eventContianer = style({
   width: '100%',
   transform: `translateX(-${GLOBAL_PADDING_X}px)`,
@@ -11,7 +13,8 @@ export const eventContianer = style({
   padding: '20px 20px 20px 20px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '20px'
+  gap: '20px',
+  minHeight: `calc(100vh - ${HEADER_HEIGHT + CHIP_HEIGHT}px)`
 });
 
 export const chipContainer = style({

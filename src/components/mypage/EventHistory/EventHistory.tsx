@@ -8,6 +8,7 @@ import { InfiniteData } from '@tanstack/react-query';
 import * as styles from './EventHistory.css';
 import { ShelterFilter, VolunteerFilter } from './hooks/useEventFilter';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 
 interface EventHistoryProps {
   data: InfiniteData<MypageEvent>;
@@ -26,6 +27,15 @@ export default function EventHistory({
   options,
   onChange
 }: EventHistoryProps) {
+  const eventsHistory = useMemo(() => {
+    const pages = data?.pages;
+    return pages
+      ?.flatMap(page => page.content)
+      .sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      );
+  }, [data?.pages]);
+
   return (
     <div className={styles.eventContianer}>
       <div className={clsx([styles.chipContainer, 'admin-sticky'])}>
@@ -38,15 +48,9 @@ export default function EventHistory({
       </div>
 
       {data && !isLoading ? (
-        data.pages.flatMap(page =>
-          page.content.map(event => (
-            <MyPageCard
-              key={uuidv4()}
-              event={event}
-              isVolunteer={isVolunteer}
-            />
-          ))
-        )
+        eventsHistory.map(event => (
+          <MyPageCard key={uuidv4()} event={event} isVolunteer={isVolunteer} />
+        ))
       ) : (
         <DeferredComponent>
           <SkeletonList />

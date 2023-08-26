@@ -29,14 +29,19 @@ export const underBarContainer = style({
   overflow: 'hidden'
 });
 
+export const underBarText = style({
+  zIndex: 10,
+  position: 'relative'
+});
+
 export const underBar = style({
   width: '100%',
   height: '10px',
   position: 'absolute',
-  zIndex: -1,
   bottom: '2px',
+  zIndex: 1,
   left: 0,
-  backgroundColor: palette.primary200,
+  backgroundColor: palette.primary300,
   transform: 'translateX(100%)',
   animation: `${underbarAnimation} 1s ease`,
   animationDelay: '0.3s',

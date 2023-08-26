@@ -22,7 +22,7 @@ export const Line = ({ children }: { children: ReactNode }) => (
 
 export const E = ({ children }: { children: string }) => (
   <div className={clsx([style.underBarContainer, variants.h2])}>
-    {children}
+    <span className={style.underBarText}>{children}</span>
     <span className={clsx([style.underBar])} />
   </div>
 );
