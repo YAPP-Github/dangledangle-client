@@ -50,7 +50,7 @@ export const textFieldUnderbar = recipe({
   variants: {
     status: {
       active: {
-        borderColor: palette.gray900
+        borderColor: palette.gray300
       },
       default: {
         borderColor: palette.gray300,
