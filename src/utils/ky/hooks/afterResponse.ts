@@ -4,6 +4,7 @@ import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 import { getRefresh } from '@/api/auth/volunteer/refresh';
 import { ApiErrorResponse } from '@/types/apiTypes';
 import { ExceptionCode } from '@/constants/exceptionCode';
+import { runtimeCheck } from '@/utils/runtimeCheck';
 
 type AfterResponseHookWithProcess = (
   process: NodeJS.Process
@@ -11,13 +12,8 @@ type AfterResponseHookWithProcess = (
 
 export const retryRequestOnUnauthorized: AfterResponseHookWithProcess =
   process => async (request, options, response) => {
-    console.log('ky에서 에러를잡자', response);
-    if (
-      !(process.env?.NEXT_RUNTIME === 'nodejs') &&
-      !(process.env?.NEXT_RUNTIME === 'edge')
-    ) {
+    if (runtimeCheck() === 'browser') {
       const data = await response.json();
-      console.log(data, 'data');
       if (data.exceptionCode === ExceptionCode.UNAUTHENTICATED) {
         const data = await getRefresh();
         if (data.success === true) {

@@ -32,8 +32,18 @@ const api = ky.extend({
   }
 });
 
+const url = (() => {
+  const branch = process?.env.NEXT_PUBLIC_VERCEL_BRANCH_URL || '';
+
+  if (branch.match(/feat/)) {
+    return `https://${process?.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}/api`;
+  } else {
+    return process?.env.NEXT_PUBLIC_FRONT_ENDPOINT;
+  }
+})();
+
 export const fe = ky.extend({
-  prefixUrl: process.env.NEXT_PUBLIC_FRONT_ENDPOINT
+  prefixUrl: url
 });
 
 export default api;
