@@ -34,26 +34,28 @@ export default function Footer({ backgroundColor = 'default' }: FooterProps) {
 
   return (
     <>
-      <footer
-        style={{
-          backgroundColor: backgroundColor === 'white' ? 'white' : ''
-        }}
-        className={styles.footerWrapper({ visible: visiblity })}
-      >
-        <div>
-          <Daenggle height={22} width={54} />
-        </div>
-        <div className={styles.linkWrapper}>
-          {footerLinks.map(({ href, title }, index) => (
-            <div key={`footer_${index}`}>
-              <a href={href}>
-                <Caption1>{title}</Caption1>
-              </a>
-              {index < footerLinks.length - 1 && <Caption1>•</Caption1>}
-            </div>
-          ))}
-        </div>
-      </footer>
+      {visiblity && (
+        <footer
+          style={{
+            backgroundColor: backgroundColor === 'white' ? 'white' : ''
+          }}
+          className={styles.footerWrapper({ visible: visiblity })}
+        >
+          <div>
+            <Daenggle height={22} width={54} />
+          </div>
+          <div className={styles.linkWrapper}>
+            {footerLinks.map(({ href, title }, index) => (
+              <div key={`footer_${index}`}>
+                <a href={href}>
+                  <Caption1>{title}</Caption1>
+                </a>
+                {index < footerLinks.length - 1 && <Caption1>•</Caption1>}
+              </div>
+            ))}
+          </div>
+        </footer>
+      )}
     </>
   );
 }
