@@ -13,6 +13,7 @@ import { palette } from '@/styles/color';
 import uuidv4 from '@/utils/uuidv4';
 import clsx from 'clsx';
 import * as styles from './styles.css';
+import { useMemo } from 'react';
 
 export default function MyShelterEventPage({
   dangle_role
@@ -55,6 +56,15 @@ export default function MyShelterEventPage({
     }
   ];
 
+  const eventsHistory = useMemo(() => {
+    const pages = data?.pages;
+    return pages
+      ?.flatMap(page => page.content)
+      .sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      );
+  }, [data?.pages]);
+
   return (
     <div className={styles.eventContianer}>
       <div className={clsx([styles.chipContainer, 'admin-sticky'])}>
@@ -67,11 +77,9 @@ export default function MyShelterEventPage({
       </div>
 
       {data && !isLoading ? (
-        data.pages.flatMap(page =>
-          page.content.map(event => (
-            <MyPageCard key={uuidv4()} event={event} isVolunteer={false} />
-          ))
-        )
+        eventsHistory?.map(event => (
+          <MyPageCard key={uuidv4()} event={event} isVolunteer={false} />
+        ))
       ) : (
         <DeferredComponent>
           <SkeletonList />
