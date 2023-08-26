@@ -66,10 +66,11 @@ export const noti = style({
   padding: '4px 20px 16px 20px'
 });
 export const divider = style({
-  width: '100%',
+  width: `calc(100% - 2 * ${GLOBAL_PADDING_X}px)`,
+  marginLeft: GLOBAL_PADDING_X,
   backgroundColor: palette.gray200,
   height: '1px',
-  margin: '8 0 8 0'
+  margin: '8 0'
 });
 export const loginContainer = style({
   backgroundColor: palette.white

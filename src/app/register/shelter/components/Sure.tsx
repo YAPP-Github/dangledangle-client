@@ -9,12 +9,18 @@ import { Body3, Body4, H4 } from '@/components/common/Typography';
 import { useState } from 'react';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 export default function Sure({ onNext }: OnNextProps) {
   const [checked, setChecked] = useState(false);
   return (
     <>
-      <div className={styles.titleWrapper} style={{ marginBottom: '63px' }}>
+      <div
+        className={styles.titleWrapper}
+        style={assignInlineVars({
+          [styles.titleMarginBottom]: '63px'
+        })}
+      >
         <EmphasizedTitle>
           <Line>
             <E>보호소 파트너</E>로
@@ -44,9 +50,9 @@ export default function Sure({ onNext }: OnNextProps) {
         <H4>주의해주세요.</H4>
       </div>
 
-      <div className={styles.content} style={{ marginBottom: '116px' }}>
+      <div className={styles.content} style={{ marginBottom: '98px' }}>
         <div style={{ padding: '16px' }}>
-          <Body3>OO운영자가 확인했을 때 시보호소/민간 보호소</Body3>
+          <Body3>운영자가 확인했을 때 시보호소/민간 보호소</Body3>
           <Body3>관계자가 아닌, 개인 구조자, 분양 홍보자 등일 경우</Body3>
           <div style={{ display: 'flex' }}>
             <Body3>임의로 해당&nbsp;</Body3>
@@ -65,7 +71,7 @@ export default function Sure({ onNext }: OnNextProps) {
       <Button
         onClick={onNext}
         disabled={!checked}
-        style={{ marginTop: '22px' }}
+        style={{ marginTop: '22px', marginBottom: '32px' }}
       >
         다음
       </Button>
