@@ -3,6 +3,8 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
+import { getCookieConfig } from '@/utils/token/cookieConfig';
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -25,14 +27,10 @@ export async function POST(req: NextRequest) {
       status: 200
     });
 
-    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
-      sameSite: 'strict',
-      httpOnly: true
-    });
-    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
-      sameSite: 'strict',
-      httpOnly: true
-    });
+    const cookieConfig = getCookieConfig(req);
+
+    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, cookieConfig);
+    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, cookieConfig);
     return res;
   } catch (e) {
     const err = e as Error;

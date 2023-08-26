@@ -3,6 +3,7 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
+import { getCookieConfig } from '@/utils/token/cookieConfig';
 import { NextRequest, NextResponse } from 'next/server';
 
 export default async function GET(req: NextRequest) {
@@ -27,15 +28,11 @@ export default async function GET(req: NextRequest) {
       accessToken,
       refreshToken
     });
+    const cookieConfig = getCookieConfig(req);
 
-    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
-      sameSite: 'strict',
-      httpOnly: true
-    });
-    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
-      sameSite: 'strict',
-      httpOnly: true
-    });
+    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, cookieConfig);
+    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, cookieConfig);
+
     return res;
   } catch (e) {
     const err = e as Error;
