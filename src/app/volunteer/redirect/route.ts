@@ -46,7 +46,9 @@ export async function GET(req: NextRequest) {
     const cookieStore = cookies();
     const redirectPath = cookieStore.get(COOKIE_REDIRECT_URL)?.value || '/';
     const redirectTo = `${originUrl}${decodeURIComponent(redirectPath)}`;
-    const res = NextResponse.redirect(redirectTo);
+    const res = NextResponse.redirect(redirectTo, {
+      status: 308
+    });
 
     res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
       sameSite: 'strict',
