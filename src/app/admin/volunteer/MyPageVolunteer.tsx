@@ -4,7 +4,6 @@ import { MyVolInfo } from '@/api/mypage/mypage';
 import useMyInfo from '@/api/mypage/useMyInfo';
 import useUpdateVolInfo from '@/api/mypage/useUpdateVolInfo';
 import Button from '@/components/common/Button/Button';
-import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { isShelterInfo } from '@/components/mypage/MyPageMain/MyPageMain';
 import useHeader from '@/hooks/useHeader';
@@ -14,9 +13,9 @@ import yup from '@/utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/navigation';
-
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import * as styles from './styles.css';
 
 interface UpdateMyVolInfo extends Pick<MyVolInfo, 'nickName' | 'phoneNumber'> {}
 
@@ -116,34 +115,29 @@ export default function MyPageVolunteer({
   };
 
   return (
-    <FormProvider methods={method} onSubmit={handleSubmit(onVaild)}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '40px',
-          paddingTop: '24px'
-        }}
-      >
-        <TextField
-          label="닉네임"
-          {...register('nickName')}
-          error={errors.nickName}
-        />
-        <TextField
-          label="연락처"
-          {...register('phoneNumber', { onChange: handlePhoneNumberChange })}
-          error={errors.phoneNumber}
-        />
-      </div>
+    <>
+      <form onSubmit={handleSubmit(onVaild)}>
+        <div className={styles.wrapper}>
+          <TextField
+            label="닉네임"
+            {...register('nickName')}
+            error={errors.nickName}
+          />
+          <TextField
+            label="연락처"
+            {...register('phoneNumber', { onChange: handlePhoneNumberChange })}
+            error={errors.phoneNumber}
+          />
+        </div>
 
-      <Button
-        disabled={!isDirty || !isEmpty(errors)}
-        style={{ marginTop: '239px' }}
-        type="submit"
-      >
-        수정하기
-      </Button>
-    </FormProvider>
+        <Button
+          disabled={!isDirty || !isEmpty(errors)}
+          style={{ marginTop: '239px' }}
+          type="submit"
+        >
+          수정하기
+        </Button>
+      </form>
+    </>
   );
 }
