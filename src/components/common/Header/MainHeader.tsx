@@ -8,7 +8,7 @@ import { palette } from '@/styles/color';
 import { UserRole } from '@/constants/user';
 import useObserver from '@/hooks/useObserver';
 import { DOM_ID_BANNER } from '@/constants/dom';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAuthContext } from '@/providers/AuthContext';
 
 interface MainHeaderProps {
@@ -18,7 +18,8 @@ interface MainHeaderProps {
 
 export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
   const router = useRouter();
-  const { dangle_role: role } = useAuthContext();
+  const [role, setRole] = useState(initRole);
+  const { dangle_role } = useAuthContext();
   const refresh = () => {
     router.refresh();
   };
@@ -44,6 +45,12 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
       ? '보호소 파트너'
       : '로그인/회원가입';
   }, [initRole, role]);
+
+  useEffect(() => {
+    if (initRole !== role) {
+      setRole(dangle_role);
+    }
+  }, [initRole, role, dangle_role]);
 
   const { toggle } = useObserver(DOM_ID_BANNER);
 

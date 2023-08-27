@@ -32,6 +32,7 @@ interface ScheduleCardProps {
   joinNum?: number;
   participantNum?: number;
   waitingNum: number;
+  volunteerEventId: number;
 }
 
 export default function ScheduleCard({
@@ -45,11 +46,12 @@ export default function ScheduleCard({
   recruitNum,
   joinNum,
   participantNum,
-  waitingNum
+  waitingNum,
+  volunteerEventId
 }: ScheduleCardProps) {
   const router = useRouter();
   const moveTo = () => {
-    router.push(`/shelter/${shelterId}`);
+    router.push(`/shelter/${shelterId}/event/${volunteerEventId}`);
   };
   const eventDay = `${formatKoDate(startAt)} ${getLocaleWeekday(startAt)}`;
   const duringTime = `${pmamConvert(startAt)} - ${pmamConvert(

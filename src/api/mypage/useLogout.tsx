@@ -1,32 +1,24 @@
-import { initialAuthState, useAuthContext } from '@/providers/AuthContext';
+import { useAuthContext } from '@/providers/AuthContext';
 import { useMutation } from '@tanstack/react-query';
-import { logout } from './mypage';
-import Cookies from 'js-cookie';
-import {
-  COOKIE_ACCESS_TOKEN_KEY,
-  COOKIE_REFRESH_TOKEN_KEY
-} from '@/constants/cookieKeys';
-import { useRouter } from 'next/navigation';
 import useToast from '@/hooks/useToast';
+import { fe } from '../instance';
 
 export default function useLogout() {
-  const { setAuthState } = useAuthContext();
-  const router = useRouter();
+  const { logout: clientLogout } = useAuthContext();
   const toastOn = useToast();
 
-  return useMutation<string, Error>(logout, {
-    onSuccess: response => {
-      if (Cookies.get(COOKIE_ACCESS_TOKEN_KEY)) {
-        setAuthState(initialAuthState); // AuthContext info delete
-        // client cookies delete
-        Cookies.remove(COOKIE_ACCESS_TOKEN_KEY);
-        Cookies.remove(COOKIE_REFRESH_TOKEN_KEY);
+  const logoutAPI = async () => {
+    const response = await fe
+      .get('auth/logout')
+      .then(res => res.json<string>());
+    return response;
+  };
 
-        router.push('/login');
-        toastOn('로그아웃이 완료되었습니다.');
-      } else {
-        console.error(response);
-      }
+  return useMutation<string, Error>(logoutAPI, {
+    onSuccess: response => {
+      clientLogout();
+      location.href = '/login';
+      toastOn('로그아웃이 완료되었습니다.');
     },
     onError: error => {
       console.error('Logout error:', error);

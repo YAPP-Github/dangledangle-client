@@ -12,7 +12,6 @@ export default function useMyInfo(
   options?: UseQueryOptions<MyVolInfo | MyShelterInfo>
 ) {
   const fetchData = async () => {
-    console.log(role);
     if (role === 'SHELTER') {
       return await getShelterInfo();
     } else {
@@ -21,6 +20,9 @@ export default function useMyInfo(
   };
 
   return useQuery<MyVolInfo | MyShelterInfo>(queryKey.all, fetchData, {
-    ...options
+    ...options,
+    onError(err) {
+      console.log(err);
+    }
   });
 }

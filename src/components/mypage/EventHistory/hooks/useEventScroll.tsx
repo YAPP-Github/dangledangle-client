@@ -1,4 +1,8 @@
-import { MypageEvent } from '@/api/mypage/event/event';
+import {
+  MyShelterEvent,
+  MyVolunteerEvent,
+  MypageEvent
+} from '@/api/mypage/event/event';
 import { useScroll } from '@/hooks/useScroll';
 import {
   FetchNextPageOptions,
@@ -12,7 +16,12 @@ interface useEventScrollProps {
   hasNextPage: boolean | undefined;
   fetchNextPage: (
     options?: FetchNextPageOptions | undefined
-  ) => Promise<InfiniteQueryObserverResult<MypageEvent, unknown>>;
+  ) => Promise<
+    InfiniteQueryObserverResult<
+      MypageEvent<MyShelterEvent | MyVolunteerEvent>,
+      unknown
+    >
+  >;
   shelterFilter: Record<string, VolunteerFilter | ShelterFilter>;
 }
 

@@ -21,13 +21,16 @@ export default async function HomePage() {
       shelterId = String(dangle_id);
     }
 
-    //TODO : 봉사자 정보 요청에는 권한 필요, 서버쪽에서 어떻게 권한처리 할것인지?
-    // if (role === 'VOLUNTEER') {
-    //   const { nickName: volunteerName } = await volunteer.get();
-    //   console.log(volunteerName);
-    //   name = String(volunteerName);
-    // }
+    if (role === 'VOLUNTEER') {
+      const { nickName: volunteerName } = await volunteer.get({
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      name = String(volunteerName);
+    }
   } catch (e) {
+    console.log('home page error');
     console.log(e);
   }
 

@@ -1,3 +1,4 @@
+import { Options } from 'ky';
 import api from '../instance';
 
 export const queryKey = {
@@ -58,8 +59,10 @@ export const getShelterInfo = async () => {
   return response;
 };
 
-export const logout = async () => {
-  const response = await api.get(`auth/logout`).then(res => res.json<string>());
+export const logout = async (options?: Options) => {
+  const response = await api
+    .get(`auth/logout`, options)
+    .then(res => res.json<string>());
   return response;
 };
 

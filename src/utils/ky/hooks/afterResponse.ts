@@ -1,47 +1,30 @@
 import ky, { AfterResponseHook } from 'ky';
 import Cookies from 'js-cookie';
-import {
-  COOKIE_ACCESS_TOKEN_KEY,
-  COOKIE_REDIRECT_URL,
-  COOKIE_REFRESH_TOKEN_KEY
-} from '@/constants/cookieKeys';
-import { fetchRefresh } from '@/api/auth/volunteer/refresh';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
+import { getRefresh } from '@/api/auth/volunteer/refresh';
 import { ApiErrorResponse } from '@/types/apiTypes';
 import { ExceptionCode } from '@/constants/exceptionCode';
+import { runtimeCheck } from '@/utils/runtimeCheck';
 
-export const retryRequestOnUnauthorized: AfterResponseHook = async (
-  request,
-  options,
-  response
-) => {
-  const data = await response.json();
+type AfterResponseHookWithProcess = (
+  process: NodeJS.Process
+) => AfterResponseHook;
 
-  if (data.exceptionCode === ExceptionCode.UNAUTHENTICATED) {
-    const accessToken = Cookies.get(COOKIE_ACCESS_TOKEN_KEY);
-    const refreshToken = Cookies.get(COOKIE_REFRESH_TOKEN_KEY);
-
-    if (!accessToken || !refreshToken) {
-      throw new Error('Access token or refresh token is missing');
+export const retryRequestOnUnauthorized: AfterResponseHookWithProcess =
+  process => async (request, options, response) => {
+    if (runtimeCheck() === 'browser') {
+      const data = await response.json();
+      if (data.exceptionCode === ExceptionCode.UNAUTHENTICATED) {
+        const data = await getRefresh();
+        if (data.success === true) {
+          return ky(request, options);
+        } else {
+          window.location.href = '/login';
+          return;
+        }
+      }
     }
-
-    const payload = {
-      accessToken,
-      refreshToken
-    };
-
-    Cookies.remove(COOKIE_ACCESS_TOKEN_KEY);
-    Cookies.remove(COOKIE_REFRESH_TOKEN_KEY);
-    const data = await fetchRefresh(payload);
-
-    const newAccessToken = data.accessToken;
-    const newRefreshToken = data.refreshToken;
-
-    Cookies.set(COOKIE_ACCESS_TOKEN_KEY, newAccessToken);
-    Cookies.set(COOKIE_REFRESH_TOKEN_KEY, newRefreshToken);
-
-    return ky(request, options);
-  }
-};
+  };
 
 /** api 요청 과정에서 에러 발생시
  *  ky 에러가 아닌 서버에서 전달받은 에러 throw
