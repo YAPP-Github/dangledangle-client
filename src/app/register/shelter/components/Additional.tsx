@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { OnNextProps } from '../page';
 import * as styles from '../styles.css';
 import { Register_1, Register_2, Register_3, Register_4 } from '@/asset/icons';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 export default function Additional({ onNext }: OnNextProps) {
   const router = useRouter();
@@ -18,13 +19,18 @@ export default function Additional({ onNext }: OnNextProps) {
 
   return (
     <>
-      <div className={styles.titleWrapper} style={{ marginBottom: '54px' }}>
+      <div
+        className={styles.titleWrapper}
+        style={assignInlineVars({
+          [styles.titleMarginBottom]: '54px'
+        })}
+      >
         <EmphasizedTitle>
           <Line>잠깐!🤚 추가 정보 입력하면</Line>
           <Line>
             다음과 같은 <E>추가 기능</E>들을
           </Line>
-          <Line>무료로 이용하실 수 있어요</Line>
+          <Line>무료로 이용하실 수 있어요🤩</Line>
         </EmphasizedTitle>
       </div>
 

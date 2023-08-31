@@ -1,11 +1,9 @@
 import { palette } from '@/styles/color';
 import { BREAK_POINT, GLOBAL_PADDING_X } from '@/styles/global.css';
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 
-export const wrapper = style({
-  width: `calc(100% + 2 * ${GLOBAL_PADDING_X}px)`,
-  transform: `translateX(-${GLOBAL_PADDING_X}px)`
-});
+export const space = createVar('space');
+
 export const container = style({
   padding: '20px 20px 32px 20px'
 });
@@ -40,16 +38,14 @@ export const stroke = style({
   width: '1px',
   height: '60px',
   backgroundColor: palette.gray200,
-  margin: '0 22px 0 22px'
+  margin: `0 ${space} 0 ${space}`
 });
 
 export const settingSection = style({
   display: 'border-box',
   width: `100%`,
   maxWidth: BREAK_POINT,
-  marginLeft: `-${GLOBAL_PADDING_X}px`,
-  backgroundColor: palette.white,
-  margin: '8px 0 0 0'
+  backgroundColor: palette.white
 });
 
 export const accountTxt = style({
@@ -71,10 +67,11 @@ export const noti = style({
   padding: '4px 20px 16px 20px'
 });
 export const divider = style({
-  width: '100%',
+  width: `calc(100% - 2 * ${GLOBAL_PADDING_X}px)`,
+  marginLeft: GLOBAL_PADDING_X,
   backgroundColor: palette.gray200,
   height: '1px',
-  margin: '8 0 8 0'
+  margin: '8 0'
 });
 export const loginContainer = style({
   backgroundColor: palette.white

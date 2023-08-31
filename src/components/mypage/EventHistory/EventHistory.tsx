@@ -1,4 +1,8 @@
-import { MypageEvent } from '@/api/mypage/event/event';
+import {
+  MyShelterEvent,
+  MyVolunteerEvent,
+  MypageEvent
+} from '@/api/mypage/event/event';
 import ChipInput, { ChipOption } from '@/components/common/ChipInput/ChipInput';
 import DeferredComponent from '@/components/common/Skeleton/DeferredComponent';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
@@ -7,9 +11,11 @@ import uuidv4 from '@/utils/uuidv4';
 import { InfiniteData } from '@tanstack/react-query';
 import * as styles from './EventHistory.css';
 import { ShelterFilter, VolunteerFilter } from './hooks/useEventFilter';
+import clsx from 'clsx';
+import { useMemo } from 'react';
 
 interface EventHistoryProps {
-  data: InfiniteData<MypageEvent>;
+  data: InfiniteData<MypageEvent<MyShelterEvent | MyVolunteerEvent>>;
   isLoading: boolean;
   isVolunteer: boolean;
   shelterFilter: Record<string, VolunteerFilter | ShelterFilter>;
@@ -25,9 +31,18 @@ export default function EventHistory({
   options,
   onChange
 }: EventHistoryProps) {
+  const eventsHistory = useMemo(() => {
+    const pages = data?.pages;
+    return pages
+      ?.flatMap(page => page.content)
+      .sort(
+        (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+      );
+  }, [data?.pages]);
+
   return (
     <div className={styles.eventContianer}>
-      <div className={styles.chipContainer}>
+      <div className={clsx([styles.chipContainer, 'admin-sticky'])}>
         <ChipInput
           name="status"
           value={shelterFilter.status}
@@ -37,15 +52,9 @@ export default function EventHistory({
       </div>
 
       {data && !isLoading ? (
-        data.pages.flatMap(page =>
-          page.content.map(event => (
-            <MyPageCard
-              key={uuidv4()}
-              event={event}
-              isVolunteer={isVolunteer}
-            />
-          ))
-        )
+        eventsHistory.map(event => (
+          <MyPageCard key={uuidv4()} event={event} isVolunteer={isVolunteer} />
+        ))
       ) : (
         <DeferredComponent>
           <SkeletonList />

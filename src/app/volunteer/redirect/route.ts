@@ -8,6 +8,7 @@ import {
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { VOLUNTEER_REDIRECT_PATH_REGISTER } from '../../register/volunteer/[...slug]/CurrentComponentTypes';
+import { getCookieConfig } from '@/utils/token/cookieConfig';
 
 export async function GET(req: NextRequest) {
   const query = new URL(req.url).searchParams;
@@ -46,16 +47,17 @@ export async function GET(req: NextRequest) {
     const cookieStore = cookies();
     const redirectPath = cookieStore.get(COOKIE_REDIRECT_URL)?.value || '/';
     const redirectTo = `${originUrl}${decodeURIComponent(redirectPath)}`;
-    const res = NextResponse.redirect(redirectTo);
+    const res = NextResponse.redirect(redirectTo, {
+      status: 308,
+      headers: {
+        locagion: redirectTo
+      }
+    });
+    const cookieConfig = getCookieConfig(req);
 
-    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, {
-      sameSite: 'lax',
-      httpOnly: false
-    });
-    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, {
-      sameSite: 'lax',
-      httpOnly: false
-    });
+    res.cookies.set(COOKIE_ACCESS_TOKEN_KEY, accessToken, cookieConfig);
+    res.cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, cookieConfig);
+
     return res;
   } catch (e) {
     console.error(e);

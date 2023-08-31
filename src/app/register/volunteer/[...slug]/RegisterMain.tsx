@@ -128,6 +128,9 @@ export default function RegisterMain() {
     } catch (e) {
       const { error, formName } = e as RegisterStepError;
 
+      //에러 시 가입 email 정보 삭제
+      Cookies.remove(COOKIE_REGISTER_EMAIL_KEY);
+
       // 이메일중복, 닉네임중복의 경우 exception코드 API-001로 전달받음, 이 경우 로그인 페이지로 이동
       if (error?.exceptionCode === ExceptionCode.UNHANDLED_ERROR) {
         return redirect(
@@ -135,6 +138,16 @@ export default function RegisterMain() {
           '회원가입 과정에서 오류가 발생했습니다.'
         );
       }
+
+      // 이메일 유효 토큰 만료
+      if (error?.exceptionCode === ExceptionCode.UNAUTHORIZED) {
+        return redirect(
+          VOLUNTEER_REDIRECT_PATH_LOGIN,
+          error.message ||
+            '알수없는 오류가 발생했습니다. 회원가입을 다시 진행해주세요.'
+        );
+      }
+
       if (error)
         methods.setError(
           formName,

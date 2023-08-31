@@ -6,7 +6,18 @@ import {
   throwServerErrorMessage
 } from '@/utils/ky/hooks/afterResponse';
 
-const api = ky.create({
+/**
+ * client 사이드에서 httponly 쿠키 사용이 불가능하므로 객체에 저장
+ * beforeRequest 훅에서 여기 있는 store를 꺼내서 헤더에 넣어준다.
+ */
+export const store: { [key in string]: string } = {};
+
+export const setStore = (key: string, value: string) => {
+  store[key] = value;
+};
+export const removeStore = (key: string) => {};
+
+const api = ky.extend({
   prefixUrl: process.env.NEXT_PUBLIC_API_ENDPOINT,
   headers: {
     'Content-Type': 'application/json'
@@ -14,11 +25,25 @@ const api = ky.create({
   hooks: {
     beforeRequest: [setAuthorizationHeader(process)],
     afterResponse: [
-      retryRequestOnUnauthorized,
+      retryRequestOnUnauthorized(process),
       throwServerErrorMessage,
       deleteClientCokiesPath
     ]
   }
+});
+
+const url = (() => {
+  const branch = process?.env.NEXT_PUBLIC_VERCEL_BRANCH_URL || '';
+
+  if (branch.match(/feat/)) {
+    return `https://${process?.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}/api`;
+  } else {
+    return process?.env.NEXT_PUBLIC_FRONT_ENDPOINT;
+  }
+})();
+
+export const fe = ky.extend({
+  prefixUrl: url
 });
 
 export default api;

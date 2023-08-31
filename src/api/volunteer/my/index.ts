@@ -1,4 +1,5 @@
 import api from '@/api/instance';
+import { Options } from 'ky';
 
 export interface VolunteerMyResponse {
   nickName: string;
@@ -11,6 +12,6 @@ export interface VolunteerMyResponse {
   alarm: boolean;
 }
 
-export const get = async () => {
-  return await api.get('volunteer/my').json<VolunteerMyResponse>();
+export const get = async (option: Options) => {
+  return await api.get('volunteer/my', option).json<VolunteerMyResponse>();
 };

@@ -13,6 +13,7 @@ import { useFormContext } from 'react-hook-form';
 import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 import { useRouter } from 'next/navigation';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
@@ -98,7 +99,12 @@ export default function Account({ onNext }: OnNextProps) {
 
   return (
     <>
-      <div className={styles.titleWrapper} style={{ marginBottom: '124px' }}>
+      <div
+        className={styles.titleWrapper}
+        style={assignInlineVars({
+          [styles.titleMarginBottom]: '124px'
+        })}
+      >
         <EmphasizedTitle>
           <Line>파트너 활동을 위한</Line>
           <Line>계정을 생성해주세요.</Line>

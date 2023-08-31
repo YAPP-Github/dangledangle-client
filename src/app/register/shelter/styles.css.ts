@@ -1,9 +1,12 @@
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import { palette } from '@/styles/color';
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
+
+export const titleMarginBottom = createVar('titleMarginBottom');
 
 export const titleWrapper = style({
-  paddingTop: '40px'
+  paddingTop: '40px',
+  marginBottom: titleMarginBottom
 });
 export const bottomSheetTxt = style({
   display: 'flex',
@@ -68,12 +71,14 @@ export const complete = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  paddingTop: `calc(208px - ${HEADER_HEIGHT}px)`
+  paddingTop: `calc(208px - ${HEADER_HEIGHT}px)`,
+  paddingBottom: `${HEADER_HEIGHT}px`
 });
 export const finish = style({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  paddingTop: `calc(110px - ${HEADER_HEIGHT}px)`
+  paddingTop: `calc(110px - ${HEADER_HEIGHT}px)`,
+  paddingBottom: `${HEADER_HEIGHT}px`
 });
