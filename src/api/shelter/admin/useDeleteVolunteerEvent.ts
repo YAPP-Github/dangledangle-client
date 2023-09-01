@@ -19,9 +19,7 @@ export default function useDeleteVolunteerEvent(
     {
       onSuccess: (data, variables, context) => {
         options?.onSuccess && options.onSuccess(data, variables, context);
-        return queryClient.invalidateQueries(
-          queryKey.list(variables.shelterId)
-        );
+        return queryClient.invalidateQueries();
       },
       ...options
     }
