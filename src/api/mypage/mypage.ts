@@ -45,16 +45,16 @@ export interface ShelterResponse {
   shelterId: number;
 }
 
-export const getVolInfo = async () => {
+export const getVolInfo = async (option?: Options) => {
   const response = await api
-    .get(`volunteer/my`)
+    .get(`volunteer/my`, option)
     .then(res => res.json<MyVolInfo>());
   return response;
 };
 
-export const getShelterInfo = async () => {
+export const getShelterInfo = async (option?: Options) => {
   const response = await api
-    .get(`shelter/admin/my`)
+    .get(`shelter/admin/my`, option)
     .then(res => res.json<MyShelterInfo>());
   return response;
 };

@@ -100,13 +100,13 @@ const AuthProvider = ({
 
         setAuthState((prevState: AuthState) => ({
           ...prevState,
-          dangle_access_token,
+          dangle_access_token: initToken,
           dangle_id: decodedToken.id,
           dangle_role: decodedToken.role
         }));
       }
     }
-  }, [router, pathname, token]);
+  }, [router, pathname, token, initToken]);
 
   const logout = useCallback(() => {
     setAuthState(initialAuthState);
