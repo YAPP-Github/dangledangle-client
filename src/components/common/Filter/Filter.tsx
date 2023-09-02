@@ -47,9 +47,13 @@ export interface FilterRef {
 const Filter = forwardRef<FilterRef, FilterProps>(
   ({ name, label, options, onChange }: FilterProps, ref) => {
     const [isFilter, openFilter, closeFilter] = useBooleanState();
-    const [pickOption, setPickOption] = useState(
-      typeof options[0] === 'string' ? options[0] : options[0]?.label
-    );
+    const [pickOption, setPickOption] = useState('');
+
+    useEffect(() => {
+      setPickOption(
+        typeof options[0] === 'string' ? options[0] : options[0]?.label
+      );
+    }, [options]);
 
     useImperativeHandle(ref, () => ({
       setPickOption
