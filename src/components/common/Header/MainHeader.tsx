@@ -81,7 +81,10 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
       </a>
 
       <div className={styles.rightSide}>
-        <Body3 style={{ cursor: 'default' }} onClick={moveToLogin}>
+        <Body3
+          style={{ cursor: role === 'NONE' ? 'pointer' : 'default' }}
+          onClick={moveToLogin}
+        >
           {content}
         </Body3>
         {(role === 'SHELTER' || role === 'VOLUNTEER') && (
