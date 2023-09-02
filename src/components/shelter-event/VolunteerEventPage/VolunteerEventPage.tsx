@@ -41,7 +41,7 @@ export default function VolunteerEventPage({
           deleteEvent({ shelterId, volunteerEventId }).then(() => {
             dialogOff();
             toastOn('이벤트가 삭제되었습니다.');
-            router.push(`/shelter/${shelterId}`);
+            router.back();
           });
         }
       }

@@ -13,7 +13,7 @@ import { UserRole } from '@/constants/user';
 import { MyShelterInfo, MyVolInfo } from '@/api/mypage/mypage';
 import LoadingIndicator from '../common/Button/LoadingIndicator';
 import { useRouter } from 'next/navigation';
-import { withdraw } from '@/api/volunteer/my/withdraw';
+import { shelterWithdraw, withdraw } from '@/api/volunteer/my/withdraw';
 import useLogout from '@/api/mypage/useLogout';
 
 interface UnregisterProps {
@@ -36,8 +36,7 @@ export default function Unregister({ role }: UnregisterProps) {
     console.log(12123);
 
     if (role === 'SHELTER') {
-      //TODO: 보호소 탈퇴 api 호출
-      console.log('보호소 탈퇴');
+      await shelterWithdraw();
     } else {
       await withdraw();
     }
