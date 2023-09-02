@@ -66,10 +66,6 @@ export default function CalendarSection() {
   );
 
   const volunteerEvents = useMemo(() => {
-    // TODO: mock data 제거
-    if (!query.data) {
-      return homeEventsMock;
-    }
     const pages = query.data?.pages;
     return pages?.flatMap(page => page.events);
   }, [query.data]);
