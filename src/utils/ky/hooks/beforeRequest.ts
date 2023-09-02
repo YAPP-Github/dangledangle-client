@@ -14,8 +14,9 @@ export const setAuthorizationHeader: BeforeRequestHookWithProcess =
       if (accessToken) {
         request.headers.delete('Authorization');
         request.headers.set('Authorization', `Bearer ${accessToken}`);
-      } else {
-        throw new Error('beforeRequest, accessToken is not exist');
       }
+      // else {
+      //   throw new Error('beforeRequest, accessToken is not exist');
+      // }
     }
   };
