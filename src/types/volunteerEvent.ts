@@ -14,25 +14,22 @@ export interface VolunteerEvent {
   waitingNum: number;
   startAt: string;
   endAt: string;
-  myParticipationStatus?: MyParticipationStatus;
+  myParticipationStatus: MyParticipationStatus;
 }
 
-export interface VolunteerEventDetail extends VolunteerEvent {
+export interface VolunteerEventDetail extends Omit<VolunteerEvent, 'joniNum'> {
   shelterName: string;
   shelterProfileImageUrl: string | null;
-  title: string;
   description: string;
   address: ShelterAddress;
   joiningVolunteers: string[];
   waitingVolunteers: string[];
   ageLimit: AgeLimit;
-  category: VolunteerEventCategory;
-  eventStatus: EventStatus;
-  myParticipationStatus: MyParticipationStatus;
 }
 
 export interface HomeVolunteerEvent extends VolunteerEvent {
   shelterId: number;
   shelterName: string;
   shelterProfileImageUrl: string | null;
+  participantNum: number;
 }
