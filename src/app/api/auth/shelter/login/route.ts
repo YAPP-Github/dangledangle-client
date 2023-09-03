@@ -3,15 +3,20 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
+import { decrypt } from '@/utils/passwordCrypto';
 import { getCookieConfig } from '@/utils/token/cookieConfig';
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const cookies = req.cookies;
   const redirectPath = cookies.get('redirectUrl')?.value || '/';
   const redirectTo = `${req.nextUrl.origin}${decodeURIComponent(redirectPath)}`;
-  const { email = '', password = '' } = await req.json();
+  const { email = '', password: encryptedPassword = '' } = await req.json();
+
+  const password = decrypt(
+    encryptedPassword,
+    process.env.NEXT_PUBLIC_ENCRYPT_SECRET!
+  );
 
   try {
     if (!email || !password) {
