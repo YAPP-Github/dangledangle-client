@@ -21,7 +21,7 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
   const [role, setRole] = useState(initRole);
   const { dangle_role } = useAuthContext();
   const refresh = () => {
-    router.refresh();
+    location.reload();
   };
   const moveToMypage = () => {
     const path = '/admin';
@@ -81,7 +81,7 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
       </a>
 
       <div className={styles.rightSide}>
-        <Body3 style={{ cursor: 'default' }} onClick={moveToLogin}>
+        <Body3 style={{ cursor: 'pointer' }} onClick={moveToLogin}>
           {content}
         </Body3>
         {(role === 'SHELTER' || role === 'VOLUNTEER') && (

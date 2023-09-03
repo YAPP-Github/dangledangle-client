@@ -2,21 +2,22 @@
 
 import { LoginPayload } from '@/api/shelter/auth/login';
 import useShelterLogin from '@/api/shelter/auth/useShelterLogin';
-import { DaenggleLogo } from '@/asset/icons';
+import { Daenggle } from '@/asset/icons';
 import Button from '@/components/common/Button/Button';
 import FormProvider from '@/components/common/FormProvider/FormProvider';
 import TextField from '@/components/common/TextField/TextField';
 import { Body3, ButtonText1 } from '@/components/common/Typography';
-import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 import useHeader from '@/hooks/useHeader';
 import useToast from '@/hooks/useToast';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { loginValidation } from '../../shelter/utils/shelterValidaion';
 import * as styles from './styles.css';
+import { useAuthContext } from '@/providers/AuthContext';
+import Cookies from 'js-cookie';
+import { COOKIE_REDIRECT_URL } from '@/constants/cookieKeys';
 
 export default function ShelterLogin() {
   const methods = useForm<LoginPayload>({
@@ -33,7 +34,10 @@ export default function ShelterLogin() {
 
   const router = useRouter();
   const toastOn = useToast();
-  useHeader({ title: '보호소 파트너로 시작하기' });
+  const setHeader = useHeader({ title: '보호소 파트너로 시작하기' });
+
+  const { logout } = useAuthContext();
+  useEffect(logout, [logout]);
 
   const { mutateAsync } = useShelterLogin();
 
@@ -66,9 +70,9 @@ export default function ShelterLogin() {
   );
 
   return (
-    <div>
+    <>
       <div className={styles.logoWrapper}>
-        <DaenggleLogo
+        <Daenggle
           style={{
             margin: 'auto',
             display: 'block'
@@ -96,6 +100,7 @@ export default function ShelterLogin() {
 
       <Button
         className={styles.buttonWrapper}
+        type="submit"
         onClick={handleSubmit(handleLogin)}
       >
         로그인
@@ -112,7 +117,7 @@ export default function ShelterLogin() {
       </div>
 
       <div className={styles.registerTextWrapper}>
-        <Body3>아직 댕글댕글 회원이 아니신가요?</Body3>
+        <Body3>아직 dangledangle 회원이 아니신가요?</Body3>
         <ButtonText1
           style={{ cursor: 'pointer' }}
           onClick={() => router.push('/register/shelter')}
@@ -120,6 +125,6 @@ export default function ShelterLogin() {
           회원가입
         </ButtonText1>
       </div>
-    </div>
+    </>
   );
 }

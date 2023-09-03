@@ -19,7 +19,13 @@ export default function FormProvider({
 }: Props) {
   return (
     <ReactHookFormProvider {...methods}>
-      <form onSubmit={onSubmit} style={style}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit!();
+        }}
+        style={style}
+      >
         {children}
       </form>
     </ReactHookFormProvider>
