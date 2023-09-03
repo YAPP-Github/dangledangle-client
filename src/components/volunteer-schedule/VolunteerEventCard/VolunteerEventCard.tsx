@@ -33,7 +33,7 @@ export default function VolunteerEventCard({
     volunteerEventId,
     title,
     recruitNum,
-    joinNum,
+    joiningNum,
     waitingNum,
     startAt,
     endAt,
@@ -77,8 +77,8 @@ export default function VolunteerEventCard({
               <div className={styles.infoWrapper}>
                 <Profile />
                 <Caption1 color="gray700">
-                  {'participantNum' in event ? event.participantNum : joinNum}/
-                  {recruitNum}명{waitingNum > 0 && ` (대기 ${waitingNum}명)`}
+                  {joiningNum}/{recruitNum}명
+                  {waitingNum > 0 && ` (대기 ${waitingNum}명)`}
                 </Caption1>
               </div>
 

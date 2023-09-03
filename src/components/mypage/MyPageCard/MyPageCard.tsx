@@ -108,7 +108,7 @@ function EventInfo({ event }: MyPageCardProps) {
 function ShelterInfo({ event }: ShelterInfoProps) {
   return (
     <Caption1 color="gray600">
-      {event.participantNum + event.waitingNum}/{event.recruitNum}명
+      {event.joiningNum + event.waitingNum}/{event.recruitNum}명
     </Caption1>
   );
 }

@@ -10,7 +10,7 @@ export interface VolunteerEvent {
   category: VolunteerEventCategory;
   title: string;
   recruitNum: number;
-  joinNum: number;
+  joiningNum: number;
   waitingNum: number;
   startAt: string;
   endAt: string;
@@ -31,5 +31,4 @@ export interface HomeVolunteerEvent extends VolunteerEvent {
   shelterId: number;
   shelterName: string;
   shelterProfileImageUrl: string | null;
-  participantNum: number;
 }
