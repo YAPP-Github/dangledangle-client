@@ -36,7 +36,7 @@ export default function RegisterComplete() {
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          router.push('/');
+          location.href = '/';
         }}
         style={{ marginTop: '112px' }}
       >

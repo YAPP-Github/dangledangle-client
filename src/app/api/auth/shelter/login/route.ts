@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
     const res = NextResponse.json({
       redirectURI: redirectTo,
       success: true,
+      accessToken,
       status: 200
     });
 

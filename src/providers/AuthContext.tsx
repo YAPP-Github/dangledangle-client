@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserRole } from '@/constants/user';
-import { removeStore, setStore } from '@/api/instance';
+import { removeStore, setStore, store } from '@/api/instance';
 
 type VolunteerUser = {
   id: string;
@@ -74,12 +74,13 @@ const AuthProvider = ({
 }: PropsWithChildren & {
   initToken: string | null;
 }) => {
-  const [token, setToken] = useState(initToken);
+  initToken && setStore(COOKIE_ACCESS_TOKEN_KEY, initToken);
+  const [token, setToken] = useState<string | null>(
+    String(store[COOKIE_ACCESS_TOKEN_KEY])
+  );
   const [authState, setAuthState] = useState(initialAuthState);
   const router = useRouter();
   const pathname = usePathname();
-
-  initToken && setStore(COOKIE_ACCESS_TOKEN_KEY, initToken);
 
   useEffect(() => {
     if (token) {

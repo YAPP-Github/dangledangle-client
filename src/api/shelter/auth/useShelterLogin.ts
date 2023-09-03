@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginPayload } from './login';
 import { ApiErrorResponse } from '@/types/apiTypes';
-import { fe } from '@/api/instance';
-import { decrypt, encrypt } from '@/utils/passwordCrypto';
+import { fe, store } from '@/api/instance';
+import { encrypt } from '@/utils/passwordCrypto';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/constants/cookieKeys';
 
 export const shelterAuthKey = {
   all: ['shelterAuth'] as const
@@ -10,6 +11,7 @@ export const shelterAuthKey = {
 
 export type ShelterLoginResponse = {
   redirect: string;
+  accessToken: string;
 };
 
 const shelterLoginAPI = async (data: LoginPayload) => {
@@ -37,6 +39,7 @@ export default function useShelterLogin() {
     shelterLoginAPI,
     {
       onSuccess: response => {
+        store[COOKIE_ACCESS_TOKEN_KEY] = response.accessToken;
         queryClient.invalidateQueries(shelterAuthKey.all);
       }
     }
