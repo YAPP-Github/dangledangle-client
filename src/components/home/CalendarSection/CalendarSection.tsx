@@ -18,14 +18,13 @@ import getUserGeolocation from './utils/getUserGeolocation';
 import useBooleanState from '@/hooks/useBooleanState';
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import VolunteerEventList from '@/components/volunteer-schedule/VolunteerEventList/VolunteerEventList';
-import useHomeEventList, {
-  monthlyInfiniteOption
-} from '@/api/volunteer-event/useHomeEventList';
+import useHomeEventList from '@/api/volunteer-event/useHomeEventList';
 import { HomeEventFilter } from '@/api/volunteer-event';
 import { getEndOfMonth, getStartOfMonth } from '@/utils/timeConvert';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
-import { homeEventsMock } from './mock';
 import clsx from 'clsx';
+import { monthlyInfiniteOption } from '@/api/volunteer-event/queryOptions';
+import useShelterHomeEventList from '@/api/volunteer-event/useShelterHomeEventList';
 
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
@@ -62,13 +61,20 @@ export default function CalendarSection() {
     filterForQuery,
     getStartOfMonth(new Date()),
     getEndOfMonth(new Date()),
-    { ...monthlyInfiniteOption, enabled: !loading }
+    { ...monthlyInfiniteOption, enabled: !loading && dangle_role !== 'SHELTER' }
+  );
+
+  const shelterQuery = useShelterHomeEventList(
+    filterForQuery,
+    getStartOfMonth(new Date()),
+    getEndOfMonth(new Date()),
+    { ...monthlyInfiniteOption, enabled: dangle_role === 'SHELTER' }
   );
 
   const volunteerEvents = useMemo(() => {
-    const pages = query.data?.pages;
+    const pages = query.data?.pages || shelterQuery.data?.pages;
     return pages?.flatMap(page => page.events);
-  }, [query.data]);
+  }, [query.data, shelterQuery.data]);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
@@ -129,9 +135,11 @@ export default function CalendarSection() {
   };
 
   const fetchNextEvents = useCallback(async () => {
-    const result = await query.fetchNextPage();
+    let result;
+    if (dangle_role === 'SHELTER') result = await shelterQuery.fetchNextPage();
+    else result = await query.fetchNextPage();
     return { hasNext: Boolean(result.hasNextPage) };
-  }, [query]);
+  }, [dangle_role, query, shelterQuery]);
 
   return (
     <div>

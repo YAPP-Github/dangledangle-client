@@ -11,9 +11,9 @@ import {
   minutes
 } from '@/utils/timeConvert';
 import { NUM_OF_MAX_ITERATION_MONTHS } from '@/constants/volunteerEvent';
-import { GetResponse, HomeEventFilter, get, queryKey } from '.';
+import { GetResponse, HomeEventFilter, shelterGet, queryKey } from '.';
 
-export default function useHomeEventList(
+export default function useShelterHomeEventList(
   filter: HomeEventFilter,
   from: Moment,
   to: Moment,
@@ -32,7 +32,7 @@ export default function useHomeEventList(
         to
       }
     }) =>
-      get(
+      shelterGet(
         filter,
         formatDatetimeForServer(pageParam.from, 'DATE'),
         formatDatetimeForServer(pageParam.to, 'DATE')
