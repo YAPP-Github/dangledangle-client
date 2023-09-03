@@ -9,6 +9,11 @@ import {
 import { usePathname } from 'next/navigation';
 import { matchURL } from '@/utils/middleware/matchUrl';
 import { MouseEventHandler, useCallback } from 'react';
+import {
+  URL_FAQ,
+  URL_PRIVACY_POLICY,
+  URL_TERMS_OF_USE
+} from '@/constants/landingURL';
 
 type FooterProps = Omit<FooterServerSideRenderProp, 'url'>;
 
@@ -29,15 +34,15 @@ export default function Footer({ backgroundColor = 'default' }: FooterProps) {
 
   const footerLinks = [
     {
-      href: '#',
+      href: URL_PRIVACY_POLICY,
       title: '개인정보 처리방침'
     },
     {
-      href: 'https://dankim9494.notion.site/dankim9494/8334ce2511894b71a0f57dca52367e4c',
+      href: URL_TERMS_OF_USE,
       title: '이용약관'
     },
     {
-      href: '#',
+      href: URL_FAQ,
       title: 'FAQ'
     }
   ];

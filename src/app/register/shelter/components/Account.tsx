@@ -14,6 +14,7 @@ import { OnNextProps } from '../page';
 import * as styles from './../styles.css';
 import { useRouter } from 'next/navigation';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { URL_PRIVACY_POLICY, URL_TERMS_OF_USE } from '@/constants/landingURL';
 
 type SingleCheckedKeys = 'over14' | 'terms' | 'privacy' | 'marketing';
 type SingleCheckedState = Record<SingleCheckedKeys, boolean>;
@@ -173,8 +174,9 @@ export default function Account({ onNext }: OnNextProps) {
                 <ButtonText2
                   color="gray400"
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    router.push('/');
+                  onClick={e => {
+                    e.preventDefault();
+                    window.open(URL_TERMS_OF_USE);
                   }}
                 >
                   보기
@@ -189,8 +191,9 @@ export default function Account({ onNext }: OnNextProps) {
                 <ButtonText2
                   color="gray400"
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    router.push('/');
+                  onClick={e => {
+                    e.preventDefault();
+                    window.open(URL_PRIVACY_POLICY);
                   }}
                 >
                   보기
