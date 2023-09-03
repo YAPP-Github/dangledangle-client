@@ -21,7 +21,7 @@ export default function MainHeader({ initRole, shelterId }: MainHeaderProps) {
   const [role, setRole] = useState(initRole);
   const { dangle_role } = useAuthContext();
   const refresh = () => {
-    router.refresh();
+    location.reload();
   };
   const moveToMypage = () => {
     const path = '/admin';
