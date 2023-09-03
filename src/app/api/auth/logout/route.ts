@@ -3,6 +3,8 @@ import {
   COOKIE_ACCESS_TOKEN_KEY,
   COOKIE_REFRESH_TOKEN_KEY
 } from '@/constants/cookieKeys';
+import { ExceptionCode } from '@/constants/exceptionCode';
+import { ApiErrorResponse } from '@/types/apiTypes';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -18,7 +20,16 @@ export async function GET(req: NextRequest) {
         Authorization: `Bearer ${accessToken}`
       }
     });
-
+  } catch (e) {
+    const err = e as ApiErrorResponse;
+    if (err.exceptionCode !== ExceptionCode.UNAUTHENTICATED) {
+      return NextResponse.json({
+        success: false,
+        error: err.message,
+        status: 400
+      });
+    }
+  } finally {
     const res = NextResponse.json({
       success: true,
       redirctURI: redirectTo
@@ -27,12 +38,5 @@ export async function GET(req: NextRequest) {
     res.cookies.delete(COOKIE_ACCESS_TOKEN_KEY);
     res.cookies.delete(COOKIE_REFRESH_TOKEN_KEY);
     return res;
-  } catch (e) {
-    const err = e as Error;
-    return NextResponse.json({
-      success: false,
-      error: err.message,
-      status: 400
-    });
   }
 }
