@@ -1,8 +1,11 @@
-import { AgeLimit, VolunteerEventCategory } from '@/constants/volunteerEvent';
+import {
+  AgeLimit,
+  MyStatus,
+  VolunteerEventCategory
+} from '@/constants/volunteerEvent';
 import { ShelterAddress } from './shelter';
 
 export type EventStatus = 'IN_PROGRESS' | 'DONE' | 'CANCELED';
-export type MyParticipationStatus = 'PARTICIPATING' | 'WAITING' | 'NONE';
 
 export interface VolunteerEvent {
   volunteerEventId: number;
@@ -14,7 +17,7 @@ export interface VolunteerEvent {
   waitingNum: number;
   startAt: string;
   endAt: string;
-  myParticipationStatus: MyParticipationStatus;
+  myParticipationStatus: MyStatus;
 }
 
 export interface VolunteerEventDetail extends Omit<VolunteerEvent, 'joniNum'> {

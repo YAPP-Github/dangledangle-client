@@ -23,7 +23,7 @@ export const volunteerEventsMock: VolunteerEvent[] = [
     waitingNum: 5,
     startAt: '2023-07-01T19:00:55.162Z',
     endAt: '2023-07-01T20:00:55.162Z',
-    myParticipationStatus: 'PARTICIPATING'
+    myParticipationStatus: 'JOINING'
   },
   {
     eventStatus: 'IN_PROGRESS',

@@ -30,7 +30,7 @@ export const homeEventsMock: HomeVolunteerEvent[] = [
     waitingNum: 5,
     startAt: '2023-08-01T19:00:55.162Z',
     endAt: '2023-08-01T20:00:55.162Z',
-    myParticipationStatus: 'PARTICIPATING'
+    myParticipationStatus: 'JOINING'
   },
   {
     shelterId: 8,

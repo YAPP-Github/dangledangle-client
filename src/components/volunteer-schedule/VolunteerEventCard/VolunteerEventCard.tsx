@@ -94,7 +94,7 @@ export default function VolunteerEventCard({
                     <Caption2>{event.shelterName}</Caption2>
                   </div>
                 )}
-                {myParticipationStatus === 'PARTICIPATING' ? (
+                {myParticipationStatus === 'JOINING' ? (
                   <Caption1 color="error" className={styles.myStatus}>
                     신청 완료
                   </Caption1>
