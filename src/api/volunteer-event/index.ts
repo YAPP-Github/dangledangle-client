@@ -30,7 +30,7 @@ export type GetParams = {
   longitude: number | null;
   latitude: number | null;
   address: RegionOptions | null;
-  isFavorite: boolean | null;
+  isFavorite: boolean;
 };
 
 export type GetResponse = {
@@ -51,7 +51,7 @@ export const get = async (
     longitude: params.longitude || null,
     latitude: params.latitude || null,
     address: params.address === '내 주변' ? null : params.address || null,
-    isFavorite: params.isFavorite || null
+    isFavorite: params.isFavorite || false
   };
 
   const data = await api
