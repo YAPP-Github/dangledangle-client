@@ -69,6 +69,7 @@ export default function ShelterEditRequiredPage() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
@@ -157,6 +158,7 @@ export default function ShelterEditRequiredPage() {
           maxLength={300}
           label="보호소 소개 문구"
           {...register('description')}
+          defaultValue={watch('description')}
           error={errors.description}
         />
       </div>

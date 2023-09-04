@@ -28,7 +28,8 @@ export const linkWrapper = style({
   flexDirection: 'row',
   alignItems: 'center',
   columnGap: 10,
-  opacity: 0.6
+  opacity: 0.6,
+  cursor: 'pointer'
 });
 export const logo = style({
   height: '16px'

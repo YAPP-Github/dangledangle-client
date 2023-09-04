@@ -31,6 +31,7 @@ export const hr = style({
   height: '0px',
   border: `1px solid ${palette.gray300}`
 });
+
 export const checkBoxContainer = style({
   display: 'flex',
   flexDirection: 'column',
@@ -39,7 +40,9 @@ export const checkBoxContainer = style({
   rowGap: '20px'
 });
 export const checkBox = style({
-  flex: 0
+  flex: 0,
+  display: 'flex',
+  justifyContent: 'space-between'
 });
 
 export const bottomButton = style({

@@ -72,7 +72,6 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(e => {
       e.stopPropagation();
       e.preventDefault();
-
       inputRef.current && (inputRef.current.value = '');
       onChange({
         target: inputRef.current
@@ -82,6 +81,8 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
       e => {
+        e.preventDefault();
+        e.stopPropagation();
         onChange(e);
         updateInputValue(e);
       },
@@ -97,7 +98,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const message = fixedHelperMessage || error?.message || helper || '';
 
     return (
-      <div arial-lable={`${name}-text-field`}>
+      <div aria-label={`${name}-input-text-field`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
             {label} {required && <Caption1 color="primary300">*</Caption1>}

@@ -227,6 +227,7 @@ export default function ShelterEditExtraPage() {
             disabled={!parkingEnabled}
             error={errors.parkingNotice}
             {...register('parkingNotice')}
+            defaultValue={watch('parkingNotice')}
           />
         </div>
         <TextArea
@@ -236,6 +237,7 @@ export default function ShelterEditExtraPage() {
           height="174px"
           error={errors.notice}
           {...register('notice')}
+          defaultValue={watch('notice')}
         />
       </div>
       <FixedFooter>

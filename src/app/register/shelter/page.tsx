@@ -22,10 +22,14 @@ import SpecificAddress from './components/SpecificAddress';
 import Sure from './components/Sure';
 import { registerValidation } from '@/app/shelter/utils/shelterValidaion';
 import useHeader from '@/hooks/useHeader';
+import useShelterLogin from '@/api/shelter/auth/useShelterLogin';
 
 export interface OnNextProps {
   onNext: VoidFunction;
   onSubmit: SubmitHandler<SignUpFormValue>;
+  onLogin: (
+    loginData: Pick<SignUpFormValue, 'email' | 'password'>
+  ) => Promise<void>;
 }
 
 export interface SignUpFormValue extends ShelterRegisterPayload {
@@ -92,7 +96,9 @@ export default function ShelterRegister() {
     resolver: yupResolver(registerValidation)
   });
 
-  const { mutateAsync } = useShelterRegister();
+  const { mutateAsync: registerMutateAsync } = useShelterRegister();
+  const { mutateAsync: loginMutateAsync } = useShelterLogin();
+
   const { handleSubmit } = methods;
 
   const onSubmit = useCallback(
@@ -104,19 +110,35 @@ export default function ShelterRegister() {
       };
 
       try {
-        await mutateAsync(newData);
+        await registerMutateAsync(newData);
         goToNextStep();
         toastOn('회원가입에 성공했습니다.');
       } catch (error) {
         toastOn('회원가입에 실패했습니다.');
       }
     },
-    [goToNextStep, toastOn, mutateAsync]
+    [goToNextStep, toastOn, registerMutateAsync]
   );
 
+  const onLogin = useCallback(
+    async (loginData: Pick<SignUpFormValue, 'email' | 'password'>) => {
+      try {
+        await loginMutateAsync(loginData);
+        goToNextStep();
+        toastOn('로그인에 성공했습니다.');
+      } catch (error) {
+        toastOn('로그인에 실패했습니다.');
+      }
+    },
+    [goToNextStep, toastOn, loginMutateAsync]
+  );
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <CurrentComponent onNext={goToNextStep} onSubmit={onSubmit} />
+      <CurrentComponent
+        onNext={goToNextStep}
+        onSubmit={onSubmit}
+        onLogin={onLogin}
+      />
     </FormProvider>
   );
 }

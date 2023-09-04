@@ -76,7 +76,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const message = fixedHelperMessage || error?.message || helper || '';
 
     return (
-      <div arial-lable={`${name}-text-area`}>
+      <div aria-label={`${name}-input-text-area`}>
         {label && (
           <Caption1 className={styles.label} element="label" color="gray600">
             {label} {required && <Caption1 color="primary300">*</Caption1>}
