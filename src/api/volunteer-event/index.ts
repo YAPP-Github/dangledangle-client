@@ -27,11 +27,10 @@ export type GetParams = {
   from: string;
   to: string;
   category: VolunteerEventCategory | null;
-  status: EventStatus | null;
   longitude: number | null;
   latitude: number | null;
   address: RegionOptions | null;
-  isFavorite: boolean | null;
+  isFavorite: boolean;
 };
 
 export type GetResponse = {
@@ -47,17 +46,45 @@ export const get = async (
 ): Promise<GetResponse> => {
   const payload: GetParams = {
     category: params.category === 'all' ? null : params.category || null,
-    status: params.status === 'all' ? null : params.status || null,
     from,
     to,
     longitude: params.longitude || null,
     latitude: params.latitude || null,
     address: params.address === '내 주변' ? null : params.address || null,
-    isFavorite: params.isFavorite || null
+    isFavorite: params.isFavorite || false
   };
 
   const data = await api
     .post('volunteer-event', { json: payload })
+    .json<HomeVolunteerEvent[]>();
+  return {
+    events: data,
+    from,
+    to
+  };
+};
+
+export type ShelterGetParams = {
+  from: string;
+  to: string;
+  category: VolunteerEventCategory[] | null;
+  status: EventStatus | null;
+};
+export const shelterGet = async (
+  params: HomeEventFilter,
+  from: string,
+  to: string
+) => {
+  const payload: ShelterGetParams = {
+    category:
+      params.category === 'all' || !params.category ? null : [params.category],
+    from,
+    to,
+    status: params.status === 'all' || !params.status ? null : params.status
+  };
+
+  const data = await api
+    .post('shelter/admin/volunteer-event/home', { json: payload })
     .json<HomeVolunteerEvent[]>();
   return {
     events: data,

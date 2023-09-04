@@ -20,7 +20,7 @@ export interface MyBaseEvent {
   startAt: string;
   endAt: string;
   recruitNum: number;
-  participantNum: number;
+  joiningNum: number;
   waitingNum: number;
 }
 

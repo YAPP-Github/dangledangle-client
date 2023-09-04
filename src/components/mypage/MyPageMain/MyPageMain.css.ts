@@ -31,7 +31,8 @@ export const txtGird = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  width: '100%'
 });
 export const stroke = style({
   width: '1px',

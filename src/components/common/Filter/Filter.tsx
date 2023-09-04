@@ -50,9 +50,9 @@ const Filter = forwardRef<FilterRef, FilterProps>(
     const [pickOption, setPickOption] = useState('');
 
     useEffect(() => {
-      const initial =
-        typeof options[0] === 'string' ? options[0] : options[0]?.label;
-      setPickOption(initial);
+      setPickOption(
+        typeof options[0] === 'string' ? options[0] : options[0]?.label
+      );
     }, [options]);
 
     useImperativeHandle(ref, () => ({

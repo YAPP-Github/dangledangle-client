@@ -18,14 +18,13 @@ import getUserGeolocation from './utils/getUserGeolocation';
 import useBooleanState from '@/hooks/useBooleanState';
 import { HEADER_HEIGHT } from '@/components/common/Header/Header.css';
 import VolunteerEventList from '@/components/volunteer-schedule/VolunteerEventList/VolunteerEventList';
-import useHomeEventList, {
-  monthlyInfiniteOption
-} from '@/api/volunteer-event/useHomeEventList';
+import useHomeEventList from '@/api/volunteer-event/useHomeEventList';
 import { HomeEventFilter } from '@/api/volunteer-event';
 import { getEndOfMonth, getStartOfMonth } from '@/utils/timeConvert';
 import SkeletonList from '@/components/common/Skeleton/SkeletonList';
-import { homeEventsMock } from './mock';
 import clsx from 'clsx';
+import { monthlyInfiniteOption } from '@/api/volunteer-event/queryOptions';
+import useShelterHomeEventList from '@/api/volunteer-event/useShelterHomeEventList';
 
 export default function CalendarSection() {
   const { dangle_role } = useAuthContext();
@@ -51,27 +50,31 @@ export default function CalendarSection() {
       return {
         ...filterInput,
         longitude: geolocation.coords.longitude,
-        latitude: geolocation.coords.latitude
+        latitude: geolocation.coords.latitude,
+        address: undefined
       };
     }
-    return { ...filterInput, address: undefined };
+    return { ...filterInput, longitude: undefined, latitude: undefined };
   }, [dangle_role, filterInput, geolocation]);
 
   const query = useHomeEventList(
     filterForQuery,
     getStartOfMonth(new Date()),
     getEndOfMonth(new Date()),
-    { ...monthlyInfiniteOption, enabled: !loading }
+    { ...monthlyInfiniteOption, enabled: !loading && dangle_role !== 'SHELTER' }
+  );
+
+  const shelterQuery = useShelterHomeEventList(
+    filterForQuery,
+    getStartOfMonth(new Date()),
+    getEndOfMonth(new Date()),
+    { ...monthlyInfiniteOption, enabled: dangle_role === 'SHELTER' }
   );
 
   const volunteerEvents = useMemo(() => {
-    // TODO: mock data 제거
-    if (!query.data) {
-      return homeEventsMock;
-    }
-    const pages = query.data?.pages;
+    const pages = query.data?.pages || shelterQuery.data?.pages;
     return pages?.flatMap(page => page.events);
-  }, [query.data]);
+  }, [query.data, shelterQuery.data]);
 
   const handleChangeFilter = useCallback(
     (name: string, value: string | boolean) => {
@@ -121,7 +124,7 @@ export default function CalendarSection() {
   }, []);
 
   const scrollToTarget = (eventCardEl: HTMLElement) => {
-    const calendarEl = document.getElementById(CALENDAR_ID);
+    const calendarEl = document.getElementById(CALENDAR_ID)?.parentElement;
     if (!calendarEl) return;
 
     const calendarBottom = calendarEl.getBoundingClientRect().bottom;
@@ -132,9 +135,11 @@ export default function CalendarSection() {
   };
 
   const fetchNextEvents = useCallback(async () => {
-    const result = await query.fetchNextPage();
+    let result;
+    if (dangle_role === 'SHELTER') result = await shelterQuery.fetchNextPage();
+    else result = await query.fetchNextPage();
     return { hasNext: Boolean(result.hasNextPage) };
-  }, [query]);
+  }, [dangle_role, query, shelterQuery]);
 
   return (
     <div>
@@ -179,26 +184,27 @@ export default function CalendarSection() {
             handleChangeFilter('isFavorite', !filterInput.isFavorite)
           }
         />
-        {dangle_role === 'NONE' && filterInput.isFavorite && (
-          <div className={styles.empty}>
-            <Body3 color="gray400">
-              보호소 즐겨찾기 기능을 사용하려면 <br />
-              로그인이 필요합니다
-            </Body3>
-          </div>
-        )}
       </div>
-      <div style={{ marginTop: '16px' }}>
-        {!volunteerEvents && <SkeletonList />}
-        {volunteerEvents && (
-          <VolunteerEventList
-            selectedDate={selectedDate}
-            events={volunteerEvents}
-            scrollTo={scrollToTarget}
-            fetchNextEvents={fetchNextEvents}
-          />
-        )}
-      </div>
+      {dangle_role === 'NONE' && filterInput.isFavorite ? (
+        <div className={styles.empty}>
+          <Body3 color="gray400">
+            보호소 즐겨찾기 기능을 사용하려면 <br />
+            로그인이 필요합니다
+          </Body3>
+        </div>
+      ) : (
+        <div style={{ marginTop: '16px' }}>
+          {!volunteerEvents && <SkeletonList />}
+          {volunteerEvents && (
+            <VolunteerEventList
+              selectedDate={selectedDate}
+              events={volunteerEvents}
+              scrollTo={scrollToTarget}
+              fetchNextEvents={fetchNextEvents}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

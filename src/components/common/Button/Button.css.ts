@@ -101,6 +101,15 @@ export const ButtonWrapper = recipe({
         size: 'middle'
       },
       style: variants.button2
+    },
+    {
+      variants: {
+        variant: 'line',
+        size: 'xsmall'
+      },
+      style: {
+        backgroundColor: palette.white
+      }
     }
   ]
 });

@@ -29,8 +29,7 @@ interface ScheduleCardProps {
   endAt: Date | string;
   title: string;
   recruitNum: number;
-  joinNum?: number;
-  participantNum?: number;
+  joiningNum?: number;
   waitingNum: number;
   volunteerEventId: number;
 }
@@ -44,8 +43,7 @@ export default function ScheduleCard({
   endAt,
   title,
   recruitNum,
-  joinNum,
-  participantNum,
+  joiningNum,
   waitingNum,
   volunteerEventId
 }: ScheduleCardProps) {
@@ -57,9 +55,6 @@ export default function ScheduleCard({
   const duringTime = `${pmamConvert(startAt)} - ${pmamConvert(
     endAt
   )} (${getDuration(startAt, endAt)})`;
-
-  const joinOrParticipantNum =
-    joinNum === 0 ? `${joinNum}` : joinNum || participantNum;
 
   return (
     <article className={clsx([styles.container, styles.paintFirstCard])}>
@@ -77,7 +72,7 @@ export default function ScheduleCard({
           />
         )}
         <Waiting>
-          {joinOrParticipantNum}/{recruitNum}명
+          {joiningNum}/{recruitNum}명
           {waitingNum > 0 && `(대기 ${waitingNum}명)`}
         </Waiting>
       </div>

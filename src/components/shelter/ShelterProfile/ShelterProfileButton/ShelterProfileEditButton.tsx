@@ -13,7 +13,8 @@ export default function ShelterProfileEditButton() {
       <Button
         buttonColor="secondary"
         variant="line"
-        size="small"
+        size="xsmall"
+        color="white"
         onClick={handleClick}
       >
         프로필 수정하기
